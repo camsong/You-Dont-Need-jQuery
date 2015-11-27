@@ -60,12 +60,12 @@ el.nextElementSibling
 closet 获得匹配选择器的第一个祖先元素，从当前元素开始沿 DOM 树向上。
 
 jQuery
-```
+```js
 $el.closest(queryString)
 ```
 
 Native
-```
+```js
 function closest(el, selector) {
 	const matchesSelector = el.matches || el.webkitMatchesSelector || el.mozMatchesSelector || el.msMatchesSelector;
 
@@ -80,15 +80,41 @@ function closest(el, selector) {
  }
 ```
 
-DOMUtils.closest('.ui-sortable-item')
+### parentsUntil
+Get the ancestors of each element in the current set of matched elements, up to but not including the element matched by the selector, DOM node, or jQuery object.
 
+jQuery
+```js
+$el.parentsUntil(selector, filter)
+```
+
+Native
+```js
+function parentsUntil(el, selector, filter) {
+  const result = [];
+  const matchesSelector = el.matches || el.webkitMatchesSelector || el.mozMatchesSelector || el.msMatchesSelector;
+  // match start from parent
+  el = el.parentElement;
+  while (el && !matchesSelector.call(el, selector)) {
+    if (!filter) {
+      result.push(el);
+    } else {
+      if (matchesSelector.call(el, filter)) {
+        result.push(el);
+      }
+    }
+    el = el.parentElement;
+  }
+  return result;
+}
+```
 
 ### iframe contents
 
 jQuery 对象的 iframe `contents()` 返回的是 iframe 内的 `document`
 
 
-```
+```js
 // contents
 $iframe.contents()
 iframe.contentDocument
@@ -121,11 +147,17 @@ el.classList.contains(className);
 $el.toggleClass(className)
 el.classList.toggle(className);
 
+// get style
+TODO
+
+// set style
+TODO
 ```
 
 ### Width & Height
+Width 与 Height 获取方法相同，下面以 Height 为例：
 
-```
+```js
 // window height
 $(window).height();
 // 不含 scrollbar，与 jQuery 行为一致
@@ -140,7 +172,15 @@ document.documentElement.scrollHeight
 // el height
 $el.height();
 // 与 jQuery 一致（一直为 content 区域的高度）
-DOMUtils.height(el);
+function getHeight(el) {
+  const styles = this.getComputedStyles(el);
+  const height = el.offsetHeight;
+  const borderTopWidth = parseFloat(styles.borderTopWidth);
+  const borderBottomWidth = parseFloat(styles.borderBottomWidth);
+  const paddingTop = parseFloat(styles.paddingTop);
+  const paddingBottom = parseFloat(styles.paddingBottom);
+  return height - borderBottomWidth - borderTopWidth - paddingTop - paddingBottom;
+}
 // 精确到整数（border-box 时为 height 值，content-box 时为 height + padding + border 值）
 el.clientHeight
 // 精确到小数（border-box 时为 height 值，content-box 时为 height + padding + border 值）
@@ -153,7 +193,7 @@ iframe.contentDocument.documentElement.scrollHeight
 
 ### Position, Offset
 
-```
+```js
 // position
 $el.position();
 { left: el.offsetLeft, top: el.offsetTop }
@@ -171,7 +211,7 @@ function getOffset (el) {
 
 ## DOM Manipulation
 
-```
+```js
 // remove
 $el.remove()
 el.parentNode.removeChild(el);
@@ -275,7 +315,7 @@ Replace with [fetch](https://github.com/camsong/fetch-ie8) and [fetch-jsonp](htt
 ## Events
 For a complete replacement with namespace and delegation, refer to https://github.com/oneuijs/oui-dom-events
 
-```
+```js
 // bind an event with on
 $el.on(eventName, eventHandler);
 el.addEventListener(eventName, eventHandler);
@@ -306,7 +346,7 @@ el.dispatchEvent(event);
 
 ## Form
 
-```
+```js
 $('#my-input').val()
 document.querySelector('#my-input').value
 
@@ -341,7 +381,7 @@ el !== child && el.contains(child);
 
 ![Chrome](https://raw.github.com/alrra/browser-logos/master/chrome/chrome_48x48.png) | ![Firefox](https://raw.github.com/alrra/browser-logos/master/firefox/firefox_48x48.png) | ![IE](https://raw.github.com/alrra/browser-logos/master/internet-explorer/internet-explorer_48x48.png) | ![Opera](https://raw.github.com/alrra/browser-logos/master/opera/opera_48x48.png) | ![Safari](https://raw.github.com/alrra/browser-logos/master/safari/safari_48x48.png)
 --- | --- | --- | --- | --- |
-Latest ✔ | Latest ✔ | 9+ ✔ | Latest ✔ | 6.1+ ✔ |
+Latest ✔ | Latest ✔ | 10+ ✔ | Latest ✔ | 6.1+ ✔ |
 
 # License
 
