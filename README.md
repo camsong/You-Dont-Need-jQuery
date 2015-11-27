@@ -67,7 +67,7 @@ $el.next();
 el.nextElementSibling
 ```
 
-### closet
+#### closet
 closet 获得匹配选择器的第一个祖先元素，从当前元素开始沿 DOM 树向上。
 
 jQuery
@@ -91,7 +91,7 @@ function closest(el, selector) {
  }
 ```
 
-### parentsUntil
+#### parentsUntil
 Get the ancestors of each element in the current set of matched elements, up to but not including the element matched by the selector, DOM node, or jQuery object.
 
 jQuery
@@ -120,7 +120,7 @@ function parentsUntil(el, selector, filter) {
 }
 ```
 
-### iframe contents
+#### iframe contents
 
 jQuery 对象的 iframe `contents()` 返回的是 iframe 内的 `document`
 
@@ -165,7 +165,7 @@ TODO
 TODO
 ```
 
-### Width & Height
+#### width, height
 Width 与 Height 获取方法相同，下面以 Height 为例：
 
 ```js
@@ -202,7 +202,7 @@ $('iframe').contents().height()
 iframe.contentDocument.documentElement.scrollHeight
 ```
 
-### Position, Offset
+#### position, offset
 
 ```js
 // position
@@ -244,7 +244,7 @@ $el.html(htmlString)
 el.innerHTML = htmlString
 ```
 
-### append
+#### append
 append 插入到子节点的末尾
 
 jQuery
@@ -260,7 +260,7 @@ newEl.innerHTML = 'hello';
 el.appendChild(newEl)
 ```
 
-### prepend
+#### prepend
 
 jQuery
 ```js
@@ -275,7 +275,7 @@ newEl.innerHTML = 'hello'
 el.insertBefore(newEl, el.firstChild)
 ```
 
-### insertBefore
+#### insertBefore
 Insert a new node before the selected elements
 
 jQuery
@@ -288,7 +288,7 @@ Native
 newEl.insertBefore(document.querySelector(queryString))
 ```
 
-### insertAfter
+#### insertAfter
 Insert a new node after the selected elements
 
 jQuery
@@ -309,7 +309,7 @@ function insertAfter(newEl, queryString) {
 },
 ```
 
-### Scroll
+#### scrollTop
 
 ```js
 // scrollTop
@@ -336,7 +336,7 @@ $el.off(eventName, eventHandler);
 el.removeEventListener(eventName, eventHandler);
 ```
 
-### trigger and event
+#### trigger
 
 jQuery
 ```js
