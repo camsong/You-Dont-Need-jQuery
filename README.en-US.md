@@ -1,6 +1,6 @@
 ## You Don't Need jQuery
 
-Frontend environment develops repaidly nowadays, modern browsers have already implemented a great deal of DOM/BOM APIs which are good enough. We don't have to learn jQuery from scratch for DOM operations or events. In the meantime, thanks to the prevail of frontend library like React, Angular and Vue, manipulating DOM directly becomes anti-pattern, jQuery has never been less important. This project summarized most of the jQuery method alternatives in native implementation, with IE 10+ support.
+Frontend environment develops repaidly nowadays, modern browsers have already implemented a great deal of DOM/BOM APIs which are good enough. We don't have to learn jQuery from scratch for DOM manipulation or events. In the meantime, thanks to the prevail of frontend libraries like React, Angular and Vue, manipulating DOM directly becomes anti-pattern, jQuery has never been less important. This project summarized most of the jQuery method alternatives in native implementation, with IE 10+ support.
 
 ## Catalog
 
@@ -68,7 +68,7 @@ el.nextElementSibling
 ```
 
 #### closest
-return first element matchs provided selector, from current element to document.
+return the first matched element by provided selector, traversing from current element to document.
 
 jQuery
 ```js
