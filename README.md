@@ -67,8 +67,8 @@ $el.next();
 el.nextElementSibling
 ```
 
-#### closet
-closet 获得匹配选择器的第一个祖先元素，从当前元素开始沿 DOM 树向上。
+#### closest
+closest 获得匹配选择器的第一个祖先元素，从当前元素开始沿 DOM 树向上。
 
 jQuery
 ```js
