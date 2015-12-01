@@ -159,10 +159,16 @@ $el.toggleClass(className)
 el.classList.toggle(className);
 
 // get style
-TODO
+$el.css("color");
+// 注意：此处为了解决当 style 值为 auto 时，返回 auto 的问题
+const win = el.ownerDocument.defaultView;
+// null 的意思是不返回伪类元素
+win.getComputedStyle(el, null).color;
 
 // set style
-TODO
+$el.css({ color: "#ff0011" });
+// 如果想一次设置多个 style，可以参考 oui-dom-utils 中 [setStyles](https://github.com/oneuijs/oui-dom-utils/blob/master/src/index.js#L194) 方法
+el.style.color = '#ff0011'; 
 ```
 
 #### width, height

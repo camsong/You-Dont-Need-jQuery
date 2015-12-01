@@ -159,10 +159,16 @@ $el.toggleClass(className)
 el.classList.toggle(className);
 
 // get style
-TODO
+$el.css("color");
+// NOTE: Known bug, will return 'auto' if style value is 'auto'
+const win = el.ownerDocument.defaultView;
+// null means not return presudo styles
+win.getComputedStyle(el, null).color;
 
 // set style
-TODO
+$el.css({ color: "#ff0011" });
+// If you want to set multiple styles once, you could refer to [setStyles](https://github.com/oneuijs/oui-dom-utils/blob/master/src/index.js#L194) method in oui-dom-utils package.
+el.style.color = '#ff0011'; 
 ```
 
 #### width, height
