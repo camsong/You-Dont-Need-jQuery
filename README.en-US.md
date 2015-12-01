@@ -167,9 +167,9 @@ win.getComputedStyle(el, null).color;
 
 // set style
 $el.css({ color: "#ff0011" });
-// If you want to set multiple styles once, you could refer to [setStyles](https://github.com/oneuijs/oui-dom-utils/blob/master/src/index.js#L194) method in oui-dom-utils package.
 el.style.color = '#ff0011'; 
 ```
+Note that if you want to set multiple styles once, you could refer to [setStyles](https://github.com/oneuijs/oui-dom-utils/blob/master/src/index.js#L194) method in oui-dom-utils package.
 
 #### width, height
 Width and Height are theoretically identical, take Height as example:
