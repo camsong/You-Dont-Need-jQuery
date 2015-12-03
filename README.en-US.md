@@ -48,9 +48,10 @@ e.getAttribute('foo')
 
 // data attribute
 $el.data('foo')
-el.dataset['foo']
-// or using getAttribute
+// using getAttribute
 el.getAttribute('data-foo');
+// you can also use `dataset` if only need to support IE 11+
+el.dataset['foo']
 
 // siblings
 $el.siblings();
