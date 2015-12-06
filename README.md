@@ -1,8 +1,12 @@
 ## You Don't Need jQuery
 
-前端发展很快，现代浏览器原生 API 已经足够好用。我们并不需要为了操作 DOM、Event 等再学习一下 jQuery 的 API。同时由于 React、Angular、Vue 等框架的流行，直接操作 DOM 不再是好的模式，jQuery 使用场景大大减少。本项目总结了大部分 jQuery API 替代的方法，暂时只支持 IE10+ 以上浏览器。
+Frontend environment evolves repaidly nowadays, modern browsers have already implemented a great deal of DOM/BOM APIs which are good enough. We don't have to learn jQuery from scratch for DOM manipulation or events. In the meantime, thanks to the prevail of frontend libraries like React, Angular and Vue, manipulating DOM directly becomes anti-pattern, jQuery has never been less important. This project summarized most of the jQuery method alternatives in native implementation, with IE 10+ support.
 
-## 目录
+## Translation
+
+* [简体中文](./README.zh-CN.md)
+
+## Catalog
 
 * [Query Selector](#query-selector)
 * [CSS & Style](#css-style)
@@ -15,10 +19,10 @@
 
 ## Query Selector
 
-常用的 class、id、属性 选择器都可以使用 `document.querySelector` 或 `document.querySelectorAll` 替代。区别是
-* `document.querySelector` 返回第一个匹配的 Element
-* `document.querySelectorAll` 返回所有匹配的 Element 组成的 NodeList。它可以通过 `[].slice.call()` 把它转成 Array
-* 如果匹配不到任何元素，jQuery 返回空数组 []`，但 `document.querySelector` 返回返回 `null`，注意空指针异常
+Common selectors like class, id or attribute we can use `document.querySelector` or `document.querySelectorAll` for substitution. The differences lie in:
+* `document.querySelector` returns the first matched Element
+* `document.querySelectorAll` returns all matched Elements as NodeList. It can be converted to Array using `[].slice.call`
+* If no element matched, jQuery would return `[]` whereas these DOM API will return `null`. Pay attention to Null Pointer Exception.
 
 
 ```js
@@ -50,7 +54,7 @@ e.getAttribute('foo')
 $el.data('foo')
 // using getAttribute
 el.getAttribute('data-foo');
-// IE 11+ 开始支持 `dataset`
+// you can also use `dataset` if only need to support IE 11+
 el.dataset['foo']
 
 // siblings
@@ -69,7 +73,7 @@ el.nextElementSibling
 ```
 
 #### closest
-closest 获得匹配选择器的第一个祖先元素，从当前元素开始沿 DOM 树向上。
+return the first matched element by provided selector, traversing from current element to document.
 
 jQuery
 ```js
@@ -123,7 +127,7 @@ function parentsUntil(el, selector, filter) {
 
 #### iframe contents
 
-jQuery 对象的 iframe `contents()` 返回的是 iframe 内的 `document`
+`$('iframe').contents()` returns `contentDocument` for this specific iframe
 
 
 ```js
@@ -161,26 +165,26 @@ el.classList.toggle(className);
 
 // get style
 $el.css("color");
-// 注意：此处为了解决当 style 值为 auto 时，返回 auto 的问题
+// NOTE: Known bug, will return 'auto' if style value is 'auto'
 const win = el.ownerDocument.defaultView;
-// null 的意思是不返回伪类元素
+// null means not return presudo styles
 win.getComputedStyle(el, null).color;
 
 // set style
 $el.css({ color: "#ff0011" });
 el.style.color = '#ff0011'; 
 ```
-注意，如果想一次设置多个 style，可以参考 oui-dom-utils 中 [setStyles](https://github.com/oneuijs/oui-dom-utils/blob/master/src/index.js#L194) 方法
+Note that if you want to set multiple styles once, you could refer to [setStyles](https://github.com/oneuijs/oui-dom-utils/blob/master/src/index.js#L194) method in oui-dom-utils package.
 
 #### width, height
-Width 与 Height 获取方法相同，下面以 Height 为例：
+Width and Height are theoretically identical, take Height as example:
 
 ```js
 // window height
 $(window).height();
-// 不含 scrollbar，与 jQuery 行为一致
+// without scrollbar, behaves like jQuery
 window.document.documentElement.clientHeight
-// 含 scrollbar
+// with scrollbar
 window.innerHeight
 
 // document height
@@ -189,7 +193,7 @@ document.documentElement.scrollHeight
 
 // el height
 $el.height();
-// 与 jQuery 一致（一直为 content 区域的高度）
+// behaves like jQuery
 function getHeight(el) {
   const styles = this.getComputedStyles(el);
   const height = el.offsetHeight;
@@ -199,14 +203,10 @@ function getHeight(el) {
   const paddingBottom = parseFloat(styles.paddingBottom);
   return height - borderBottomWidth - borderTopWidth - paddingTop - paddingBottom;
 }
-// 精确到整数（border-box 时为 height 值，content-box 时为 height + padding + border 值）
+// accurate to integer（when `border-box`, it's `height`; when `content-box`, it's `height + padding + border`）
 el.clientHeight
-// 精确到小数（border-box 时为 height 值，content-box 时为 height + padding + border 值）
+// accurate to decimal（when `border-box`, it's `height`; when `content-box`, it's `height + padding + border`）
 el.getBoundingClientRect().height
-
-// $iframe .contents() 方法返回 iframe 的 contentDocument
-$('iframe').contents().height()
-iframe.contentDocument.documentElement.scrollHeight
 ```
 
 #### position, offset
@@ -252,7 +252,7 @@ el.innerHTML = htmlString
 ```
 
 #### append
-append 插入到子节点的末尾
+append child element after the last child of parent element
 
 jQuery
 ```js
@@ -369,7 +369,7 @@ $('#my-input').val()
 document.querySelector('#my-input').value
 
 
-// 获取 e.currentTarget 相对于 .radio 选择结果的索引
+// get index of e.currentTarget between `.radio` 
 $(e.currentTarget).index('.radio')
 [].indexOf.call(document.querySelectAll('.radio'), e.currentTarget)
 ```
