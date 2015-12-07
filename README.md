@@ -16,10 +16,11 @@ Frontend environment evolves repaidly nowadays, modern browsers have already imp
 ## Query Selector
 
 Common selectors like class, id or attribute we can use `document.querySelector` or `document.querySelectorAll` for substitution. The differences lie in:
-* `document.querySelector` returns the first matched Element
-* `document.querySelectorAll` returns all matched Elements as NodeList. It can be converted to Array using `[].slice.call`
-* If no element matched, jQuery would return `[]` whereas these DOM API will return `null`. Pay attention to Null Pointer Exception.
+* `document.querySelector` returns the first matched element
+* `document.querySelectorAll` returns all matched elements as NodeList. It can be converted to Array using `[].slice.call`
+* If no elements matched, jQuery would return `[]` whereas the DOM API will return `null`. Pay attention to Null Pointer Exception.
 
+> Noice: `document.querySelector` and `document.querySelectorAll` are quite **SLOW**, try to use `getElementById`, `document.getElementsByClassName` or `document.getElementsByTagName` if you want to get a performance bonus.
 
 - [1.1](#1.1) <a name='1.1'></a> Query by class
 
