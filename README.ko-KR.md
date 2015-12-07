@@ -1,28 +1,27 @@
 ## You Don't Need jQuery
 
-Frontend environment evolves repaidly nowadays, modern browsers have already implemented a great deal of DOM/BOM APIs which are good enough. We don't have to learn jQuery from scratch for DOM manipulation or events. In the meantime, thanks to the prevail of frontend libraries like React, Angular and Vue, manipulating DOM directly becomes anti-pattern, jQuery has never been less important. This project summarized most of the jQuery method alternatives in native implementation, with IE 10+ support.
+오늘날 프론트엔드 개발 환경은 급격히 진화하고 있고, 모던 브라우저들은 이미 충분히 많은 DOM/BOM API들을 구현했습니다. 우리는 jQuery를 DOM 처리나 이벤트를 위해 처음부터 배울 필요가 없습니다. React, Angular, Vue같은 프론트엔드 라이브러리들이 주도권을 차지하는 동안 DOM을 바로 처리하는 것은 안티패턴이 되었고, jQuery의 중요성은 줄어들었습니다. 이 프로젝트는 대부분의 jQuery 메소드의 대안을 IE 10+ 이상을 지원하는 네이티브 구현으로 소개합니다.
 
-## Table of Contents
+## 목차
 
 1. [Query Selector](#query-selector)
 1. [CSS & Style](#css-style)
-1. [DOM Manipulation](#dom-manipulation)
+1. [DOM 조작](#dom-manipulation)
 1. [Ajax](#ajax)
-1. [Events](#events)
-1. [Utilities](#utilities)
-1. [Translation](#translation)
-1. [Browser Support](#browser-support)
+1. [이벤트](#events)
+1. [유틸리티](#utilities)
+1. [브라우저 지원](#browser-support)
 
 ## Query Selector
 
-Common selectors like class, id or attribute we can use `document.querySelector` or `document.querySelectorAll` for substitution. The differences lie in:
-* `document.querySelector` returns the first matched element
-* `document.querySelectorAll` returns all matched elements as NodeList. It can be converted to Array using `[].slice.call`
-* If no elements matched, jQuery would return `[]` whereas the DOM API will return `null`. Pay attention to Null Pointer Exception.
+평범한 class, id, attribute같은 selecotor는 `document.querySelector`나 `document.querySelectorAll`으로 대체할 수 있습니다.
+* `document.querySelector`는 처음 매칭된 엘리먼트를 반환합니다.
+* `document.querySelectorAll`는 모든 매칭된 엘리먼트를 NodeList로 반환합니다. `[].slice.call`을 사용해서 Array로 변환할 수 있습니다.
+* 만약 매칭된 엘리멘트가 없으면 jQuery는 `[]` 를 반환하지만 DOM API는 `null`을 반환합니다. Null Pointer Exception에 주의하세요.
 
-> Noice: `document.querySelector` and `document.querySelectorAll` are quite **SLOW**, try to use `getElementById`, `document.getElementsByClassName` or `document.getElementsByTagName` if you want to get a performance bonus.
+> 안내: `document.querySelector`와 `document.querySelectorAll`는 꽤 **느립니다**, `getElementById`나 `document.getElementsByClassName`, `document.getElementsByTagName`를 사용하면 퍼포먼스가 향상을 기대할 수 있습니다.
 
-- [1.1](#1.1) <a name='1.1'></a> Query by class
+- [1.1](#1.1) <a name='1.1'></a> class로 찾기
 
   ```js
   // jQuery
@@ -32,7 +31,7 @@ Common selectors like class, id or attribute we can use `document.querySelector`
   document.querySelectorAll('.css');
   ```
 
-- [1.2](#1.2) <a name='1.2'></a> Query by id
+- [1.2](#1.2) <a name='1.2'></a> id로 찾기
 
   ```js
   // jQuery
@@ -42,7 +41,7 @@ Common selectors like class, id or attribute we can use `document.querySelector`
   document.querySelector('#id');
   ```
 
-- [1.3](#1.3) <a name='1.3'></a> Query by attribute
+- [1.3](#1.3) <a name='1.3'></a> 속성(attribute)으로 찾기
 
   ```js
   // jQuery
@@ -52,9 +51,9 @@ Common selectors like class, id or attribute we can use `document.querySelector`
   document.querySelectorAll('a[target=_blank]');
   ```
 
-- [1.4](#1.4) <a name='1.4'></a> Find sth.
+- [1.4](#1.4) <a name='1.4'></a> 여러가지 찾기
 
-  + Find nodes
+  + 노드들 찾기
 
     ```js
     // jQuery
@@ -64,7 +63,7 @@ Common selectors like class, id or attribute we can use `document.querySelector`
     el.querySelectorAll('li');
     ```
 
-  + Find body
+  + body 찾기
 
     ```js
     // jQuery
@@ -74,7 +73,7 @@ Common selectors like class, id or attribute we can use `document.querySelector`
     document.body;
     ```
 
-  + Find Attribute
+  + 속성 가져오기
 
     ```js
     // jQuery
@@ -84,22 +83,22 @@ Common selectors like class, id or attribute we can use `document.querySelector`
     e.getAttribute('foo');
     ```
 
-  + Find data attribute
+  + data 속성 가져오기
 
     ```js
     // jQuery
     $el.data('foo');
 
     // Native
-    // using getAttribute
+    // getAttribute를 사용하기
     el.getAttribute('data-foo');
-    // you can also use `dataset` if only need to support IE 11+
+    // IE 11+ 이상만 지원할 것이라면 dataset을 사용할 수도 있음
     el.dataset['foo'];
     ```
 
-- [1.5](#1.5) <a name='1.5'></a> Sibling/Previous/Next Elements
+- [1.5](#1.5) <a name='1.5'></a> 형제/이전/다음 엘리먼트 찾기
 
-  + Sibling elements
+  + 형제 엘리먼트
 
     ```js
     // jQuery
@@ -111,7 +110,7 @@ Common selectors like class, id or attribute we can use `document.querySelector`
     });
     ```
 
-  + Previous elements
+  + 이전 엘리먼트
 
     ```js
     // jQuery
@@ -122,7 +121,7 @@ Common selectors like class, id or attribute we can use `document.querySelector`
 
     ```
 
-  + Next elements
+  + 다음 엘리먼트
 
     ```js
     // next
@@ -132,7 +131,7 @@ Common selectors like class, id or attribute we can use `document.querySelector`
 
 - [1.6](#1.6) <a name='1.6'></a> Closest
 
-  Return the first matched element by provided selector, traversing from current element to document.
+  현재 엘리먼트부터 document로 이동하면서 주어진 셀렉터와 일치하는 가장 가까운 엘리먼트를 반환합니다.
 
   ```js
   // jQuery
@@ -155,7 +154,7 @@ Common selectors like class, id or attribute we can use `document.querySelector`
 
 - [1.7](#1.7) <a name='1.7'></a> Parents Until
 
-  Get the ancestors of each element in the current set of matched elements, up to but not including the element matched by the selector, DOM node, or jQuery object.
+  주어진 셀렉터에 매칭되는 엘리먼트를 찾기까지 부모 태그들을 위로 올라가며 탐색하여 저장해두었다가 DOM 노드 또는 jQuery object로 반환합니다.
 
   ```js
   // jQuery
@@ -194,7 +193,7 @@ Common selectors like class, id or attribute we can use `document.querySelector`
     document.querySelector('#my-input').value;
     ```
 
-  + Get index of e.currentTarget between `.radio`
+  + e.currentTarget이 `.radio`의 몇번째인지 구하기
 
     ```js
     // jQuery
@@ -206,7 +205,7 @@ Common selectors like class, id or attribute we can use `document.querySelector`
 
 - [1.9](#1.9) <a name='1.9'></a> Iframe Contents
 
-  `$('iframe').contents()` returns `contentDocument` for this specific iframe
+  `$('iframe').contents()`는 iframe에 한정해서 `contentDocument`를 반환합니다.
 
   + Iframe contents
 
@@ -218,7 +217,7 @@ Common selectors like class, id or attribute we can use `document.querySelector`
     iframe.contentDocument;
     ```
 
-  + Iframe Query
+  + Iframe에서 찾기
 
     ```js
     // jQuery
@@ -228,26 +227,26 @@ Common selectors like class, id or attribute we can use `document.querySelector`
     iframe.contentDocument.querySelectorAll('.css');
     ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ 목차로 돌아가기](#table-of-contents)**
 
 ## CSS & Style
 
 - [2.1](#2.1) <a name='2.1'></a> CSS
 
-  + Get style
+  + style값 얻기
 
     ```js
     // jQuery
     $el.css("color");
 
     // Native
-    // NOTE: Known bug, will return 'auto' if style value is 'auto'
+    // NOTE: 알려진 버그로, style값이 'auto'이면 'auto'를 반환합니다.
     const win = el.ownerDocument.defaultView;
-    // null means not return presudo styles
+    // null은 가상 스타일은 반환하지 않음을 의미합니다.
     win.getComputedStyle(el, null).color;
     ```
 
-  + Set style
+  + style값 설정하기
 
     ```js
     // jQuery
@@ -257,12 +256,12 @@ Common selectors like class, id or attribute we can use `document.querySelector`
     el.style.color = '#ff0011';
     ```
 
-  + Get/Set Styles
+  + Style값들을 동시에 얻거나 설정하기
 
-    Note that if you want to set multiple styles once, you could refer to [setStyles](https://github.com/oneuijs/oui-dom-utils/blob/master/src/index.js#L194) method in oui-dom-utils package.
+    만약 한번에 여러 style값을 바꾸고 싶다면 oui-dom-utils 패키지의 [setStyles](https://github.com/oneuijs/oui-dom-utils/blob/master/src/index.js#L194)를 사용해보세요.
 
 
-  + Add class
+  + class 추가하기
 
     ```js
     // jQuery
@@ -272,7 +271,7 @@ Common selectors like class, id or attribute we can use `document.querySelector`
     el.classList.add(className);
     ```
 
-  + Remove class
+  + class 제거하기
 
     ```js
     // jQuery
@@ -282,7 +281,7 @@ Common selectors like class, id or attribute we can use `document.querySelector`
     el.classList.remove(className);
     ```
 
-  + has class
+  + class를 포함하고 있는지 검사하기
 
     ```js
     // jQuery
@@ -292,7 +291,7 @@ Common selectors like class, id or attribute we can use `document.querySelector`
     el.classList.contains(className);
     ```
 
-  + Toggle class
+  + class 토글하기
 
     ```js
     // jQuery
@@ -302,22 +301,22 @@ Common selectors like class, id or attribute we can use `document.querySelector`
     el.classList.toggle(className);
     ```
 
-- [2.2](#2.2) <a name='2.2'></a> Width & Height
+- [2.2](#2.2) <a name='2.2'></a> 폭과 높이
 
-  Width and Height are theoretically identical, take Height as example:
+  폭과 높이는 이론상 동일합니다. 높이로 예를 들겠습니다.
 
-  + Window height
+  + Window의 높이
 
     ```js
-    // window height
+    // window 높이
     $(window).height();
-    // without scrollbar, behaves like jQuery
+    // jQuery처럼 스크롤바를 제외하기
     window.document.documentElement.clientHeight;
-    // with scrollbar
+    // 스크롤바 포함
     window.innerHeight;
     ```
 
-  + Document height
+  + 문서 높이
 
     ```js
     // jQuery
@@ -327,7 +326,7 @@ Common selectors like class, id or attribute we can use `document.querySelector`
     document.documentElement.scrollHeight;
     ```
 
-  + Element height
+  + Element 높이
 
     ```js
     // jQuery
@@ -343,9 +342,9 @@ Common selectors like class, id or attribute we can use `document.querySelector`
       const paddingBottom = parseFloat(styles.paddingBottom);
       return height - borderBottomWidth - borderTopWidth - paddingTop - paddingBottom;
     }
-    // accurate to integer（when `border-box`, it's `height`; when `content-box`, it's `height + padding + border`）
+    // 정수로 정확하게（`border-box`일 때 이 값은 `height`이고, `content-box`일 때, 이 값은 `height + padding + border`）
     el.clientHeight;
-    // accurate to decimal（when `border-box`, it's `height`; when `content-box`, it's `height + padding + border`）
+    // 실수로 정확하게（`border-box`일 때 이 값은 `height`이고, `content-box`일 때, 이 값은 `height + padding + border`）
     el.getBoundingClientRect().height;
     ```
 
@@ -388,11 +387,11 @@ Common selectors like class, id or attribute we can use `document.querySelector`
   (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop;
   ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ 목차로 돌아가기](#table-of-contents)**
 
-## DOM Manipulation
+## DOM 조작
 
-- [3.1](#3.1) <a name='3.1'></a> Remove
+- [3.1](#3.1) <a name='3.1'></a> 제거
   ```js
   // jQuery
   $el.remove();
@@ -403,7 +402,7 @@ Common selectors like class, id or attribute we can use `document.querySelector`
 
 - [3.2](#3.2) <a name='3.2'></a> Text
 
-  + Get text
+  + text 가져오기
 
     ```js
     // jQuery
@@ -413,7 +412,7 @@ Common selectors like class, id or attribute we can use `document.querySelector`
     el.textContent;
     ```
 
-  + Set text
+  + text 설정하기
 
     ```js
     // jQuery
@@ -425,7 +424,7 @@ Common selectors like class, id or attribute we can use `document.querySelector`
 
 - [3.3](#3.3) <a name='3.3'></a> HTML
 
-  + Get HTML
+  + HTML 가져오기
 
     ```js
     // jQuery
@@ -435,7 +434,7 @@ Common selectors like class, id or attribute we can use `document.querySelector`
     el.innerHTML;
     ```
 
-  + Set HTML
+  + HTML 설정하기
 
     ```js
     // jQuery
@@ -445,9 +444,9 @@ Common selectors like class, id or attribute we can use `document.querySelector`
     el.innerHTML = htmlString;
     ```
 
-- [3.4](#3.4) <a name='3.4'></a> Append
+- [3.4](#3.4) <a name='3.4'></a> 해당 엘리먼트의 자식들 뒤에 넣기(Append)
 
-  append child element after the last child of parent element
+  부모 엘리먼트의 마지막 자식으로 엘리먼트를 추가합니다.
 
   ```js
   // jQuery
@@ -460,7 +459,7 @@ Common selectors like class, id or attribute we can use `document.querySelector`
   el.appendChild(newEl);
   ```
 
-- [3.5](#3.5) <a name='3.5'></a> Prepend
+- [3.5](#3.5) <a name='3.5'></a> 해당 엘리먼트의 자식들 앞에 넣기(Prepend)
 
   ```js
   // jQuery
@@ -473,9 +472,9 @@ Common selectors like class, id or attribute we can use `document.querySelector`
   el.insertBefore(newEl, el.firstChild);
   ```
 
-- [3.6](#3.6) <a name='3.6'></a> insertBefore
+- [3.6](#3.6) <a name='3.6'></a> 해당 엘리먼트 앞에 넣기(insertBefore)
 
-  Insert a new node before the selected elements
+  새 노드를 선택한 엘리먼트 앞에 넣습니다.
 
   ```js
   // jQuery
@@ -485,9 +484,9 @@ Common selectors like class, id or attribute we can use `document.querySelector`
   newEl.insertBefore(document.querySelector(queryString));
   ```
 
-- [3.7](#3.7) <a name='3.7'></a> insertAfter
+- [3.7](#3.7) <a name='3.7'></a> 해당 엘리먼트 뒤에 넣기(insertAfter)
 
-  Insert a new node after the selected elements
+  새 노드를 선택한 엘리먼트 뒤에 넣습니다.
 
   ```js
   // jQuery
@@ -505,19 +504,19 @@ Common selectors like class, id or attribute we can use `document.querySelector`
   },
   ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ 목차로 돌아가기](#table-of-contents)**
 
 ## Ajax
 
-Replace with [fetch](https://github.com/camsong/fetch-ie8) and [fetch-jsonp](https://github.com/camsong/fetch-jsonp)
+[fetch](https://github.com/camsong/fetch-ie8)나 [fetch-jsonp](https://github.com/camsong/fetch-jsonp)로 교체하세요.
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ 목차로 돌아가기](#table-of-contents)**
 
-## Events
+## 이벤트
 
-For a complete replacement with namespace and delegation, refer to https://github.com/oneuijs/oui-dom-events
+namespace와 delegation을 포함해서 완전히 갈아 엎길 원하시면 https://github.com/oneuijs/oui-dom-events 를 고려해보세요.
 
-- [5.1](#5.1) <a name='5.1'></a> Bind an event with on
+- [5.1](#5.1) <a name='5.1'></a> 이벤트 Bind 걸기
 
   ```js
   // jQuery
@@ -527,7 +526,7 @@ For a complete replacement with namespace and delegation, refer to https://githu
   el.addEventListener(eventName, eventHandler);
   ```
 
-- [5.2](#5.2) <a name='5.2'></a> Unbind an event with off
+- [5.2](#5.2) <a name='5.2'></a> 이벤트 Bind 풀기
 
   ```js
   // jQuery
@@ -537,7 +536,7 @@ For a complete replacement with namespace and delegation, refer to https://githu
   el.removeEventListener(eventName, eventHandler);
   ```
 
-- [5.3](#5.3) <a name='5.3'></a> Trigger
+- [5.3](#5.3) <a name='5.3'></a> 이벤트 발생시키기(Trigger)
 
   ```js
   // jQuery
@@ -554,11 +553,11 @@ For a complete replacement with namespace and delegation, refer to https://githu
   el.dispatchEvent(event);
   ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ 목차로 돌아가기](#table-of-contents)**
 
-## Utilities
+## 유틸리티
 
-- [6.1](#6.1) <a name='6.1'></a> isArray
+- [6.1](#6.1) <a name='6.1'></a> 배열인지 검사(isArray)
 
   ```js
   // jQuery
@@ -568,7 +567,7 @@ For a complete replacement with namespace and delegation, refer to https://githu
   Array.isArray(range);
   ```
 
-- [6.2](#6.2) <a name='6.2'></a> Trim
+- [6.2](#6.2) <a name='6.2'></a> 앞뒤 공백 지우기(Trim)
 
   ```js
   // jQuery
@@ -580,7 +579,7 @@ For a complete replacement with namespace and delegation, refer to https://githu
 
 - [6.3](#6.3) <a name='6.3'></a> Object Assign
 
-  Extend, use object.assign polyfill https://github.com/ljharb/object.assign
+  사용하려면 object.assign polyfill을 사용하세요. https://github.com/ljharb/object.assign
 
   ```js
   // jQuery
@@ -600,14 +599,9 @@ For a complete replacement with namespace and delegation, refer to https://githu
   el !== child && el.contains(child);
   ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ 목차로 돌아가기](#table-of-contents)**
 
-## Translation
-
-* [한국어](./README.ko-KR.md)
-* [简体中文](./README.zh-CN.md)
-
-## Browser Support
+## 브라우저 지원
 
 ![Chrome](https://raw.github.com/alrra/browser-logos/master/chrome/chrome_48x48.png) | ![Firefox](https://raw.github.com/alrra/browser-logos/master/firefox/firefox_48x48.png) | ![IE](https://raw.github.com/alrra/browser-logos/master/internet-explorer/internet-explorer_48x48.png) | ![Opera](https://raw.github.com/alrra/browser-logos/master/opera/opera_48x48.png) | ![Safari](https://raw.github.com/alrra/browser-logos/master/safari/safari_48x48.png)
 --- | --- | --- | --- | --- |
