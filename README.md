@@ -575,7 +575,7 @@ For a complete replacement with namespace and delegation, refer to https://githu
   $.trim(string);
 
   // Native
-  String.trim();
+  string.trim();
   ```
 
 - [6.3](#6.3) <a name='6.3'></a> Object Assign
