@@ -24,52 +24,51 @@ Common selectors like class, id or attribute we can use `document.querySelector`
 * `document.querySelectorAll` returns all matched Elements as NodeList. It can be converted to Array using `[].slice.call`
 * If no element matched, jQuery would return `[]` whereas these DOM API will return `null`. Pay attention to Null Pointer Exception.
 
-
 ```js
 // query by class
-$('.css')
-document.querySelectorAll('.css')
+$('.css');
+document.querySelectorAll('.css');
 
 // query by id
-$('#id')
-el.querySelectorAll('#id')
+$('#id');
+el.querySelectorAll('#id');
 
 // query by attribute
-$('a[target=_blank]')
-document.querySelectorAll('a[target=_blank]')
- 
+$('a[target=_blank]');
+document.querySelectorAll('a[target=_blank]');
+
 // find
-$el.find('li')
-el.querySelectorAll('li')
+$el.find('li');
+el.querySelectorAll('li');
 
 // body
-$('body')
-document.body
+$('body');
+document.body;
 
 // attr
-$el.attr('foo')
-e.getAttribute('foo')
+$el.attr('foo');
+e.getAttribute('foo');
 
 // data attribute
-$el.data('foo')
+$el.data('foo');
 // using getAttribute
 el.getAttribute('data-foo');
 // you can also use `dataset` if only need to support IE 11+
-el.dataset['foo']
+el.dataset['foo'];
 
 // siblings
 $el.siblings();
 [].filter.call(el.parentNode.children, function(child) {
-	return child !== el;
-})
+  return child !== el;
+});
 
 // prev
 $el.prev();
-el.previousElementSibling
+el.previousElementSibling;
 
 // next
 $el.next();
-el.nextElementSibling
+el.nextElementSibling;
 ```
 
 #### closest
@@ -77,13 +76,13 @@ return the first matched element by provided selector, traversing from current e
 
 jQuery
 ```js
-$el.closest(queryString)
+$el.closest(queryString);
 ```
 
 Native
 ```js
 function closest(el, selector) {
-	const matchesSelector = el.matches || el.webkitMatchesSelector || el.mozMatchesSelector || el.msMatchesSelector;
+  const matchesSelector = el.matches || el.webkitMatchesSelector || el.mozMatchesSelector || el.msMatchesSelector;
 
   while (el) {
     if (matchesSelector.call(el, selector)) {
@@ -93,7 +92,7 @@ function closest(el, selector) {
     }
   }
   return null;
- }
+}
 ```
 
 #### parentsUntil
@@ -101,7 +100,7 @@ Get the ancestors of each element in the current set of matched elements, up to 
 
 jQuery
 ```js
-$el.parentsUntil(selector, filter)
+$el.parentsUntil(selector, filter);
 ```
 
 Native
@@ -109,6 +108,7 @@ Native
 function parentsUntil(el, selector, filter) {
   const result = [];
   const matchesSelector = el.matches || el.webkitMatchesSelector || el.mozMatchesSelector || el.msMatchesSelector;
+
   // match start from parent
   el = el.parentElement;
   while (el && !matchesSelector.call(el, selector)) {
@@ -129,38 +129,37 @@ function parentsUntil(el, selector, filter) {
 
 `$('iframe').contents()` returns `contentDocument` for this specific iframe
 
-
 ```js
 // contents
-$iframe.contents()
-iframe.contentDocument
+$iframe.contents();
+iframe.contentDocument;
 
 // query
-$iframe.contents().find('.css')
-iframe.contentDocument.querySelectorAll('.css')
+$iframe.contents().find('.css');
+iframe.contentDocument.querySelectorAll('.css');
 ```
 
 ## css style
 
 ```js
 // set css
-$el.css('border-width', 20)
-el.style.borderWidth = '20px'
+$el.css('border-width', 20);
+el.style.borderWidth = '20px';
 
 // addClass
-$el.addClass(className)
+$el.addClass(className);
 el.classList.add(className);
 
 // removeClass
-$el.removeClass(className)
+$el.removeClass(className);
 el.classList.remove(className);
 
 // hasClass
-$el.hasClass(className)
+$el.hasClass(className);
 el.classList.contains(className);
 
 // toggleClass
-$el.toggleClass(className)
+$el.toggleClass(className);
 el.classList.toggle(className);
 
 // get style
@@ -172,7 +171,7 @@ win.getComputedStyle(el, null).color;
 
 // set style
 $el.css({ color: "#ff0011" });
-el.style.color = '#ff0011'; 
+el.style.color = '#ff0011';
 ```
 Note that if you want to set multiple styles once, you could refer to [setStyles](https://github.com/oneuijs/oui-dom-utils/blob/master/src/index.js#L194) method in oui-dom-utils package.
 
@@ -183,13 +182,13 @@ Width and Height are theoretically identical, take Height as example:
 // window height
 $(window).height();
 // without scrollbar, behaves like jQuery
-window.document.documentElement.clientHeight
+window.document.documentElement.clientHeight;
 // with scrollbar
-window.innerHeight
+window.innerHeight;
 
 // document height
 $(document).height();
-document.documentElement.scrollHeight
+document.documentElement.scrollHeight;
 
 // el height
 $el.height();
@@ -204,9 +203,9 @@ function getHeight(el) {
   return height - borderBottomWidth - borderTopWidth - paddingTop - paddingBottom;
 }
 // accurate to integer（when `border-box`, it's `height`; when `content-box`, it's `height + padding + border`）
-el.clientHeight
+el.clientHeight;
 // accurate to decimal（when `border-box`, it's `height`; when `content-box`, it's `height + padding + border`）
-el.getBoundingClientRect().height
+el.getBoundingClientRect().height;
 ```
 
 #### position, offset
@@ -219,9 +218,10 @@ $el.position();
 // offset
 $el.offset();
 function getOffset (el) {
-  let box = el.getBoundingClientRect();
+  const box = el.getBoundingClientRect();
+
   return {
-	  top: box.top + window.pageYOffset - document.documentElement.clientTop,
+    top: box.top + window.pageYOffset - document.documentElement.clientTop,
     left: box.left + window.pageXOffset - document.documentElement.clientLeft
   }
 }
@@ -231,24 +231,24 @@ function getOffset (el) {
 
 ```js
 // remove
-$el.remove()
+$el.remove();
 el.parentNode.removeChild(el);
 
 // get text
-$el.text()
-el.textContent
+$el.text();
+el.textContent;
 
 // set text
-$el.text(string)
-el.textContent = string
+$el.text(string);
+el.textContent = string;
 
 // get html
-$el.html()
-el.innerHTML
+$el.html();
+el.innerHTML;
 
 // set html
-$el.html(htmlString)
-el.innerHTML = htmlString
+$el.html(htmlString);
+el.innerHTML = htmlString;
 ```
 
 #### append
@@ -256,7 +256,7 @@ append child element after the last child of parent element
 
 jQuery
 ```js
-$el.append("<div id='container'>hello</div>")
+$el.append("<div id='container'>hello</div>");
 ```
 
 Native
@@ -264,22 +264,22 @@ Native
 let newEl = document.createElement('div');
 newEl.setAttribute('id', 'container');
 newEl.innerHTML = 'hello';
-el.appendChild(newEl)
+el.appendChild(newEl);
 ```
 
 #### prepend
 
 jQuery
 ```js
-$el.prepend("<div id='container'>hello</div>")
+$el.prepend("<div id='container'>hello</div>");
 ```
 
 Native
 ```js
-let newEl = document.createElement('div')
-newEl.setAttribute('id', 'container')
-newEl.innerHTML = 'hello'
-el.insertBefore(newEl, el.firstChild)
+let newEl = document.createElement('div');
+newEl.setAttribute('id', 'container');
+newEl.innerHTML = 'hello';
+el.insertBefore(newEl, el.firstChild);
 ```
 
 #### insertBefore
@@ -292,7 +292,7 @@ $newEl.insertBefore(queryString);
 
 Native
 ```js
-newEl.insertBefore(document.querySelector(queryString))
+newEl.insertBefore(document.querySelector(queryString));
 ```
 
 #### insertAfter
@@ -306,7 +306,7 @@ $newEl.insertAfter(queryString);
 Native
 ```js
 function insertAfter(newEl, queryString) {
-  var parent = document.querySelector(queryString).parentNode;
+  const parent = document.querySelector(queryString).parentNode;
 
   if (parent.lastChild === newEl) {
     parent.appendChild(newEl);
@@ -320,7 +320,7 @@ function insertAfter(newEl, queryString) {
 
 ```js
 // scrollTop
-$(window).scrollTop()
+$(window).scrollTop();
 (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop;
 ```
 
@@ -353,9 +353,9 @@ $(el).trigger('custom-event', {key1: 'data'});
 Native
 ```js
 if (window.CustomEvent) {
-  var event = new CustomEvent('custom-event', {detail: {key1: 'data'}});
+  const event = new CustomEvent('custom-event', {detail: {key1: 'data'}});
 } else {
-  var event = document.createEvent('CustomEvent');
+  const event = document.createEvent('CustomEvent');
   event.initCustomEvent('custom-event', true, true, {key1: 'data'});
 }
 
@@ -365,35 +365,34 @@ el.dispatchEvent(event);
 ## Form
 
 ```js
-$('#my-input').val()
-document.querySelector('#my-input').value
+$('#my-input').val();
+document.querySelector('#my-input').value;
 
 
-// get index of e.currentTarget between `.radio` 
-$(e.currentTarget).index('.radio')
-[].indexOf.call(document.querySelectAll('.radio'), e.currentTarget)
+// get index of e.currentTarget between `.radio`
+$(e.currentTarget).index('.radio');
+[].indexOf.call(document.querySelectAll('.radio'), e.currentTarget);
 ```
 
 ## Utilities
 
 ```js
 // isArray IE10+
-$.isArray(range)
-Array.isArray(range)
+$.isArray(range);
+Array.isArray(range);
 
 // trim
-$.trim(string)
-String.trim(string)
+$.trim(string);
+String.trim(string);
 
 // extend, use object.assign polyfill https://github.com/ljharb/object.assign
-$.extend({}, defaultOpts, opts)
-Object.assign({}, defaultOpts, opts)
+$.extend({}, defaultOpts, opts);
+Object.assign({}, defaultOpts, opts);
 
 // contains
 $.contains(el, child);
 el !== child && el.contains(child);
 ```
-
 
 ## Browser Support
 
