@@ -24,52 +24,51 @@
 * `document.querySelectorAll` 返回所有匹配的 Element 组成的 NodeList。它可以通过 `[].slice.call()` 把它转成 Array
 * 如果匹配不到任何元素，jQuery 返回空数组 []`，但 `document.querySelector` 返回返回 `null`，注意空指针异常
 
-
 ```js
 // query by class
-$('.css')
-document.querySelectorAll('.css')
+$('.css');
+document.querySelectorAll('.css');
 
 // query by id
-$('#id')
-el.querySelectorAll('#id')
+$('#id');
+el.querySelectorAll('#id');
 
 // query by attribute
-$('a[target=_blank]')
-document.querySelectorAll('a[target=_blank]')
- 
+$('a[target=_blank]');
+document.querySelectorAll('a[target=_blank]');
+
 // find
-$el.find('li')
-el.querySelectorAll('li')
+$el.find('li');
+el.querySelectorAll('li');
 
 // body
-$('body')
-document.body
+$('body');
+document.body;
 
 // attr
-$el.attr('foo')
-e.getAttribute('foo')
+$el.attr('foo');
+e.getAttribute('foo');
 
 // data attribute
-$el.data('foo')
+$el.data('foo');
 // using getAttribute
 el.getAttribute('data-foo');
 // IE 11+ 开始支持 `dataset`
-el.dataset['foo']
+el.dataset['foo'];
 
 // siblings
 $el.siblings();
 [].filter.call(el.parentNode.children, function(child) {
-	return child !== el;
-})
+  return child !== el;
+});
 
 // prev
 $el.prev();
-el.previousElementSibling
+el.previousElementSibling;
 
 // next
 $el.next();
-el.nextElementSibling
+el.nextElementSibling;
 ```
 
 #### closest
@@ -77,13 +76,13 @@ closest 获得匹配选择器的第一个祖先元素，从当前元素开始沿
 
 jQuery
 ```js
-$el.closest(queryString)
+$el.closest(queryString);
 ```
 
 Native
 ```js
 function closest(el, selector) {
-	const matchesSelector = el.matches || el.webkitMatchesSelector || el.mozMatchesSelector || el.msMatchesSelector;
+  const matchesSelector = el.matches || el.webkitMatchesSelector || el.mozMatchesSelector || el.msMatchesSelector;
 
   while (el) {
     if (matchesSelector.call(el, selector)) {
@@ -93,7 +92,7 @@ function closest(el, selector) {
     }
   }
   return null;
- }
+}
 ```
 
 #### parentsUntil
@@ -101,7 +100,7 @@ Get the ancestors of each element in the current set of matched elements, up to 
 
 jQuery
 ```js
-$el.parentsUntil(selector, filter)
+$el.parentsUntil(selector, filter);
 ```
 
 Native
@@ -109,6 +108,7 @@ Native
 function parentsUntil(el, selector, filter) {
   const result = [];
   const matchesSelector = el.matches || el.webkitMatchesSelector || el.mozMatchesSelector || el.msMatchesSelector;
+
   // match start from parent
   el = el.parentElement;
   while (el && !matchesSelector.call(el, selector)) {
@@ -129,38 +129,37 @@ function parentsUntil(el, selector, filter) {
 
 jQuery 对象的 iframe `contents()` 返回的是 iframe 内的 `document`
 
-
 ```js
 // contents
-$iframe.contents()
-iframe.contentDocument
+$iframe.contents();
+iframe.contentDocument;
 
 // query
-$iframe.contents().find('.css')
-iframe.contentDocument.querySelectorAll('.css')
+$iframe.contents().find('.css');
+iframe.contentDocument.querySelectorAll('.css');
 ```
 
 ## css style
 
 ```js
 // set css
-$el.css('border-width', 20)
-el.style.borderWidth = '20px'
+$el.css('border-width', 20);
+el.style.borderWidth = '20px';
 
 // addClass
-$el.addClass(className)
+$el.addClass(className);
 el.classList.add(className);
 
 // removeClass
-$el.removeClass(className)
+$el.removeClass(className);
 el.classList.remove(className);
 
 // hasClass
-$el.hasClass(className)
+$el.hasClass(className);
 el.classList.contains(className);
 
 // toggleClass
-$el.toggleClass(className)
+$el.toggleClass(className);
 el.classList.toggle(className);
 
 // get style
@@ -172,7 +171,7 @@ win.getComputedStyle(el, null).color;
 
 // set style
 $el.css({ color: "#ff0011" });
-el.style.color = '#ff0011'; 
+el.style.color = '#ff0011';
 ```
 注意，如果想一次设置多个 style，可以参考 oui-dom-utils 中 [setStyles](https://github.com/oneuijs/oui-dom-utils/blob/master/src/index.js#L194) 方法
 
@@ -183,13 +182,13 @@ Width 与 Height 获取方法相同，下面以 Height 为例：
 // window height
 $(window).height();
 // 不含 scrollbar，与 jQuery 行为一致
-window.document.documentElement.clientHeight
+window.document.documentElement.clientHeight;
 // 含 scrollbar
-window.innerHeight
+window.innerHeight;
 
 // document height
 $(document).height();
-document.documentElement.scrollHeight
+document.documentElement.scrollHeight;
 
 // el height
 $el.height();
@@ -204,13 +203,13 @@ function getHeight(el) {
   return height - borderBottomWidth - borderTopWidth - paddingTop - paddingBottom;
 }
 // 精确到整数（border-box 时为 height 值，content-box 时为 height + padding + border 值）
-el.clientHeight
+el.clientHeight;
 // 精确到小数（border-box 时为 height 值，content-box 时为 height + padding + border 值）
-el.getBoundingClientRect().height
+el.getBoundingClientRect().height;
 
 // $iframe .contents() 方法返回 iframe 的 contentDocument
-$('iframe').contents().height()
-iframe.contentDocument.documentElement.scrollHeight
+$('iframe').contents().height();
+iframe.contentDocument.documentElement.scrollHeight;
 ```
 
 #### position, offset
@@ -223,9 +222,10 @@ $el.position();
 // offset
 $el.offset();
 function getOffset (el) {
-  let box = el.getBoundingClientRect();
+  const box = el.getBoundingClientRect();
+
   return {
-	  top: box.top + window.pageYOffset - document.documentElement.clientTop,
+    top: box.top + window.pageYOffset - document.documentElement.clientTop,
     left: box.left + window.pageXOffset - document.documentElement.clientLeft
   }
 }
@@ -235,24 +235,24 @@ function getOffset (el) {
 
 ```js
 // remove
-$el.remove()
+$el.remove();
 el.parentNode.removeChild(el);
 
 // get text
-$el.text()
-el.textContent
+$el.text();
+el.textContent;
 
 // set text
-$el.text(string)
-el.textContent = string
+$el.text(string);
+el.textContent = string;
 
 // get html
-$el.html()
-el.innerHTML
+$el.html();
+el.innerHTML;
 
 // set html
-$el.html(htmlString)
-el.innerHTML = htmlString
+$el.html(htmlString);
+el.innerHTML = htmlString;
 ```
 
 #### append
@@ -260,7 +260,7 @@ append 插入到子节点的末尾
 
 jQuery
 ```js
-$el.append("<div id='container'>hello</div>")
+$el.append("<div id='container'>hello</div>");
 ```
 
 Native
@@ -268,22 +268,22 @@ Native
 let newEl = document.createElement('div');
 newEl.setAttribute('id', 'container');
 newEl.innerHTML = 'hello';
-el.appendChild(newEl)
+el.appendChild(newEl);
 ```
 
 #### prepend
 
 jQuery
 ```js
-$el.prepend("<div id='container'>hello</div>")
+$el.prepend("<div id='container'>hello</div>");
 ```
 
 Native
 ```js
-let newEl = document.createElement('div')
-newEl.setAttribute('id', 'container')
-newEl.innerHTML = 'hello'
-el.insertBefore(newEl, el.firstChild)
+let newEl = document.createElement('div');
+newEl.setAttribute('id', 'container');
+newEl.innerHTML = 'hello';
+el.insertBefore(newEl, el.firstChild);
 ```
 
 #### insertBefore
@@ -296,7 +296,7 @@ $newEl.insertBefore(queryString);
 
 Native
 ```js
-newEl.insertBefore(document.querySelector(queryString))
+newEl.insertBefore(document.querySelector(queryString));
 ```
 
 #### insertAfter
@@ -310,14 +310,14 @@ $newEl.insertAfter(queryString);
 Native
 ```js
 function insertAfter(newEl, queryString) {
-  var parent = document.querySelector(queryString).parentNode;
+  const parent = document.querySelector(queryString).parentNode;
 
   if (parent.lastChild === newEl) {
     parent.appendChild(newEl);
   } else {
     parent.insertBefore(newEl, parent.nextSibling);
   }
-},
+}
 ```
 
 #### scrollTop
@@ -328,11 +328,9 @@ $(window).scrollTop()
 (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop;
 ```
 
-
 ## Ajax
 
 Replace with [fetch](https://github.com/camsong/fetch-ie8) and [fetch-jsonp](https://github.com/camsong/fetch-jsonp)
-
 
 ## Events
 For a complete replacement with namespace and delegation, refer to https://github.com/oneuijs/oui-dom-events
@@ -357,9 +355,9 @@ $(el).trigger('custom-event', {key1: 'data'});
 Native
 ```js
 if (window.CustomEvent) {
-  var event = new CustomEvent('custom-event', {detail: {key1: 'data'}});
+  const event = new CustomEvent('custom-event', {detail: {key1: 'data'}});
 } else {
-  var event = document.createEvent('CustomEvent');
+  const event = document.createEvent('CustomEvent');
   event.initCustomEvent('custom-event', true, true, {key1: 'data'});
 }
 
@@ -369,29 +367,28 @@ el.dispatchEvent(event);
 ## Form
 
 ```js
-$('#my-input').val()
-document.querySelector('#my-input').value
-
+$('#my-input').val();
+document.querySelector('#my-input').value;
 
 // 获取 e.currentTarget 相对于 .radio 选择结果的索引
-$(e.currentTarget).index('.radio')
-[].indexOf.call(document.querySelectAll('.radio'), e.currentTarget)
+$(e.currentTarget).index('.radio');
+[].indexOf.call(document.querySelectAll('.radio'), e.currentTarget);
 ```
 
 ## Utilities
 
 ```js
 // isArray IE10+
-$.isArray(range)
-Array.isArray(range)
+$.isArray(range);
+Array.isArray(range);
 
 // trim
-$.trim(string)
-String.trim(string)
+$.trim(string);
+String.trim(string);
 
 // extend, use object.assign polyfill https://github.com/ljharb/object.assign
-$.extend({}, defaultOpts, opts)
-Object.assign({}, defaultOpts, opts)
+$.extend({}, defaultOpts, opts);
+Object.assign({}, defaultOpts, opts);
 
 // contains
 $.contains(el, child);
