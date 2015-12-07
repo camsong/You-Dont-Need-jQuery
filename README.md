@@ -38,7 +38,7 @@ Common selectors like class, id or attribute we can use `document.querySelector`
   $('#id');
 
   // Native
-  el.querySelectorAll('#id');
+  document.querySelector('#id');
   ```
 
 - [1.3](#1.3) <a name='1.3'></a> Query by attribute
