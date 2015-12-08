@@ -21,14 +21,27 @@
 
 > 안내: `document.querySelector`와 `document.querySelectorAll`는 꽤 **느립니다**, `getElementById`나 `document.getElementsByClassName`, `document.getElementsByTagName`를 사용하면 퍼포먼스가 향상을 기대할 수 있습니다.
 
+- [1.0](#1.0) <a name='1.0'></a> selector로 찾기
+
+  ```js
+  // jQuery
+  $('selector');
+
+  // Native
+  document.querySelectorAll('selector');
+  ```
+
 - [1.1](#1.1) <a name='1.1'></a> class로 찾기
 
   ```js
   // jQuery
-  $('.css');
+  $('.class');
 
   // Native
-  document.querySelectorAll('.css');
+  document.querySelectorAll('.class');
+
+  // or
+  document.getElementsByClassName('class');
   ```
 
 - [1.2](#1.2) <a name='1.2'></a> id로 찾기
@@ -39,6 +52,9 @@
 
   // Native
   document.querySelector('#id');
+
+  // or
+  document.getElementById('id');
   ```
 
 - [1.3](#1.3) <a name='1.3'></a> 속성(attribute)으로 찾기
@@ -574,7 +590,7 @@ namespace와 delegation을 포함해서 완전히 갈아 엎길 원하시면 htt
   $.trim(string);
 
   // Native
-  String.trim(string);
+  string.trim();
   ```
 
 - [6.3](#6.3) <a name='6.3'></a> Object Assign
