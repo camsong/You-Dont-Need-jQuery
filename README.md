@@ -15,7 +15,7 @@ Frontend environments evolve rapidly nowadays, modern browsers have already impl
 
 ## Query Selector
 
-In plac of common selectors like class, id or attribute we can use `document.querySelector` or `document.querySelectorAll` for substitution. The differences lie in:
+In place of common selectors like class, id or attribute we can use `document.querySelector` or `document.querySelectorAll` for substitution. The differences lie in:
 * `document.querySelector` returns the first matched element
 * `document.querySelectorAll` returns all matched elements as NodeList. It can be converted to Array using `[].slice.call`
 * If no elements matched, jQuery would return `[]` whereas the DOM API will return `null`. Pay attention to Null Pointer Exception.
