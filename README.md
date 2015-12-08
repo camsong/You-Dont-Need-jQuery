@@ -39,14 +39,10 @@ Common selectors like class, id or attribute we can use `document.querySelector`
   $('.class');
 
   // Native
-<<<<<<< HEAD
-  document.querySelectorAll('.css');
+  document.querySelectorAll('.class');
   
   // or
-  document.getElementsByClassName('css');
-=======
   document.getElementsByClassName('class');
->>>>>>> aaf3b80f9a85dadbd14d64dd16ad765f00632dae
   ```
 
 - [1.2](#1.2) <a name='1.2'></a> Query by id
@@ -56,12 +52,9 @@ Common selectors like class, id or attribute we can use `document.querySelector`
   $('#id');
 
   // Native
-<<<<<<< HEAD
   document.querySelector('#id');
   
   // or
-=======
->>>>>>> aaf3b80f9a85dadbd14d64dd16ad765f00632dae
   document.getElementById('id');
   ```
 
