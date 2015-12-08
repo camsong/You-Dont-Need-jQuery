@@ -15,14 +15,14 @@ Mutakhir ini perkembangan dalam persekitaran frontend berlaku begitu pesat sekal
 
 ## Pemilihan Elemen
 
-Pemilihan elemen yang umum seperti class, id atau atribut, biasanya kita boleh pakai `document.querySelector` atau `document.querySelectorAll` sebagai ganti. Bezanya terletak pada 
+Pemilihan elemen yang umum seperti class, id atau atribut, biasanya kita boleh pakai `document.querySelector` atau `document.querySelectorAll` sebagai ganti. Bezanya terletak pada
 * `document.querySelector` akan mengembalikan elemen pertama sekali yang sepadan dijumpai
 * `document.querySelectorAll` akan mengembalikan kesemua elemen yang sepadan dijumpai kedalam sebuah NodeList. Ia boleh ditukar kedalam bentuk array menggunakan `[].slice.call`
 * Sekiranya tiada elemen yang sepadan dijumpai, jQuery akan mengembalikan `[]` dimana API DOM pula akan mengembalikan `null`. Sila ambil perhatian pada Null Pointer Exception
 
-> Noice: `document.querySelector` and `document.querySelectorAll` are quite **SLOW**, try to use `getElementById`, `document.getElementsByClassName` or `document.getElementsByTagName` if you want to get a performance bonus.
+> AWAS: `document.querySelector` dan `document.querySelectorAll` agak **LEMBAB** berbanding `getElementById`, `document.getElementsByClassName` atau `document.getElementsByTagName` jika anda menginginkan bonus dari segi prestasi.
 
-- [1.1](#1.1) <a name='1.1'></a> Query by class
+- [1.1](#1.1) <a name='1.1'></a> Pemilihan menggunakan class
 
   ```js
   // jQuery
@@ -32,7 +32,7 @@ Pemilihan elemen yang umum seperti class, id atau atribut, biasanya kita boleh p
   document.querySelectorAll('.css');
   ```
 
-- [1.2](#1.2) <a name='1.2'></a> Query by id
+- [1.2](#1.2) <a name='1.2'></a> Pemilihan menggunakan id
 
   ```js
   // jQuery
@@ -42,7 +42,7 @@ Pemilihan elemen yang umum seperti class, id atau atribut, biasanya kita boleh p
   document.querySelector('#id');
   ```
 
-- [1.3](#1.3) <a name='1.3'></a> Query by attribute
+- [1.3](#1.3) <a name='1.3'></a> Pemilihan menggunakan atribut
 
   ```js
   // jQuery
@@ -52,7 +52,7 @@ Pemilihan elemen yang umum seperti class, id atau atribut, biasanya kita boleh p
   document.querySelectorAll('a[target=_blank]');
   ```
 
-- [1.4](#1.4) <a name='1.4'></a> Find sth.
+- [1.4](#1.4) <a name='1.4'></a> Cari sth.
 
   + Find nodes
 
@@ -64,7 +64,7 @@ Pemilihan elemen yang umum seperti class, id atau atribut, biasanya kita boleh p
     el.querySelectorAll('li');
     ```
 
-  + Find body
+  + Cari body
 
     ```js
     // jQuery
@@ -74,7 +74,7 @@ Pemilihan elemen yang umum seperti class, id atau atribut, biasanya kita boleh p
     document.body;
     ```
 
-  + Find Attribute
+  + Cari Attribute
 
     ```js
     // jQuery
@@ -84,16 +84,16 @@ Pemilihan elemen yang umum seperti class, id atau atribut, biasanya kita boleh p
     e.getAttribute('foo');
     ```
 
-  + Find data attribute
+  + Cari atribut data
 
     ```js
     // jQuery
     $el.data('foo');
 
     // Native
-    // using getAttribute
+    // menggunakan getAttribute
     el.getAttribute('data-foo');
-    // you can also use `dataset` if only need to support IE 11+
+    // anda boleh juga gunakan `dataset` jika ingin pakai IE 11+
     el.dataset['foo'];
     ```
 
