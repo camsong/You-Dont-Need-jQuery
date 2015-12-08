@@ -556,7 +556,7 @@ For a complete replacement with namespace and delegation, refer to https://githu
 
 **[⬆ back to top](#table-of-contents)**
 
-## Utilities
+## Utility
 
 - [6.1](#6.1) <a name='6.1'></a> isArray
 
@@ -602,18 +602,18 @@ For a complete replacement with namespace and delegation, refer to https://githu
 
 **[⬆ back to top](#table-of-contents)**
 
-## Translation
+## Terjemahan
 
 * [한국어](./README.ko-KR.md)
 * [简体中文](./README.zh-CN.md)
 * [English](./README.md)
 
-## Browser Support
+## Sokongan Pelayar
 
 ![Chrome](https://raw.github.com/alrra/browser-logos/master/chrome/chrome_48x48.png) | ![Firefox](https://raw.github.com/alrra/browser-logos/master/firefox/firefox_48x48.png) | ![IE](https://raw.github.com/alrra/browser-logos/master/internet-explorer/internet-explorer_48x48.png) | ![Opera](https://raw.github.com/alrra/browser-logos/master/opera/opera_48x48.png) | ![Safari](https://raw.github.com/alrra/browser-logos/master/safari/safari_48x48.png)
 --- | --- | --- | --- | --- |
 Latest ✔ | Latest ✔ | 10+ ✔ | Latest ✔ | 6.1+ ✔ |
 
-# License
+# Lesen
 
 MIT
