@@ -1,11 +1,10 @@
 ## Anda tidak memerlukan jQuery
 
-Frontend environment evolves repaidly nowadays, modern browsers have already implemented a great deal of DOM/BOM APIs which are good enough. We don't have to learn jQuery from scratch for DOM manipulation or events. In the meantime, thanks to the prevail of frontend libraries like React, Angular and Vue, manipulating DOM directly becomes anti-pattern, jQuery has never been less important. This project summarized most of the jQuery method alternatives in native implementation, with IE 10+ support.
-Mutakhir ini perkembangan dalam persekitaran frontend berlaku begitu pesat sekali. Justeru itu kebanyakan pelayar moden telahpun menyediakan API yang memadai untuk pengaksesan DOM/BOM. Kita tidak perlu lagi belajar jQuery dari asas untuk memanipulasi DOM dan acara-acara. Sementara itu, berbanyak terima kasih pada pustaka-pustaka frontend yang terkemuka seperti React, Angular dan Vue, pemanipulasi DOM secara langsung menjadikan ianya suatu bentuk anti kepada cora
+Mutakhir ini perkembangan dalam persekitaran frontend berlaku begitu pesat sekali. Justeru itu kebanyakan pelayar moden telahpun menyediakan API yang memadai untuk pengaksesan DOM/BOM. Kita tak payah lagi belajar jQuery dari asas untuk memanipulasi DOM dan acara-acara. Projek ini menawarkan perlaksanaan alternatif kepada kebanyakan kaedah-kaedah jQuery yang menyokong IE 10+.
 
 ## Isi Kandungan
 
-1. [Pemilih ](#query-selector)
+1. [Pemilihan elemen](#pemilihan-elemen)
 1. [CSS & Penggayaan](#css-penggayaan)
 1. [Manipulasi DOM](#manipulasi-dom)
 1. [Ajax](#ajax)
@@ -14,12 +13,12 @@ Mutakhir ini perkembangan dalam persekitaran frontend berlaku begitu pesat sekal
 1. [Terjemahan](#terjemahan)
 1. [Browser Support](#browser-support)
 
-## Query Selector
+## Pemilihan Elemen
 
-Common selectors like class, id or attribute we can use `document.querySelector` or `document.querySelectorAll` for substitution. The differences lie in:
-* `document.querySelector` returns the first matched element
-* `document.querySelectorAll` returns all matched elements as NodeList. It can be converted to Array using `[].slice.call`
-* If no elements matched, jQuery would return `[]` whereas the DOM API will return `null`. Pay attention to Null Pointer Exception.
+Pemilihan elemen yang umum seperti class, id atau atribut, biasanya kita boleh pakai `document.querySelector` atau `document.querySelectorAll` sebagai ganti. Bezanya terletak pada 
+* `document.querySelector` akan mengembalikan elemen pertama sekali yang sepadan dijumpai
+* `document.querySelectorAll` akan mengembalikan kesemua elemen yang sepadan dijumpai kedalam sebuah NodeList. Ia boleh ditukar kedalam bentuk array menggunakan `[].slice.call`
+* Sekiranya tiada elemen yang sepadan dijumpai, jQuery akan mengembalikan `[]` dimana API DOM pula akan mengembalikan `null`. Sila ambil perhatian pada Null Pointer Exception
 
 > Noice: `document.querySelector` and `document.querySelectorAll` are quite **SLOW**, try to use `getElementById`, `document.getElementsByClassName` or `document.getElementsByTagName` if you want to get a performance bonus.
 
