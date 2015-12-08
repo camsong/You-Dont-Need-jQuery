@@ -22,14 +22,24 @@ Common selectors like class, id or attribute we can use `document.querySelector`
 
 > Noice: `document.querySelector` and `document.querySelectorAll` are quite **SLOW**, try to use `getElementById`, `document.getElementsByClassName` or `document.getElementsByTagName` if you want to get a performance bonus.
 
+- [1.0](#1.0) <a name='1.0'></a> Query by selector
+
+  ```js
+  // jQuery
+  $('selector');
+
+  // Native
+  document.querySelectorAll('selector');
+  ```
+
 - [1.1](#1.1) <a name='1.1'></a> Query by class
 
   ```js
   // jQuery
-  $('.css');
+  $('.class');
 
   // Native
-  document.querySelectorAll('.css');
+  document.getElementsByClassName('class');
   ```
 
 - [1.2](#1.2) <a name='1.2'></a> Query by id
@@ -39,7 +49,7 @@ Common selectors like class, id or attribute we can use `document.querySelector`
   $('#id');
 
   // Native
-  document.querySelector('#id');
+  document.getElementById('id');
   ```
 
 - [1.3](#1.3) <a name='1.3'></a> Query by attribute
