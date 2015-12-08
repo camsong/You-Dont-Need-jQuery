@@ -1,71 +1,48 @@
-## You Don't Need jQuery
+## Anda tidak memerlukan jQuery
 
-Frontend environment evolves rapidly nowadays, modern browsers have already implemented a great deal of DOM/BOM APIs which are good enough. We don't have to learn jQuery from scratch for DOM manipulation or events. In the meantime, thanks to the prevail of frontend libraries like React, Angular and Vue, manipulating DOM directly becomes anti-pattern, jQuery has never been less important. This project summarized most of the jQuery method alternatives in native implementation, with IE 10+ support.
+Mutakhir ini perkembangan dalam persekitaran frontend berlaku begitu pesat sekali. Justeru itu kebanyakan pelayar moden telahpun menyediakan API yang memadai untuk pengaksesan DOM/BOM. Kita tak payah lagi belajar jQuery dari asas untuk memanipulasi DOM dan acara-acara. Projek ini menawarkan perlaksanaan alternatif kepada kebanyakan kaedah-kaedah jQuery yang menyokong IE 10+.
 
-## Table of Contents
+## Isi Kandungan
 
-1. [Query Selector](#query-selector)
-1. [CSS & Style](#css-style)
-1. [DOM Manipulation](#dom-manipulation)
+1. [Pemilihan elemen](#pemilihan-elemen)
+1. [CSS & Penggayaan](#css-penggayaan)
+1. [Manipulasi DOM](#manipulasi-dom)
 1. [Ajax](#ajax)
 1. [Events](#events)
-1. [Utilities](#utilities)
-1. [Translation](#translation)
+1. [Utiliti](#utiliti)
+1. [Terjemahan](#terjemahan)
 1. [Browser Support](#browser-support)
 
-## Query Selector
+## Pemilihan Elemen
 
-Common selectors like class, id or attribute we can use `document.querySelector` or `document.querySelectorAll` for substitution. The differences lie in:
-* `document.querySelector` returns the first matched element
-* `document.querySelectorAll` returns all matched elements as NodeList. It can be converted to Array using `[].slice.call`
-* If no elements matched, jQuery would return `[]` whereas the DOM API will return `null`. Pay attention to Null Pointer Exception.
+Pemilihan elemen yang umum seperti class, id atau atribut, biasanya kita boleh pakai `document.querySelector` atau `document.querySelectorAll` sebagai ganti. Bezanya terletak pada
+* `document.querySelector` akan mengembalikan elemen pertama sekali yang sepadan dijumpai
+* `document.querySelectorAll` akan mengembalikan kesemua elemen yang sepadan dijumpai kedalam sebuah NodeList. Ia boleh ditukar kedalam bentuk array menggunakan `[].slice.call`
+* Sekiranya tiada elemen yang sepadan dijumpai, jQuery akan mengembalikan `[]` dimana API DOM pula akan mengembalikan `null`. Sila ambil perhatian pada Null Pointer Exception
 
-> Notice: `document.querySelector` and `document.querySelectorAll` are quite **SLOW**, try to use `getElementById`, `document.getElementsByClassName` or `document.getElementsByTagName` if you want to get a performance bonus.
+> AWAS: `document.querySelector` dan `document.querySelectorAll` agak **LEMBAB** berbanding `getElementById`, `document.getElementsByClassName` atau `document.getElementsByTagName` jika anda menginginkan bonus dari segi prestasi.
 
-- [1.0](#1.0) <a name='1.0'></a> Query by selector
-
-  ```js
-  // jQuery
-  $('selector');
-
-  // Native
-  document.querySelectorAll('selector');
-  ```
-
-- [1.1](#1.1) <a name='1.1'></a> Query by class
+- [1.1](#1.1) <a name='1.1'></a> Pemilihan menggunakan class
 
   ```js
   // jQuery
-  $('.class');
+  $('.css');
 
   // Native
-<<<<<<< HEAD
   document.querySelectorAll('.css');
-  
-  // or
-  document.getElementsByClassName('css');
-=======
-  document.getElementsByClassName('class');
->>>>>>> aaf3b80f9a85dadbd14d64dd16ad765f00632dae
   ```
 
-- [1.2](#1.2) <a name='1.2'></a> Query by id
+- [1.2](#1.2) <a name='1.2'></a> Pemilihan menggunakan id
 
   ```js
   // jQuery
   $('#id');
 
   // Native
-<<<<<<< HEAD
   document.querySelector('#id');
-  
-  // or
-=======
->>>>>>> aaf3b80f9a85dadbd14d64dd16ad765f00632dae
-  document.getElementById('id');
   ```
 
-- [1.3](#1.3) <a name='1.3'></a> Query by attribute
+- [1.3](#1.3) <a name='1.3'></a> Pemilihan menggunakan atribut
 
   ```js
   // jQuery
@@ -75,7 +52,7 @@ Common selectors like class, id or attribute we can use `document.querySelector`
   document.querySelectorAll('a[target=_blank]');
   ```
 
-- [1.4](#1.4) <a name='1.4'></a> Find sth.
+- [1.4](#1.4) <a name='1.4'></a> Cari sth.
 
   + Find nodes
 
@@ -87,7 +64,7 @@ Common selectors like class, id or attribute we can use `document.querySelector`
     el.querySelectorAll('li');
     ```
 
-  + Find body
+  + Cari body
 
     ```js
     // jQuery
@@ -97,7 +74,7 @@ Common selectors like class, id or attribute we can use `document.querySelector`
     document.body;
     ```
 
-  + Find Attribute
+  + Cari Attribute
 
     ```js
     // jQuery
@@ -107,16 +84,16 @@ Common selectors like class, id or attribute we can use `document.querySelector`
     e.getAttribute('foo');
     ```
 
-  + Find data attribute
+  + Cari atribut data
 
     ```js
     // jQuery
     $el.data('foo');
 
     // Native
-    // using getAttribute
+    // menggunakan getAttribute
     el.getAttribute('data-foo');
-    // you can also use `dataset` if only need to support IE 11+
+    // anda boleh juga gunakan `dataset` jika ingin pakai IE 11+
     el.dataset['foo'];
     ```
 
@@ -579,7 +556,7 @@ For a complete replacement with namespace and delegation, refer to https://githu
 
 **[⬆ back to top](#table-of-contents)**
 
-## Utilities
+## Utility
 
 - [6.1](#6.1) <a name='6.1'></a> isArray
 
@@ -598,7 +575,7 @@ For a complete replacement with namespace and delegation, refer to https://githu
   $.trim(string);
 
   // Native
-  string.trim();
+  String.trim(string);
   ```
 
 - [6.3](#6.3) <a name='6.3'></a> Object Assign
@@ -625,18 +602,18 @@ For a complete replacement with namespace and delegation, refer to https://githu
 
 **[⬆ back to top](#table-of-contents)**
 
-## Translation
+## Terjemahan
 
 * [한국어](./README.ko-KR.md)
 * [简体中文](./README.zh-CN.md)
-* [Bahasa Melayu](./README-my.md)
+* [English](./README.md)
 
-## Browser Support
+## Sokongan Pelayar
 
 ![Chrome](https://raw.github.com/alrra/browser-logos/master/chrome/chrome_48x48.png) | ![Firefox](https://raw.github.com/alrra/browser-logos/master/firefox/firefox_48x48.png) | ![IE](https://raw.github.com/alrra/browser-logos/master/internet-explorer/internet-explorer_48x48.png) | ![Opera](https://raw.github.com/alrra/browser-logos/master/opera/opera_48x48.png) | ![Safari](https://raw.github.com/alrra/browser-logos/master/safari/safari_48x48.png)
 --- | --- | --- | --- | --- |
 Latest ✔ | Latest ✔ | 10+ ✔ | Latest ✔ | 6.1+ ✔ |
 
-# License
+# Lesen
 
 MIT
