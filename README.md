@@ -20,19 +20,33 @@ Common selectors like class, id or attribute we can use `document.querySelector`
 * `document.querySelectorAll` returns all matched elements as NodeList. It can be converted to Array using `[].slice.call`
 * If no elements matched, jQuery would return `[]` whereas the DOM API will return `null`. Pay attention to Null Pointer Exception.
 
-> Noice: `document.querySelector` and `document.querySelectorAll` are quite **SLOW**, try to use `getElementById`, `document.getElementsByClassName` or `document.getElementsByTagName` if you want to get a performance bonus.
+> Notice: `document.querySelector` and `document.querySelectorAll` are quite **SLOW**, try to use `getElementById`, `document.getElementsByClassName` or `document.getElementsByTagName` if you want to get a performance bonus.
+
+- [1.0](#1.0) <a name='1.0'></a> Query by selector
+
+  ```js
+  // jQuery
+  $('selector');
+
+  // Native
+  document.querySelectorAll('selector');
+  ```
 
 - [1.1](#1.1) <a name='1.1'></a> Query by class
 
   ```js
   // jQuery
-  $('.css');
+  $('.class');
 
   // Native
+<<<<<<< HEAD
   document.querySelectorAll('.css');
   
   // or
   document.getElementsByClassName('css');
+=======
+  document.getElementsByClassName('class');
+>>>>>>> aaf3b80f9a85dadbd14d64dd16ad765f00632dae
   ```
 
 - [1.2](#1.2) <a name='1.2'></a> Query by id
@@ -42,9 +56,12 @@ Common selectors like class, id or attribute we can use `document.querySelector`
   $('#id');
 
   // Native
+<<<<<<< HEAD
   document.querySelector('#id');
   
   // or
+=======
+>>>>>>> aaf3b80f9a85dadbd14d64dd16ad765f00632dae
   document.getElementById('id');
   ```
 
@@ -581,7 +598,7 @@ For a complete replacement with namespace and delegation, refer to https://githu
   $.trim(string);
 
   // Native
-  String.trim(string);
+  string.trim();
   ```
 
 - [6.3](#6.3) <a name='6.3'></a> Object Assign
