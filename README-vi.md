@@ -10,7 +10,7 @@ Ngày nay, môi trường lập trình front-end phát triển rất nhanh chón
 1. [Ajax](#ajax)
 1. [Events](#events)
 1. [Hàm tiện ích](#utilities)
-1. [Dịch](#translation)
+1. [Bản dịch khác](#translation)
 1. [Các trình duyệt hỗ trợ](#browser-support)
 
 ## Query Selector
@@ -619,12 +619,12 @@ Thay thế bằng [fetch](https://github.com/camsong/fetch-ie8) và [fetch-jsonp
 
 **[⬆ Trở về đầu](#table-of-contents)**
 
-## Dịch
+## Bản dịch
 
 * [한국어](./README.ko-KR.md)
 * [简体中文](./README.zh-CN.md)
 * [Bahasa Melayu](./README-my.md)
-* [Nguyễn Văn Được](./README-vi.md)
+* [Tiếng Việt Nam](./README-vi.md)
 
 ## Các trình duyệt hỗ trợ
 
