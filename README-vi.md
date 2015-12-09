@@ -5,13 +5,13 @@ Ngày nay, môi trường lập trình front-end phát triển rất nhanh chón
 ## Danh mục
 
 1. [Query Selector](#query-selector)
-1. [CSS & Style](#css-style)
-1. [Thao tác với DOM](#dom-manipulation)
+1. [CSS & Style](#css--style)
+1. [Thao tác với DOM](#thao-tác-với-dom)
 1. [Ajax](#ajax)
 1. [Events](#events)
-1. [Hàm tiện ích](#utilities)
-1. [Dịch](#translation)
-1. [Các trình duyệt hỗ trợ](#browser-support)
+1. [Hàm tiện ích](#hàm-tiện-ích)
+1. [Ngôn ngữ khác](#ngôn-ngữ-khác)
+1. [Các trình duyệt hỗ trợ](#các-trình-duyệt-hỗ-trợ)
 
 ## Query Selector
 
@@ -245,7 +245,7 @@ Ngày nay, môi trường lập trình front-end phát triển rất nhanh chón
     iframe.contentDocument.querySelectorAll('.css');
     ```
 
-**[⬆ Trở về đầu](#table-of-contents)**
+**[⬆ Trở về đầu](#danh-mục)**
 
 ## CSS & Style
 
@@ -405,7 +405,7 @@ Ngày nay, môi trường lập trình front-end phát triển rất nhanh chón
   (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop;
   ```
 
-**[⬆ Trở về đầu](#table-of-contents)**
+**[⬆ Trở về đầu](#danh-mục)**
 
 ## Thao tác với DOM
 
@@ -522,13 +522,13 @@ Ngày nay, môi trường lập trình front-end phát triển rất nhanh chón
   },
   ```
 
-**[⬆ Trở về đầu](#table-of-contents)**
+**[⬆ Trở về đầu](#danh-mục)**
 
 ## Ajax
 
 Thay thế bằng [fetch](https://github.com/camsong/fetch-ie8) và [fetch-jsonp](https://github.com/camsong/fetch-jsonp)
 
-**[⬆ Trở về đầu](#table-of-contents)**
+**[⬆ Trở về đầu](#danh-mục)**
 
 ## Events
 
@@ -571,9 +571,9 @@ Thay thế bằng [fetch](https://github.com/camsong/fetch-ie8) và [fetch-jsonp
   el.dispatchEvent(event);
   ```
 
-**[⬆ Trở về đầu](#table-of-contents)**
+**[⬆ Trở về đầu](#danh-mục)**
 
-## Hàm tiện ích khác
+## Hàm tiện ích
 
 - [6.1](#6.1) <a name='6.1'></a> isArray
 
@@ -617,14 +617,15 @@ Thay thế bằng [fetch](https://github.com/camsong/fetch-ie8) và [fetch-jsonp
   el !== child && el.contains(child);
   ```
 
-**[⬆ Trở về đầu](#table-of-contents)**
+**[⬆ Trở về đầu](#danh-mục)**
 
-## Dịch
+## Ngôn ngữ khác
 
 * [한국어](./README.ko-KR.md)
 * [简体中文](./README.zh-CN.md)
 * [Bahasa Melayu](./README-my.md)
-* [Nguyễn Văn Được](./README-vi.md)
+* [Português(PT-BR)](./README.pt-BR.md)
+* [Tiếng Việt Nam](./README-vi.md)
 
 ## Các trình duyệt hỗ trợ
 
