@@ -1,8 +1,8 @@
 ## You Don't Need jQuery
 
-Frontend environments evolve rapidly nowadays, modern browsers have already implemented a great deal of DOM/BOM APIs which are good enough. We don't have to learn jQuery from scratch for DOM manipulation or events. In the meantime, thanks to the prevailment of frontend libraries such as React, Angular and Vue, manipulating DOM directly becomes anti-pattern, jQuery has never been less important. This project summarizes most of the jQuery method alternatives in native implementation, with IE 10+ support.
+Ambientes Frontend evoluem rapidamente nos dias de hoje, browsers modernos já implementaram uma grande parte do DOM/BOM APIs que são bons o suficiente. Nós não temos que aprender jQuery a partir do zero para manipulação do DOM ou eventos. Nesse meio tempo, graças a bibliotecas frontend como React, Angular and Vue, a manipulação do DOM torna-se diretamente um anti-padrão, jQuery não tem mais tanta importância. Este projeto resume a maioria das alternativas dos métodos jQuery em implementação nativa, com suporte ao IE 10+.
 
-## Table of Contents
+## Tabela de conteúdos
 
 1. [Query Selector](#query-selector)
 1. [CSS & Style](#css-style)
@@ -10,17 +10,16 @@ Frontend environments evolve rapidly nowadays, modern browsers have already impl
 1. [Ajax](#ajax)
 1. [Events](#events)
 1. [Utilities](#utilities)
-1. [Translation](#translation)
 1. [Browser Support](#browser-support)
 
 ## Query Selector
 
-In place of common selectors like class, id or attribute we can use `document.querySelector` or `document.querySelectorAll` for substitution. The differences lie in:
-* `document.querySelector` returns the first matched element
-* `document.querySelectorAll` returns all matched elements as NodeList. It can be converted to Array using `[].slice.call(document.querySelectorAll(selector) || []);`
-* If no elements matched, jQuery would return `[]` whereas the DOM API will return `null`. Pay attention to Null Pointer Exception. You can also use `||` to set default value if not found, like `document.querySelectorAll(selector) || []`
+No lugar de seletores comuns como classe, id ou atributo podemos usar `document.querySelector` ou `document.querySelectorAll` para substituição. As diferenças são:
+* `document.querySelector` retorna o primeiro elemento correspondente
+* `document.querySelectorAll` retorna todos os elementos correspondentes como NodeList. Pode ser convertido para Array usando `[].slice.call(document.querySelectorAll(selector) || []);`
+* Se não tiver elementos correspondentes, jQuery retornaria `[]` considerando que a DOM API irá retornar `null`. Preste atenção para Null Pointer Exception. Você também pode usar `||` para setar um valor padrão caso nenhum elemento seja encontrado, como `document.querySelectorAll(selector) || []`
 
-> Notice: `document.querySelector` and `document.querySelectorAll` are quite **SLOW**, try to use `getElementById`, `document.getElementsByClassName` or `document.getElementsByTagName` if you want to get a performance bonus.
+> Aviso: `document.querySelector` e `document.querySelectorAll` são bastante **LENTOS**, tente usar `getElementById`, `document.getElementsByClassName` ou `document.getElementsByTagName` se você quer ter uma maior performance.
 
 - [1.0](#1.0) <a name='1.0'></a> Query by selector
 
@@ -41,7 +40,7 @@ In place of common selectors like class, id or attribute we can use `document.qu
   // Native
   document.querySelectorAll('.class');
 
-  // or
+  // ou
   document.getElementsByClassName('class');
   ```
 
@@ -54,7 +53,7 @@ In place of common selectors like class, id or attribute we can use `document.qu
   // Native
   document.querySelector('#id');
 
-  // or
+  // ou
   document.getElementById('id');
   ```
 
@@ -107,9 +106,9 @@ In place of common selectors like class, id or attribute we can use `document.qu
     $el.data('foo');
 
     // Native
-    // using getAttribute
+    // usando getAttribute
     el.getAttribute('data-foo');
-    // you can also use `dataset` if only need to support IE 11+
+    // você também pode usar `dataset` se você precisar suportar apenas IE 11+
     el.dataset['foo'];
     ```
 
@@ -148,7 +147,7 @@ In place of common selectors like class, id or attribute we can use `document.qu
 
 - [1.6](#1.6) <a name='1.6'></a> Closest
 
-  Return the first matched element by provided selector, traversing from current element to document.
+  Retorna o primeiro elemento que corresponda ao seletor, partindo do elemento atual para o document.
 
   ```js
   // jQuery
@@ -171,7 +170,7 @@ In place of common selectors like class, id or attribute we can use `document.qu
 
 - [1.7](#1.7) <a name='1.7'></a> Parents Until
 
-  Get the ancestors of each element in the current set of matched elements, up to but not including the element matched by the selector, DOM node, or jQuery object.
+  Obtém os ancestrais de cada elemento no atual conjunto de elementos combinados, mas não inclui o elemento correspondente pelo seletor, DOM node, ou objeto jQuery.
 
   ```js
   // jQuery
@@ -210,7 +209,7 @@ In place of common selectors like class, id or attribute we can use `document.qu
     document.querySelector('#my-input').value;
     ```
 
-  + Get index of e.currentTarget between `.radio`
+  + Obtém o índice do e.currentTarget entre `.radio`
 
     ```js
     // jQuery
@@ -222,7 +221,7 @@ In place of common selectors like class, id or attribute we can use `document.qu
 
 - [1.9](#1.9) <a name='1.9'></a> Iframe Contents
 
-  `$('iframe').contents()` returns `contentDocument` for this specific iframe
+  `$('iframe').contents()` retorna `contentDocument` para este iframe específico
 
   + Iframe contents
 
@@ -244,7 +243,7 @@ In place of common selectors like class, id or attribute we can use `document.qu
     iframe.contentDocument.querySelectorAll('.css');
     ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ ir para o topo](#tabela-de-conteúdos)**
 
 ## CSS & Style
 
@@ -257,9 +256,9 @@ In place of common selectors like class, id or attribute we can use `document.qu
     $el.css("color");
 
     // Native
-    // NOTE: Known bug, will return 'auto' if style value is 'auto'
+    // AVISO: Bug conhecido, irá retornar 'auto' se o valor do estilo for 'auto'
     const win = el.ownerDocument.defaultView;
-    // null means not return presudo styles
+    // null significa não retornar estilos
     win.getComputedStyle(el, null).color;
     ```
 
@@ -275,7 +274,7 @@ In place of common selectors like class, id or attribute we can use `document.qu
 
   + Get/Set Styles
 
-    Note that if you want to set multiple styles once, you could refer to [setStyles](https://github.com/oneuijs/oui-dom-utils/blob/master/src/index.js#L194) method in oui-dom-utils package.
+    Observe que se você deseja setar vários estilos de uma vez, você pode optar por [setStyles](https://github.com/oneuijs/oui-dom-utils/blob/master/src/index.js#L194) método no pacote oui-dom-utils.
 
 
   + Add class
@@ -320,16 +319,16 @@ In place of common selectors like class, id or attribute we can use `document.qu
 
 - [2.2](#2.2) <a name='2.2'></a> Width & Height
 
-  Width and Height are theoretically identical, take Height as example:
+  Width e Height são teoricamente idênticos, vamos pegar Height como exemplo:
 
   + Window height
 
     ```js
     // window height
     $(window).height();
-    // without scrollbar, behaves like jQuery
+    // sem scrollbar, se comporta como jQuery
     window.document.documentElement.clientHeight;
-    // with scrollbar
+    // com scrollbar
     window.innerHeight;
     ```
 
@@ -359,9 +358,9 @@ In place of common selectors like class, id or attribute we can use `document.qu
       const paddingBottom = parseFloat(styles.paddingBottom);
       return height - borderBottomWidth - borderTopWidth - paddingTop - paddingBottom;
     }
-    // accurate to integer（when `border-box`, it's `height`; when `content-box`, it's `height + padding + border`）
+    // preciso para inteiro（quando `border-box`, é `height`; quando `content-box`, é `height + padding + border`）
     el.clientHeight;
-    // accurate to decimal（when `border-box`, it's `height`; when `content-box`, it's `height + padding + border`）
+    // preciso para decimal（quando `border-box`, é `height`; quando `content-box`, é `height + padding + border`）
     el.getBoundingClientRect().height;
     ```
 
@@ -404,7 +403,7 @@ In place of common selectors like class, id or attribute we can use `document.qu
   (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop;
   ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ ir para o topo](#tabela-de-conteúdos)**
 
 ## DOM Manipulation
 
@@ -463,7 +462,7 @@ In place of common selectors like class, id or attribute we can use `document.qu
 
 - [3.4](#3.4) <a name='3.4'></a> Append
 
-  append child element after the last child of parent element
+  incluir elemento filho após o último filho do elemento pai
 
   ```js
   // jQuery
@@ -491,7 +490,7 @@ In place of common selectors like class, id or attribute we can use `document.qu
 
 - [3.6](#3.6) <a name='3.6'></a> insertBefore
 
-  Insert a new node before the selected elements
+  Insere um novo nó antes dos elementos selecionados
 
   ```js
   // jQuery
@@ -503,7 +502,7 @@ In place of common selectors like class, id or attribute we can use `document.qu
 
 - [3.7](#3.7) <a name='3.7'></a> insertAfter
 
-  Insert a new node after the selected elements
+  Insere um novo nó após os elementos selecionados
 
   ```js
   // jQuery
@@ -521,17 +520,17 @@ In place of common selectors like class, id or attribute we can use `document.qu
   },
   ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ ir para o topo](#tabela-de-conteúdos)**
 
 ## Ajax
 
-Replace with [fetch](https://github.com/camsong/fetch-ie8) and [fetch-jsonp](https://github.com/camsong/fetch-jsonp)
+Substitua por [fetch](https://github.com/camsong/fetch-ie8) e [fetch-jsonp](https://github.com/camsong/fetch-jsonp)
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ ir para o topo](#tabela-de-conteúdos)**
 
 ## Events
 
-For a complete replacement with namespace and delegation, refer to https://github.com/oneuijs/oui-dom-events
+Para uma substituição completa com namespace e delegation, consulte https://github.com/oneuijs/oui-dom-events
 
 - [5.1](#5.1) <a name='5.1'></a> Bind an event with on
 
@@ -570,7 +569,7 @@ For a complete replacement with namespace and delegation, refer to https://githu
   el.dispatchEvent(event);
   ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ ir para o topo](#tabela-de-conteúdos)**
 
 ## Utilities
 
@@ -616,14 +615,7 @@ For a complete replacement with namespace and delegation, refer to https://githu
   el !== child && el.contains(child);
   ```
 
-**[⬆ back to top](#table-of-contents)**
-
-## Translation
-
-* [한국어](./README.ko-KR.md)
-* [简体中文](./README.zh-CN.md)
-* [Bahasa Melayu](./README-my.md)
-* [Português(PT-BR)](./README.pt-BR.md)
+**[⬆ ir para o topo](#tabela-de-conteúdos)**
 
 ## Browser Support
 
