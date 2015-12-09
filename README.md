@@ -623,6 +623,7 @@ For a complete replacement with namespace and delegation, refer to https://githu
 * [한국어](./README.ko-KR.md)
 * [简体中文](./README.zh-CN.md)
 * [Bahasa Melayu](./README-my.md)
+* [Nguyễn Văn Được](./README-vi.md)
 
 ## Browser Support
 
