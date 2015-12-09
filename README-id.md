@@ -1,4 +1,4 @@
-## You Don't Need jQuery
+## Anda tidak memerlukan jQuery
 
 Dewasa ini perkembangan environment frontend sangatlah pesat, dimana banyak browser sudah mengimplementasikan DOM/BOM APIs dengan baik. Kita tidak perlu lagi belajar jQuery dari nol untuk keperluan manipulasi DOM atau events. Disaat yang sama; dengan berterimakasih kepada library frontend terkini seperti React, Angular dan Vue; Memanipulasi DOM secara langsung telah menjadi anti-pattern alias sesuatu yang tidak perlu dilakukan. Dengan kata lain, jQuery sekarang menjadi semakin tidak diperlukan. Projek ini memberikan informasi mengenai metode alternatif dari jQuery untuk implementasi Native dengan support untuk browser IE 10+.
 
@@ -12,7 +12,7 @@ Dewasa ini perkembangan environment frontend sangatlah pesat, dimana banyak brow
 1. [Events](#events)
 1. [Utilities](#utilities)
 1. [Translation](#translation)
-1. [Browser Support](#browser-support)
+1. [Browser Support](#browser-yang-di-support)
 
 ## Query Selector
 
@@ -59,7 +59,7 @@ Untuk selector-selector umum seperti class, id atau attribute, kita dapat menggu
   document.getElementById('id');
   ```
 
-- [1.3](#1.3) <a name='1.3'></a> Query by attribute
+- [1.3](#1.3) <a name='1.3'></a> Query menggunakan attribute
 
   ```js
   // jQuery
@@ -69,9 +69,9 @@ Untuk selector-selector umum seperti class, id atau attribute, kita dapat menggu
   document.querySelectorAll('a[target=_blank]');
   ```
 
-- [1.4](#1.4) <a name='1.4'></a> Find sth.
+- [1.4](#1.4) <a name='1.4'></a> Pencarian.
 
-  + Find nodes
+  + Mencari nodes
 
     ```js
     // jQuery
@@ -81,7 +81,7 @@ Untuk selector-selector umum seperti class, id atau attribute, kita dapat menggu
     el.querySelectorAll('li');
     ```
 
-  + Find body
+  + Mencari body
 
     ```js
     // jQuery
@@ -91,7 +91,7 @@ Untuk selector-selector umum seperti class, id atau attribute, kita dapat menggu
     document.body;
     ```
 
-  + Find Attribute
+  + Mencari Attribute
 
     ```js
     // jQuery
@@ -101,22 +101,22 @@ Untuk selector-selector umum seperti class, id atau attribute, kita dapat menggu
     e.getAttribute('foo');
     ```
 
-  + Find data attribute
+  + Mencari data attribute
 
     ```js
     // jQuery
     $el.data('foo');
 
     // Native
-    // using getAttribute
+    // gunakan getAttribute
     el.getAttribute('data-foo');
-    // you can also use `dataset` if only need to support IE 11+
+    // anda juga bisa menggunakan `dataset` bila anda perlu support IE 11+
     el.dataset['foo'];
     ```
 
-- [1.5](#1.5) <a name='1.5'></a> Sibling/Previous/Next Elements
+- [1.5](#1.5) <a name='1.5'></a> Elemen-elemen Sibling/Previous/Next
 
-  + Sibling elements
+  + Elemen Sibling
 
     ```js
     // jQuery
@@ -128,7 +128,7 @@ Untuk selector-selector umum seperti class, id atau attribute, kita dapat menggu
     });
     ```
 
-  + Previous elements
+  + Elemen Previous
 
     ```js
     // jQuery
@@ -139,7 +139,7 @@ Untuk selector-selector umum seperti class, id atau attribute, kita dapat menggu
 
     ```
 
-  + Next elements
+  + Elemen Next
 
     ```js
     // next
@@ -149,7 +149,7 @@ Untuk selector-selector umum seperti class, id atau attribute, kita dapat menggu
 
 - [1.6](#1.6) <a name='1.6'></a> Closest
 
-  Return the first matched element by provided selector, traversing from current element to document.
+  Mengembalikan elemen pertama yang cocok dari selector yang digunakan, dengan cara mencari mulai dari elemen-sekarang sampai ke document.
 
   ```js
   // jQuery
@@ -172,7 +172,7 @@ Untuk selector-selector umum seperti class, id atau attribute, kita dapat menggu
 
 - [1.7](#1.7) <a name='1.7'></a> Parents Until
 
-  Get the ancestors of each element in the current set of matched elements, up to but not including the element matched by the selector, DOM node, or jQuery object.
+  Digunakan untuk mendapatkan "ancestor" dari setiap elemen yang ditemukan. Namun tidak termasuk elemen-sekarang yang didapat dari pencarian oleh selector, DOM node, atau object jQuery.
 
   ```js
   // jQuery
@@ -223,7 +223,7 @@ Untuk selector-selector umum seperti class, id atau attribute, kita dapat menggu
 
 - [1.9](#1.9) <a name='1.9'></a> Iframe Contents
 
-  `$('iframe').contents()` returns `contentDocument` for this specific iframe
+  `$('iframe').contents()` mengembalikan `contentDocument` 
 
   + Iframe contents
 
@@ -247,7 +247,7 @@ Untuk selector-selector umum seperti class, id atau attribute, kita dapat menggu
 
 **[⬆ back to top](#daftar-isi)**
 
-## CSS & Style
+## CSS Style
 
 - [2.1](#2.1) <a name='2.1'></a> CSS
 
@@ -258,9 +258,9 @@ Untuk selector-selector umum seperti class, id atau attribute, kita dapat menggu
     $el.css("color");
 
     // Native
-    // NOTE: Known bug, will return 'auto' if style value is 'auto'
+    // PERHATIAN: ada bug disini, dimana fungsi ini akan mengembalikan nilai 'auto' bila nilai dari atribut style adalah 'auto'
     const win = el.ownerDocument.defaultView;
-    // null means not return presudo styles
+    // null artinya tidak mengembalikan pseudo styles
     win.getComputedStyle(el, null).color;
     ```
 
@@ -276,8 +276,7 @@ Untuk selector-selector umum seperti class, id atau attribute, kita dapat menggu
 
   + Get/Set Styles
 
-    Note that if you want to set multiple styles once, you could refer to [setStyles](https://github.com/oneuijs/oui-dom-utils/blob/master/src/index.js#L194) method in oui-dom-utils package.
-
+    Mohon dicatat jika anda ingin men-set banyak style bersamaan, anda dapat menemukan referensi di metode [setStyles](https://github.com/oneuijs/oui-dom-utils/blob/master/src/index.js#L194) pada package oui-dom-utils
 
   + Add class
 
@@ -321,7 +320,7 @@ Untuk selector-selector umum seperti class, id atau attribute, kita dapat menggu
 
 - [2.2](#2.2) <a name='2.2'></a> Width & Height
 
-  Width and Height are theoretically identical, take Height as example:
+  Secara teori, width dan height identik, contohnya Height:
 
   + Window height
 
@@ -464,7 +463,7 @@ Untuk selector-selector umum seperti class, id atau attribute, kita dapat menggu
 
 - [3.4](#3.4) <a name='3.4'></a> Append
 
-  append child element after the last child of parent element
+  Menambahkan elemen-anak setelah anak terakhir dari elemen-parent
 
   ```js
   // jQuery
@@ -492,7 +491,7 @@ Untuk selector-selector umum seperti class, id atau attribute, kita dapat menggu
 
 - [3.6](#3.6) <a name='3.6'></a> insertBefore
 
-  Insert a new node before the selected elements
+  Memasukkan node baru sebelum elemen yang dipilih.
 
   ```js
   // jQuery
@@ -504,7 +503,7 @@ Untuk selector-selector umum seperti class, id atau attribute, kita dapat menggu
 
 - [3.7](#3.7) <a name='3.7'></a> insertAfter
 
-  Insert a new node after the selected elements
+  Memasukkan node baru sesudah elemen yang dipilih.
 
   ```js
   // jQuery
@@ -526,15 +525,15 @@ Untuk selector-selector umum seperti class, id atau attribute, kita dapat menggu
 
 ## Ajax
 
-Replace with [fetch](https://github.com/camsong/fetch-ie8) and [fetch-jsonp](https://github.com/camsong/fetch-jsonp)
+Gantikan dengan [fetch](https://github.com/camsong/fetch-ie8) dan [fetch-jsonp](https://github.com/camsong/fetch-jsonp)
 
 **[⬆ back to top](#daftar-isi)**
 
 ## Events
 
-For a complete replacement with namespace and delegation, refer to https://github.com/oneuijs/oui-dom-events
+Untuk penggantian secara menyeluruh dengan namespace dan delegation, rujuk ke https://github.com/oneuijs/oui-dom-events
 
-- [5.1](#5.1) <a name='5.1'></a> Bind an event with on
+- [5.1](#5.1) <a name='5.1'></a> Bind event dengan menggunakan on
 
   ```js
   // jQuery
@@ -544,7 +543,7 @@ For a complete replacement with namespace and delegation, refer to https://githu
   el.addEventListener(eventName, eventHandler);
   ```
 
-- [5.2](#5.2) <a name='5.2'></a> Unbind an event with off
+- [5.2](#5.2) <a name='5.2'></a> Unbind event dengan menggunakan off
 
   ```js
   // jQuery
