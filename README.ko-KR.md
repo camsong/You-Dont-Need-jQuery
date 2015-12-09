@@ -5,12 +5,12 @@
 ## 목차
 
 1. [Query Selector](#query-selector)
-1. [CSS & Style](#css-style)
-1. [DOM 조작](#dom-manipulation)
+1. [CSS & Style](#css--style)
+1. [DOM 조작](#dom-조작)
 1. [Ajax](#ajax)
-1. [이벤트](#events)
-1. [유틸리티](#utilities)
-1. [브라우저 지원](#browser-support)
+1. [이벤트](#이벤트)
+1. [유틸리티](#유틸리티)
+1. [브라우저 지원](#브라우저-지원)
 
 ## Query Selector
 
@@ -243,7 +243,7 @@
     iframe.contentDocument.querySelectorAll('.css');
     ```
 
-**[⬆ 목차로 돌아가기](#table-of-contents)**
+**[⬆ 목차로 돌아가기](#목차)**
 
 ## CSS & Style
 
@@ -403,7 +403,7 @@
   (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop;
   ```
 
-**[⬆ 목차로 돌아가기](#table-of-contents)**
+**[⬆ 목차로 돌아가기](#목차)**
 
 ## DOM 조작
 
@@ -520,13 +520,13 @@
   },
   ```
 
-**[⬆ 목차로 돌아가기](#table-of-contents)**
+**[⬆ 목차로 돌아가기](#목차)**
 
 ## Ajax
 
 [fetch](https://github.com/camsong/fetch-ie8)나 [fetch-jsonp](https://github.com/camsong/fetch-jsonp)로 교체하세요.
 
-**[⬆ 목차로 돌아가기](#table-of-contents)**
+**[⬆ 목차로 돌아가기](#목차)**
 
 ## 이벤트
 
@@ -569,7 +569,7 @@ namespace와 delegation을 포함해서 완전히 갈아 엎길 원하시면 htt
   el.dispatchEvent(event);
   ```
 
-**[⬆ 목차로 돌아가기](#table-of-contents)**
+**[⬆ 목차로 돌아가기](#목차)**
 
 ## 유틸리티
 
@@ -615,7 +615,7 @@ namespace와 delegation을 포함해서 완전히 갈아 엎길 원하시면 htt
   el !== child && el.contains(child);
   ```
 
-**[⬆ 목차로 돌아가기](#table-of-contents)**
+**[⬆ 목차로 돌아가기](#목차)**
 
 ## 브라우저 지원
 
