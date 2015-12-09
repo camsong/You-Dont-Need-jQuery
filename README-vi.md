@@ -6,12 +6,12 @@ Ngày nay, môi trường lập trình front-end phát triển rất nhanh chón
 
 1. [Query Selector](#query-selector)
 1. [CSS & Style](#css-style)
-1. [Thao tác với DOM](#thao-tac-voi-dom)
+1. [Thao tác với DOM](#thao-tác-với-dom)
 1. [Ajax](#ajax)
 1. [Events](#events)
-1. [Hàm tiện ích](#ham-tien-ich)
-1. [Bản dịch khác](#ban-dich-khac)
-1. [Các trình duyệt hỗ trợ](#cac-trinh-duyet-ho-tro)
+1. [Hàm tiện ích](#hàm-tiện-ích)
+1. [Bản dịch khác](#bản-dịch-khác)
+1. [Các trình duyệt hỗ trợ](#các-trình-duyệt-hỗ-trợ)
 
 ## Query Selector
 
@@ -245,7 +245,7 @@ Ngày nay, môi trường lập trình front-end phát triển rất nhanh chón
     iframe.contentDocument.querySelectorAll('.css');
     ```
 
-**[⬆ Trở về đầu](#danh-muc)**
+**[⬆ Trở về đầu](#danh-mục)**
 
 ## CSS & Style
 
@@ -405,7 +405,7 @@ Ngày nay, môi trường lập trình front-end phát triển rất nhanh chón
   (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop;
   ```
 
-**[⬆ Trở về đầu](#danh-muc)**
+**[⬆ Trở về đầu](#danh-mục)**
 
 ## Thao tác với DOM
 
@@ -522,13 +522,13 @@ Ngày nay, môi trường lập trình front-end phát triển rất nhanh chón
   },
   ```
 
-**[⬆ Trở về đầu](#danh-muc)**
+**[⬆ Trở về đầu](#danh-mục)**
 
 ## Ajax
 
 Thay thế bằng [fetch](https://github.com/camsong/fetch-ie8) và [fetch-jsonp](https://github.com/camsong/fetch-jsonp)
 
-**[⬆ Trở về đầu](#danh-muc)**
+**[⬆ Trở về đầu](#danh-mục)**
 
 ## Events
 
@@ -571,7 +571,7 @@ Thay thế bằng [fetch](https://github.com/camsong/fetch-ie8) và [fetch-jsonp
   el.dispatchEvent(event);
   ```
 
-**[⬆ Trở về đầu](#danh-muc)**
+**[⬆ Trở về đầu](#danh-mục)**
 
 ## Hàm tiện ích khác
 
@@ -617,7 +617,7 @@ Thay thế bằng [fetch](https://github.com/camsong/fetch-ie8) và [fetch-jsonp
   el !== child && el.contains(child);
   ```
 
-**[⬆ Trở về đầu](#danh-muc)**
+**[⬆ Trở về đầu](#danh-mục)**
 
 ## Bản dịch
 
