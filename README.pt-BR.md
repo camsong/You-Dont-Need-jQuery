@@ -243,7 +243,7 @@ No lugar de seletores comuns como classe, id ou atributo podemos usar `document.
     iframe.contentDocument.querySelectorAll('.css');
     ```
 
-**[⬆ ir para o topo](#table-of-contents)**
+**[⬆ ir para o topo](#tabela-de-conteúdos)**
 
 ## CSS & Style
 
@@ -403,7 +403,7 @@ No lugar de seletores comuns como classe, id ou atributo podemos usar `document.
   (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop;
   ```
 
-**[⬆ ir para o topo](#table-of-contents)**
+**[⬆ ir para o topo](#tabela-de-conteúdos)**
 
 ## DOM Manipulation
 
@@ -520,13 +520,13 @@ No lugar de seletores comuns como classe, id ou atributo podemos usar `document.
   },
   ```
 
-**[⬆ ir para o topo](#table-of-contents)**
+**[⬆ ir para o topo](#tabela-de-conteúdos)**
 
 ## Ajax
 
 Substitua por [fetch](https://github.com/camsong/fetch-ie8) e [fetch-jsonp](https://github.com/camsong/fetch-jsonp)
 
-**[⬆ ir para o topo](#table-of-contents)**
+**[⬆ ir para o topo](#tabela-de-conteúdos)**
 
 ## Events
 
@@ -569,7 +569,7 @@ Para uma substituição completa com namespace e delegation, consulte https://gi
   el.dispatchEvent(event);
   ```
 
-**[⬆ ir para o topo](#table-of-contents)**
+**[⬆ ir para o topo](#tabela-de-conteúdos)**
 
 ## Utilities
 
@@ -615,7 +615,7 @@ Para uma substituição completa com namespace e delegation, consulte https://gi
   el !== child && el.contains(child);
   ```
 
-**[⬆ ir para o topo](#table-of-contents)**
+**[⬆ ir para o topo](#tabela-de-conteúdos)**
 
 ## Browser Support
 
