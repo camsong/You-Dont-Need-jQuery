@@ -5,12 +5,12 @@ Ngày nay, môi trường lập trình front-end phát triển rất nhanh chón
 ## Danh mục
 
 1. [Query Selector](#query-selector)
-1. [CSS & Style](#css-style)
+1. [CSS & Style](#css--style)
 1. [Thao tác với DOM](#thao-tác-với-dom)
 1. [Ajax](#ajax)
 1. [Events](#events)
 1. [Hàm tiện ích](#hàm-tiện-ích)
-1. [Bản dịch khác](#bản-dịch-khác)
+1. [Ngôn ngữ khác](#ngôn-ngữ-khác)
 1. [Các trình duyệt hỗ trợ](#các-trình-duyệt-hỗ-trợ)
 
 ## Query Selector
@@ -573,7 +573,7 @@ Thay thế bằng [fetch](https://github.com/camsong/fetch-ie8) và [fetch-jsonp
 
 **[⬆ Trở về đầu](#danh-mục)**
 
-## Hàm tiện ích khác
+## Hàm tiện ích
 
 - [6.1](#6.1) <a name='6.1'></a> isArray
 
@@ -619,7 +619,7 @@ Thay thế bằng [fetch](https://github.com/camsong/fetch-ie8) và [fetch-jsonp
 
 **[⬆ Trở về đầu](#danh-mục)**
 
-## Bản dịch
+## Ngôn ngữ khác
 
 * [한국어](./README.ko-KR.md)
 * [简体中文](./README.zh-CN.md)
