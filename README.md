@@ -40,7 +40,7 @@ In place of common selectors like class, id or attribute we can use `document.qu
 
   // Native
   document.querySelectorAll('.class');
-  
+
   // or
   document.getElementsByClassName('class');
   ```
@@ -53,7 +53,7 @@ In place of common selectors like class, id or attribute we can use `document.qu
 
   // Native
   document.querySelector('#id');
-  
+
   // or
   document.getElementById('id');
   ```
@@ -623,6 +623,7 @@ For a complete replacement with namespace and delegation, refer to https://githu
 * [한국어](./README.ko-KR.md)
 * [简体中文](./README.zh-CN.md)
 * [Bahasa Melayu](./README-my.md)
+* [Português(PT-BR)](./README.pt-BR.md)
 
 ## Browser Support
 
