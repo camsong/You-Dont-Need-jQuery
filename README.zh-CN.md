@@ -38,7 +38,10 @@
   $('#id');
 
   // Native
-  el.querySelector('#id');
+  document.querySelector('#id');
+
+  // or
+  document.getElementById('id');
   ```
 
 - [1.3](#1.3) <a name='1.3'></a> Query by attribute
