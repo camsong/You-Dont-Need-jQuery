@@ -591,7 +591,7 @@
   $.trim(string);
 
   // Native
-  String.trim(string);
+  string.trim();
   ```
 
 - [6.3](#6.3) <a name='6.3'></a> Object Assign
