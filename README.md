@@ -259,7 +259,7 @@ In place of common selectors like class, id or attribute we can use `document.qu
     // Native
     // NOTE: Known bug, will return 'auto' if style value is 'auto'
     const win = el.ownerDocument.defaultView;
-    // null means not return presudo styles
+    // null means not return pseudo styles
     win.getComputedStyle(el, null).color;
     ```
 
