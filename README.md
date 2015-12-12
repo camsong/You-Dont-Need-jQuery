@@ -135,14 +135,15 @@ In place of common selectors like class, id or attribute we can use `document.qu
 
     // Native
     el.previousElementSibling;
-
     ```
 
   + Next elements
 
     ```js
-    // next
+    // jQuery
     $el.next();
+
+    // Native
     el.nextElementSibling;
     ```
 
