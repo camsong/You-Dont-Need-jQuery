@@ -497,7 +497,8 @@
   $newEl.insertBefore(queryString);
 
   // Native
-  newEl.insertBefore(document.querySelector(queryString));
+  const target = document.querySelector(queryString);
+  target.parentNode.insertBefore(newEl, target);
   ```
 
 - [3.7](#3.7) <a name='3.7'></a> 해당 엘리먼트 뒤에 넣기(insertAfter)
@@ -509,15 +510,8 @@
   $newEl.insertAfter(queryString);
 
   // Native
-  function insertAfter(newEl, queryString) {
-    const parent = document.querySelector(queryString).parentNode;
-
-    if (parent.lastChild === newEl) {
-      parent.appendChild(newEl);
-    } else {
-      parent.insertBefore(newEl, parent.nextSibling);
-    }
-  },
+  const target = document.querySelector(queryString);
+  target.parentNode.insertBefore(newEl, target.nextSibling);
   ```
 
 **[⬆ 목차로 돌아가기](#목차)**
