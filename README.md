@@ -498,7 +498,8 @@ In place of common selectors like class, id or attribute we can use `document.qu
   $newEl.insertBefore(queryString);
 
   // Native
-  newEl.insertBefore(document.querySelector(queryString));
+  const target = document.querySelector(queryString);
+  target.parentNode.insertBefore(newEl, target);
   ```
 
 - [3.7](#3.7) <a name='3.7'></a> insertAfter
@@ -510,15 +511,8 @@ In place of common selectors like class, id or attribute we can use `document.qu
   $newEl.insertAfter(queryString);
 
   // Native
-  function insertAfter(newEl, queryString) {
-    const parent = document.querySelector(queryString).parentNode;
-
-    if (parent.lastChild === newEl) {
-      parent.appendChild(newEl);
-    } else {
-      parent.insertBefore(newEl, parent.nextSibling);
-    }
-  },
+  const target = document.querySelector(queryString);
+  target.parentNode.insertBefore(newEl, target.nextSibling);
   ```
 
 **[⬆ back to top](#table-of-contents)**
