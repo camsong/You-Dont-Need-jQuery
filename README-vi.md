@@ -41,7 +41,7 @@ Ngày nay, môi trường lập trình front-end phát triển rất nhanh chón
 
   // Native
   document.querySelectorAll('.class');
-  
+
   // hoặc
   document.getElementsByClassName('class');
   ```
@@ -54,7 +54,7 @@ Ngày nay, môi trường lập trình front-end phát triển rất nhanh chón
 
   // Native
   document.querySelector('#id');
-  
+
   // hoặc
   document.getElementById('id');
   ```
@@ -499,7 +499,8 @@ Ngày nay, môi trường lập trình front-end phát triển rất nhanh chón
   $newEl.insertBefore(queryString);
 
   // Native
-  newEl.insertBefore(document.querySelector(queryString));
+  const target = document.querySelector(queryString);
+  target.parentNode.insertBefore(newEl, target);
   ```
 
 - [3.7](#3.7) <a name='3.7'></a> insertAfter
@@ -511,15 +512,8 @@ Ngày nay, môi trường lập trình front-end phát triển rất nhanh chón
   $newEl.insertAfter(queryString);
 
   // Native
-  function insertAfter(newEl, queryString) {
-    const parent = document.querySelector(queryString).parentNode;
-
-    if (parent.lastChild === newEl) {
-      parent.appendChild(newEl);
-    } else {
-      parent.insertBefore(newEl, parent.nextSibling);
-    }
-  },
+  const target = document.querySelector(queryString);
+  target.parentNode.insertBefore(newEl, target.nextSibling);
   ```
 
 **[⬆ Trở về đầu](#danh-mục)**

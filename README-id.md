@@ -223,7 +223,7 @@ Untuk selector-selector umum seperti class, id atau attribute, kita dapat menggu
 
 - [1.9](#1.9) <a name='1.9'></a> Iframe Contents
 
-  `$('iframe').contents()` mengembalikan `contentDocument` 
+  `$('iframe').contents()` mengembalikan `contentDocument`
 
   + Iframe contents
 
@@ -498,7 +498,8 @@ Untuk selector-selector umum seperti class, id atau attribute, kita dapat menggu
   $newEl.insertBefore(queryString);
 
   // Native
-  newEl.insertBefore(document.querySelector(queryString));
+  const target = document.querySelector(queryString);
+  target.parentNode.insertBefore(newEl, target);
   ```
 
 - [3.7](#3.7) <a name='3.7'></a> insertAfter
@@ -510,15 +511,8 @@ Untuk selector-selector umum seperti class, id atau attribute, kita dapat menggu
   $newEl.insertAfter(queryString);
 
   // Native
-  function insertAfter(newEl, queryString) {
-    const parent = document.querySelector(queryString).parentNode;
-
-    if (parent.lastChild === newEl) {
-      parent.appendChild(newEl);
-    } else {
-      parent.insertBefore(newEl, parent.nextSibling);
-    }
-  },
+  const target = document.querySelector(queryString);
+  target.parentNode.insertBefore(newEl, target.nextSibling);
   ```
 
 **[⬆ back to top](#daftar-isi)**
