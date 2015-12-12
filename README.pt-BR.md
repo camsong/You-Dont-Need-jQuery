@@ -145,7 +145,7 @@ No lugar de seletores comuns como classe, id ou atributo podemos usar `document.
     ```js
     // jQuery
     $el.next();
-    
+
     // Nativo
     el.nextElementSibling;
     ```
@@ -503,7 +503,8 @@ No lugar de seletores comuns como classe, id ou atributo podemos usar `document.
   $newEl.insertBefore(queryString);
 
   // Nativo
-  newEl.insertBefore(document.querySelector(queryString));
+  const target = document.querySelector(queryString);
+  target.parentNode.insertBefore(newEl, target);
   ```
 
 - [3.7](#3.7) <a name='3.7'></a> insertAfter
@@ -515,15 +516,8 @@ No lugar de seletores comuns como classe, id ou atributo podemos usar `document.
   $newEl.insertAfter(queryString);
 
   // Nativo
-  function insertAfter(newEl, queryString) {
-    const parent = document.querySelector(queryString).parentNode;
-
-    if (parent.lastChild === newEl) {
-      parent.appendChild(newEl);
-    } else {
-      parent.insertBefore(newEl, parent.nextSibling);
-    }
-  },
+  const target = document.querySelector(queryString);
+  target.parentNode.insertBefore(newEl, target.nextSibling);
   ```
 
 **[⬆ ir para o topo](#tabela-de-conteúdos)**
