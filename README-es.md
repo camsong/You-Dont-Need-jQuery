@@ -249,7 +249,7 @@ En lugar de los selectores comunes como clase, id o atributos podemos usar `docu
     iframe.contentDocument.querySelectorAll('.css');
     ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#tabla-de-contenidos)**
 
 ## CSS & Estilo
 
@@ -408,7 +408,7 @@ En lugar de los selectores comunes como clase, id o atributos podemos usar `docu
   (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop;
   ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#tabla-de-contenidos)**
 
 ## Manipulación DOM
 
@@ -521,13 +521,13 @@ En lugar de los selectores comunes como clase, id o atributos podemos usar `docu
   target.parentNode.insertBefore(newEl, target.nextSibling);
   ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#tabla-de-contenidos)**
 
 ## Ajax
 
 Reemplazar con [fetch](https://github.com/camsong/fetch-ie8) y [fetch-jsonp](https://github.com/camsong/fetch-jsonp)
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#tabla-de-contenidos)**
 
 ## Eventos
 
@@ -570,7 +570,7 @@ Para un reemplazo completo con namespace y delegación, utilizar https://github.
   el.dispatchEvent(event);
   ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#tabla-de-contenidos)**
 
 ## Utilidades
 
@@ -616,7 +616,7 @@ Para un reemplazo completo con namespace y delegación, utilizar https://github.
   el !== child && el.contains(child);
   ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#tabla-de-contenidos)**
 
 ## Traducción
 
