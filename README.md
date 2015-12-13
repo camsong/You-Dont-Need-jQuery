@@ -472,10 +472,7 @@ In place of common selectors like class, id or attribute we can use `document.qu
   $el.append("<div id='container'>hello</div>");
 
   // Native
-  let newEl = document.createElement('div');
-  newEl.setAttribute('id', 'container');
-  newEl.innerHTML = 'hello';
-  el.appendChild(newEl);
+  el.insertAdjacentHTML("beforeend","<div id='container'>hello</div>");
   ```
 
 - [3.5](#3.5) <a name='3.5'></a> Prepend
@@ -485,10 +482,7 @@ In place of common selectors like class, id or attribute we can use `document.qu
   $el.prepend("<div id='container'>hello</div>");
 
   // Native
-  let newEl = document.createElement('div');
-  newEl.setAttribute('id', 'container');
-  newEl.innerHTML = 'hello';
-  el.insertBefore(newEl, el.firstChild);
+  el.insertAdjacentHTML("afterbegin","<div id='container'>hello</div>");
   ```
 
 - [3.6](#3.6) <a name='3.6'></a> insertBefore
