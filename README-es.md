@@ -1,3 +1,4 @@
+
 > #### You Don't Need jQuery
 
 Tú no necesitas jQuery
@@ -7,13 +8,13 @@ El desarrollo Frontend evoluciona día a día, y los navegadores modernos ya han
 ## Tabla de Contenidos
 
 1. [Query Selector](#query-selector)
-1. [CSS & Estilo](#css--style)
-1. [Manipulación DOM](#dom-manipulation)
+1. [CSS & Estilo](#css--estilo)
+1. [Manipulación DOM](#manipulación-dom)
 1. [Ajax](#ajax)
-1. [Eventos](#events)
-1. [Utilidades](#utilities)
-1. [Traducción](#translation)
-1. [Soporte de Navegadores](#browser-support)
+1. [Eventos](#eventos)
+1. [Utilidades](#utilidades)
+1. [Traducción](#traducción)
+1. [Soporte de Navegadores](#soporte-de-navegadores)
 
 
 ## Query Selector
