@@ -10,7 +10,8 @@ Frontend environments evolve rapidly nowadays, modern browsers have already impl
 1. [Ajax](#ajax)
 1. [Events](#events)
 1. [Utilities](#utilities)
-1. [Translation](#translation)
+1. [Alternatives](#alternatives)
+1. [Translations](#translation)
 1. [Browser Support](#browser-support)
 
 ## Query Selector
@@ -613,11 +614,12 @@ For a complete replacement with namespace and delegation, refer to https://githu
 
 **[⬆ back to top](#table-of-contents)**
 
-## NPM Modules As An Alternative
+## Alternatives
 
-[NPM](http://npmjs.org) has plenty of individual DOM modules that you can pick and use. [npm-dom][http://github.com/npm-dom] and [webmodules](http://github.com/webmodules) organizations make it easier to discover and collaborate on these modules.
+* [You Might Not Need jQuery](http://youmightnotneedjquery.com/) - Examples of how to do common event, element, ajax etc with plain javascript.
+* [npm-dom](http://github.com/npm-dom) and [webmodules](http://github.com/webmodules) - Organizations you can find individual DOM modules on NPM
 
-## Translation
+## Translations
 
 * [한국어](./README.ko-KR.md)
 * [简体中文](./README.zh-CN.md)
