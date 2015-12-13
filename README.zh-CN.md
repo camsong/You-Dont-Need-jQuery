@@ -21,6 +21,16 @@
 
 > 注意：`document.querySelector` 和 `document.querySelectorAll` 性能很**差**。如果想提高性能，尽量使用 `document.getElementById`、`document.getElementsByClassName` 或 `document.getElementsByTagName`。
 
+- [1.0](#1.0) <a name='1.0'></a> Query by selector
+
+  ```js
+  // jQuery
+  $('selector');
+
+  // Native
+  document.querySelectorAll('selector');
+  ```
+
 - [1.1](#1.1) <a name='1.1'></a> Query by class
 
   ```js
