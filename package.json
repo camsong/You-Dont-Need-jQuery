@@ -1,0 +1,23 @@
+{
+  "name": "You-Dont-Need-jQuery",
+  "version": 1.0.0,
+  "description": "A mostly reasonable native approach to convert jQuery.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/oneuijs/You-Dont-Need-jQuery.git"
+  },
+  "keywords": [
+    "convertion guide",
+    "jQuery",
+    "es6",
+    "es2015",
+    "babel",
+    "OneUI Group"
+  ],
+  "author": "OneUI Group",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/oneuijs/You-Dont-Need-jQuery/issues"
+  },
+  "homepage": "https://github.com/oneuijs/You-Dont-Need-jQuery"
+}
