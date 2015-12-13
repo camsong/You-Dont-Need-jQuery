@@ -627,6 +627,7 @@ For a complete replacement with namespace and delegation, refer to https://githu
 * [Bahasa Indonesia](./README-id.md)
 * [Português(PT-BR)](./README.pt-BR.md)
 * [Tiếng Việt Nam](./README-vi.md)
+* [Español](./README-es.md)
 
 ## Browser Support
 
