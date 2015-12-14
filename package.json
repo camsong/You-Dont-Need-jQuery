@@ -1,6 +1,6 @@
 {
   "name": "You-Dont-Need-jQuery",
-  "version": 1.0.0,
+  "version": "1.0.0",
   "description": "A mostly reasonable native approach to convert jQuery.",
   "repository": {
     "type": "git",
