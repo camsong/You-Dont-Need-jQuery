@@ -474,10 +474,7 @@ En lugar de los selectores comunes como clase, id o atributos podemos usar `docu
   $el.append("<div id='container'>hello</div>");
 
   // Nativo
-  let newEl = document.createElement('div');
-  newEl.setAttribute('id', 'container');
-  newEl.innerHTML = 'hello';
-  el.appendChild(newEl);
+  el.insertAdjacentHTML("beforeend","<div id='container'>hello</div>");
   ```
 
 - [3.5](#3.5) <a name='3.5'></a> Prepend
@@ -489,10 +486,7 @@ En lugar de los selectores comunes como clase, id o atributos podemos usar `docu
   $el.prepend("<div id='container'>hello</div>");
 
   // Nativo
-  let newEl = document.createElement('div');
-  newEl.setAttribute('id', 'container');
-  newEl.innerHTML = 'hello';
-  el.insertBefore(newEl, el.firstChild);
+  el.insertAdjacentHTML("afterbegin","<div id='container'>hello</div>");
   ```
 
 - [3.6](#3.6) <a name='3.6'></a> insertBefore
