@@ -17,7 +17,7 @@
 常用的 class、id、属性 选择器都可以使用 `document.querySelector` 或 `document.querySelectorAll` 替代。区别是
 * `document.querySelector` 返回第一个匹配的 Element
 * `document.querySelectorAll` 返回所有匹配的 Element 组成的 NodeList。它可以通过 `[].slice.call()` 把它转成 Array
-* 如果匹配不到任何 Element，jQuery 返回空数组 []`，但 `document.querySelector` 返回 `null`，注意空指针异常
+* 如果匹配不到任何 Element，jQuery 返回空数组 `[]`，但 `document.querySelector` 返回 `null`，注意空指针异常。当找不到时，也可以使用 `||` 设置默认的值，如 `document.querySelectorAll(selector) || []`
 
 > 注意：`document.querySelector` 和 `document.querySelectorAll` 性能很**差**。如果想提高性能，尽量使用 `document.getElementById`、`document.getElementsByClassName` 或 `document.getElementsByTagName`。
 
@@ -39,6 +39,9 @@
 
   // Native
   document.querySelectorAll('.css');
+  
+  // or
+  document.getElementsByClassName('css');
   ```
 
 - [1.2](#1.2) <a name='1.2'></a> Query by id
@@ -167,7 +170,7 @@
 
 - [1.7](#1.7) <a name='1.7'></a> Parents Until
 
-  获取当前每一个匹配元素集的祖先，不包括匹配元素的本身
+  获取当前每一个匹配元素集的祖先，不包括匹配元素的本身。
 
   ```js
   // jQuery
