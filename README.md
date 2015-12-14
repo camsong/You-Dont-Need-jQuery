@@ -614,6 +614,92 @@ For a complete replacement with namespace and delegation, refer to https://githu
 
 **[⬆ back to top](#table-of-contents)**
 
+## Animation
+
+- [7.1](#7.1) <a name='7.1'></a> Show & Hide
+
+  ```js
+  // jQuery
+  $el.show();
+  $el.hide();
+
+  // Native
+  // More detail about show method, please refer to https://github.com/oneuijs/oui-dom-utils/blob/master/src/index.js#L363
+  el.style.display = ''|'inline'|'inline-block'|'inline-table'|'block';
+  el.style.display = 'none';
+  ```
+
+- [7.2](#7.2) <a name='7.2'></a> Toggle
+
+  ```js
+  // jQuery
+  $el.toggle();
+
+  // Native
+  if (el.ownerDocument.defaultView.getComputedStyle(el, null).display === 'none') {
+    el.style.display = ''|'inline'|'inline-block'|'inline-table'|'block';
+  }
+  else {
+    el.style.display = 'none';
+  }
+  ```
+
+- [7.3](#7.3) <a name='7.3'></a> FadeIn & FadeOut
+
+  ```js
+  // jQuery
+  $el.fadeIn();
+  $el.fadeOut();
+  
+  // Native
+  ```
+
+- [7.4](#7.4) <a name='7.4'></a> FadeTo
+
+  ```js
+  // jQuery
+  $el.fadeTo("slow",0.15);
+
+  // Native
+  ```
+
+- [7.5](#7.5) <a name='7.5'></a> FadeToggle
+
+  ```js
+  // jQuery
+  $el.fadeToggle();
+
+  // Native
+  ```
+
+- [7.6](#7.6) <a name='7.6'></a> SlideUp & SlideDown
+
+  ```js
+  // jQuery
+  $el.slideUp();
+  $el.slideDown();
+
+  // Native
+  ```
+
+- [7.7](#7.7) <a name='7.7'></a> SlideToggle
+
+  ```js
+  // jQuery
+  $el.slideToggle();
+  
+  // Native
+  ```
+
+- [7.8](#7.8) <a name='7.8'></a> Animate
+
+  ```js
+  // jQuery
+  $el.animate({params}, speed);
+
+  // Native
+  ```
+
 ## Alternatives
 
 * [You Might Not Need jQuery](http://youmightnotneedjquery.com/) - Examples of how to do common event, element, ajax etc with plain javascript.
