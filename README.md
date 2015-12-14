@@ -156,10 +156,10 @@ In place of common selectors like class, id or attribute we can use `document.qu
   // jQuery
   $el.closest(queryString);
   
-  // Native 
+  // Native - Only latest, NO IE
   el.closest(selector);
 
-  // Native - Fallback 
+  // Native - IE10+ 
   function closest(el, selector) {
     const matchesSelector = el.matches || el.webkitMatchesSelector || el.mozMatchesSelector || el.msMatchesSelector;
 
