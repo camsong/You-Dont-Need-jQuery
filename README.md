@@ -155,8 +155,11 @@ In place of common selectors like class, id or attribute we can use `document.qu
   ```js
   // jQuery
   $el.closest(queryString);
+  
+  // Native 
+  el.closest(selector);
 
-  // Native
+  // Native - Fallback 
   function closest(el, selector) {
     const matchesSelector = el.matches || el.webkitMatchesSelector || el.mozMatchesSelector || el.msMatchesSelector;
 
