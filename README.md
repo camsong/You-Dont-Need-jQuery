@@ -530,7 +530,9 @@ In place of common selectors like class, id or attribute we can use `document.qu
 
 ## Ajax
 
-Replace with [fetch](https://github.com/camsong/fetch-ie8) and [fetch-jsonp](https://github.com/camsong/fetch-jsonp)
+[Fetch API](https://fetch.spec.whatwg.org/) is the new standard to replace XMLHttpRequest to do ajax. It works on Chrome and Firefox, you can use polyfill to make it work on legacy browsers.
+
+Try [github/fetch](http://github.com/github/fetch) on IE9+ or [fetch-ie8](https://github.com/camsong/fetch-ie8/) on IE8+, [fetch-jsonp](https://github.com/camsong/fetch-jsonp) to make JSONP requests.
 
 **[⬆ back to top](#table-of-contents)**
 
