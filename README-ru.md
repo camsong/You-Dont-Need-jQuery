@@ -6,7 +6,7 @@
 
 1. [Query Selector](#query-selector)
 1. [CSS & Style](#css--style)
-1. [DOM Manipulation](#dom-manipulation)
+1. [DOM Manipulation](#Манипуляции-dom)
 1. [Ajax](#ajax)
 1. [Events](#events)
 1. [Utilities](#utilities)
@@ -410,7 +410,7 @@
 
 **[⬆ Наверх](#table-of-contents)**
 
-## манипуляции DOM'ом
+## Манипуляции DOM
 
 - [3.1](#3.1) <a name='3.1'></a> Remove
   ```js
