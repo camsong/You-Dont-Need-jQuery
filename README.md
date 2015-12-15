@@ -514,6 +514,18 @@ In place of common selectors like class, id or attribute we can use `document.qu
   target.parentNode.insertBefore(newEl, target.nextSibling);
   ```
 
+- [3.8](#3.8) <a name='3.8'></a> is
+
+  Returns `true` if it matches the query selector
+
+  ```js
+  // jQuery
+  $el.is(selector);
+
+  // Native
+  el.matches(selector);
+  ```
+  
 **[⬆ back to top](#table-of-contents)**
 
 ## Ajax
