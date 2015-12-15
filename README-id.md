@@ -620,6 +620,7 @@ Untuk penggantian secara menyeluruh dengan namespace dan delegation, rujuk ke ht
 * [Bahasa Indonesia](./README-id.md)
 * [Português(PT-BR)](./README.pt-BR.md)
 * [Tiếng Việt Nam](./README-vi.md)
+* [Русский](./README-ru.md)
 
 ## Browser yang di Support
 

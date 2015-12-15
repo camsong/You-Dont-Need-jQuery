@@ -621,6 +621,7 @@ Para un reemplazo completo con namespace y delegación, utilizar https://github.
 * [Português(PT-BR)](./README.pt-BR.md)
 * [Tiếng Việt Nam](./README-vi.md)
 * [Español](./README-es.md)
+* [Русский](./README-ru.md)
 
 ## Soporte de Navegadores
 
