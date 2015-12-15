@@ -520,10 +520,10 @@ In place of common selectors like class, id or attribute we can use `document.qu
 
   ```js
   // jQuery
-  $(e.target).is('.model-overlay');
+  $el.is(selector);
 
   // Native
-  el.matches('.model-overlay')
+  el.matches(selector);
   ```
   
 **[⬆ back to top](#table-of-contents)**
