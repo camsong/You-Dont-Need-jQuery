@@ -154,7 +154,7 @@ In place of common selectors like class, id or attribute we can use `document.qu
 
   ```js
   // jQuery
-  $el.closest(queryString);
+  $el.closest(selector);
   
   // Native - Only latest, NO IE
   el.closest(selector);
