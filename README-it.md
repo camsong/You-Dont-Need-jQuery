@@ -1,165 +1,165 @@
-## You Don't Need jQuery
+## Non hai bisogno di jQuery
 
-Frontend environments evolve rapidly nowadays, modern browsers have already implemented a great deal of DOM/BOM APIs which are good enough. We don't have to learn jQuery from scratch for DOM manipulation or events. In the meantime, thanks to the prevailment of frontend libraries such as React, Angular and Vue, manipulating DOM directly becomes anti-pattern, jQuery has never been less important. This project summarizes most of the jQuery method alternatives in native implementation, with IE 10+ support.
+Il mondo del Frontend si evolve rapidamente oggigiorno, i browsers moderni hanno gia' implementato un'ampia gamma di DOM/BOM API soddisfacenti. Non dobbiamo imparare jQuery dalle fondamenta per la manipolazione del DOM o di eventi. Nel frattempo, grazie al prevalicare di librerie per il frontend come React, Angular a Vue, manipolare il DOM direttamente diventa un anti-pattern, di consequenza jQuery non e' mai stato meno importante. Questo progetto sommarizza la maggior parte dei metodi e implementazioni alternative a jQuery, con il supporto di IE 10+.
 
-## Table of Contents
+## Tabella contenuti
 
 1. [Query Selector](#query-selector)
 1. [CSS & Style](#css--style)
-1. [DOM Manipulation](#dom-manipulation)
+1. [Manipolazione DOM](#manipolazione-dom)
 1. [Ajax](#ajax)
-1. [Events](#events)
+1. [Eventi](#eventi)
 1. [Utilities](#utilities)
-1. [Alternatives](#alternatives)
-1. [Translations](#translations)
-1. [Browser Support](#browser-support)
+1. [Alternative](#alternative)
+1. [Traduzioni](#traduzioni)
+1. [Supporto Browsers](#supporto-browsers)
 
 ## Query Selector
 
-In place of common selectors like class, id or attribute we can use `document.querySelector` or `document.querySelectorAll` for substitution. The differences lie in:
-* `document.querySelector` returns the first matched element
-* `document.querySelectorAll` returns all matched elements as NodeList. It can be converted to Array using `[].slice.call(document.querySelectorAll(selector) || []);`
-* If no elements matched, jQuery would return `[]` whereas the DOM API will return `null`. Pay attention to Null Pointer Exception. You can also use `||` to set default value if not found, like `document.querySelectorAll(selector) || []`
+Al posto di comuni selettori come class, id o attributi possiamo usare `document.querySelector` o `document.querySelectorAll` per sostituzioni. La differenza risiede in:
+* `document.querySelector` restituisce il primo elemento combiaciante
+* `document.querySelectorAll` restituisce tutti gli elementi combiacianti della NodeList. Puo' essere convertito in Array usando `[].slice.call(document.querySelectorAll(selector) || []);`
+* Se nessun elemento combiacia, jQuery restituitirebbe `[]` li' dove il DOM API ritornera' `null`. Prestate attenzione al Null Pointer Exception. Potete anche usare `||` per settare valori di default se non trovato, come `document.querySelectorAll(selector) || []`
 
-> Notice: `document.querySelector` and `document.querySelectorAll` are quite **SLOW**, try to use `getElementById`, `document.getElementsByClassName` or `document.getElementsByTagName` if you want to get a performance bonus.
+> Notare: `document.querySelector` e `document.querySelectorAll` sono abbastanza **SLOW**, provate ad usare `getElementById`, `document.getElementsByClassName` o `document.getElementsByTagName` se volete avere un bonus in termini di performance.
 
-- [1.0](#1.0) <a name='1.0'></a> Query by selector
+- [1.0](#1.0) <a name='1.0'></a> Query da selettore
 
   ```js
   // jQuery
   $('selector');
 
-  // Native
+  // Nativo
   document.querySelectorAll('selector');
   ```
 
-- [1.1](#1.1) <a name='1.1'></a> Query by class
+- [1.1](#1.1) <a name='1.1'></a> Query da classe
 
   ```js
   // jQuery
   $('.class');
 
-  // Native
+  // Nativo
   document.querySelectorAll('.class');
 
   // or
   document.getElementsByClassName('class');
   ```
 
-- [1.2](#1.2) <a name='1.2'></a> Query by id
+- [1.2](#1.2) <a name='1.2'></a> Query da id
 
   ```js
   // jQuery
   $('#id');
 
-  // Native
+  // Nativo
   document.querySelector('#id');
 
-  // or
+  // o
   document.getElementById('id');
   ```
 
-- [1.3](#1.3) <a name='1.3'></a> Query by attribute
+- [1.3](#1.3) <a name='1.3'></a> Query da attributo
 
   ```js
   // jQuery
   $('a[target=_blank]');
 
-  // Native
+  // Nativo
   document.querySelectorAll('a[target=_blank]');
   ```
 
-- [1.4](#1.4) <a name='1.4'></a> Find sth.
+- [1.4](#1.4) <a name='1.4'></a> Trovare qualcosa.
 
-  + Find nodes
+  + Trovare nodes
 
     ```js
     // jQuery
     $el.find('li');
 
-    // Native
+    // Nativo
     el.querySelectorAll('li');
     ```
 
-  + Find body
+  + Trovare body
 
     ```js
     // jQuery
     $('body');
 
-    // Native
+    // Nativo
     document.body;
     ```
 
-  + Find Attribute
+  + Trovare Attributi
 
     ```js
     // jQuery
     $el.attr('foo');
 
-    // Native
+    // Nativo
     e.getAttribute('foo');
     ```
 
-  + Find data attribute
+  + Trovare attributo data
 
     ```js
     // jQuery
     $el.data('foo');
 
-    // Native
+    // Nativo
     // using getAttribute
     el.getAttribute('data-foo');
-    // you can also use `dataset` if only need to support IE 11+
+    // potete usare `dataset` solo se supportate IE 11+
     el.dataset['foo'];
     ```
 
-- [1.5](#1.5) <a name='1.5'></a> Sibling/Previous/Next Elements
+- [1.5](#1.5) <a name='1.5'></a> Fratelli/Precedento/Successivo Elemento
 
-  + Sibling elements
+  + Elementi fratelli
 
     ```js
     // jQuery
     $el.siblings();
 
-    // Native
+    // Nativo
     [].filter.call(el.parentNode.children, function(child) {
       return child !== el;
     });
     ```
 
-  + Previous elements
+  + Elementi precedenti
 
     ```js
     // jQuery
     $el.prev();
 
-    // Native
+    // Nativo
     el.previousElementSibling;
     ```
 
-  + Next elements
+  + Elementi successivi
 
     ```js
     // jQuery
     $el.next();
 
-    // Native
+    // Nativo
     el.nextElementSibling;
     ```
 
-- [1.6](#1.6) <a name='1.6'></a> Closest
+- [1.6](#1.6) <a name='1.6'></a> Il piu' vicino
 
-  Return the first matched element by provided selector, traversing from current element to document.
+  Restituisce il primo elementi combiaciante il selettore fornito, attraversando dall'elemento corrente fino al document .
 
   ```js
   // jQuery
   $el.closest(queryString);
   
-  // Native - Only latest, NO IE
+  // Nativo - Solo ultimo, NO IE
   el.closest(selector);
 
-  // Native - IE10+ 
+  // Nativo - IE10+ 
   function closest(el, selector) {
     const matchesSelector = el.matches || el.webkitMatchesSelector || el.mozMatchesSelector || el.msMatchesSelector;
 
@@ -174,20 +174,20 @@ In place of common selectors like class, id or attribute we can use `document.qu
   }
   ```
 
-- [1.7](#1.7) <a name='1.7'></a> Parents Until
+- [1.7](#1.7) <a name='1.7'></a> Fino a parenti
 
-  Get the ancestors of each element in the current set of matched elements, up to but not including the element matched by the selector, DOM node, or jQuery object.
+  Ottiene il parente di ogni elemento nel set corrente di elementi combiacianti, fino a ma non incluso, l'elemento combiaciante il selettorer, DOM node, o jQuery object.
 
   ```js
   // jQuery
   $el.parentsUntil(selector, filter);
 
-  // Native
+  // Nativo
   function parentsUntil(el, selector, filter) {
     const result = [];
     const matchesSelector = el.matches || el.webkitMatchesSelector || el.mozMatchesSelector || el.msMatchesSelector;
 
-    // match start from parent
+    // il match parte dal parente
     el = el.parentElement;
     while (el && !matchesSelector.call(el, selector)) {
       if (!filter) {
@@ -221,21 +221,21 @@ In place of common selectors like class, id or attribute we can use `document.qu
     // jQuery
     $(e.currentTarget).index('.radio');
 
-    // Native
+    // Nativo
     [].indexOf.call(document.querySelectAll('.radio'), e.currentTarget);
     ```
 
 - [1.9](#1.9) <a name='1.9'></a> Iframe Contents
 
-  `$('iframe').contents()` returns `contentDocument` for this specific iframe
+  `$('iframe').contents()` restituisce `contentDocument` per questo specifico iframe
 
-  + Iframe contents
+  + Iframe contenuti
 
     ```js
     // jQuery
     $iframe.contents();
 
-    // Native
+    // Nativo
     iframe.contentDocument;
     ```
 
@@ -245,7 +245,7 @@ In place of common selectors like class, id or attribute we can use `document.qu
     // jQuery
     $iframe.contents().find('.css');
 
-    // Native
+    // Nativo
     iframe.contentDocument.querySelectorAll('.css');
     ```
 
@@ -255,51 +255,51 @@ In place of common selectors like class, id or attribute we can use `document.qu
 
 - [2.1](#2.1) <a name='2.1'></a> CSS
 
-  + Get style
+  + Ottenere style
 
     ```js
     // jQuery
     $el.css("color");
 
-    // Native
-    // NOTE: Known bug, will return 'auto' if style value is 'auto'
+    // Nativo
+    // NOTA: Bug conosciuto, restituira' 'auto' se il valore di style e' 'auto'
     const win = el.ownerDocument.defaultView;
-    // null means not return pseudo styles
+    // null significa che non restituira' lo psuedo style
     win.getComputedStyle(el, null).color;
     ```
 
-  + Set style
+  + Settare style
 
     ```js
     // jQuery
     $el.css({ color: "#ff0011" });
 
-    // Native
+    // Nativo
     el.style.color = '#ff0011';
     ```
 
-  + Get/Set Styles
+  + Ottenere/Settare Styles
 
-    Note that if you want to set multiple styles once, you could refer to [setStyles](https://github.com/oneuijs/oui-dom-utils/blob/master/src/index.js#L194) method in oui-dom-utils package.
+    Nota che se volete settare styles multipli in una sola volta, potete riferire [setStyles](https://github.com/oneuijs/oui-dom-utils/blob/master/src/index.js#L194) metodo in oui-dom-utils package.
 
 
-  + Add class
+  + Aggiungere classe
 
     ```js
     // jQuery
     $el.addClass(className);
 
-    // Native
+    // Nativo
     el.classList.add(className);
     ```
 
-  + Remove class
+  + Rimouvere class
 
     ```js
     // jQuery
     $el.removeClass(className);
 
-    // Native
+    // Nativo
     el.classList.remove(className);
     ```
 
@@ -309,7 +309,7 @@ In place of common selectors like class, id or attribute we can use `document.qu
     // jQuery
     $el.hasClass(className);
 
-    // Native
+    // Nativo
     el.classList.contains(className);
     ```
 
@@ -319,22 +319,22 @@ In place of common selectors like class, id or attribute we can use `document.qu
     // jQuery
     $el.toggleClass(className);
 
-    // Native
+    // Nativo
     el.classList.toggle(className);
     ```
 
 - [2.2](#2.2) <a name='2.2'></a> Width & Height
 
-  Width and Height are theoretically identical, take Height as example:
+  Width e Height sono teoricamente identici, prendendo Height come esempio:
 
   + Window height
 
     ```js
     // window height
     $(window).height();
-    // without scrollbar, behaves like jQuery
+    // senza scrollbar, si comporta comporta jQuery
     window.document.documentElement.clientHeight;
-    // with scrollbar
+    // con scrollbar
     window.innerHeight;
     ```
 
@@ -344,7 +344,7 @@ In place of common selectors like class, id or attribute we can use `document.qu
     // jQuery
     $(document).height();
 
-    // Native
+    // Nativo
     document.documentElement.scrollHeight;
     ```
 
@@ -354,7 +354,7 @@ In place of common selectors like class, id or attribute we can use `document.qu
     // jQuery
     $el.height();
 
-    // Native
+    // Nativo
     function getHeight(el) {
       const styles = this.getComputedStyles(el);
       const height = el.offsetHeight;
@@ -364,9 +364,9 @@ In place of common selectors like class, id or attribute we can use `document.qu
       const paddingBottom = parseFloat(styles.paddingBottom);
       return height - borderBottomWidth - borderTopWidth - paddingTop - paddingBottom;
     }
-    // accurate to integer（when `border-box`, it's `height`; when `content-box`, it's `height + padding + border`）
+    // preciso a intero（quando `border-box`, e' `height`; quando `content-box`, e' `height + padding + border`）
     el.clientHeight;
-    // accurate to decimal（when `border-box`, it's `height`; when `content-box`, it's `height + padding + border`）
+    // preciso a decimale（quando `border-box`, e' `height`; quando `content-box`, e' `height + padding + border`）
     el.getBoundingClientRect().height;
     ```
 
@@ -378,7 +378,7 @@ In place of common selectors like class, id or attribute we can use `document.qu
     // jQuery
     $el.position();
 
-    // Native
+    // Nativo
     { left: el.offsetLeft, top: el.offsetTop }
     ```
 
@@ -388,7 +388,7 @@ In place of common selectors like class, id or attribute we can use `document.qu
     // jQuery
     $el.offset();
 
-    // Native
+    // Nativo
     function getOffset (el) {
       const box = el.getBoundingClientRect();
 
@@ -405,20 +405,20 @@ In place of common selectors like class, id or attribute we can use `document.qu
   // jQuery
   $(window).scrollTop();
 
-  // Native
+  // Nativo
   (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop;
   ```
 
 **[⬆ back to top](#table-of-contents)**
 
-## DOM Manipulation
+## Manipolazione DOM
 
 - [3.1](#3.1) <a name='3.1'></a> Remove
   ```js
   // jQuery
   $el.remove();
 
-  // Native
+  // Nativo
   el.parentNode.removeChild(el);
   ```
 
@@ -430,7 +430,7 @@ In place of common selectors like class, id or attribute we can use `document.qu
     // jQuery
     $el.text();
 
-    // Native
+    // Nativo
     el.textContent;
     ```
 
@@ -440,41 +440,41 @@ In place of common selectors like class, id or attribute we can use `document.qu
     // jQuery
     $el.text(string);
 
-    // Native
+    // Nativo
     el.textContent = string;
     ```
 
 - [3.3](#3.3) <a name='3.3'></a> HTML
 
-  + Get HTML
+  + Ottenere HTML
 
     ```js
     // jQuery
     $el.html();
 
-    // Native
+    // Nativo
     el.innerHTML;
     ```
 
-  + Set HTML
+  + Settare HTML
 
     ```js
     // jQuery
     $el.html(htmlString);
 
-    // Native
+    // Nativo
     el.innerHTML = htmlString;
     ```
 
 - [3.4](#3.4) <a name='3.4'></a> Append
 
-  append child element after the last child of parent element
+  appendere elemento figlio dopo l'ultimo elemento figlio del genitore
 
   ```js
   // jQuery
   $el.append("<div id='container'>hello</div>");
 
-  // Native
+  // Nativo
   el.insertAdjacentHTML("beforeend","<div id='container'>hello</div>");
   ```
 
@@ -484,19 +484,19 @@ In place of common selectors like class, id or attribute we can use `document.qu
   // jQuery
   $el.prepend("<div id='container'>hello</div>");
 
-  // Native
+  // Nativo
   el.insertAdjacentHTML("afterbegin","<div id='container'>hello</div>");
   ```
 
 - [3.6](#3.6) <a name='3.6'></a> insertBefore
 
-  Insert a new node before the selected elements
+  Inserire un nuovo node dopo l'elmento selezionato
 
   ```js
   // jQuery
   $newEl.insertBefore(queryString);
 
-  // Native
+  // Nativo
   const target = document.querySelector(queryString);
   target.parentNode.insertBefore(newEl, target);
   ```
@@ -509,20 +509,20 @@ In place of common selectors like class, id or attribute we can use `document.qu
   // jQuery
   $newEl.insertAfter(queryString);
 
-  // Native
+  // Nativo
   const target = document.querySelector(queryString);
   target.parentNode.insertBefore(newEl, target.nextSibling);
   ```
 
 - [3.8](#3.8) <a name='3.8'></a> is
 
-  Returns `true` if it matches the query selector
+  Restituisce `true` se combacia con l'elemento selezionato
 
   ```js
-  // jQuery - Notice `is` also work with `function` or `elements` which is not concerned here
+  // jQuery - Notare `is` funziona anche con `function` o `elements` non di importanza qui
   $el.is(selector);
 
-  // Native
+  // Nativo
   el.matches(selector);
   ```
   
@@ -530,21 +530,21 @@ In place of common selectors like class, id or attribute we can use `document.qu
 
 ## Ajax
 
-Replace with [fetch](https://github.com/camsong/fetch-ie8) and [fetch-jsonp](https://github.com/camsong/fetch-jsonp)
+Sostituire con [fetch](https://github.com/camsong/fetch-ie8) and [fetch-jsonp](https://github.com/camsong/fetch-jsonp)
 
 **[⬆ back to top](#table-of-contents)**
 
-## Events
+## Eventi
 
-For a complete replacement with namespace and delegation, refer to https://github.com/oneuijs/oui-dom-events
+Per una completa sostituzione con namespace e delegation, riferire a https://github.com/oneuijs/oui-dom-events
 
-- [5.1](#5.1) <a name='5.1'></a> Bind an event with on
+- [5.1](#5.1) <a name='5.1'></a> Bind un evento con on
 
   ```js
   // jQuery
   $el.on(eventName, eventHandler);
 
-  // Native
+  // Nativo
   el.addEventListener(eventName, eventHandler);
   ```
 
@@ -554,7 +554,7 @@ For a complete replacement with namespace and delegation, refer to https://githu
   // jQuery
   $el.off(eventName, eventHandler);
 
-  // Native
+  // Nativo
   el.removeEventListener(eventName, eventHandler);
   ```
 
@@ -564,7 +564,7 @@ For a complete replacement with namespace and delegation, refer to https://githu
   // jQuery
   $(el).trigger('custom-event', {key1: 'data'});
 
-  // Native
+  // Nativo
   if (window.CustomEvent) {
     const event = new CustomEvent('custom-event', {detail: {key1: 'data'}});
   } else {
@@ -585,7 +585,7 @@ For a complete replacement with namespace and delegation, refer to https://githu
   // jQuery
   $.isArray(range);
 
-  // Native
+  // Nativo
   Array.isArray(range);
   ```
 
@@ -595,19 +595,19 @@ For a complete replacement with namespace and delegation, refer to https://githu
   // jQuery
   $.trim(string);
 
-  // Native
+  // Nativo
   string.trim();
   ```
 
 - [6.3](#6.3) <a name='6.3'></a> Object Assign
 
-  Extend, use object.assign polyfill https://github.com/ljharb/object.assign
+  Extend, usa object.assign polyfill https://github.com/ljharb/object.assign
 
   ```js
   // jQuery
   $.extend({}, defaultOpts, opts);
 
-  // Native
+  // Nativo
   Object.assign({}, defaultOpts, opts);
   ```
 
@@ -617,18 +617,18 @@ For a complete replacement with namespace and delegation, refer to https://githu
   // jQuery
   $.contains(el, child);
 
-  // Native
+  // Nativo
   el !== child && el.contains(child);
   ```
 
 **[⬆ back to top](#table-of-contents)**
 
-## Alternatives
+## Alternative
 
-* [You Might Not Need jQuery](http://youmightnotneedjquery.com/) - Examples of how to do common event, element, ajax etc with plain javascript.
-* [npm-dom](http://github.com/npm-dom) and [webmodules](http://github.com/webmodules) - Organizations you can find individual DOM modules on NPM
+* [Forse non hai bisogno di jQuery](http://youmightnotneedjquery.com/) - Esempi di come creare eventi comuni, elementi, ajax etc usando puramente javascript.
+* [npm-dom](http://github.com/npm-dom) e [webmodules](http://github.com/webmodules) - Organizzazione dove puoi trovare moduli per il DOM individuale su NPM
 
-## Translations
+## Traduzioni
 
 * [한국어](./README.ko-KR.md)
 * [简体中文](./README.zh-CN.md)
@@ -637,14 +637,14 @@ For a complete replacement with namespace and delegation, refer to https://githu
 * [Português(PT-BR)](./README.pt-BR.md)
 * [Tiếng Việt Nam](./README-vi.md)
 * [Español](./README-es.md)
-* [Italian](./README-it.md)
+* [Italiano](./README-it.md)
 
-## Browser Support
+## Supporto Browsers
 
 ![Chrome](https://raw.github.com/alrra/browser-logos/master/chrome/chrome_48x48.png) | ![Firefox](https://raw.github.com/alrra/browser-logos/master/firefox/firefox_48x48.png) | ![IE](https://raw.github.com/alrra/browser-logos/master/internet-explorer/internet-explorer_48x48.png) | ![Opera](https://raw.github.com/alrra/browser-logos/master/opera/opera_48x48.png) | ![Safari](https://raw.github.com/alrra/browser-logos/master/safari/safari_48x48.png)
 --- | --- | --- | --- | --- |
-Latest ✔ | Latest ✔ | 10+ ✔ | Latest ✔ | 6.1+ ✔ |
+Ultimo ✔ | Ultimo ✔ | 10+ ✔ | Ultimo ✔ | 6.1+ ✔ |
 
-# License
+# Licenza
 
 MIT
