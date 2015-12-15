@@ -519,7 +519,7 @@ In place of common selectors like class, id or attribute we can use `document.qu
   Returns `true` if it matches the query selector
 
   ```js
-  // jQuery
+  // jQuery - Notice `is` also work with `function` or `elements` which is not concerned here
   $el.is(selector);
 
   // Native
