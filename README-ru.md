@@ -8,11 +8,11 @@
 1. [CSS & Style](#css--style)
 1. [DOM Manipulation](#Манипуляции-dom)
 1. [Ajax](#ajax)
-1. [Events](#события)
-1. [Utilities](#утилиты)
-1. [Alternatives](#альтернативы)
-1. [Translations](#переводы)
-1. [Browser Support](#поддержка-браузеров)
+1. [Events](#События)
+1. [Utilities](#Утилиты)
+1. [Alternatives](#Альтернативы)
+1. [Translations](#Переводы)
+1. [Browser Support](#Поддержка браузеров)
 
 ## Query Selector
 Для часто используемых селекторов, таких как class, id или attribute мы можем использовать `document.querySelector` или `document.querySelectorAll` для замены. Разница такова:
