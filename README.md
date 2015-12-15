@@ -154,7 +154,7 @@ In place of common selectors like class, id or attribute we can use `document.qu
 
   ```js
   // jQuery
-  $el.closest(selector);
+  $el.closest(queryString);
   
   // Native - Only latest, NO IE
   el.closest(selector);
@@ -637,7 +637,7 @@ For a complete replacement with namespace and delegation, refer to https://githu
 * [Português(PT-BR)](./README.pt-BR.md)
 * [Tiếng Việt Nam](./README-vi.md)
 * [Español](./README-es.md)
-* [Italian](./README-it.md)
+* [Русский](./README-ru.md)
 
 ## Browser Support
 
