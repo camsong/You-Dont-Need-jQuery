@@ -248,7 +248,7 @@
     iframe.contentDocument.querySelectorAll('.css');
     ```
 
-**[⬆ Наверх](#Cодержание)**
+**[⬆ Наверх](#содержание)**
 
 ## CSS & Style
 
@@ -408,7 +408,7 @@
   (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop;
   ```
 
-**[⬆ Наверх](#Cодержание)**
+**[⬆ Наверх](#содержание)**
 
 ## Манипуляции DOM
 
@@ -531,7 +531,7 @@
 
 Заменить с [fetch](https://github.com/camsong/fetch-ie8) и [fetch-jsonp](https://github.com/camsong/fetch-jsonp)
 
-**[⬆ Наверх](#table-of-contents)**
+**[⬆ Наверх](#содержание)**
 
 ## События
 
@@ -574,7 +574,7 @@
   el.dispatchEvent(event);
   ```
 
-**[⬆ Наверх](#Cодержание)**
+**[⬆ Наверх](#содержание)**
 
 ## Утилиты
 
@@ -620,7 +620,7 @@
   el !== child && el.contains(child);
   ```
 
-**[⬆ Наверх](#Cодержание)**
+**[⬆ Наверх](#содержание)**
 
 ## Альтернативы
 
