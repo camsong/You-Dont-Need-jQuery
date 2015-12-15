@@ -8,11 +8,11 @@
 1. [CSS & Style](#css--style)
 1. [DOM Manipulation](#Манипуляции-dom)
 1. [Ajax](#ajax)
-1. [Events](#events)
-1. [Utilities](#utilities)
-1. [Alternatives](#alternatives)
-1. [Translations](#translations)
-1. [Browser Support](#browser-support)
+1. [Events](#события)
+1. [Utilities](#утилиты)
+1. [Alternatives](#альтернативы)
+1. [Translations](#переводы)
+1. [Browser Support](#поддержка-браузеров)
 
 ## Query Selector
 Для часто используемых селекторов, таких как class, id или attribute мы можем использовать `document.querySelector` или `document.querySelectorAll` для замены. Разница такова:
@@ -533,7 +533,7 @@
 
 **[⬆ Наверх](#table-of-contents)**
 
-## события
+## События
 
 Для полной замены с пространством имен и делегация, сослаться на [oui-dom-events](https://github.com/oneuijs/oui-dom-events)
 
