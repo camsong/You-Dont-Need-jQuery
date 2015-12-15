@@ -12,7 +12,7 @@
 1. [Utilities](#Утилиты)
 1. [Alternatives](#Альтернативы)
 1. [Translations](#Переводы)
-1. [Browser Support](#Поддержка браузеров)
+1. [Browser Support](#Поддержка-браузеров)
 
 ## Query Selector
 Для часто используемых селекторов, таких как class, id или attribute мы можем использовать `document.querySelector` или `document.querySelectorAll` для замены. Разница такова:
@@ -248,7 +248,7 @@
     iframe.contentDocument.querySelectorAll('.css');
     ```
 
-**[⬆ Наверх](#table-of-contents)**
+**[⬆ Наверх](#Cодержание)**
 
 ## CSS & Style
 
@@ -408,7 +408,7 @@
   (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop;
   ```
 
-**[⬆ Наверх](#table-of-contents)**
+**[⬆ Наверх](#Cодержание)**
 
 ## Манипуляции DOM
 
@@ -525,7 +525,7 @@
   el.matches(selector);
   ```
   
-**[⬆ Наверх](#table-of-contents)**
+**[⬆ Наверх](#Cодержание)**
 
 ## Ajax
 
@@ -574,7 +574,7 @@
   el.dispatchEvent(event);
   ```
 
-**[⬆ Наверх](#table-of-contents)**
+**[⬆ Наверх](#Cодержание)**
 
 ## Утилиты
 
@@ -620,7 +620,7 @@
   el !== child && el.contains(child);
   ```
 
-**[⬆ Наверх](#table-of-contents)**
+**[⬆ Наверх](#Cодержание)**
 
 ## Альтернативы
 
