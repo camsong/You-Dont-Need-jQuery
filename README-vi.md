@@ -620,6 +620,7 @@ Thay thế bằng [fetch](https://github.com/camsong/fetch-ie8) và [fetch-jsonp
 * [Bahasa Melayu](./README-my.md)
 * [Português(PT-BR)](./README.pt-BR.md)
 * [Tiếng Việt Nam](./README-vi.md)
+* [Русский](./README-ru.md)
 
 ## Các trình duyệt hỗ trợ
 
