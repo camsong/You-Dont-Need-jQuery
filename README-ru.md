@@ -6,13 +6,13 @@
 
 1. [Query Selector](#query-selector)
 1. [CSS & Style](#css--style)
-1. [DOM Manipulation](#Манипуляции-dom)
+1. [Манипуляция DOM](#Манипуляции-dom)
 1. [Ajax](#ajax)
-1. [Events](#События)
-1. [Utilities](#Утилиты)
-1. [Alternatives](#Альтернативы)
-1. [Translations](#Переводы)
-1. [Browser Support](#Поддержка-браузеров)
+1. [События](#События)
+1. [Утилиты](#Утилиты)
+1. [Альтернативы](#Альтернативы)
+1. [Переводы](#Переводы)
+1. [Поддержка браузеров](#Поддержка-браузеров)
 
 ## Query Selector
 Для часто используемых селекторов, таких как class, id или attribute мы можем использовать `document.querySelector` или `document.querySelectorAll` для замены. Разница такова:
@@ -248,7 +248,7 @@
     iframe.contentDocument.querySelectorAll('.css');
     ```
 
-**[⬆ Наверх](#содержание)**
+**[⬆ Наверх](#Содержание)**
 
 ## CSS & Style
 
@@ -408,7 +408,7 @@
   (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop;
   ```
 
-**[⬆ Наверх](#содержание)**
+**[⬆ Наверх](#Содержание)**
 
 ## Манипуляции DOM
 
@@ -525,13 +525,13 @@
   el.matches(selector);
   ```
   
-**[⬆ Наверх](#Cодержание)**
+**[⬆ Наверх](#Содержание)**
 
 ## Ajax
 
 Заменить с [fetch](https://github.com/camsong/fetch-ie8) и [fetch-jsonp](https://github.com/camsong/fetch-jsonp)
 
-**[⬆ Наверх](#содержание)**
+**[⬆ Наверх](#Содержание)**
 
 ## События
 
@@ -574,7 +574,7 @@
   el.dispatchEvent(event);
   ```
 
-**[⬆ Наверх](#содержание)**
+**[⬆ Наверх](#Содержание)**
 
 ## Утилиты
 
