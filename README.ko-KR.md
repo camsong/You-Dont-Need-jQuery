@@ -10,6 +10,7 @@
 1. [Ajax](#ajax)
 1. [이벤트](#이벤트)
 1. [유틸리티](#유틸리티)
+1. [번역](#번역)
 1. [브라우저 지원](#브라우저-지원)
 
 ## Query Selector
@@ -610,6 +611,17 @@ namespace와 delegation을 포함해서 완전히 갈아 엎길 원하시면 htt
   ```
 
 **[⬆ 목차로 돌아가기](#목차)**
+
+## 번역
+
+* [한국어](./README.ko-KR.md)
+* [简体中文](./README.zh-CN.md)
+* [Bahasa Melayu](./README-my.md)
+* [Bahasa Indonesia](./README-id.md)
+* [Português(PT-BR)](./README.pt-BR.md)
+* [Tiếng Việt Nam](./README-vi.md)
+* [Español](./README-es.md)
+* [Русский](./README-ru.md)
 
 ## 브라우저 지원
 
