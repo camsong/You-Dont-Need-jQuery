@@ -363,7 +363,7 @@
       const paddingBottom = parseFloat(styles.paddingBottom);
       return height - borderBottomWidth - borderTopWidth - paddingTop - paddingBottom;
     }
-    // С точностью до цулого числа（когда `border-box`, это `height`; когда `content-box`, это `height + padding + border`）
+    // С точностью до целого числа（когда `border-box`, это `height`; когда `content-box`, это `height + padding + border`）
     el.clientHeight;
     // с точностью до десятых（когда `border-box`, это `height`; когда `content-box`, это `height + padding + border`）
     el.getBoundingClientRect().height;
