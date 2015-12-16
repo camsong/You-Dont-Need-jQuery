@@ -10,6 +10,7 @@
 1. [Ajax](#ajax)
 1. [이벤트](#이벤트)
 1. [유틸리티](#유틸리티)
+1. [대안방법](#대안방법)
 1. [번역](#번역)
 1. [브라우저 지원](#브라우저-지원)
 
@@ -611,6 +612,11 @@ namespace와 delegation을 포함해서 완전히 갈아 엎길 원하시면 htt
   ```
 
 **[⬆ 목차로 돌아가기](#목차)**
+
+## 대안방법
+
+* [You Might Not Need jQuery](http://youmightnotneedjquery.com/) - 일반 자바스크립트로 공통이벤트, 엘리먼트, ajax 등을 다루는 방법 예제.
+* [npm-dom](http://github.com/npm-dom) 과 [webmodules](http://github.com/webmodules) - 개별 DOM모듈을 NPM에서 찾을 수 있습니다.
 
 ## 번역
 
