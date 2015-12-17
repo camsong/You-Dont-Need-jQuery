@@ -155,7 +155,10 @@
   // jQuery
   $el.closest(queryString);
 
-  // Native
+  // Native - 최신 브라우저만, IE는 미지원
+   el.closest(selector);
+
+  // Native - IE10 이상
   function closest(el, selector) {
     const matchesSelector = el.matches || el.webkitMatchesSelector || el.mozMatchesSelector || el.msMatchesSelector;
 
