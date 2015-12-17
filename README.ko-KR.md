@@ -512,7 +512,17 @@ el.insertAdjacentHTML("afterbegin","<div id='container'>hello</div>");
   const target = document.querySelector(queryString);
   target.parentNode.insertBefore(newEl, target.nextSibling);
   ```
+- [3.8](#3.8) <a name='3.8'></a> is
 
+  query selector와 일치하면 `true` 를 반환합니다.
+
+   ```js
+  // jQuery
+  $el.is(selector);
+
+  // Native
+  el.matches(selector);
+  ```
 **[⬆ 목차로 돌아가기](#목차)**
 
 ## Ajax
