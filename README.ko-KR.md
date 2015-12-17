@@ -527,7 +527,9 @@ el.insertAdjacentHTML("afterbegin","<div id='container'>hello</div>");
 
 ## Ajax
 
-[fetch](https://github.com/camsong/fetch-ie8)나 [fetch-jsonp](https://github.com/camsong/fetch-jsonp)로 교체하세요.
+[Fetch API](https://fetch.spec.whatwg.org/) 는 XMLHttpRequest를 ajax로 대체하는 새로운 표준 입니다. Chrome과 Firefox에서 작동하며, polyfill을 이용해서 구형 브라우저에서 작동되도록 만들 수도 있습니다.
+
+IE9 이상에서 지원하는 [github/fetch](http://github.com/github/fetch) 혹은 IE8 이상에서 지원하는 [fetch-ie8](https://github.com/camsong/fetch-ie8/), JSONP 요청을 만드는 [fetch-jsonp](https://github.com/camsong/fetch-jsonp)를 이용해보세요.
 
 **[⬆ 목차로 돌아가기](#목차)**
 
