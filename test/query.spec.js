@@ -11,7 +11,7 @@ describe('query selector', () => {
           <li data-role='blue' class='item-ii blue item'>II</li>
           <li>III</li>
           <li>
-          	<ul>
+          	<ul id='nested-ul'>
           		<li data-role='red' class='item-i-i red item'>III.I</li>
           		<li data-role='blue' class='item-i-ii blue item'>III.II</li>
           	</ul>
@@ -37,11 +37,15 @@ describe('query selector', () => {
 
     it('1.1 Query by class', () => {
     	const $els = $('.item');
-    	const els = document.querySelectorAll('.item');
+    	const els = document.getElementsByClassName('item');
 
     	[].forEach.call($els, function($el, i) {
     		expect($el).to.equal(els[i]);
     	})
+    });
+
+    it('1.2 Query by id', () => {
+    	expect($('#nested-ul')[0]).to.equal(document.getElementById('nested-ul'))
     });
   });
 });
