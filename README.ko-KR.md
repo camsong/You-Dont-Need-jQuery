@@ -523,6 +523,21 @@ el.insertAdjacentHTML("afterbegin","<div id='container'>hello</div>");
   // Native
   el.matches(selector);
   ```
+
+- [3.9](#3.9) <a name='3.9'></a> clone
+
+  엘리먼트의 복제본을 만듭니다.
+
+  ```js
+  // jQuery
+  $el.clone();
+
+  // Native
+  el.cloneNode();
+
+  // Deep clone은 파라미터를 `true` 로 설정하세요.
+  ```
+
 **[⬆ 목차로 돌아가기](#목차)**
 
 ## Ajax
