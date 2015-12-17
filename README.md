@@ -525,7 +525,19 @@ In place of common selectors like class, id or attribute we can use `document.qu
   // Native
   el.matches(selector);
   ```
+- [3.9](#3.9) <a name='3.9'></a> clone
+
+  Create a deep copy of that element
+
+  ```js
+  // jQuery 
+  $el.clone(); 
+
+  // Native
+  el.cloneNode();
   
+  // For Deep clone , set param as `true`  
+  ``` 
 **[⬆ back to top](#table-of-contents)**
 
 ## Ajax
