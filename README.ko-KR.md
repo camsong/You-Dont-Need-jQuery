@@ -471,10 +471,7 @@
   $el.append("<div id='container'>hello</div>");
 
   // Native
-  let newEl = document.createElement('div');
-  newEl.setAttribute('id', 'container');
-  newEl.innerHTML = 'hello';
-  el.appendChild(newEl);
+  el.insertAdjacentHTML("beforeend","<div id='container'>hello</div>");
   ```
 
 - [3.5](#3.5) <a name='3.5'></a> 해당 엘리먼트의 자식들 앞에 넣기(Prepend)
@@ -484,10 +481,7 @@
   $el.prepend("<div id='container'>hello</div>");
 
   // Native
-  let newEl = document.createElement('div');
-  newEl.setAttribute('id', 'container');
-  newEl.innerHTML = 'hello';
-  el.insertBefore(newEl, el.firstChild);
+el.insertAdjacentHTML("afterbegin","<div id='container'>hello</div>");
   ```
 
 - [3.6](#3.6) <a name='3.6'></a> 해당 엘리먼트 앞에 넣기(insertBefore)
