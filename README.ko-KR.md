@@ -153,7 +153,7 @@
 
   ```js
   // jQuery
-  $el.closest(queryString);
+  $el.closest(selector);
 
   // Native - 최신 브라우저만, IE는 미지원
    el.closest(selector);
