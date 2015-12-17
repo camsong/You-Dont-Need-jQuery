@@ -98,7 +98,7 @@
     $el.attr('foo');
 
     // Native
-    e.getAttribute('foo');
+    el.getAttribute('foo');
     ```
 
   + data 속성 가져오기
