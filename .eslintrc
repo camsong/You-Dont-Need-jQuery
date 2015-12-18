@@ -12,6 +12,7 @@
     "one-var": 0,
     "no-else-return": 1,
     "no-unused-expressions": 0,
-    "indent": 1
+    "indent": 1,
+    "eol-last": 0
   }
 }
