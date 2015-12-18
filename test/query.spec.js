@@ -11,10 +11,10 @@ describe('query selector', () => {
           <li data-role='blue' class='item-ii blue item'>II</li>
           <li>III</li>
           <li>
-          	<ul id='nested-ul'>
-          		<li data-role='red' class='item-i-i red item'>III.I</li>
-          		<li data-role='blue' class='item-i-ii blue item'>III.II</li>
-          	</ul>
+            <ul id='nested-ul'>
+              <li data-role='red' class='item-i-i red item'>III.I</li>
+              <li data-role='blue' class='item-i-ii blue item'>III.II</li>
+            </ul>
           </li>
         </ul>
       `;
@@ -26,26 +26,26 @@ describe('query selector', () => {
     });
 
     it('1.0 Query by selector', () => {
-    	const $els = $('li.item[data-role="red"]');
-    	const els = document.querySelectorAll('li.item[data-role="red"]');
+      const $els = $('li.item[data-role="red"]');
+      const els = document.querySelectorAll('li.item[data-role="red"]');
 
-    	expect($els.length).to.equal(2);
-    	[].forEach.call($els, function($el, i) {
-    		expect($el).to.equal(els[i]);
-    	})
+      expect($els.length).to.equal(2);
+      [].forEach.call($els, function($el, i) {
+        expect($el).to.equal(els[i]);
+      });
     });
 
     it('1.1 Query by class', () => {
-    	const $els = $('.item');
-    	const els = document.getElementsByClassName('item');
+      const $els = $('.item');
+      const els = document.getElementsByClassName('item');
 
-    	[].forEach.call($els, function($el, i) {
-    		expect($el).to.equal(els[i]);
-    	})
+      [].forEach.call($els, function($el, i) {
+        expect($el).to.equal(els[i]);
+      });
     });
 
     it('1.2 Query by id', () => {
-    	expect($('#nested-ul')[0]).to.equal(document.getElementById('nested-ul'))
+      expect($('#nested-ul')[0]).to.equal(document.getElementById('nested-ul'));
     });
   });
 });
