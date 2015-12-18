@@ -621,6 +621,7 @@ Thay thế bằng [fetch](https://github.com/camsong/fetch-ie8) và [fetch-jsonp
 * [Português(PT-BR)](./README.pt-BR.md)
 * [Tiếng Việt Nam](./README-vi.md)
 * [Русский](./README-ru.md)
+* [Türkçe](./README-tr.md)
 
 ## Các trình duyệt hỗ trợ
 
