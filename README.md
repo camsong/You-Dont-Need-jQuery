@@ -98,7 +98,7 @@ In place of common selectors like class, id or attribute we can use `document.qu
     $el.attr('foo');
 
     // Native
-    e.getAttribute('foo');
+    el.getAttribute('foo');
     ```
 
   + Find data attribute
