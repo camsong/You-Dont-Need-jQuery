@@ -10,6 +10,8 @@
 1. [Ajax](#ajax)
 1. [이벤트](#이벤트)
 1. [유틸리티](#유틸리티)
+1. [대안방법](#대안방법)
+1. [번역](#번역)
 1. [브라우저 지원](#브라우저-지원)
 
 ## Query Selector
@@ -96,7 +98,7 @@
     $el.attr('foo');
 
     // Native
-    e.getAttribute('foo');
+    el.getAttribute('foo');
     ```
 
   + data 속성 가져오기
@@ -151,9 +153,12 @@
 
   ```js
   // jQuery
-  $el.closest(queryString);
+  $el.closest(selector);
 
-  // Native
+  // Native - 최신 브라우저만, IE는 미지원
+   el.closest(selector);
+
+  // Native - IE10 이상
   function closest(el, selector) {
     const matchesSelector = el.matches || el.webkitMatchesSelector || el.mozMatchesSelector || el.msMatchesSelector;
 
@@ -469,10 +474,7 @@
   $el.append("<div id='container'>hello</div>");
 
   // Native
-  let newEl = document.createElement('div');
-  newEl.setAttribute('id', 'container');
-  newEl.innerHTML = 'hello';
-  el.appendChild(newEl);
+  el.insertAdjacentHTML("beforeend","<div id='container'>hello</div>");
   ```
 
 - [3.5](#3.5) <a name='3.5'></a> 해당 엘리먼트의 자식들 앞에 넣기(Prepend)
@@ -482,10 +484,7 @@
   $el.prepend("<div id='container'>hello</div>");
 
   // Native
-  let newEl = document.createElement('div');
-  newEl.setAttribute('id', 'container');
-  newEl.innerHTML = 'hello';
-  el.insertBefore(newEl, el.firstChild);
+el.insertAdjacentHTML("afterbegin","<div id='container'>hello</div>");
   ```
 
 - [3.6](#3.6) <a name='3.6'></a> 해당 엘리먼트 앞에 넣기(insertBefore)
@@ -513,12 +512,39 @@
   const target = document.querySelector(queryString);
   target.parentNode.insertBefore(newEl, target.nextSibling);
   ```
+- [3.8](#3.8) <a name='3.8'></a> is
+
+  query selector와 일치하면 `true` 를 반환합니다.
+
+   ```js
+  // jQuery
+  $el.is(selector);
+
+  // Native
+  el.matches(selector);
+  ```
+
+- [3.9](#3.9) <a name='3.9'></a> clone
+
+  엘리먼트의 복제본을 만듭니다.
+
+  ```js
+  // jQuery
+  $el.clone();
+
+  // Native
+  el.cloneNode();
+
+  // Deep clone은 파라미터를 `true` 로 설정하세요.
+  ```
 
 **[⬆ 목차로 돌아가기](#목차)**
 
 ## Ajax
 
-[fetch](https://github.com/camsong/fetch-ie8)나 [fetch-jsonp](https://github.com/camsong/fetch-jsonp)로 교체하세요.
+[Fetch API](https://fetch.spec.whatwg.org/) 는 XMLHttpRequest를 ajax로 대체하는 새로운 표준 입니다. Chrome과 Firefox에서 작동하며, polyfill을 이용해서 구형 브라우저에서 작동되도록 만들 수도 있습니다.
+
+IE9 이상에서 지원하는 [github/fetch](http://github.com/github/fetch) 혹은 IE8 이상에서 지원하는 [fetch-ie8](https://github.com/camsong/fetch-ie8/), JSONP 요청을 만드는 [fetch-jsonp](https://github.com/camsong/fetch-jsonp)를 이용해보세요.
 
 **[⬆ 목차로 돌아가기](#목차)**
 
@@ -610,6 +636,23 @@ namespace와 delegation을 포함해서 완전히 갈아 엎길 원하시면 htt
   ```
 
 **[⬆ 목차로 돌아가기](#목차)**
+
+## 대안방법
+
+* [You Might Not Need jQuery](http://youmightnotneedjquery.com/) - 일반 자바스크립트로 공통이벤트, 엘리먼트, ajax 등을 다루는 방법 예제.
+* [npm-dom](http://github.com/npm-dom) 과 [webmodules](http://github.com/webmodules) - 개별 DOM모듈을 NPM에서 찾을 수 있습니다.
+
+## 번역
+
+* [한국어](./README.ko-KR.md)
+* [简体中文](./README.zh-CN.md)
+* [Bahasa Melayu](./README-my.md)
+* [Bahasa Indonesia](./README-id.md)
+* [Português(PT-BR)](./README.pt-BR.md)
+* [Tiếng Việt Nam](./README-vi.md)
+* [Español](./README-es.md)
+* [Русский](./README-ru.md)
+* [Türkçe](./README-tr.md)
 
 ## 브라우저 지원
 
