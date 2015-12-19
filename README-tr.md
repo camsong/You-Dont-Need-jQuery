@@ -1,165 +1,165 @@
-## You Don't Need jQuery [![Build Status](https://travis-ci.org/oneuijs/You-Dont-Need-jQuery.svg)](https://travis-ci.org/oneuijs/You-Dont-Need-jQuery)
+## jQuery'e İhtiyacınız Yok  [![Build Status](https://travis-ci.org/oneuijs/You-Dont-Need-jQuery.svg)](https://travis-ci.org/oneuijs/You-Dont-Need-jQuery)
 
-Frontend environments evolve rapidly nowadays, modern browsers have already implemented a great deal of DOM/BOM APIs which are good enough. We don't have to learn jQuery from scratch for DOM manipulation or events. In the meantime, thanks to the prevailment of frontend libraries such as React, Angular and Vue, manipulating DOM directly becomes anti-pattern, jQuery has never been less important. This project summarizes most of the jQuery method alternatives in native implementation, with IE 10+ support.
+Önyüz ortamları bugünlerde çok hızlı gelişiyor, öyle ki modern tarayıcılar DOM/DOM APİ'lere ait önemli gereklilikleri çoktan yerine getirdiler. DOM işleme ve olaylar için, en baştan jQuery ögrenmemize gerek kalmadı. Bu arada, üstünlükleri ile jQuery'i önemsizleştiren ve doğrudan DOM değişikliklerinin bir Anti-pattern olduğunu gösteren, React, Angular ve Vue gibi gelişmiş önyüz kütüphanelerine ayrıca teşekkür ederiz. Bu proje, IE10+ desteği ile coğunluğu jQuery yöntemlerine alternatif olan yerleşik uygulamaları içerir. 
 
-## Table of Contents
+## İçerik Tablosu
 
-1. [Query Selector](#query-selector)
-1. [CSS & Style](#css--style)
-1. [DOM Manipulation](#dom-manipulation)
+1. [Sorgu seçiciler](#sorgu-seçiciler)
+1. [CSS & Stil](#css--stil)
+1. [DOM düzenleme](#dom-düzenleme)
 1. [Ajax](#ajax)
-1. [Events](#events)
-1. [Utilities](#utilities)
-1. [Alternatives](#alternatives)
-1. [Translations](#translations)
-1. [Browser Support](#browser-support)
+1. [Olaylar](#olaylar)
+1. [Araçlar](#araçlar)
+1. [Alternatifler](#alternatifler)
+1. [Çeviriler](#Çeviriler)
+1. [Tarayıcı desteği](#tarayıcı-desteği)
 
-## Query Selector
+## Sorgu seçiciler
 
-In place of common selectors like class, id or attribute we can use `document.querySelector` or `document.querySelectorAll` for substitution. The differences lie in:
-* `document.querySelector` returns the first matched element
-* `document.querySelectorAll` returns all matched elements as NodeList. It can be converted to Array using `[].slice.call(document.querySelectorAll(selector) || []);`
-* If no elements matched, jQuery would return `[]` whereas the DOM API will return `null`. Pay attention to Null Pointer Exception. You can also use `||` to set default value if not found, like `document.querySelectorAll(selector) || []`
+Yaygın olan class, id ve özellik seçiciler yerine, `document.querySelector` yada `document.querySelectorAll` kullanabiliriz. Ayrıldıkları nokta: 
+* `document.querySelector` ilk seçilen öğeyi döndürür
+* `document.querySelectorAll` Seçilen tüm öğeleri NodeList olarak geri döndürür. `[].slice.call(document.querySelectorAll(selector) || []);` kullanarak bir diziye dönüştürebilirsiniz. 
+* Herhangi bir öğenin seçilememesi durumda ise, jQuery `[]` döndürürken, DOM API `null` döndürecektir. Null Pointer istisnası almamak için `||` ile varsayılan değere atama yapabilirsiniz, örnek: `document.querySelectorAll(selector) || []`
 
-> Notice: `document.querySelector` and `document.querySelectorAll` are quite **SLOW**, try to use `getElementById`, `document.getElementsByClassName` or `document.getElementsByTagName` if you want to get a performance bonus.
+> Uyarı: `document.querySelector` ve `document.querySelectorAll` biraz **YAVAŞ** olabilir, Daha hızlısını isterseniz, `getElementById`, `document.getElementsByClassName` yada `document.getElementsByTagName` kullanabilirsiniz.
 
-- [1.0](#1.0) <a name='1.0'></a> Query by selector
+- [1.0](#1.0) <a name='1.0'></a> Seçici ile sorgu
 
   ```js
   // jQuery
   $('selector');
 
-  // Native
+  // Yerleşik
   document.querySelectorAll('selector');
   ```
 
-- [1.1](#1.1) <a name='1.1'></a> Query by class
+- [1.1](#1.1) <a name='1.1'></a> Sınıf ile sorgu
 
   ```js
   // jQuery
   $('.class');
 
-  // Native
+  // Yerleşik
   document.querySelectorAll('.class');
 
-  // or
+  // yada
   document.getElementsByClassName('class');
   ```
 
-- [1.2](#1.2) <a name='1.2'></a> Query by id
+- [1.2](#1.2) <a name='1.2'></a> Id ile sorgu
 
   ```js
   // jQuery
   $('#id');
 
-  // Native
+  // Yerleşik
   document.querySelector('#id');
 
-  // or
+  // yada
   document.getElementById('id');
   ```
 
-- [1.3](#1.3) <a name='1.3'></a> Query by attribute
+- [1.3](#1.3) <a name='1.3'></a> Özellik ile sorgu
 
   ```js
   // jQuery
   $('a[target=_blank]');
 
-  // Native
+  // Yerleşik
   document.querySelectorAll('a[target=_blank]');
   ```
 
-- [1.4](#1.4) <a name='1.4'></a> Find sth.
+- [1.4](#1.4) <a name='1.4'></a> Öğe erişimi
 
-  + Find nodes
+  + Node'a erişim
 
     ```js
     // jQuery
     $el.find('li');
 
-    // Native
+    // Yerleşik
     el.querySelectorAll('li');
     ```
 
-  + Find body
+  + Body'e erişim
 
     ```js
     // jQuery
     $('body');
 
-    // Native
+    // Yerleşik
     document.body;
     ```
 
-  + Find Attribute
+  + Özelliğe erişim
 
     ```js
     // jQuery
     $el.attr('foo');
 
-    // Native
+    // Yerleşik
     el.getAttribute('foo');
     ```
 
-  + Find data attribute
+  + Data özelliğine erişim
 
     ```js
     // jQuery
     $el.data('foo');
 
-    // Native
-    // using getAttribute
+    // Yerleşik
+    // getAttribute kullanarak
     el.getAttribute('data-foo');
-    // you can also use `dataset` if only need to support IE 11+
+    // Eğer  IE 11+ kullanıyor iseniz, `dataset` ile de erişebilirsiniz
     el.dataset['foo'];
     ```
 
-- [1.5](#1.5) <a name='1.5'></a> Sibling/Previous/Next Elements
+- [1.5](#1.5) <a name='1.5'></a> Kardeş/Önceki/Sonraki öğeler
 
-  + Sibling elements
+  + Kardeş öğeler
 
     ```js
     // jQuery
     $el.siblings();
 
-    // Native
+    // Yerleşik
     [].filter.call(el.parentNode.children, function(child) {
       return child !== el;
     });
     ```
 
-  + Previous elements
+  + Önceki öğeler
 
     ```js
     // jQuery
     $el.prev();
 
-    // Native
+    // Yerleşik
     el.previousElementSibling;
     ```
 
-  + Next elements
+  + Sonraki öğeler
 
     ```js
     // jQuery
     $el.next();
 
-    // Native
+    // Yerleşik
     el.nextElementSibling;
     ```
 
-- [1.6](#1.6) <a name='1.6'></a> Closest
+- [1.6](#1.6) <a name='1.6'></a> En yakın
 
-  Return the first matched element by provided selector, traversing from current element to document.
+  Verilen seçici ile eşleşen ilk öğeyi döndürür, geçerli öğeden başlayarak document'a kadar geçiş yapar.
 
   ```js
   // jQuery
   $el.closest(selector);
   
-  // Native - Only latest, NO IE
+  // Yerleşik - Sadece en güncellerde, IE desteklemiyor
   el.closest(selector);
 
-  // Native - IE10+ 
+  // Yerleşik - IE10+ 
   function closest(el, selector) {
     const matchesSelector = el.matches || el.webkitMatchesSelector || el.mozMatchesSelector || el.msMatchesSelector;
 
@@ -174,20 +174,20 @@ In place of common selectors like class, id or attribute we can use `document.qu
   }
   ```
 
-- [1.7](#1.7) <a name='1.7'></a> Parents Until
+- [1.7](#1.7) <a name='1.7'></a> Önceki atalar
 
-  Get the ancestors of each element in the current set of matched elements, up to but not including the element matched by the selector, DOM node, or jQuery object.
+  Verilen seçici ile eşleşen öğe veya DOM node veya jQuery nesnesi hariç, mevcut öğe ile aradaki tüm önceki ataları bir set dahilinde verir.
 
   ```js
   // jQuery
   $el.parentsUntil(selector, filter);
 
-  // Native
+  // Yerleşik
   function parentsUntil(el, selector, filter) {
     const result = [];
     const matchesSelector = el.matches || el.webkitMatchesSelector || el.mozMatchesSelector || el.msMatchesSelector;
 
-    // match start from parent
+    // eşleştirme, atadan başlar
     el = el.parentElement;
     while (el && !matchesSelector.call(el, selector)) {
       if (!filter) {
@@ -211,150 +211,150 @@ In place of common selectors like class, id or attribute we can use `document.qu
     // jQuery
     $('#my-input').val();
 
-    // Native
+    // Yerleşik
     document.querySelector('#my-input').value;
     ```
 
-  + Get index of e.currentTarget between `.radio`
+  + e.currentTarget ile `.radio` arasındaki dizini verir
 
     ```js
     // jQuery
     $(e.currentTarget).index('.radio');
 
-    // Native
+    // Yerleşik
     [].indexOf.call(document.querySelectAll('.radio'), e.currentTarget);
     ```
 
-- [1.9](#1.9) <a name='1.9'></a> Iframe Contents
+- [1.9](#1.9) <a name='1.9'></a> Iframe İçeriği
 
-  `$('iframe').contents()` returns `contentDocument` for this specific iframe
+  Mevcut Iframe için `$('iframe').contents()` yerine `contentDocument` döndürür.
 
-  + Iframe contents
+  + Iframe İçeriği
 
     ```js
     // jQuery
     $iframe.contents();
 
-    // Native
+    // Yerleşik
     iframe.contentDocument;
     ```
 
-  + Iframe Query
+  + Iframe seçici
 
     ```js
     // jQuery
     $iframe.contents().find('.css');
 
-    // Native
+    // Yerleşik
     iframe.contentDocument.querySelectorAll('.css');
     ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ üste dön](#İçerik-tablosu)**
 
-## CSS & Style
+## CSS & Stil
 
 - [2.1](#2.1) <a name='2.1'></a> CSS
 
-  + Get style
+  + Stili verir
 
     ```js
     // jQuery
     $el.css("color");
 
-    // Native
-    // NOTE: Known bug, will return 'auto' if style value is 'auto'
+    // Yerleşik
+    // NOT: Bilinen bir hata, eğer stil değeri 'auto' ise 'auto' döndürür
     const win = el.ownerDocument.defaultView;
-    // null means not return pseudo styles
+    // null sahte tipleri döndürmemesi için
     win.getComputedStyle(el, null).color;
     ```
 
-  + Set style
+  + Stil değiştir
 
     ```js
     // jQuery
     $el.css({ color: "#ff0011" });
 
-    // Native
+    // Yerleşik
     el.style.color = '#ff0011';
     ```
 
-  + Get/Set Styles
+  + Stil değeri al/değiştir
 
-    Note that if you want to set multiple styles once, you could refer to [setStyles](https://github.com/oneuijs/oui-dom-utils/blob/master/src/index.js#L194) method in oui-dom-utils package.
+    Eğer aynı anda birden fazla stili değiştirmek istiyor iseniz, oui-dom-utils paketi içindeki [setStyles](https://github.com/oneuijs/oui-dom-utils/blob/master/src/index.js#L194) metoduna göz atınız.
 
 
-  + Add class
+  + Sınıf ekle
 
     ```js
     // jQuery
     $el.addClass(className);
 
-    // Native
+    // Yerleşik
     el.classList.add(className);
     ```
 
-  + Remove class
+  + Sınıf çıkart
 
     ```js
     // jQuery
     $el.removeClass(className);
 
-    // Native
+    // Yerleşik
     el.classList.remove(className);
     ```
 
-  + has class
+  + sınfı var mı?
 
     ```js
     // jQuery
     $el.hasClass(className);
 
-    // Native
+    // Yerleşik
     el.classList.contains(className);
     ```
 
-  + Toggle class
+  + Sınfı takas et
 
     ```js
     // jQuery
     $el.toggleClass(className);
 
-    // Native
+    // Yerleşik
     el.classList.toggle(className);
     ```
 
-- [2.2](#2.2) <a name='2.2'></a> Width & Height
+- [2.2](#2.2) <a name='2.2'></a> Genişlik ve Yükseklik
 
-  Width and Height are theoretically identical, take Height as example:
-
-  + Window height
+  Genişlik ve Yükseklik teorik olarak aynı şekilde, örnek olarak Yükseklik veriliyor
+  
+  + Window Yüksekliği
 
     ```js
-    // window height
+    // window yüksekliği
     $(window).height();
-    // without scrollbar, behaves like jQuery
+    // kaydırma çubuğu olmaksızın, jQuery ile aynı
     window.document.documentElement.clientHeight;
-    // with scrollbar
+    // kaydırma çubuğu ile birlikte
     window.innerHeight;
     ```
 
-  + Document height
+  + Document yüksekliği
 
     ```js
     // jQuery
     $(document).height();
 
-    // Native
+    // Yerleşik
     document.documentElement.scrollHeight;
     ```
 
-  + Element height
+  + Öğe yüksekliği
 
     ```js
     // jQuery
     $el.height();
 
-    // Native
+    // Yerleşik
     function getHeight(el) {
       const styles = this.getComputedStyles(el);
       const height = el.offsetHeight;
@@ -364,31 +364,31 @@ In place of common selectors like class, id or attribute we can use `document.qu
       const paddingBottom = parseFloat(styles.paddingBottom);
       return height - borderBottomWidth - borderTopWidth - paddingTop - paddingBottom;
     }
-    // accurate to integer（when `border-box`, it's `height`; when `content-box`, it's `height + padding + border`）
+    // Tamsayı olarak daha doğru olanı（`border-box` iken, `height` esas; `content-box` ise, `height + padding + border` esas alınır）
     el.clientHeight;
-    // accurate to decimal（when `border-box`, it's `height`; when `content-box`, it's `height + padding + border`）
+    // Ondalık olarak daha doğru olanı（`border-box` iken, `height` esas; `content-box` ise, `height + padding + border` esas alınır）
     el.getBoundingClientRect().height;
     ```
 
-- [2.3](#2.3) <a name='2.3'></a> Position & Offset
+- [2.3](#2.3) <a name='2.3'></a> Pozisyon ve Ara-Açıklığı
 
-  + Position
+  + Pozisyon
 
     ```js
     // jQuery
     $el.position();
 
-    // Native
+    // Yerleşik
     { left: el.offsetLeft, top: el.offsetTop }
     ```
 
-  + Offset
+  + Ara-Açıklığı
 
     ```js
     // jQuery
     $el.offset();
 
-    // Native
+    // Yerleşik
     function getOffset (el) {
       const box = el.getBoundingClientRect();
 
@@ -399,30 +399,30 @@ In place of common selectors like class, id or attribute we can use `document.qu
     }
     ```
 
-- [2.4](#2.4) <a name='2.4'></a> Scroll Top
+- [2.4](#2.4) <a name='2.4'></a> Üste kaydır
 
   ```js
   // jQuery
   $(window).scrollTop();
 
-  // Native
+  // Yerleşik
   (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop;
   ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ üste dön](#İçerik-tablosu)**
 
-## DOM Manipulation
+## DOM düzenleme
 
-- [3.1](#3.1) <a name='3.1'></a> Remove
+- [3.1](#3.1) <a name='3.1'></a> Çıkartma
   ```js
   // jQuery
   $el.remove();
 
-  // Native
+  // Yerleşik
   el.parentNode.removeChild(el);
   ```
 
-- [3.2](#3.2) <a name='3.2'></a> Text
+- [3.2](#3.2) <a name='3.2'></a> Metin
 
   + Get text
 
@@ -430,7 +430,7 @@ In place of common selectors like class, id or attribute we can use `document.qu
     // jQuery
     $el.text();
 
-    // Native
+    // Yerleşik
     el.textContent;
     ```
 
@@ -440,145 +440,145 @@ In place of common selectors like class, id or attribute we can use `document.qu
     // jQuery
     $el.text(string);
 
-    // Native
+    // Yerleşik
     el.textContent = string;
     ```
 
 - [3.3](#3.3) <a name='3.3'></a> HTML
 
-  + Get HTML
+  + HTML'i alma
 
     ```js
     // jQuery
     $el.html();
 
-    // Native
+    // Yerleşik
     el.innerHTML;
     ```
 
-  + Set HTML
+  + HTML atama
 
     ```js
     // jQuery
     $el.html(htmlString);
 
-    // Native
+    // Yerleşik
     el.innerHTML = htmlString;
     ```
 
-- [3.4](#3.4) <a name='3.4'></a> Append
+- [3.4](#3.4) <a name='3.4'></a> Sona ekleme
 
-  append child element after the last child of parent element
+  Ata öğenin son çocuğundan sonra öğe ekleme
 
   ```js
   // jQuery
   $el.append("<div id='container'>hello</div>");
 
-  // Native
+  // Yerleşik
   el.insertAdjacentHTML("beforeend","<div id='container'>hello</div>");
   ```
 
-- [3.5](#3.5) <a name='3.5'></a> Prepend
+- [3.5](#3.5) <a name='3.5'></a> Öne ekleme
 
   ```js
   // jQuery
   $el.prepend("<div id='container'>hello</div>");
 
-  // Native
+  // Yerleşik
   el.insertAdjacentHTML("afterbegin","<div id='container'>hello</div>");
   ```
 
-- [3.6](#3.6) <a name='3.6'></a> insertBefore
+- [3.6](#3.6) <a name='3.6'></a> Öncesine Ekleme
 
-  Insert a new node before the selected elements
+  Seçili öğeden önceki yere yeni öğe ekleme
 
   ```js
   // jQuery
   $newEl.insertBefore(queryString);
 
-  // Native
+  // Yerleşik
   const target = document.querySelector(queryString);
   target.parentNode.insertBefore(newEl, target);
   ```
 
-- [3.7](#3.7) <a name='3.7'></a> insertAfter
+- [3.7](#3.7) <a name='3.7'></a> Sonrasına ekleme
 
-  Insert a new node after the selected elements
+  Seçili öğeden sonraki yere yeni öğe ekleme
 
   ```js
   // jQuery
   $newEl.insertAfter(queryString);
 
-  // Native
+  // Yerleşik
   const target = document.querySelector(queryString);
   target.parentNode.insertBefore(newEl, target.nextSibling);
   ```
 
-- [3.8](#3.8) <a name='3.8'></a> is
+- [3.8](#3.8) <a name='3.8'></a> eşit mi?
 
-  Returns `true` if it matches the query selector
+  Sorgu seçici ile eşleşiyor ise `true` döner
 
   ```js
-  // jQuery - Notice `is` also work with `function` or `elements` which is not concerned here
+  // jQuery için not: `is` aynı zamanda `function` veya `elements` için de geçerlidir fakat burada bir önemi bulunmuyor
   $el.is(selector);
 
-  // Native
+  // Yerleşik
   el.matches(selector);
   ```
-- [3.9](#3.9) <a name='3.9'></a> clone
+- [3.9](#3.9) <a name='3.9'></a> Klonlama
 
-  Create a deep copy of that element
+  Mevcut öğenin bir derin kopyasını oluşturur
 
   ```js
   // jQuery 
   $el.clone(); 
 
-  // Native
+  // Yerleşik
   el.cloneNode();
   
-  // For Deep clone , set param as `true`  
+  // Derin kopya için, `true` parametresi kullanınız  
   ``` 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ üste dön](#İçerik-tablosu)**
 
 ## Ajax
 
-[Fetch API](https://fetch.spec.whatwg.org/) is the new standard to replace XMLHttpRequest to do ajax. It works on Chrome and Firefox, you can use polyfill to make it work on legacy browsers.
+[Fetch API](https://fetch.spec.whatwg.org/) ajax için XMLHttpRequest yerine kullanan yeni standarttır. Chrome ve Firefox destekler,  eski tarayıcılar için polyfill kullanabilirsiniz.
 
-Try [github/fetch](http://github.com/github/fetch) on IE9+ or [fetch-ie8](https://github.com/camsong/fetch-ie8/) on IE8+, [fetch-jsonp](https://github.com/camsong/fetch-jsonp) to make JSONP requests.
+IE9+ ve üstü için [github/fetch](http://github.com/github/fetch) yada IE8+ ve üstü için [fetch-ie8](https://github.com/camsong/fetch-ie8/), JSONP istekler için [fetch-jsonp](https://github.com/camsong/fetch-jsonp) deneyiniz.
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ üste dön](#İçerik-tablosu)**
 
-## Events
+## Olaylar
 
-For a complete replacement with namespace and delegation, refer to https://github.com/oneuijs/oui-dom-events
+Namespace ve Delegasyon ile tam olarak değiştirmek için, https://github.com/oneuijs/oui-dom-events sayfasına bakınız  
 
-- [5.1](#5.1) <a name='5.1'></a> Bind an event with on
+- [5.1](#5.1) <a name='5.1'></a> on ile bir öğeye bağlama
 
   ```js
   // jQuery
   $el.on(eventName, eventHandler);
 
-  // Native
+  // Yerleşik
   el.addEventListener(eventName, eventHandler);
   ```
 
-- [5.2](#5.2) <a name='5.2'></a> Unbind an event with off
+- [5.2](#5.2) <a name='5.2'></a> off ile bir bağlamayı sonlandırma
 
   ```js
   // jQuery
   $el.off(eventName, eventHandler);
 
-  // Native
+  // Yerleşik
   el.removeEventListener(eventName, eventHandler);
   ```
 
-- [5.3](#5.3) <a name='5.3'></a> Trigger
+- [5.3](#5.3) <a name='5.3'></a> Tetikleyici
 
   ```js
   // jQuery
   $(el).trigger('custom-event', {key1: 'data'});
 
-  // Native
+  // Yerleşik
   if (window.CustomEvent) {
     const event = new CustomEvent('custom-event', {detail: {key1: 'data'}});
   } else {
@@ -589,9 +589,9 @@ For a complete replacement with namespace and delegation, refer to https://githu
   el.dispatchEvent(event);
   ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ üste dön](#İçerik-tablosu)**
 
-## Utilities
+## Araçlar
 
 - [6.1](#6.1) <a name='6.1'></a> isArray
 
@@ -599,7 +599,7 @@ For a complete replacement with namespace and delegation, refer to https://githu
   // jQuery
   $.isArray(range);
 
-  // Native
+  // Yerleşik
   Array.isArray(range);
   ```
 
@@ -609,40 +609,40 @@ For a complete replacement with namespace and delegation, refer to https://githu
   // jQuery
   $.trim(string);
 
-  // Native
+  // Yerleşik
   string.trim();
   ```
 
-- [6.3](#6.3) <a name='6.3'></a> Object Assign
+- [6.3](#6.3) <a name='6.3'></a> Nesne atama
 
-  Extend, use object.assign polyfill https://github.com/ljharb/object.assign
+  Türetmek için, object.assign polyfill'ini deneyiniz https://github.com/ljharb/object.assign
 
   ```js
   // jQuery
   $.extend({}, defaultOpts, opts);
 
-  // Native
+  // Yerleşik
   Object.assign({}, defaultOpts, opts);
   ```
 
-- [6.4](#6.4) <a name='6.4'></a> Contains
+- [6.4](#6.4) <a name='6.4'></a> İçerme
 
   ```js
   // jQuery
   $.contains(el, child);
 
-  // Native
+  // Yerleşik
   el !== child && el.contains(child);
   ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ üste dön](#İçerik-tablosu)**
 
-## Alternatives
+## Alternatifler
 
-* [You Might Not Need jQuery](http://youmightnotneedjquery.com/) - Examples of how to do common event, element, ajax etc with plain javascript.
-* [npm-dom](http://github.com/npm-dom) and [webmodules](http://github.com/webmodules) - Organizations you can find individual DOM modules on NPM
+* [jQuery'e İhtiyacınız Yok](http://youmightnotneedjquery.com/) - Yaygın olan olay, öğe ve ajax işlemlerinin yalın Javascript'teki karşılıklarına ait örnekler
+* [npm-dom](http://github.com/npm-dom) ve [webmodules](http://github.com/webmodules) - NPM için ayrı DOM modül organizasyonları
 
-## Translations
+## Çeviriler
 
 * [한국어](./README.ko-KR.md)
 * [简体中文](./README.zh-CN.md)
@@ -654,12 +654,12 @@ For a complete replacement with namespace and delegation, refer to https://githu
 * [Русский](./README-ru.md)
 * [Türkçe](./README-tr.md)
 
-## Browser Support
+## Tarayıcı Desteği
 
 ![Chrome](https://raw.github.com/alrra/browser-logos/master/chrome/chrome_48x48.png) | ![Firefox](https://raw.github.com/alrra/browser-logos/master/firefox/firefox_48x48.png) | ![IE](https://raw.github.com/alrra/browser-logos/master/internet-explorer/internet-explorer_48x48.png) | ![Opera](https://raw.github.com/alrra/browser-logos/master/opera/opera_48x48.png) | ![Safari](https://raw.github.com/alrra/browser-logos/master/safari/safari_48x48.png)
 --- | --- | --- | --- | --- |
 Latest ✔ | Latest ✔ | 10+ ✔ | Latest ✔ | 6.1+ ✔ |
 
-# License
+# Lisans
 
 MIT
