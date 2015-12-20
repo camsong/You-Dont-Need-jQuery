@@ -653,6 +653,7 @@ For a complete replacement with namespace and delegation, refer to https://githu
 * [Español](./README-es.md)
 * [Русский](./README-ru.md)
 * [Türkçe](./README-tr.md)
+* [Italian](./README-it.md)
 
 ## Browser Support
 
