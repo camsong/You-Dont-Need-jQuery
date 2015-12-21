@@ -69,50 +69,15 @@ In place of common selectors like class, id or attribute we can use `document.qu
   document.querySelectorAll('a[target=_blank]');
   ```
 
-- [1.4](#1.4) <a name='1.4'></a> Find sth.
+- [1.4](#1.4) <a name='1.4'></a> Query in descendents
 
-  + Find nodes
+  ```js
+  // jQuery
+  $el.find('li');
 
-    ```js
-    // jQuery
-    $el.find('li');
-
-    // Native
-    el.querySelectorAll('li');
-    ```
-
-  + Find body
-
-    ```js
-    // jQuery
-    $('body');
-
-    // Native
-    document.body;
-    ```
-
-  + Find Attribute
-
-    ```js
-    // jQuery
-    $el.attr('foo');
-
-    // Native
-    el.getAttribute('foo');
-    ```
-
-  + Find data attribute
-
-    ```js
-    // jQuery
-    $el.data('foo');
-
-    // Native
-    // using getAttribute
-    el.getAttribute('data-foo');
-    // you can also use `dataset` if only need to support IE 11+
-    el.dataset['foo'];
-    ```
+  // Native
+  el.querySelectorAll('li');
+  ```
 
 - [1.5](#1.5) <a name='1.5'></a> Sibling/Previous/Next Elements
 
@@ -247,6 +212,50 @@ In place of common selectors like class, id or attribute we can use `document.qu
 
     // Native
     iframe.contentDocument.querySelectorAll('.css');
+    ```
+
+- [1.10](#1.10) <a name='1.10'></a> Get body
+
+  ```js
+  // jQuery
+  $('body');
+
+  // Native
+  document.body;
+  ```
+
+- [1.11](#1.11) <a name='1.11'></a> Get and set attributes
+
+  + Get Attribute
+
+    ```js
+    // jQuery
+    $el.attr('foo');
+
+    // Native
+    el.getAttribute('foo');
+    ```
+  + Set Attribute
+
+    ```js
+    // jQuery, note that this works in memory without change the DOM
+    $el.attr('foo', 'bar');
+
+    // Native
+    el.setAttribute('foo', 'bar');
+    ```
+
+  + Get data attribute
+
+    ```js
+    // jQuery
+    $el.data('foo');
+
+    // Native
+    // using getAttribute
+    el.getAttribute('data-foo');
+    // you can also use `dataset` if only need to support IE 11+
+    el.dataset['foo'];
     ```
 
 **[⬆ back to top](#table-of-contents)**
@@ -542,7 +551,7 @@ In place of common selectors like class, id or attribute we can use `document.qu
 
 ## Ajax
 
-[Fetch API](https://fetch.spec.whatwg.org/) is the new standard to replace XMLHttpRequest to do ajax. It works on Chrome and Firefox, you can use polyfill to make it work on legacy browsers.
+[Fetch API](https://fetch.spec.whatwg.org/) is the new standard to replace XMLHttpRequest to do ajax. It works on Chrome and Firefox, you can use polyfills to make it work on legacy browsers.
 
 Try [github/fetch](http://github.com/github/fetch) on IE9+ or [fetch-ie8](https://github.com/camsong/fetch-ie8/) on IE8+, [fetch-jsonp](https://github.com/camsong/fetch-jsonp) to make JSONP requests.
 
