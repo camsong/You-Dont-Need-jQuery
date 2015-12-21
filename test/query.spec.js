@@ -47,5 +47,25 @@ describe('query selector', () => {
     it('1.2 Query by id', () => {
       expect($('#nested-ul')[0]).to.equal(document.getElementById('nested-ul'));
     });
+
+    it('1.3 Query by attribute', () => {
+      const $els = $('[data-role="blue"]');
+      const els = document.querySelectorAll('[data-role="blue"]');
+
+      expect($els.length).to.equal(2);
+      [].forEach.call($els, function($el, i) {
+        expect($el).to.equal(els[i]);
+      });
+    });
+
+    it('1.4 Query in descendents', () => {
+      const $els = $('#query-selector-test1').find('.item');
+      const els = document.getElementById('query-selector-test1').querySelectorAll('.item');
+
+      expect($els.length).to.equal(4);
+      [].forEach.call($els, function($el, i) {
+        expect($el).to.equal(els[i]);
+      });
+    });
   });
 });

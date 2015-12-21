@@ -224,9 +224,9 @@ In place of common selectors like class, id or attribute we can use `document.qu
   document.body;
   ```
 
-- [1.11](#1.11) <a name='1.11'></a> Get and set attributes
+- [1.11](#1.11) <a name='1.11'></a> Attribute getter and setter
 
-  + Get Attribute
+  + Get an attribute
 
     ```js
     // jQuery
@@ -235,7 +235,7 @@ In place of common selectors like class, id or attribute we can use `document.qu
     // Native
     el.getAttribute('foo');
     ```
-  + Set Attribute
+  + Set an attribute
 
     ```js
     // jQuery, note that this works in memory without change the DOM
@@ -245,16 +245,15 @@ In place of common selectors like class, id or attribute we can use `document.qu
     el.setAttribute('foo', 'bar');
     ```
 
-  + Get data attribute
+  + Get a `data-` attribute
 
     ```js
     // jQuery
     $el.data('foo');
 
-    // Native
-    // using getAttribute
+    // Native (use `getAttribute`)
     el.getAttribute('data-foo');
-    // you can also use `dataset` if only need to support IE 11+
+    // Native (use `dataset` if only need to support IE 11+)
     el.dataset['foo'];
     ```
 
