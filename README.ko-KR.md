@@ -69,50 +69,15 @@
   document.querySelectorAll('a[target=_blank]');
   ```
 
-- [1.4](#1.4) <a name='1.4'></a> 여러가지 찾기
+- [1.4](#1.4) <a name='1.4'></a> 자식에서 찾기
 
-  + 노드들 찾기
+  ```js
+  // jQuery
+  $el.find('li');
 
-    ```js
-    // jQuery
-    $el.find('li');
-
-    // Native
-    el.querySelectorAll('li');
-    ```
-
-  + body 찾기
-
-    ```js
-    // jQuery
-    $('body');
-
-    // Native
-    document.body;
-    ```
-
-  + 속성 가져오기
-
-    ```js
-    // jQuery
-    $el.attr('foo');
-
-    // Native
-    el.getAttribute('foo');
-    ```
-
-  + data 속성 가져오기
-
-    ```js
-    // jQuery
-    $el.data('foo');
-
-    // Native
-    // getAttribute를 사용하기
-    el.getAttribute('data-foo');
-    // IE 11+ 이상만 지원할 것이라면 dataset을 사용할 수도 있음
-    el.dataset['foo'];
-    ```
+  // Native
+  el.querySelectorAll('li');
+  ```
 
 - [1.5](#1.5) <a name='1.5'></a> 형제/이전/다음 엘리먼트 찾기
 
@@ -136,14 +101,15 @@
 
     // Native
     el.previousElementSibling;
-
     ```
 
   + 다음 엘리먼트
 
     ```js
-    // next
+    // jQuery
     $el.next();
+
+    // Native
     el.nextElementSibling;
     ```
 
@@ -246,6 +212,49 @@
 
     // Native
     iframe.contentDocument.querySelectorAll('.css');
+    ```
+
+- [1.10](#1.10) <a name='1.10'></a> body 얻기
+
+  ```js
+  // jQuery
+  $('body');
+
+  // Native
+  document.body;
+  ```
+
+- [1.11](#1.11) <a name='1.11'></a> 속성 얻기 및 설정
+
+  + 속성 얻기
+
+    ```js
+    // jQuery
+    $el.attr('foo');
+
+    // Native
+    el.getAttribute('foo');
+    ```
+  + 속성 설정하기
+
+    ```js
+    // jQuery, DOM 변형 없이 메모리에서 작동됩니다.
+    $el.attr('foo', 'bar');
+
+    // Native
+    el.setAttribute('foo', 'bar');
+    ```
+
+  + `data-` 속성 얻기
+
+    ```js
+    // jQuery
+    $el.data('foo');
+
+    // Native (`getAttribute` 사용)
+    el.getAttribute('data-foo');
+    // Native (IE 11 이상의 지원만 필요하다면 `dataset`을 사용)
+    el.dataset['foo'];
     ```
 
 **[⬆ 목차로 돌아가기](#목차)**
@@ -653,6 +662,7 @@ namespace와 delegation을 포함해서 완전히 갈아 엎길 원하시면 htt
 * [Español](./README-es.md)
 * [Русский](./README-ru.md)
 * [Türkçe](./README-tr.md)
+* [Italian](./README-it.md)
 
 ## 브라우저 지원
 
