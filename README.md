@@ -525,7 +525,19 @@ In place of common selectors like class, id or attribute we can use `document.qu
   // Native
   el.matches(selector);
   ```
-  
+
+- [3.9](#3.9) <a name='3.9'></a> empty
+
+  Removes all child Nodes
+
+  ```js
+  // jQuery
+  $el.empty();
+
+  // Native
+  el.innerHTML = '';
+  ```
+    
 **[⬆ back to top](#table-of-contents)**
 
 ## Ajax
