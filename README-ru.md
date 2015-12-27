@@ -18,7 +18,7 @@
 Для часто используемых селекторов, таких как class, id или attribute мы можем использовать `document.querySelector` или `document.querySelectorAll` для замены. Разница такова:
 * `document.querySelector` возвращает первый совпавший элемент
 * `document.querySelectorAll` возвращает все совспавшие элементы как  коллекцию узлов(NodeList). Его можно конвертировать в массив используя `[].slice.call(document.querySelectorAll(selector) || []);`
-* Если никакие елементы не совпадут, jQuery вернет `[]` где DOM API вернет `null`. Обратите внимание на указатель исключения  Null (Null Pointer Exception). Вы так же можете использовать `||` для установки значения по умолчанию если не было найдемо совпадений `document.querySelectorAll(selector) || []`
+* Если никакие элементы не совпадут, jQuery вернет `[]` где DOM API вернет `null`. Обратите внимание на указатель исключения  Null (Null Pointer Exception). Вы так же можете использовать `||` для установки значения по умолчанию если не было найдемо совпадений `document.querySelectorAll(selector) || []`
 
 > Заметка: `document.querySelector` и `document.querySelectorAll` достаточно **МЕДЛЕННЫ**, старайтесь использовать `getElementById`, `document.getElementsByClassName` или `document.getElementsByTagName` если хотите улучшить производительность.
 
