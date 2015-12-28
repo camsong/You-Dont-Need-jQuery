@@ -661,7 +661,7 @@ For a complete replacement with namespace and delegation, refer to https://githu
   });
 
   // Native
-  Array.map(function(value, index) {
+  array.map(function(value, index) {
   });
   ```
 
