@@ -643,7 +643,7 @@ For a complete replacement with namespace and delegation, refer to https://githu
   el !== child && el.contains(child);
   ```
   
-  - [6.5](#6.5) <a name='6.5'></a> inArray
+- [6.5](#6.5) <a name='6.5'></a> inArray
 
   ```js
   // jQuery
