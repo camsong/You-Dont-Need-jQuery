@@ -1,6 +1,6 @@
 ## Вам не нужен jQuery
 
-В наше время среда фронт энд разработки быстро развивается, современные браузеры уже реализовали значимую часть DOM/BOM APIs и это хорошо. Вам не нужно изучать jQuery с нуля для манипуляцией DOM'ом или обектами событий. В то же время, благодаря лидирующим фронт энд библиотекам, таким как Reac React, Angular и Vue, манипуляция DOM'ом напрямую становится противо шаблонной, jQuery никогда не был менее важен. Этот проект суммирует большинство альтернатив методов jQuery в нативном исполнении с поддержкой IE 10+.
+В наше время среда фронт энд разработки быстро развивается, современные браузеры уже реализовали значимую часть DOM/BOM APIs и это хорошо. Вам не нужно изучать jQuery с нуля для манипуляцией DOM'ом или обектами событий. В то же время, благодаря лидирующим фронт энд библиотекам, таким как React, Angular и Vue, манипуляция DOM'ом напрямую становится противо шаблонной, jQuery никогда не был менее важен. Этот проект суммирует большинство альтернатив методов jQuery в нативном исполнении с поддержкой IE 10+.
 
 ## Содержание
 
@@ -45,7 +45,7 @@
   document.getElementsByClassName('class');
   ```
 
-- [1.2](#1.2) <a name='1.2'></a> Запрос по айди
+- [1.2](#1.2) <a name='1.2'></a> Запрос по ID
 
   ```js
   // jQuery
@@ -68,7 +68,7 @@
   document.querySelectorAll('a[target=_blank]');
   ```
 
-- [1.4](#1.4) <a name='1.4'></a> Найти sth.
+- [1.4](#1.4) <a name='1.4'></a> Найти среди потомков
 
   + Найти nodes
 
@@ -107,9 +107,9 @@
     $el.data('foo');
 
     // Нативно
-    // using getAttribute
+    // используя getAttribute
     el.getAttribute('data-foo');
-    // you can also use `dataset` if only need to support IE 11+
+    // также можно использовать `dataset`, если не требуется поддержка ниже IE 11.
     el.dataset['foo'];
     ```
 
@@ -263,7 +263,7 @@
     // Нативно
     // ЗАМЕТКА: Известная ошика, возвращает 'auto' если значение стиля 'auto'
     const win = el.ownerDocument.defaultView;
-    // null means not return pseudo styles
+    // null означает не возвращать псевдостили
     win.getComputedStyle(el, null).color;
     ```
 
@@ -600,7 +600,7 @@
 
 - [6.3](#6.3) <a name='6.3'></a> Назначение объекта
 
-  Extend, use object.assign polyfill https://github.com/ljharb/object.assign
+  Дополнительно, используйте полифил object.assign https://github.com/ljharb/object.assign
 
   ```js
   // jQuery
@@ -625,7 +625,7 @@
 ## Альтернативы
 
 * [You Might Not Need jQuery](http://youmightnotneedjquery.com/) - Примеры как исполняются частые события, элементы, ajax и тд с ванильным javascript.
-* [npm-dom](http://github.com/npm-dom) and [webmodules](http://github.com/webmodules) - Organizations you can find individual DOM modules on NPM
+* [npm-dom](http://github.com/npm-dom) и [webmodules](http://github.com/webmodules) - Отдельные DOM модули можно найти на NPM
 
 ## Переводы
 
