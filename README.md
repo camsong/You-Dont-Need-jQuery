@@ -652,6 +652,18 @@ For a complete replacement with namespace and delegation, refer to https://githu
   // Native
   Array.indexOf(item);
   ```
+  
+- [6.6](#6.6) <a name='6.6'></a> map
+
+  ```js
+  // jQuery
+  $.map(array, function(value, index) {
+  });
+
+  // Native
+  array.map(function(value, index) {
+  });
+  ```
 
 **[⬆ back to top](#table-of-contents)**
 
