@@ -642,6 +642,16 @@ For a complete replacement with namespace and delegation, refer to https://githu
   // Native
   el !== child && el.contains(child);
   ```
+  
+  - [6.5](#6.5) <a name='6.5'></a> inArray
+
+  ```js
+  // jQuery
+  $.inArray(item, array);
+
+  // Native
+  Array.indexOf(item);
+  ```
 
 **[⬆ back to top](#table-of-contents)**
 
