@@ -476,7 +476,7 @@ In place of common selectors like class, id or attribute we can use `document.qu
 
 - [3.4](#3.4) <a name='3.4'></a> Append
 
-  append child element after the last child of parent element
+  Append child element after the last child of parent element
 
   ```js
   // jQuery
@@ -524,7 +524,7 @@ In place of common selectors like class, id or attribute we can use `document.qu
 
 - [3.8](#3.8) <a name='3.8'></a> is
 
-  Returns `true` if it matches the query selector
+  Return `true` if it matches the query selector
 
   ```js
   // jQuery - Notice `is` also work with `function` or `elements` which is not concerned here
@@ -546,6 +546,19 @@ In place of common selectors like class, id or attribute we can use `document.qu
   
   // For Deep clone , set param as `true`  
   ``` 
+
+- [3.10](#3.10) <a name='3.10'></a> empty
+
+  Remove all child nodes
+
+  ```js
+  // jQuery
+  $el.empty();
+
+  // Native
+  el.innerHTML = '';
+  ```
+
 **[⬆ back to top](#table-of-contents)**
 
 ## Ajax
