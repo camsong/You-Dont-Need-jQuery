@@ -547,6 +547,18 @@ el.insertAdjacentHTML("afterbegin","<div id='container'>hello</div>");
   // Deep clone은 파라미터를 `true` 로 설정하세요.
   ```
 
+- [3.10](#3.10) <a name='3.10'></a> empty
+
+  모든 자식 노드를 제거합니다.
+
+  ```js
+  // jQuery
+  $el.empty();
+
+  // Native
+  el.innerHTML = '';
+  ```
+
 **[⬆ 목차로 돌아가기](#목차)**
 
 ## Ajax
@@ -642,6 +654,28 @@ namespace와 delegation을 포함해서 완전히 갈아 엎길 원하시면 htt
 
   // Native
   el !== child && el.contains(child);
+  ```
+
+- [6.5](#6.5) <a name='6.5'></a> inArray
+
+  ```js
+  // jQuery
+  $.inArray(item, array);
+
+  // Native
+  array.indexOf(item);
+  ```
+
+- [6.6](#6.6) <a name='6.6'></a> map
+
+  ```js
+  // jQuery
+  $.map(array, function(value, index) {
+  });
+
+  // Native
+  Array.map(function(value, index) {
+  });
   ```
 
 **[⬆ 목차로 돌아가기](#목차)**
