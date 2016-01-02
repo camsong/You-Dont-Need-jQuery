@@ -559,6 +559,24 @@ In place of common selectors like class, id or attribute we can use `document.qu
   el.innerHTML = '';
   ```
 
+- [3.11](#3.11) <a name='3.11'></a> wrap
+
+ Wrap an HTML structure around each element
+ 
+ ```js
+ // jQuery
+ $('.inner').wrap('<div class="wrapper"></div>');
+ 
+ // Native
+ [].slice.call(document.querySelectorAll('.inner')).forEach(function(el){
+    var wrapper = document.createElement('div');
+    wrapper.className = 'wrapper';
+    el.parentNode.insertBefore(wrapper, el);
+    el.parentNode.removeChild(el);
+    wrapper.appendChild(el);
+ });
+ ```
+
 **[⬆ back to top](#table-of-contents)**
 
 ## Ajax
