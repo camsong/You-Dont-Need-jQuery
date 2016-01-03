@@ -10,6 +10,7 @@ Frontend environments evolve rapidly nowadays, modern browsers have already impl
 1. [Ajax](#ajax)
 1. [Events](#events)
 1. [Utilities](#utilities)
+1. [Promises](#promises)
 1. [Alternatives](#alternatives)
 1. [Translations](#translations)
 1. [Browser Support](#browser-support)
@@ -676,6 +677,68 @@ For a complete replacement with namespace and delegation, refer to https://githu
   // Native
   array.map(function(value, index) {
   });
+  ```
+
+**[⬆ back to top](#table-of-contents)**
+
+## Promises
+
+A promise represents the eventual result of an asynchronous operation. jQuery has its own way to handle promises. Native JavaScript implements a thin and minimal API to handle promises according to the [Promises/A+](http://promises-aplus.github.io/promises-spec/) specification.
+
+- [7.1](#7.1) <a name='7.1'></a> done, fail, always
+
+  `done` is called when promise is resolved, `fail` is called when promise is rejected, `always` is called when promise is either resolved or rejected.
+
+  ```js
+  // jQuery
+  $promise.done(doneCallback).fail(failCallback).always(alwaysCallback)
+
+  // Native
+  promise.then(doneCallback, failCallback).then(alwaysCallback, alwaysCallback)
+  ```
+
+- [7.2](#7.2) <a name='7.2'></a> when
+
+  `when` is used to handle multiple promises. It will resolve when all promises are resolved, and reject if either one is rejected.
+  
+  ```js
+  // jQuery
+  $.when($promise1, $promise2).done((promise1Result, promise2Result) => {})
+
+  // Native
+  Promise.all([$promise1, $promise2]).then([promise1Result, promise2Result] => {});
+  ```
+
+- [7.3](#7.3) <a name='7.3'></a> Deferred
+
+  Deferred is a way to create promises.
+
+  ```js
+  // jQuery
+  function asyncFunc() {
+    var d = new $.Deferred();
+    setTimeout(function() {
+      if(true) {
+        d.resolve('some_value_compute_asynchronously');
+      } else {
+        d.reject('failed');
+      }
+    }, 1000);
+    return d.promise();
+  }
+
+  // Native
+  function asyncFunc() {
+    return new Promise((resolve, reject) => {
+      setTimeout(function() {
+        if (true) {
+          resolve('some_value_compute_asynchronously');
+        } else {
+          reject('failed');
+        }
+      }, 1000);
+    });
+  }
   ```
 
 **[⬆ back to top](#table-of-contents)**
