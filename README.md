@@ -120,11 +120,11 @@ In place of common selectors like class, id or attribute we can use `document.qu
   ```js
   // jQuery
   $el.closest(selector);
-  
+
   // Native - Only latest, NO IE
   el.closest(selector);
 
-  // Native - IE10+ 
+  // Native - IE10+
   function closest(el, selector) {
     const matchesSelector = el.matches || el.webkitMatchesSelector || el.mozMatchesSelector || el.msMatchesSelector;
 
@@ -538,14 +538,14 @@ In place of common selectors like class, id or attribute we can use `document.qu
   Create a deep copy of that element
 
   ```js
-  // jQuery 
-  $el.clone(); 
+  // jQuery
+  $el.clone();
 
   // Native
   el.cloneNode();
-  
+
   // For Deep clone , set param as `true`  
-  ``` 
+  ```
 
 - [3.10](#3.10) <a name='3.10'></a> empty
 
@@ -614,29 +614,121 @@ For a complete replacement with namespace and delegation, refer to https://githu
 
 ## Utilities
 
-- [6.1](#6.1) <a name='6.1'></a> isArray
+Most of utilities are found by native API. Others advanced functions could be choosed better utilities library focus on consistency and performance. Recommend [lodash](https://lodash.com) to replace.
+
+- [6.1](#6.1) <a name='6.1'></a> Basic utilities
+
+  + isArray
+
+  Determine whether the argument is an array.
 
   ```js
   // jQuery
-  $.isArray(range);
+  $.isArray(array);
 
   // Native
-  Array.isArray(range);
+  Array.isArray(array);
   ```
 
-- [6.2](#6.2) <a name='6.2'></a> Trim
+  + isWindow
+
+  Determine whether the argument is a window.
 
   ```js
   // jQuery
-  $.trim(string);
+  $.isArray(obj);
 
   // Native
-  string.trim();
+  function isWindow(obj) {
+		return obj != null && obj === obj.window;
+	}
   ```
 
-- [6.3](#6.3) <a name='6.3'></a> Object Assign
+  + inArray
 
-  Extend, use object.assign polyfill https://github.com/ljharb/object.assign
+  Search for a specified value within an array and return its index (or -1 if not found).
+
+  ```js
+  // jQuery
+  $.inArray(item, array);
+
+  // Native
+  Array.indexOf(item);
+  ```
+
+  + isNumbic
+
+  Determines whether its argument is a number.
+  Use `typeof` to decide type. if necessary to use library, sometimes `typeof` isn't accurate.
+
+  ```js
+  // jQuery
+  $.isNumbic(item);
+
+  // Native
+  function isNumbic(item) {
+    return typeof value === 'number';
+  }
+  ```
+
+  + isFunction
+
+  Determine if the argument passed is a JavaScript function object.
+
+  ```js
+  // jQuery
+  $.isFunction(item);
+
+  // Native
+  function isFunction(item) {
+    return typeof value === 'function';
+  }
+  ```
+
+  + isEmptyObject
+
+  Check to see if an object is empty (contains no enumerable properties).
+
+  ```js
+  // jQuery
+  $.isEmptyObject(obj);
+
+  // Native
+  function isEmptyObject(obj) {
+    for (let key in obj) {
+      return false;  
+    }  
+    return true;
+  }
+  ```
+
+  + isPlanObject
+
+  Check to see if an object is a plain object (created using “{}” or “new Object”).
+
+  ```js
+  // jQuery
+  $.isPlanObject(obj);
+
+  // Native
+  function isPlainObject(obj) {
+    if (typeof (obj) !== 'object' || obj.nodeType || obj != null && obj === obj.window) {
+      return false;
+    }
+
+    if (obj.constructor &&
+        !{}.hasOwnPropert.call(obj.constructor.prototype, 'isPrototypeOf')) {
+      return false;
+    }
+
+    return true;
+  }
+  ```
+
+  + extend
+
+  Merge the contents of two or more objects together into the first object.
+  object.assign is ES6 API, and you could use [polyfill](https://github.com/ljharb/object.assign) also.
 
   ```js
   // jQuery
@@ -646,27 +738,21 @@ For a complete replacement with namespace and delegation, refer to https://githu
   Object.assign({}, defaultOpts, opts);
   ```
 
-- [6.4](#6.4) <a name='6.4'></a> Contains
+  + trim
+
+  Remove the whitespace from the beginning and end of a string.
 
   ```js
   // jQuery
-  $.contains(el, child);
+  $.trim(string);
 
   // Native
-  el !== child && el.contains(child);
+  string.trim();
   ```
-  
-- [6.5](#6.5) <a name='6.5'></a> inArray
 
-  ```js
-  // jQuery
-  $.inArray(item, array);
+  + map
 
-  // Native
-  Array.indexOf(item);
-  ```
-  
-- [6.6](#6.6) <a name='6.6'></a> map
+  Translate all items in an array or object to new array of items.
 
   ```js
   // jQuery
@@ -676,6 +762,165 @@ For a complete replacement with namespace and delegation, refer to https://githu
   // Native
   array.map(function(value, index) {
   });
+  ```
+
+  + each
+
+  A generic iterator function, which can be used to seamlessly iterate over both objects and arrays.
+
+  ```js
+  // jQuery
+  $.each(array, function(value, index) {
+  });
+
+  // Native
+  array.forEach(function(value, index) {
+  });
+  ```
+
+  + grep
+
+  Finds the elements of an array which satisfy a filter function.
+
+  ```js
+  // jQuery
+  $.grep(array, function(value, index) {
+  });
+
+  // Native
+  array.filter(function(value, index) {
+  });
+  ```
+
+  + type
+
+  Determine the internal JavaScript [[Class]] of an object.
+
+  ```js
+  // jQuery
+  $.type(obj);
+
+  // Native
+  Object.prototype.toString.call(obj).replace(/^\[object (.+)\]$/, '$1').toLowerCase();
+  ```
+
+  + merge
+
+  Merge the contents of two arrays together into the first array.
+
+  ```js
+  // jQuery
+  $.merge(array1, array2);
+
+  // Native
+  // But concat function don't remove duplicate items.
+  function merge() {
+    return Array.prototype.concat.apply([], arguments)
+  }
+  ```
+
+  + now
+
+  Return a number representing the current time.
+
+  ```js
+  // jQuery
+  $.now();
+
+  // Native
+  Date.now();
+  ```
+
+  + proxy
+
+  Takes a function and returns a new one that will always have a particular context.
+
+  ```js
+  // jQuery
+  $.proxy(fn, context);
+
+  // Native
+  fn.bind(context);
+  ```
+
+  + makeArray
+
+  Convert an array-like object into a true JavaScript array.
+
+  ```js
+  // jQuery
+  $.makeArray(array);
+
+  // Native
+  [].slice.call(array);
+  ```
+
+- [6.2](#6.2) <a name='6.2'></a> DOM utilities
+
+  + unique
+
+  Sorts an array of DOM elements, in place, with the duplicates removed. Note that this only works on arrays of DOM elements, not strings or numbers.
+
+  Sizzle's API
+
+  + contains
+
+  Check to see if a DOM element is a descendant of another DOM element.
+
+  ```js
+  // jQuery
+  $.contains(el, child);
+
+  // Native
+  el !== child && el.contains(child);
+  ```
+
+- [6.3](#6.3) <a name='6.3'></a> Globaleval
+
+  ```js
+  // jQuery
+  $.globaleval(code);
+
+  // Native
+  function Globaleval(code) {
+  	var script = document.createElement('script');
+  	script.text = code;
+
+  	document.head.appendChild(script).parentNode.removeChild(script);
+  }
+
+  // Use eval, but context of eval is current, context of $.Globaleval is global.
+  eval(code);
+  ```
+
+- [6.4](#6.4) <a name='6.4'></a> parse
+
+  + parseHTML
+
+  Parses a string into an array of DOM nodes.
+
+  ```js
+  // jQuery
+  $.parseHTML(htmlString);
+
+  // Native
+  function parseHTML(string) {
+    const tmp = document.implementation.createHTMLDocument();
+    tmp.body.innerHTML = string;
+    return tmp.body.children;
+  }
+  ```
+
+  + parseJSON
+
+  Takes a well-formed JSON string and returns the resulting JavaScript value.
+
+  ```js
+  // jQuery
+  $.parseJSON(str);
+
+  // Native
+  JSON.parse(str);
   ```
 
 **[⬆ back to top](#table-of-contents)**
