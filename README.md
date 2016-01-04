@@ -545,7 +545,7 @@ In place of common selectors like class, id or attribute we can use `document.qu
   // Native
   el.cloneNode();
 
-  // For Deep clone , set param as `true`  
+  // For Deep clone , set param as `true`
   ```
 
 - [3.10](#3.10) <a name='3.10'></a> empty
@@ -563,11 +563,11 @@ In place of common selectors like class, id or attribute we can use `document.qu
 - [3.11](#3.11) <a name='3.11'></a> wrap
 
   Wrap an HTML structure around each element
-  
+
   ```js
   // jQuery
   $('.inner').wrap('<div class="wrapper"></div>');
-  
+
   // Native
   [].slice.call(document.querySelectorAll('.inner')).forEach(function(el){
     var wrapper = document.createElement('div');
@@ -577,7 +577,7 @@ In place of common selectors like class, id or attribute we can use `document.qu
     wrapper.appendChild(el);
   });
   ```
- 
+
 - [3.12](#3.12) <a name='3.12'></a> unwrap
 
   Remove the parents of the set of matched elements from the DOM
@@ -585,7 +585,7 @@ In place of common selectors like class, id or attribute we can use `document.qu
   ```js
   // jQuery
   $('.inner').unwrap();
-  
+
   // Native
   [].slice.call(document.querySelectorAll('.inner')).forEach(function(el){
     [].slice.call(el.childNodes).forEach(function(child){
@@ -594,15 +594,15 @@ In place of common selectors like class, id or attribute we can use `document.qu
     el.parentNode.removeChild(el);
   });
    ```
-   
+
   - [3.13](#3.13) <a name='3.13'></a> replaceWith
-  
+
   Replace each element in the set of matched elements with the provided new content
 
   ```js
   // jQuery
   $('.inner').replaceWith('<div class="outer"></div>');
-  
+
   // Native
   [].slice.call(document.querySelectorAll('.inner')).forEach(function(el){
     var outer = document.createElement('div');
@@ -611,7 +611,7 @@ In place of common selectors like class, id or attribute we can use `document.qu
     el.parentNode.removeChild(el);
   });
    ```
-   
+
 
 **[⬆ back to top](#table-of-contents)**
 
@@ -694,8 +694,8 @@ Most of utilities are found by native API. Others advanced functions could be ch
 
   // Native
   function isWindow(obj) {
-		return obj != null && obj === obj.window;
-	}
+    return obj != null && obj === obj.window;
+  }
   ```
 
   + inArray
@@ -750,8 +750,8 @@ Most of utilities are found by native API. Others advanced functions could be ch
   // Native
   function isEmptyObject(obj) {
     for (let key in obj) {
-      return false;  
-    }  
+      return false;
+    }
     return true;
   }
   ```
@@ -937,10 +937,10 @@ Most of utilities are found by native API. Others advanced functions could be ch
 
   // Native
   function Globaleval(code) {
-  	var script = document.createElement('script');
-  	script.text = code;
+    let script = document.createElement('script');
+    script.text = code;
 
-  	document.head.appendChild(script).parentNode.removeChild(script);
+    document.head.appendChild(script).parentNode.removeChild(script);
   }
 
   // Use eval, but context of eval is current, context of $.Globaleval is global.
@@ -998,7 +998,7 @@ A promise represents the eventual result of an asynchronous operation. jQuery ha
 - [7.2](#7.2) <a name='7.2'></a> when
 
   `when` is used to handle multiple promises. It will resolve when all promises are resolved, and reject if either one is rejected.
-  
+
   ```js
   // jQuery
   $.when($promise1, $promise2).done((promise1Result, promise2Result) => {})
