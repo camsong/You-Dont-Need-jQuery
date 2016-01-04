@@ -560,6 +560,59 @@ In place of common selectors like class, id or attribute we can use `document.qu
   el.innerHTML = '';
   ```
 
+- [3.11](#3.11) <a name='3.11'></a> wrap
+
+  Wrap an HTML structure around each element
+  
+  ```js
+  // jQuery
+  $('.inner').wrap('<div class="wrapper"></div>');
+  
+  // Native
+  [].slice.call(document.querySelectorAll('.inner')).forEach(function(el){
+    var wrapper = document.createElement('div');
+    wrapper.className = 'wrapper';
+    el.parentNode.insertBefore(wrapper, el);
+    el.parentNode.removeChild(el);
+    wrapper.appendChild(el);
+  });
+  ```
+ 
+- [3.12](#3.12) <a name='3.12'></a> unwrap
+
+  Remove the parents of the set of matched elements from the DOM
+
+  ```js
+  // jQuery
+  $('.inner').unwrap();
+  
+  // Native
+  [].slice.call(document.querySelectorAll('.inner')).forEach(function(el){
+    [].slice.call(el.childNodes).forEach(function(child){
+      el.parentNode.insertBefore(child, el);
+    });
+    el.parentNode.removeChild(el);
+  });
+   ```
+   
+  - [3.13](#3.13) <a name='3.13'></a> replaceWith
+  
+  Replace each element in the set of matched elements with the provided new content
+
+  ```js
+  // jQuery
+  $('.inner').replaceWith('<div class="outer"></div>');
+  
+  // Native
+  [].slice.call(document.querySelectorAll('.inner')).forEach(function(el){
+    var outer = document.createElement('div');
+    outer.className = 'outer';
+    el.parentNode.insertBefore(outer, el);
+    el.parentNode.removeChild(el);
+  });
+   ```
+   
+
 **[⬆ back to top](#table-of-contents)**
 
 ## Ajax
