@@ -1041,6 +1041,125 @@ A promise represents the eventual result of an asynchronous operation. jQuery ha
 
 **[⬆ back to top](#table-of-contents)**
 
+## Animation
+
+- [7.1](#7.1) <a name='7.1'></a> Show & Hide
+
+  ```js
+  // jQuery
+  $el.show();
+  $el.hide();
+
+  // Native
+  // More detail about show method, please refer to https://github.com/oneuijs/oui-dom-utils/blob/master/src/index.js#L363
+  el.style.display = ''|'inline'|'inline-block'|'inline-table'|'block';
+  el.style.display = 'none';
+  ```
+
+- [7.2](#7.2) <a name='7.2'></a> Toggle
+
+  ```js
+  // jQuery
+  $el.toggle();
+
+  // Native
+  if (el.ownerDocument.defaultView.getComputedStyle(el, null).display === 'none') {
+    el.style.display = ''|'inline'|'inline-block'|'inline-table'|'block';
+  }
+  else {
+    el.style.display = 'none';
+  }
+  ```
+
+- [7.3](#7.3) <a name='7.3'></a> FadeIn & FadeOut
+
+  ```js
+  // jQuery
+  $el.fadeIn(3000);
+  $el.fadeOut(3000);
+  
+  // Native
+  el.style.transition = 'opacity 3s';
+  // fadeIn
+  el.style.opacity = '1';
+  // fadeOut
+  el.style.opacity = '0';
+  ```
+
+- [7.4](#7.4) <a name='7.4'></a> FadeTo
+
+  ```js
+  // jQuery
+  $el.fadeTo('slow',0.15);
+  // Native
+  el.style.transition = 'opacity 3s'; // assume 'slow' equals 3 seconds
+  el.style.opacity = '0.15';
+  ```
+
+- [7.5](#7.5) <a name='7.5'></a> FadeToggle
+
+  ```js
+  // jQuery
+  $el.fadeToggle();
+
+  // Native
+  el.style.transition = 'opacity 3s';
+  let { opacity } = el.ownerDocument.defaultView.getComputedStyle(el, null);
+  if (opacity === '1') {
+    el.style.opacity = '0';
+  }
+  else {
+    el.style.opacity = '1';
+  }
+  ```
+
+- [7.6](#7.6) <a name='7.6'></a> SlideUp & SlideDown
+
+  ```js
+  // jQuery
+  $el.slideUp();
+  $el.slideDown();
+  
+  // Native
+  let originHeight = '100px';
+  el.style.transition = 'height 3s';
+  // slideUp
+  el.style.height = '0px';
+  // slideDown
+  el.style.height = originHeight;
+  ```
+
+- [7.7](#7.7) <a name='7.7'></a> SlideToggle
+
+  ```js
+  // jQuery
+  $el.slideToggle();
+  
+  // Native
+  let originHeight = '100px';
+  el.style.transition = 'height 3s';
+  let { height } = el.ownerDocument.defaultView.getComputedStyle(el, null);
+  if (parseInt(height, 10) === 0) {
+    el.style.height = originHeight;
+  }
+  else {
+   el.style.height = '0px';
+  }
+  ```
+
+- [7.8](#7.8) <a name='7.8'></a> Animate
+
+  ```js
+  // jQuery
+  $el.animate({params}, speed);
+
+  // Native
+  el.style.transition = 'all' + speed;
+  Object.keys(params).forEach(function(key) {
+    el.style[key] = params[key];
+  })
+  ```
+
 ## Alternatives
 
 * [You Might Not Need jQuery](http://youmightnotneedjquery.com/) - Examples of how to do common event, element, ajax etc with plain javascript.
