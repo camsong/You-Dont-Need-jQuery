@@ -11,9 +11,9 @@ Frontend environments evolve rapidly nowadays, modern browsers have already impl
 1. [Events](#events)
 1. [Utilities](#utilities)
 1. [Promises](#promises)
+1. [Animation](#animation)
 1. [Alternatives](#alternatives)
 1. [Translations](#translations)
-1. [Animation](#animation)
 1. [Browser Support](#browser-support)
 
 ## Query Selector
