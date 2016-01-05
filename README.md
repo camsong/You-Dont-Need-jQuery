@@ -13,6 +13,7 @@ Frontend environments evolve rapidly nowadays, modern browsers have already impl
 1. [Promises](#promises)
 1. [Alternatives](#alternatives)
 1. [Translations](#translations)
+1. [Animation](#animation)
 1. [Browser Support](#browser-support)
 
 ## Query Selector
@@ -1077,7 +1078,7 @@ A promise represents the eventual result of an asynchronous operation. jQuery ha
   // jQuery
   $el.fadeIn(3000);
   $el.fadeOut(3000);
-  
+
   // Native
   el.style.transition = 'opacity 3s';
   // fadeIn
@@ -1119,7 +1120,7 @@ A promise represents the eventual result of an asynchronous operation. jQuery ha
   // jQuery
   $el.slideUp();
   $el.slideDown();
-  
+
   // Native
   let originHeight = '100px';
   el.style.transition = 'height 3s';
@@ -1134,7 +1135,7 @@ A promise represents the eventual result of an asynchronous operation. jQuery ha
   ```js
   // jQuery
   $el.slideToggle();
-  
+
   // Native
   let originHeight = '100px';
   el.style.transition = 'height 3s';
