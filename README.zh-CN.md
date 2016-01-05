@@ -5,11 +5,13 @@
 ## 目录
 
 1. [Query Selector](#query-selector)
-1. [CSS & Style](#css-style)
+1. [CSS & Style](#css--style)
 1. [DOM Manipulation](#dom-manipulation)
 1. [Ajax](#ajax)
 1. [Events](#events)
 1. [Utilities](#utilities)
+1. [Alternatives](#alternatives)
+1. [Translations](#translations)
 1. [Browser Support](#browser-support)
 
 ## Query Selector
@@ -17,7 +19,7 @@
 常用的 class、id、属性 选择器都可以使用 `document.querySelector` 或 `document.querySelectorAll` 替代。区别是
 * `document.querySelector` 返回第一个匹配的 Element
 * `document.querySelectorAll` 返回所有匹配的 Element 组成的 NodeList。它可以通过 `[].slice.call()` 把它转成 Array
-* 如果匹配不到任何 Element，jQuery 返回空数组 []`，但 `document.querySelector` 返回 `null`，注意空指针异常
+* 如果匹配不到任何 Element，jQuery 返回空数组 `[]`，但 `document.querySelector` 返回 `null`，注意空指针异常。当找不到时，也可以使用 `||` 设置默认的值，如 `document.querySelectorAll(selector) || []`
 
 > 注意：`document.querySelector` 和 `document.querySelectorAll` 性能很**差**。如果想提高性能，尽量使用 `document.getElementById`、`document.getElementsByClassName` 或 `document.getElementsByTagName`。
 
@@ -39,6 +41,9 @@
 
   // Native
   document.querySelectorAll('.css');
+  
+  // or
+  document.getElementsByClassName('css');
   ```
 
 - [1.2](#1.2) <a name='1.2'></a> Query by id
@@ -167,7 +172,7 @@
 
 - [1.7](#1.7) <a name='1.7'></a> Parents Until
 
-  获取当前每一个匹配元素集的祖先，不包括匹配元素的本身
+  获取当前每一个匹配元素集的祖先，不包括匹配元素的本身。
 
   ```js
   // jQuery
@@ -621,6 +626,24 @@
   ```
 
 **[⬆ 回到顶部](#目录)**
+
+## Alternatives
+
+* [你可能不需要 jQuery (You Might Not Need jQuery)](http://youmightnotneedjquery.com/) - 如何使用原生 JavaScript 实现通用事件，元素，ajax 等用法。
+* [npm-dom](http://github.com/npm-dom) 以及 [webmodules](http://github.com/webmodules) - 在 NPM 上提供独立 DOM 模块的组织
+
+## Translations
+
+* [한국어](./README.ko-KR.md)
+* [简体中文](./README.zh-CN.md)
+* [Bahasa Melayu](./README-my.md)
+* [Bahasa Indonesia](./README-id.md)
+* [Português(PT-BR)](./README.pt-BR.md)
+* [Tiếng Việt Nam](./README-vi.md)
+* [Español](./README-es.md)
+* [Русский](./README-ru.md)
+* [Türkçe](./README-tr.md)
+* [Italian](./README-it.md)
 
 ## Browser Support
 

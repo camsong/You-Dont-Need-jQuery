@@ -601,6 +601,8 @@ For a complete replacement with namespace and delegation, refer to https://githu
 * [한국어](./README.ko-KR.md)
 * [简体中文](./README.zh-CN.md)
 * [English](./README.md)
+* [Русский](./README-ru.md)
+* [Türkçe](./README-tr.md)
 
 ## Sokongan Pelayar
 
