@@ -169,20 +169,20 @@ De nos jours, les environnements frontend évolues si rapidement que les navigat
   }
   ```
 
-- [1.7](#1.7) <a name='1.7'></a> Parents Until
+- [1.7](#1.7) <a name='1.7'></a> Parents jusqu'à
 
-  Get the ancestors of each element in the current set of matched elements, up to but not including the element matched by the selector, DOM node, or jQuery object.
+  Retourne les ancêtres de chaque élément dans l'ensemble d'éléments trouvés courants, jusqu'à (sans l'inclure) l'élément correspondant au sélecteur, le noeud DOM ou l'objet JQuery.
 
   ```js
   // jQuery
   $el.parentsUntil(selector, filter);
 
-  // Native
+  // Natif
   function parentsUntil(el, selector, filter) {
     const result = [];
     const matchesSelector = el.matches || el.webkitMatchesSelector || el.mozMatchesSelector || el.msMatchesSelector;
 
-    // match start from parent
+    // la correspondance commence à partir du parent
     el = el.parentElement;
     while (el && !matchesSelector.call(el, selector)) {
       if (!filter) {
@@ -198,7 +198,7 @@ De nos jours, les environnements frontend évolues si rapidement que les navigat
   }
   ```
 
-- [1.8](#1.8) <a name='1.8'></a> Form
+- [1.8](#1.8) <a name='1.8'></a> Formulaire
 
   + Input/Textarea
 
@@ -206,150 +206,150 @@ De nos jours, les environnements frontend évolues si rapidement que les navigat
     // jQuery
     $('#my-input').val();
 
-    // Native
+    // Natif
     document.querySelector('#my-input').value;
     ```
 
-  + Get index of e.currentTarget between `.radio`
+  + Obtenir l'index du e.currentTarget entre `.radio`
 
     ```js
     // jQuery
     $(e.currentTarget).index('.radio');
 
-    // Native
+    // Natif
     [].indexOf.call(document.querySelectAll('.radio'), e.currentTarget);
     ```
 
-- [1.9](#1.9) <a name='1.9'></a> Iframe Contents
+- [1.9](#1.9) <a name='1.9'></a> Contenus Iframe
 
-  `$('iframe').contents()` returns `contentDocument` for this specific iframe
+  `$('iframe').contents()` retourne `contentDocument` pour cet iframe en particulier
 
-  + Iframe contents
+  + Contenus de l'Iframe
 
     ```js
     // jQuery
     $iframe.contents();
 
-    // Native
+    // Natif
     iframe.contentDocument;
     ```
 
-  + Iframe Query
+  + Requête Iframe
 
     ```js
     // jQuery
     $iframe.contents().find('.css');
 
-    // Native
+    // Natif
     iframe.contentDocument.querySelectorAll('.css');
     ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ remonter](#table-of-contents)**
 
-## CSS & Style
+## Style & CSS
 
 - [2.1](#2.1) <a name='2.1'></a> CSS
 
-  + Get style
+  + Obtenir le style
 
     ```js
     // jQuery
     $el.css("color");
 
-    // Native
-    // NOTE: Known bug, will return 'auto' if style value is 'auto'
+    // Natif
+    // NOTE: Bug connu, retournera 'auto" si la valeur du site est 'auto'
     const win = el.ownerDocument.defaultView;
-    // null means not return pseudo styles
+    // null signifie ne pas retourner les pseudo styles
     win.getComputedStyle(el, null).color;
     ```
 
-  + Set style
+  + Définir le style
 
     ```js
     // jQuery
     $el.css({ color: "#ff0011" });
 
-    // Native
+    // Natif
     el.style.color = '#ff0011';
     ```
 
-  + Get/Set Styles
+  + Obtenir/Définir les styles
 
-    Note that if you want to set multiple styles once, you could refer to [setStyles](https://github.com/oneuijs/oui-dom-utils/blob/master/src/index.js#L194) method in oui-dom-utils package.
+    Notez que si vous souhaitez définir plusieurs styles à la fois, you devriez vous référer à la méthode [setStyles](https://github.com/oneuijs/oui-dom-utils/blob/master/src/index.js#L194) du paquet oui-dom-utils.
 
 
-  + Add class
+  + Ajouter une classe
 
     ```js
     // jQuery
     $el.addClass(className);
 
-    // Native
+    // Natif
     el.classList.add(className);
     ```
 
-  + Remove class
+  + Supprimer une classe
 
     ```js
     // jQuery
     $el.removeClass(className);
 
-    // Native
+    // Natif
     el.classList.remove(className);
     ```
 
-  + has class
+  + Possède une classe
 
     ```js
     // jQuery
     $el.hasClass(className);
 
-    // Native
+    // Natif
     el.classList.contains(className);
     ```
 
-  + Toggle class
+  + Basculer une class
 
     ```js
     // jQuery
     $el.toggleClass(className);
 
-    // Native
+    // Natif
     el.classList.toggle(className);
     ```
 
-- [2.2](#2.2) <a name='2.2'></a> Width & Height
+- [2.2](#2.2) <a name='2.2'></a> Largeur et Hauteur
 
-  Width and Height are theoretically identical, take Height as example:
+  Travailler avec la hauteur ou la largeur est en théorie identique, prenons la hauteur pour exemple:
 
-  + Window height
+  + Hauteur de la fenêtre
 
     ```js
-    // window height
+    // hauteur de la fenêtre
     $(window).height();
-    // without scrollbar, behaves like jQuery
+    // se comporte comme jQuery sans ascenseur
     window.document.documentElement.clientHeight;
-    // with scrollbar
+    // avec ascenseur
     window.innerHeight;
     ```
 
-  + Document height
+  + Hauteur du document
 
     ```js
     // jQuery
     $(document).height();
 
-    // Native
+    // Natif
     document.documentElement.scrollHeight;
     ```
 
-  + Element height
+  + Hauteur de l'élement
 
     ```js
     // jQuery
     $el.height();
 
-    // Native
+    // NatiF
     function getHeight(el) {
       const styles = this.getComputedStyles(el);
       const height = el.offsetHeight;
@@ -359,13 +359,13 @@ De nos jours, les environnements frontend évolues si rapidement que les navigat
       const paddingBottom = parseFloat(styles.paddingBottom);
       return height - borderBottomWidth - borderTopWidth - paddingTop - paddingBottom;
     }
-    // accurate to integer（when `border-box`, it's `height`; when `content-box`, it's `height + padding + border`）
+    // précis à l'entier près (quand `border-box`, son `height`; quand `content-box`, son `height + padding + border`)
     el.clientHeight;
-    // accurate to decimal（when `border-box`, it's `height`; when `content-box`, it's `height + padding + border`）
+    // précis à la décimale près (quand `border-box`, son `height`; quand `content-box`, son `height + padding + border`)
     el.getBoundingClientRect().height;
     ```
 
-- [2.3](#2.3) <a name='2.3'></a> Position & Offset
+- [2.3](#2.3) <a name='2.3'></a> Position et offset
 
   + Position
 
@@ -373,7 +373,7 @@ De nos jours, les environnements frontend évolues si rapidement que les navigat
     // jQuery
     $el.position();
 
-    // Native
+    // Natif
     { left: el.offsetLeft, top: el.offsetTop }
     ```
 
@@ -383,7 +383,7 @@ De nos jours, les environnements frontend évolues si rapidement que les navigat
     // jQuery
     $el.offset();
 
-    // Native
+    // Natif
     function getOffset (el) {
       const box = el.getBoundingClientRect();
 
@@ -394,122 +394,122 @@ De nos jours, les environnements frontend évolues si rapidement que les navigat
     }
     ```
 
-- [2.4](#2.4) <a name='2.4'></a> Scroll Top
+- [2.4](#2.4) <a name='2.4'></a> Défiler vers le haut
 
   ```js
   // jQuery
   $(window).scrollTop();
 
-  // Native
+  // Natif
   (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop;
   ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ remonter](#table-of-contents)**
 
-## DOM Manipulation
+## Manipulation du DOM
 
-- [3.1](#3.1) <a name='3.1'></a> Remove
+- [3.1](#3.1) <a name='3.1'></a> Supprimer
   ```js
   // jQuery
   $el.remove();
 
-  // Native
+  // Natif
   el.parentNode.removeChild(el);
   ```
 
-- [3.2](#3.2) <a name='3.2'></a> Text
+- [3.2](#3.2) <a name='3.2'></a> Texte
 
-  + Get text
+  + Obtenir le texte
 
     ```js
     // jQuery
     $el.text();
 
-    // Native
+    // Natif
     el.textContent;
     ```
 
-  + Set text
+  + Définir le text
 
     ```js
     // jQuery
     $el.text(string);
 
-    // Native
+    // Natif
     el.textContent = string;
     ```
 
 - [3.3](#3.3) <a name='3.3'></a> HTML
 
-  + Get HTML
+  + Obtenir l'HTML
 
     ```js
     // jQuery
     $el.html();
 
-    // Native
+    // Natif
     el.innerHTML;
     ```
 
-  + Set HTML
+  + Définir l'HTML
 
     ```js
     // jQuery
     $el.html(htmlString);
 
-    // Native
+    // Natif
     el.innerHTML = htmlString;
     ```
 
-- [3.4](#3.4) <a name='3.4'></a> Append
+- [3.4](#3.4) <a name='3.4'></a> Ajouter
 
-  append child element after the last child of parent element
+  Ajouter un élément enfant après le dernier enfant de l'élément parent.
 
   ```js
   // jQuery
   $el.append("<div id='container'>hello</div>");
 
-  // Native
+  // Natif
   let newEl = document.createElement('div');
   newEl.setAttribute('id', 'container');
   newEl.innerHTML = 'hello';
   el.appendChild(newEl);
   ```
 
-- [3.5](#3.5) <a name='3.5'></a> Prepend
+- [3.5](#3.5) <a name='3.5'></a> Faire précéder
 
   ```js
   // jQuery
   $el.prepend("<div id='container'>hello</div>");
 
-  // Native
+  // Natif
   let newEl = document.createElement('div');
   newEl.setAttribute('id', 'container');
   newEl.innerHTML = 'hello';
   el.insertBefore(newEl, el.firstChild);
   ```
 
-- [3.6](#3.6) <a name='3.6'></a> insertBefore
+- [3.6](#3.6) <a name='3.6'></a> Insérer avant
 
-  Insert a new node before the selected elements
+  Insérer un nouveau noeud avant les éléments sélectionnés.
 
   ```js
   // jQuery
   $newEl.insertBefore(queryString);
 
-  // Native
+  // Natif
   newEl.insertBefore(document.querySelector(queryString));
   ```
 
-- [3.7](#3.7) <a name='3.7'></a> insertAfter
+- [3.7](#3.7) <a name='3.7'></a> Insérer après
 
-  Insert a new node after the selected elements
+  Insérer un nouveau noeud après les noeufs sélectionnés
 
   ```js
   // jQuery
   $newEl.insertAfter(queryString);
 
-  // Native
+  // Natif
   function insertAfter(newEl, queryString) {
     const parent = document.querySelector(queryString).parentNode;
 
@@ -521,35 +521,35 @@ De nos jours, les environnements frontend évolues si rapidement que les navigat
   },
   ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ remonter](#table-of-contents)**
 
 ## Ajax
 
-Replace with [fetch](https://github.com/camsong/fetch-ie8) and [fetch-jsonp](https://github.com/camsong/fetch-jsonp)
+Remplacer avec [fetch](https://github.com/camsong/fetch-ie8) et [fetch-jsonp](https://github.com/camsong/fetch-jsonp)
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ remonter](#table-of-contents)**
 
-## Events
+## Évènements
 
-For a complete replacement with namespace and delegation, refer to https://github.com/oneuijs/oui-dom-events
+Pour remplacer complètement jusqu'aux espaces de nom et délégations, se référer à https://github.com/oneuijs/oui-dom-events
 
-- [5.1](#5.1) <a name='5.1'></a> Bind an event with on
+- [5.1](#5.1) <a name='5.1'></a> Attacher un événement avec `on`
 
   ```js
   // jQuery
   $el.on(eventName, eventHandler);
 
-  // Native
+  // Natif
   el.addEventListener(eventName, eventHandler);
   ```
 
-- [5.2](#5.2) <a name='5.2'></a> Unbind an event with off
+- [5.2](#5.2) <a name='5.2'></a> Détacher un événement avec `off`
 
   ```js
   // jQuery
   $el.off(eventName, eventHandler);
 
-  // Native
+  // Natif
   el.removeEventListener(eventName, eventHandler);
   ```
 
@@ -559,7 +559,7 @@ For a complete replacement with namespace and delegation, refer to https://githu
   // jQuery
   $(el).trigger('custom-event', {key1: 'data'});
 
-  // Native
+  // Natif
   if (window.CustomEvent) {
     const event = new CustomEvent('custom-event', {detail: {key1: 'data'}});
   } else {
@@ -570,9 +570,9 @@ For a complete replacement with namespace and delegation, refer to https://githu
   el.dispatchEvent(event);
   ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ remonter](#table-of-contents)**
 
-## Utilities
+## Utilitaires
 
 - [6.1](#6.1) <a name='6.1'></a> isArray
 
@@ -580,7 +580,7 @@ For a complete replacement with namespace and delegation, refer to https://githu
   // jQuery
   $.isArray(range);
 
-  // Native
+  // Natif
   Array.isArray(range);
   ```
 
@@ -590,36 +590,37 @@ For a complete replacement with namespace and delegation, refer to https://githu
   // jQuery
   $.trim(string);
 
-  // Native
+  // Natif
   string.trim();
   ```
 
-- [6.3](#6.3) <a name='6.3'></a> Object Assign
+- [6.3](#6.3) <a name='6.3'></a> Assigner un objet
 
-  Extend, use object.assign polyfill https://github.com/ljharb/object.assign
+  Pour étendre, utiliser le polyfill object.assign https://github.com/ljharb/object.assign
 
   ```js
   // jQuery
   $.extend({}, defaultOpts, opts);
 
-  // Native
+  // Natif
   Object.assign({}, defaultOpts, opts);
   ```
 
-- [6.4](#6.4) <a name='6.4'></a> Contains
+- [6.4](#6.4) <a name='6.4'></a> Contient
 
   ```js
   // jQuery
   $.contains(el, child);
 
-  // Native
+  // Natif
   el !== child && el.contains(child);
   ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ remonter](#table-of-contents)**
 
-## Translation
+## Traductions
 
+* [Français](./README-fr.md)
 * [한국어](./README.ko-KR.md)
 * [简体中文](./README.zh-CN.md)
 * [Bahasa Melayu](./README-my.md)
@@ -627,12 +628,12 @@ For a complete replacement with namespace and delegation, refer to https://githu
 * [Português(PT-BR)](./README.pt-BR.md)
 * [Tiếng Việt Nam](./README-vi.md)
 
-## Browser Support
+## Navigateurs compatibles
 
 ![Chrome](https://raw.github.com/alrra/browser-logos/master/chrome/chrome_48x48.png) | ![Firefox](https://raw.github.com/alrra/browser-logos/master/firefox/firefox_48x48.png) | ![IE](https://raw.github.com/alrra/browser-logos/master/internet-explorer/internet-explorer_48x48.png) | ![Opera](https://raw.github.com/alrra/browser-logos/master/opera/opera_48x48.png) | ![Safari](https://raw.github.com/alrra/browser-logos/master/safari/safari_48x48.png)
 --- | --- | --- | --- | --- |
-Latest ✔ | Latest ✔ | 10+ ✔ | Latest ✔ | 6.1+ ✔ |
+Plus récente ✔ | Plus récente ✔ | 10+ ✔ | Plus récente ✔ | 6.1+ ✔ |
 
-# License
+# Licence
 
 MIT
