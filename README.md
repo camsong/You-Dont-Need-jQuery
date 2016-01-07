@@ -1044,7 +1044,7 @@ A promise represents the eventual result of an asynchronous operation. jQuery ha
 
 ## Animation
 
-- [7.1](#7.1) <a name='7.1'></a> Show & Hide
+- [8.1](#8.1) <a name='8.1'></a> Show & Hide
 
   ```js
   // jQuery
@@ -1057,7 +1057,7 @@ A promise represents the eventual result of an asynchronous operation. jQuery ha
   el.style.display = 'none';
   ```
 
-- [7.2](#7.2) <a name='7.2'></a> Toggle
+- [8.2](#8.2) <a name='8.2'></a> Toggle
 
   ```js
   // jQuery
@@ -1072,7 +1072,7 @@ A promise represents the eventual result of an asynchronous operation. jQuery ha
   }
   ```
 
-- [7.3](#7.3) <a name='7.3'></a> FadeIn & FadeOut
+- [8.3](#8.3) <a name='8.3'></a> FadeIn & FadeOut
 
   ```js
   // jQuery
@@ -1087,7 +1087,7 @@ A promise represents the eventual result of an asynchronous operation. jQuery ha
   el.style.opacity = '0';
   ```
 
-- [7.4](#7.4) <a name='7.4'></a> FadeTo
+- [8.4](#8.4) <a name='8.4'></a> FadeTo
 
   ```js
   // jQuery
@@ -1097,7 +1097,7 @@ A promise represents the eventual result of an asynchronous operation. jQuery ha
   el.style.opacity = '0.15';
   ```
 
-- [7.5](#7.5) <a name='7.5'></a> FadeToggle
+- [8.5](#8.5) <a name='8.5'></a> FadeToggle
 
   ```js
   // jQuery
@@ -1114,7 +1114,7 @@ A promise represents the eventual result of an asynchronous operation. jQuery ha
   }
   ```
 
-- [7.6](#7.6) <a name='7.6'></a> SlideUp & SlideDown
+- [8.6](#8.6) <a name='8.6'></a> SlideUp & SlideDown
 
   ```js
   // jQuery
@@ -1130,7 +1130,7 @@ A promise represents the eventual result of an asynchronous operation. jQuery ha
   el.style.height = originHeight;
   ```
 
-- [7.7](#7.7) <a name='7.7'></a> SlideToggle
+- [8.7](#8.7) <a name='8.7'></a> SlideToggle
 
   ```js
   // jQuery
@@ -1148,7 +1148,7 @@ A promise represents the eventual result of an asynchronous operation. jQuery ha
   }
   ```
 
-- [7.8](#7.8) <a name='7.8'></a> Animate
+- [8.8](#8.8) <a name='8.8'></a> Animate
 
   ```js
   // jQuery
