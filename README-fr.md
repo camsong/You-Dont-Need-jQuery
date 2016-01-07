@@ -620,13 +620,17 @@ Pour remplacer complètement jusqu'aux espaces de nom et délégations, se réf�
 
 ## Traductions
 
-* [Français](./README-fr.md)
 * [한국어](./README.ko-KR.md)
 * [简体中文](./README.zh-CN.md)
 * [Bahasa Melayu](./README-my.md)
 * [Bahasa Indonesia](./README-id.md)
 * [Português(PT-BR)](./README.pt-BR.md)
 * [Tiếng Việt Nam](./README-vi.md)
+* [Español](./README-es.md)
+* [Русский](./README-ru.md)
+* [Türkçe](./README-tr.md)
+* [Italian](./README-it.md)
+* [Français](./README-fr.md)
 
 ## Navigateurs compatibles
 

@@ -639,6 +639,7 @@ Per una completa sostituzione con namespace e delegation, riferire a https://git
 * [Español](./README-es.md)
 * [Italiano](./README-it.md)
 * [Türkçe](./README-tr.md)
+* [Français](./README-fr.md)
 
 ## Supporto Browsers
 

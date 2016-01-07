@@ -644,6 +644,7 @@
 * [Русский](./README-ru.md)
 * [Türkçe](./README-tr.md)
 * [Italian](./README-it.md)
+* [Français](./READMEfr.md)
 
 ## Browser Support
 
