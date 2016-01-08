@@ -1178,6 +1178,7 @@ A promise represents the eventual result of an asynchronous operation. jQuery ha
 * [Русский](./README-ru.md)
 * [Türkçe](./README-tr.md)
 * [Italian](./README-it.md)
+* [Français](./README-fr.md)
 
 ## Browser Support
 

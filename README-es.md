@@ -625,6 +625,7 @@ Para un reemplazo completo con namespace y delegación, utilizar https://github.
 * [Español](./README-es.md)
 * [Русский](./README-ru.md)
 * [Türkçe](./README-tr.md)
+* [Français](./README-fr.md)
 
 ## Soporte de Navegadores
 

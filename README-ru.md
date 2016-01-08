@@ -638,6 +638,7 @@
 * [Español](./README-es.md)
 * [Русский](./README-ru.md)
 * [Türkçe](./README-tr.md)
+* [Français](./README-fr.md)
 
 ## Поддержка браузеров
 

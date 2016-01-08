@@ -622,6 +622,7 @@ Untuk penggantian secara menyeluruh dengan namespace dan delegation, rujuk ke ht
 * [Tiếng Việt Nam](./README-vi.md)
 * [Русский](./README-ru.md)
 * [Türkçe](./README-tr.md)
+* [Français](./README-fr.md)
 
 ## Browser yang di Support
 

@@ -603,6 +603,7 @@ For a complete replacement with namespace and delegation, refer to https://githu
 * [English](./README.md)
 * [Русский](./README-ru.md)
 * [Türkçe](./README-tr.md)
+* [Français](./README-fr.md)
 
 ## Sokongan Pelayar
 

@@ -697,6 +697,7 @@ namespace와 delegation을 포함해서 완전히 갈아 엎길 원하시면 htt
 * [Русский](./README-ru.md)
 * [Türkçe](./README-tr.md)
 * [Italian](./README-it.md)
+* [Français](./README-fr.md)
 
 ## 브라우저 지원
 

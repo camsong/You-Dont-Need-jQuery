@@ -653,6 +653,7 @@ Namespace ve Delegasyon ile tam olarak değiştirmek için, https://github.com/o
 * [Español](./README-es.md)
 * [Русский](./README-ru.md)
 * [Türkçe](./README-tr.md)
+* [Français](./README-fr.md)
 
 ## Tarayıcı Desteği
 
