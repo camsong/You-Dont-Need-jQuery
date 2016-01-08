@@ -691,7 +691,7 @@ Most of utilities are found by native API. Others advanced functions could be ch
 
   ```js
   // jQuery
-  $.isArray(obj);
+  $.isWindow(obj);
 
   // Native
   function isWindow(obj) {
