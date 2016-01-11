@@ -384,6 +384,8 @@ In place of common selectors like class, id or attribute we can use `document.qu
 
   + Position
 
+    Get the current coordinates of the element relative to the offset parent.
+
     ```js
     // jQuery
     $el.position();
@@ -393,6 +395,8 @@ In place of common selectors like class, id or attribute we can use `document.qu
     ```
 
   + Offset
+
+    Get the current coordinates of the element relative to the document.
 
     ```js
     // jQuery
@@ -411,6 +415,8 @@ In place of common selectors like class, id or attribute we can use `document.qu
 
 - [2.4](#2.4) <a name='2.4'></a> Scroll Top
 
+  Get the current vertical position of the scroll bar for the element.
+
   ```js
   // jQuery
   $(window).scrollTop();
@@ -424,6 +430,9 @@ In place of common selectors like class, id or attribute we can use `document.qu
 ## DOM Manipulation
 
 - [3.1](#3.1) <a name='3.1'></a> Remove
+
+  Remove the element from the DOM.
+
   ```js
   // jQuery
   $el.remove();
@@ -436,6 +445,8 @@ In place of common selectors like class, id or attribute we can use `document.qu
 
   + Get text
 
+    Get the combined text contents of the element including their descendants,
+
     ```js
     // jQuery
     $el.text();
@@ -445,6 +456,8 @@ In place of common selectors like class, id or attribute we can use `document.qu
     ```
 
   + Set text
+
+    Set the content of the element to the specified text.
 
     ```js
     // jQuery
@@ -594,9 +607,9 @@ In place of common selectors like class, id or attribute we can use `document.qu
     });
     el.parentNode.removeChild(el);
   });
-   ```
+  ```
 
-  - [3.13](#3.13) <a name='3.13'></a> replaceWith
+- [3.13](#3.13) <a name='3.13'></a> replaceWith
 
   Replace each element in the set of matched elements with the provided new content
 
@@ -611,7 +624,7 @@ In place of common selectors like class, id or attribute we can use `document.qu
     el.parentNode.insertBefore(outer, el);
     el.parentNode.removeChild(el);
   });
-   ```
+  ```
 
 
 **[⬆ back to top](#table-of-contents)**
@@ -932,6 +945,8 @@ Most of utilities are found by native API. Others advanced functions could be ch
 
 - [6.3](#6.3) <a name='6.3'></a> Globaleval
 
+  Execute some JavaScript code globally.
+
   ```js
   // jQuery
   $.globaleval(code);
@@ -1059,6 +1074,8 @@ A promise represents the eventual result of an asynchronous operation. jQuery ha
 
 - [8.2](#8.2) <a name='8.2'></a> Toggle
 
+  Display or hide the element.
+
   ```js
   // jQuery
   $el.toggle();
@@ -1089,6 +1106,8 @@ A promise represents the eventual result of an asynchronous operation. jQuery ha
 
 - [8.4](#8.4) <a name='8.4'></a> FadeTo
 
+  Adjust the opacity of the element.
+
   ```js
   // jQuery
   $el.fadeTo('slow',0.15);
@@ -1098,6 +1117,8 @@ A promise represents the eventual result of an asynchronous operation. jQuery ha
   ```
 
 - [8.5](#8.5) <a name='8.5'></a> FadeToggle
+
+  Display or hide the element by animating their opacity.
 
   ```js
   // jQuery
@@ -1132,6 +1153,8 @@ A promise represents the eventual result of an asynchronous operation. jQuery ha
 
 - [8.7](#8.7) <a name='8.7'></a> SlideToggle
 
+  Display or hide the element with a sliding motion.
+
   ```js
   // jQuery
   $el.slideToggle();
@@ -1149,6 +1172,8 @@ A promise represents the eventual result of an asynchronous operation. jQuery ha
   ```
 
 - [8.8](#8.8) <a name='8.8'></a> Animate
+
+  Perform a custom animation of a set of CSS properties.
 
   ```js
   // jQuery
