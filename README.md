@@ -785,7 +785,7 @@ Most of utilities are found by native API. Others advanced functions could be ch
     }
 
     if (obj.constructor &&
-        !{}.hasOwnPropert.call(obj.constructor.prototype, 'isPrototypeOf')) {
+        !{}.hasOwnProperty.call(obj.constructor.prototype, 'isPrototypeOf')) {
       return false;
     }
 
