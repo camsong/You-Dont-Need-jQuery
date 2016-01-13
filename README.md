@@ -770,13 +770,13 @@ Most of utilities are found by native API. Others advanced functions could be ch
   }
   ```
 
-  + isPlanObject
+  + isPlainObject
 
   Check to see if an object is a plain object (created using “{}” or “new Object”).
 
   ```js
   // jQuery
-  $.isPlanObject(obj);
+  $.isPlainObject(obj);
 
   // Native
   function isPlainObject(obj) {
