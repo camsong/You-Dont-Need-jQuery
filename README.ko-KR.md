@@ -1,6 +1,6 @@
-## You Don't Need jQuery
+## You Don't Need jQuery - ver.2
 
-오늘날 프론트엔드 개발 환경은 급격히 진화하고 있고, 모던 브라우저들은 이미 충분히 많은 DOM/BOM API들을 구현했습니다. 우리는 jQuery를 DOM 처리나 이벤트를 위해 처음부터 배울 필요가 없습니다. React, Angular, Vue같은 프론트엔드 라이브러리들이 주도권을 차지하는 동안 DOM을 바로 처리하는 것은 안티패턴이 되었고, jQuery의 중요성은 줄어들었습니다. 이 프로젝트는 대부분의 jQuery 메소드의 대안을 IE 10+ 이상을 지원하는 네이티브 구현으로 소개합니다.
+오늘날 프론트엔드 개발 환경은 급격히 진화하고 있고, 모던 브라우저들은 이미 충분히 많은 DOM/BOM API들을 구현했습니다. 우리는 jQuery를 DOM 처리나 이벤트를 위해 처음부터 배울 필요가 없습니다. React, Angular, Vue같은 프론트엔드 라이브러리들이 주도권을 차지하는 동안 DOM을 바로 처리하는 것은 안티패턴이 되었고, jQuery의 중요성은 줄어들었습니다. 이 프로젝트는 대부분의 jQuery 메소드의 대안을 IE 10 이상을 지원하는 네이티브 구현으로 소개합니다.
 
 ## 목차
 
@@ -10,6 +10,8 @@
 1. [Ajax](#ajax)
 1. [이벤트](#이벤트)
 1. [유틸리티](#유틸리티)
+1. [Promises](#promises)
+1. [Animation](#animation)
 1. [대안방법](#대안방법)
 1. [번역](#번역)
 1. [브라우저 지원](#브라우저-지원)
@@ -559,6 +561,58 @@ el.insertAdjacentHTML("afterbegin","<div id='container'>hello</div>");
   el.innerHTML = '';
   ```
 
+  - [3.11](#3.11) <a name='3.11'></a> wrap
+
+    각각의 엘리먼트를 주어진 HTML 구조로 감쌉니다.
+
+    ```js
+    // jQuery
+    $('.inner').wrap('<div class="wrapper"></div>');
+
+    // Native
+    [].slice.call(document.querySelectorAll('.inner')).forEach(function(el){
+      var wrapper = document.createElement('div');
+      wrapper.className = 'wrapper';
+      el.parentNode.insertBefore(wrapper, el);
+      el.parentNode.removeChild(el);
+      wrapper.appendChild(el);
+    });
+    ```
+
+  - [3.12](#3.12) <a name='3.12'></a> unwrap
+
+    DOM에서 해당 엘리먼트를 감싸고 있는 부모 요소를 없앱니다.
+
+    ```js
+    // jQuery
+    $('.inner').unwrap();
+
+    // Native
+    [].slice.call(document.querySelectorAll('.inner')).forEach(function(el){
+      [].slice.call(el.childNodes).forEach(function(child){
+        el.parentNode.insertBefore(child, el);
+      });
+      el.parentNode.removeChild(el);
+    });
+    ```
+
+  - [3.13](#3.13) <a name='3.13'></a> replaceWith
+
+    각각의 엘리먼트를 주어진 새 엘리먼트로 교체합니다.
+
+    ```js
+    // jQuery
+    $('.inner').replaceWith('<div class="outer"></div>');
+
+    // Native
+    [].slice.call(document.querySelectorAll('.inner')).forEach(function(el){
+      var outer = document.createElement('div');
+      outer.className = 'outer';
+      el.parentNode.insertBefore(outer, el);
+      el.parentNode.removeChild(el);
+    });
+    ```
+
 **[⬆ 목차로 돌아가기](#목차)**
 
 ## Ajax
@@ -614,29 +668,118 @@ namespace와 delegation을 포함해서 완전히 갈아 엎길 원하시면 htt
 
 ## 유틸리티
 
-- [6.1](#6.1) <a name='6.1'></a> 배열인지 검사(isArray)
+- [6.1](#6.1) <a name='6.1'></a> 기본 유틸리티
+
+  + isArray
+
+  주어진 인자가 배열인지 검사합니다.
 
   ```js
   // jQuery
-  $.isArray(range);
+  $.isArray(array);
 
   // Native
-  Array.isArray(range);
+  Array.isArray(array);
   ```
 
-- [6.2](#6.2) <a name='6.2'></a> 앞뒤 공백 지우기(Trim)
+  + isWindow
+
+  주어진 인자가 window 객체인지 검사합니다.
 
   ```js
   // jQuery
-  $.trim(string);
+  $.isWindow(obj);
 
   // Native
-  string.trim();
+  function isWindow(obj) {
+    return obj != null && obj === obj.window;
+  }
+  ```
+  + inArray
+
+  배열에서 해당 값이 있는지 검색하고 해당 값의 순번을 반환합니다. (검색 결과가 없을 경우 -1을 반환)
+
+  ```js
+  // jQuery
+  $.inArray(item, array);
+
+  // Native
+  Array.indexOf(item);
   ```
 
-- [6.3](#6.3) <a name='6.3'></a> Object Assign
+  + isNumbic
 
-  사용하려면 object.assign polyfill을 사용하세요. https://github.com/ljharb/object.assign
+  주어진 인자가 숫자인지 검사합니다.
+  검사에 `typeof` 를 사용합니다. 필요하면 라이브러리를 사용하세요. 가끔 `typeof`는 정확하지 않습니다.
+
+  ```js
+  // jQuery
+  $.isNumbic(item);
+
+  // Native
+  function isNumbic(item) {
+    return typeof value === 'number';
+  }
+  ```
+
+  + isFunction
+
+  주어진 인자가 JavaScript 함수 객체인지 검사합니다.
+
+  ```js
+  // jQuery
+  $.isFunction(item);
+
+  // Native
+  function isFunction(item) {
+    return typeof value === 'function';
+  }
+  ```
+
+  + isEmptyObject
+
+  객체가 비어있는지 검사합니다. Check to see if an object is empty (열거할 수 있는 프로퍼티가 없는지 검사).
+
+  ```js
+  // jQuery
+  $.isEmptyObject(obj);
+
+  // Native
+  function isEmptyObject(obj) {
+    for (let key in obj) {
+      return false;
+    }
+    return true;
+  }
+  ```
+
+  + isPlanObject
+
+  주어진 객체가 평범한 객체인지 검사합니다. (“{}”이나 “new Object”으로 생성되었는지 검사)
+
+  ```js
+  // jQuery
+  $.isPlanObject(obj);
+
+  // Native
+  function isPlainObject(obj) {
+    if (typeof (obj) !== 'object' || obj.nodeType || obj != null && obj === obj.window) {
+      return false;
+    }
+
+    if (obj.constructor &&
+        !{}.hasOwnPropert.call(obj.constructor.prototype, 'isPrototypeOf')) {
+      return false;
+    }
+
+    return true;
+  }
+  ```
+
+  + extend
+
+  두 개 이상의 객체를 첫 번째 객체로 합칩니다.
+  object.assign 은 ES6 API입니다. [polyfill](https://github.com/ljharb/object.assign) 을 사용할 수 있습니다.
 
   ```js
   // jQuery
@@ -646,7 +789,132 @@ namespace와 delegation을 포함해서 완전히 갈아 엎길 원하시면 htt
   Object.assign({}, defaultOpts, opts);
   ```
 
-- [6.4](#6.4) <a name='6.4'></a> Contains
+  + trim
+
+  문자열 앞뒤에 붙은 공백문자를 제거합니다.
+
+  ```js
+  // jQuery
+  $.trim(string);
+
+  // Native
+  string.trim();
+  ```
+
+  + map
+
+  배열이나 객체 내의 모든 요소를 새 배열에 변환하여 저장합니다.
+
+  ```js
+  // jQuery
+  $.map(array, function(value, index) {
+  });
+
+  // Native
+  array.map(function(value, index) {
+  });
+  ```
+
+  + each
+
+  객체나 함수 모두에 매끄럽게 사용할 수 있는 포괄적인 용도의 반복 함수입니다.
+
+  ```js
+  // jQuery
+  $.each(array, function(value, index) {
+  });
+
+  // Native
+  array.forEach(function(value, index) {
+  });
+  ```
+
+  + grep
+
+  배열에서 필터 함수를 만족하는 엘리먼트를 찾습니다.
+
+  ```js
+  // jQuery
+  $.grep(array, function(value, index) {
+  });
+
+  // Native
+  array.filter(function(value, index) {
+  });
+  ```
+
+  + type
+
+  객체의 JavaScript 내부 [[Class]]를 검사합니다.
+
+  ```js
+  // jQuery
+  $.type(obj);
+
+  // Native
+  Object.prototype.toString.call(obj).replace(/^\[object (.+)\]$/, '$1').toLowerCase();
+  ```
+
+  + merge
+
+  두 배열을 첫 번째 배열로 합칩니다.
+
+  ```js
+  // jQuery
+  $.merge(array1, array2);
+
+  // Native
+  // concat은 중복된 요소를 제거해주진 않습니다.
+  function merge() {
+    return Array.prototype.concat.apply([], arguments)
+  }
+  ```
+
+  + now
+
+  현재 시간을 숫자로 반환합니다.
+
+  ```js
+  // jQuery
+  $.now();
+
+  // Native
+  Date.now();
+  ```
+
+  + proxy
+
+  함수를 받아서 언제나 특정 context를 갖는 새 함수를 반환합니다.
+
+  ```js
+  // jQuery
+  $.proxy(fn, context);
+
+  // Native
+  fn.bind(context);
+  ```
+
+  + makeArray
+
+  array-like 한 객체를 진짜 JavaScript 배열로 변환합니다.
+
+  ```js
+  // jQuery
+  $.makeArray(array);
+
+  // Native
+  [].slice.call(array);
+  ```
+
+  + unique
+
+  DOM 엘리먼트 배열을 정렬하고 거기서 중복된 요소를 제거합니다. 주의할 것은 이것은 오직 DOM 엘리먼트에만 동작합니다. 문자열이나 숫자에는 적용되지 않습니다.
+
+  ```(준비중)```
+
+  + contains
+
+  주어진 엘리먼트가 주어진 또 다른 엘리먼트를 자손으로 포함하는지 검사합니다.
 
   ```js
   // jQuery
@@ -656,26 +924,247 @@ namespace와 delegation을 포함해서 완전히 갈아 엎길 원하시면 htt
   el !== child && el.contains(child);
   ```
 
-- [6.5](#6.5) <a name='6.5'></a> inArray
+  - [6.3](#6.3) <a name='6.3'></a> Globaleval
+
+    JavaScript 코드를 전역적으로 실행합니다.
+
+    ```js
+    // jQuery
+    $.globaleval(code);
+
+    // Native
+    function Globaleval(code) {
+      let script = document.createElement('script');
+      script.text = code;
+
+      document.head.appendChild(script).parentNode.removeChild(script);
+    }
+
+    // eval 함수를 쓸 수도 있습니다. 하지만 $.Globaleval 의 context가 전역인 데 반해 eval 함수의 context 는 실행 영역입니다.
+    eval(code);
+    ```
+
+- [6.4](#6.4) <a name='6.4'></a> parse
+
+  + parseHTML
+
+  문자열을 DOM 노드의 배열로 변환합니다.
 
   ```js
   // jQuery
-  $.inArray(item, array);
+  $.parseHTML(htmlString);
 
   // Native
-  array.indexOf(item);
+  function parseHTML(string) {
+    const tmp = document.implementation.createHTMLDocument();
+    tmp.body.innerHTML = string;
+    return tmp.body.children;
+  }
   ```
 
-- [6.6](#6.6) <a name='6.6'></a> map
+  + parseJSON
+
+  정상적인 JSON 문자열을 받아서 JavaScript 값을 받습니다.
 
   ```js
   // jQuery
-  $.map(array, function(value, index) {
-  });
+  $.parseJSON(str);
 
   // Native
-  Array.map(function(value, index) {
-  });
+  JSON.parse(str);
+  ```
+
+**[⬆ 목차로 돌아가기](#목차)**
+
+## Promises
+
+Promise는 비동기적인 작업의 결과를 표현합니다. jQuery는 자체적인 promise 처리를 가지고 있습니다. 네이티브 JavaScript엔 [Promises/A+](http://promises-aplus.github.io/promises-spec/) 명세에 맞는 얇고 작은 API를 구현되어 있습니다.
+
+- [7.1](#7.1) <a name='7.1'></a> done, fail, always
+
+  `done`은 promise가 처리되었을 때, `fail`은 promise가 거절되었을 때, `always`는 promise가 어떻게 되었건 실행됩니다.
+
+  ```js
+  // jQuery
+  $promise.done(doneCallback).fail(failCallback).always(alwaysCallback)
+
+  // Native
+  promise.then(doneCallback, failCallback).then(alwaysCallback, alwaysCallback)
+  ```
+
+- [7.2](#7.2) <a name='7.2'></a> when
+
+  `when`은 여러 개의 promise들을 처리할 때 사용됩니다. 이것은 모든 promise가 처리되었을 때 resolve하고 하나라도 거절되면 reject합니다.
+
+  ```js
+  // jQuery
+  $.when($promise1, $promise2).done((promise1Result, promise2Result) => {})
+
+  // Native
+  Promise.all([$promise1, $promise2]).then([promise1Result, promise2Result] => {});
+  ```
+
+- [7.3](#7.3) <a name='7.3'></a> Deferred
+
+  Deferred는 promise를 생성하는 방법입니다.
+
+  ```js
+  // jQuery
+  function asyncFunc() {
+    var d = new $.Deferred();
+    setTimeout(function() {
+      if(true) {
+        d.resolve('some_value_compute_asynchronously');
+      } else {
+        d.reject('failed');
+      }
+    }, 1000);
+    return d.promise();
+  }
+
+  // Native
+  function asyncFunc() {
+    return new Promise((resolve, reject) => {
+      setTimeout(function() {
+        if (true) {
+          resolve('some_value_compute_asynchronously');
+        } else {
+          reject('failed');
+        }
+      }, 1000);
+    });
+  }
+  ```
+
+**[⬆ 목차로 돌아가기](#목차)**
+
+## Animation
+
+- [8.1](#8.1) <a name='8.1'></a> Show & Hide
+
+  ```js
+  // jQuery
+  $el.show();
+  $el.hide();
+
+  // Native
+  // show 메소드에 대한 더 자세한 정보를 보고 싶으면  https://github.com/oneuijs/oui-dom-utils/blob/master/src/index.js#L363 를 참고하세요
+  el.style.display = ''|'inline'|'inline-block'|'inline-table'|'block';
+  el.style.display = 'none';
+  ```
+
+- [8.2](#8.2) <a name='8.2'></a> Toggle
+
+  엘리먼트를 출력하거나 숨깁니다.
+
+  ```js
+  // jQuery
+  $el.toggle();
+
+  // Native
+  if (el.ownerDocument.defaultView.getComputedStyle(el, null).display === 'none') {
+    el.style.display = ''|'inline'|'inline-block'|'inline-table'|'block';
+  }
+  else {
+    el.style.display = 'none';
+  }
+  ```
+
+- [8.3](#8.3) <a name='8.3'></a> FadeIn & FadeOut
+
+  ```js
+  // jQuery
+  $el.fadeIn(3000);
+  $el.fadeOut(3000);
+
+  // Native
+  el.style.transition = 'opacity 3s';
+  // fadeIn
+  el.style.opacity = '1';
+  // fadeOut
+  el.style.opacity = '0';
+  ```
+
+- [8.4](#8.4) <a name='8.4'></a> FadeTo
+
+  엘리먼트의 투명도(opacity)를 조정합니다.
+
+  ```js
+  // jQuery
+  $el.fadeTo('slow',0.15);
+  // Native
+  el.style.transition = 'opacity 3s'; // 'slow'가 3초라고 가정합니다.
+  el.style.opacity = '0.15';
+  ```
+
+- [8.5](#8.5) <a name='8.5'></a> FadeToggle
+
+  엘리먼트를 투명도를 조절해서 보여주거나 숨깁니다.
+
+  ```js
+  // jQuery
+  $el.fadeToggle();
+
+  // Native
+  el.style.transition = 'opacity 3s';
+  let { opacity } = el.ownerDocument.defaultView.getComputedStyle(el, null);
+  if (opacity === '1') {
+    el.style.opacity = '0';
+  }
+  else {
+    el.style.opacity = '1';
+  }
+  ```
+
+- [8.6](#8.6) <a name='8.6'></a> SlideUp & SlideDown
+
+  ```js
+  // jQuery
+  $el.slideUp();
+  $el.slideDown();
+
+  // Native
+  let originHeight = '100px';
+  el.style.transition = 'height 3s';
+  // slideUp
+  el.style.height = '0px';
+  // slideDown
+  el.style.height = originHeight;
+  ```
+
+- [8.7](#8.7) <a name='8.7'></a> SlideToggle
+
+  슬라이딩 모션과 함께 엘리먼트를 보이거나 숨깁니다.
+
+  ```js
+  // jQuery
+  $el.slideToggle();
+
+  // Native
+  let originHeight = '100px';
+  el.style.transition = 'height 3s';
+  let { height } = el.ownerDocument.defaultView.getComputedStyle(el, null);
+  if (parseInt(height, 10) === 0) {
+    el.style.height = originHeight;
+  }
+  else {
+   el.style.height = '0px';
+  }
+  ```
+
+- [8.8](#8.8) <a name='8.8'></a> Animate
+
+  자체적으로 CSS 프로퍼티들을 에니메이션합니다.
+
+  ```js
+  // jQuery
+  $el.animate({params}, speed);
+
+  // Native
+  el.style.transition = 'all' + speed;
+  Object.keys(params).forEach(function(key) {
+    el.style[key] = params[key];
+  })
   ```
 
 **[⬆ 목차로 돌아가기](#목차)**
