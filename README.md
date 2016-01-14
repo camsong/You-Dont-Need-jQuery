@@ -189,7 +189,7 @@ In place of common selectors like class, id or attribute we can use `document.qu
     $(e.currentTarget).index('.radio');
 
     // Native
-    [].indexOf.call(document.querySelectAll('.radio'), e.currentTarget);
+    [].indexOf.call(document.querySelectorAll('.radio'), e.currentTarget);
     ```
 
 - [1.9](#1.9) <a name='1.9'></a> Iframe Contents
