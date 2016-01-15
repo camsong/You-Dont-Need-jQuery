@@ -923,15 +923,7 @@ Most of utilities are found by native API. Others advanced functions could be ch
   [].slice.call(array);
   ```
 
-- [6.2](#6.2) <a name='6.2'></a> DOM utilities
-
-  + unique
-
-  Sorts an array of DOM elements, in place, with the duplicates removed. Note that this only works on arrays of DOM elements, not strings or numbers.
-
-  Sizzle's API
-
-  + contains
+- [6.2](#6.2) <a name='6.2'></a> Contains
 
   Check to see if a DOM element is a descendant of another DOM element.
 
