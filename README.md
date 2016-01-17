@@ -1045,6 +1045,27 @@ A promise represents the eventual result of an asynchronous operation. jQuery ha
       }, 1000);
     });
   }
+  
+  // Deferred way
+  function defer() {
+    let resolve, reject;
+    let promise = new Promise(function() {
+      resolve = arguments[0];
+      reject = arguments[1];
+    });
+    return { resolve, reject, promise };
+  }
+  function asyncFunc() {
+    var d = defer();
+    setTimeout(function() {
+      if(true) {
+        d.resolve('some_value_compute_asynchronously');
+      } else {
+        d.reject('failed');
+      }
+    }, 1000);
+    return d.promise;
+  }
   ```
 
 **[⬆ back to top](#table-of-contents)**
