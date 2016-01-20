@@ -1,6 +1,7 @@
-## Vous n'avez pas besoin de jQuery
+## Vous n'avez pas besoin de jQuery [![Build Status](https://travis-ci.org/oneuijs/You-Dont-Need-jQuery.svg)](https://travis-ci.org/oneuijs/You-Dont-Need-jQuery)
 
-De nos jours, les environnements frontend évolues si rapidement que les navigateurs récents ont déjà implémentés beaucoup d'API DOM/BOM suffisants. Il n'est pas utile d'apprendre jQuery à partir de rien pour manipuler le DOM ou les évènements. Pendant ce temps, grâce à l'efficacité de bibliothèques frontend comme React, Angular et Vue, manipuler directement le DOM est devenu obsolète, jQuery n'a jamais été aussi peu important. Ce projet résume la plupart des alternatives à jQuery à l'aide d'implémentations natives, compatibles IE 10+.
+
+De nos jours, les environnements frontend évolus si rapidement que les navigateurs récents ont déjà implémentés beaucoup d'API DOM/BOM suffisants. Il n'est pas utile d'apprendre jQuery à partir de rien pour manipuler le DOM ou les évènements. Pendant ce temps, grâce à l'efficacité de bibliothèques frontend comme React, Angular et Vue, manipuler directement le DOM est devenu obsolète, jQuery n'a jamais été aussi peu important. Ce projet résume la plupart des alternatives à jQuery à l'aide d'implémentations natives, compatibles IE 10+.
 
 ## Sommaire
 
@@ -10,6 +11,9 @@ De nos jours, les environnements frontend évolues si rapidement que les navigat
 1. [Ajax](#ajax)
 1. [Évènements](#events)
 1. [Utilitaires](#utilities)
+1. [Promises](#promises)
+1. [Animation](#animation)
+1. [Alternatives](#alternatives)
 1. [Traduction](#translation)
 1. [Navigateurs compatibles](#browser-support)
 
@@ -67,52 +71,15 @@ De nos jours, les environnements frontend évolues si rapidement que les navigat
   // Natif
   document.querySelectorAll('a[target=_blank]');
   ```
+- [1.4](#1.4) <a name='1.4'></a> Requête par descendants
 
-- [1.4](#1.4) <a name='1.4'></a> Trouver le n-ème
+  ```js
+  // jQuery
+  $el.find('li');
 
-  + Trouver des noeus
-
-    ```js
-    // jQuery
-    $el.find('li');
-
-    // Natif
-    el.querySelectorAll('li');
-    ```
-
-  + Trouver le body
-
-    ```js
-    // jQuery
-    $('body');
-
-    // Natif
-    document.body;
-    ```
-
-  + Trouver un attribut
-
-    ```js
-    // jQuery
-    $el.attr('foo');
-
-    // Natif
-    e.getAttribute('foo');
-    ```
-
-  + Trouver un attribut data
-
-    ```js
-    // jQuery
-    $el.data('foo');
-
-    // Natif
-    // avec getAttribute
-    el.getAttribute('data-foo');
-    // vous pouvez également utiliser `dataset` si seule la compatibilité IE 11+ est nécessaire
-    el.dataset['foo'];
-    ```
-
+  // Natif
+  el.querySelectorAll('li');
+  ```
 - [1.5](#1.5) <a name='1.5'></a> Éléments voisins/précédents/suivants
 
   + Éléments voisins
@@ -153,8 +120,11 @@ De nos jours, les environnements frontend évolues si rapidement que les navigat
   ```js
   // jQuery
   $el.closest(queryString);
+  
+  // Natif - Seulement le dernier, ne fonctionne pas sous IE
+  el.closest(selector);
 
-  // Natif
+  // Natif - IE10+
   function closest(el, selector) {
     const matchesSelector = el.matches || el.webkitMatchesSelector || el.mozMatchesSelector || el.msMatchesSelector;
 
@@ -217,7 +187,7 @@ De nos jours, les environnements frontend évolues si rapidement que les navigat
     $(e.currentTarget).index('.radio');
 
     // Natif
-    [].indexOf.call(document.querySelectAll('.radio'), e.currentTarget);
+    [].indexOf.call(document.querySelectorAll('.radio'), e.currentTarget);
     ```
 
 - [1.9](#1.9) <a name='1.9'></a> Contenus Iframe
@@ -351,7 +321,7 @@ De nos jours, les environnements frontend évolues si rapidement que les navigat
 
     // NatiF
     function getHeight(el) {
-      const styles = this.getComputedStyles(el);
+      const styles = window.getComputedStyle(el);
       const height = el.offsetHeight;
       const borderTopWidth = parseFloat(styles.borderTopWidth);
       const borderBottomWidth = parseFloat(styles.borderBottomWidth);
@@ -368,6 +338,8 @@ De nos jours, les environnements frontend évolues si rapidement que les navigat
 - [2.3](#2.3) <a name='2.3'></a> Position et offset
 
   + Position
+    
+    Récupère les coordonnées courantes de l'élement relatif à l'offset parent.
 
     ```js
     // jQuery
@@ -378,6 +350,8 @@ De nos jours, les environnements frontend évolues si rapidement que les navigat
     ```
 
   + Offset
+    
+    Récupère les coordonnées courantes de l'élement relatif au document.
 
     ```js
     // jQuery
@@ -395,6 +369,8 @@ De nos jours, les environnements frontend évolues si rapidement que les navigat
     ```
 
 - [2.4](#2.4) <a name='2.4'></a> Défiler vers le haut
+  
+  Récupère la position verticale courante de l'ascenseur pour cet élément.
 
   ```js
   // jQuery
@@ -409,6 +385,9 @@ De nos jours, les environnements frontend évolues si rapidement que les navigat
 ## Manipulation du DOM
 
 - [3.1](#3.1) <a name='3.1'></a> Supprimer
+  
+  Supprime l'élément du DOM.
+  
   ```js
   // jQuery
   $el.remove();
@@ -420,6 +399,8 @@ De nos jours, les environnements frontend évolues si rapidement que les navigat
 - [3.2](#3.2) <a name='3.2'></a> Texte
 
   + Obtenir le texte
+    
+    Récupère le contenu textuel combiné de l'élément en incluant ses déscendants.
 
     ```js
     // jQuery
@@ -430,6 +411,8 @@ De nos jours, les environnements frontend évolues si rapidement que les navigat
     ```
 
   + Définir le text
+    
+    Défini le contenu de l'élément à partir du texte spécifié.
 
     ```js
     // jQuery
@@ -520,12 +503,85 @@ De nos jours, les environnements frontend évolues si rapidement que les navigat
     }
   },
   ```
+- [3.8](#3.8) <a name='3.8'></a> est
 
+  Retourne `true` le paramètre correspond à la requête de sélection
+
+  ```js
+  // jQuert - Noter que `is` fonctionne également avec `function` ou `elements` qui ne sont pas concernés ici
+  $el.is(selector);
+
+  // Natif
+  el.matches(selector);
+  ```
+
+- [3.9](#3.9) <a name='3.9'></a> clone
+
+  Créé une copie profonde de cet élément
+
+  ```js
+  // jQuery
+  $el.clone();
+
+  // Natif
+  el.cloneNode();
+
+  // Pour une copie profonde, définir le paramètre à `true`
+  ```
+
+- [3.10](#3.10) <a name='3.10'></a> vider
+
+  Supprime tous les noeuds enfants
+
+  ```js
+  // jQuery
+  $el.empty();
+
+  // Natif
+  el.innerHTML = '';
+  ```
+
+- [3.11](#3.11) <a name='3.11'></a> enrouler
+
+  Enrouler une structure HTML autour de chaque élément
+
+  ```js
+  // jQuery
+  $('.inner').wrap('<div class="wrapper"></div>');
+
+  // Natif
+  [].slice.call(document.querySelectorAll('.inner')).forEach(function(el){
+    var wrapper = document.createElement('div');
+    wrapper.className = 'wrapper';
+    el.parentNode.insertBefore(wrapper, el);
+    el.parentNode.removeChild(el);
+    wrapper.appendChild(el);
+  });
+  ```
+
+- [3.12](#3.12) <a name='3.12'></a> dérouler
+
+  Supprime les parents de la collection des éléments correspondants du DOM
+
+  ```js
+  // jQuery
+  $('.inner').unwrap();
+
+  // Natif
+  [].slice.call(document.querySelectorAll('.inner')).forEach(function(el){
+    [].slice.call(el.childNodes).forEach(function(child){
+      el.parentNode.insertBefore(child, el);
+    });
+    el.parentNode.removeChild(el);
+  });
+  ```
 **[⬆ remonter](#table-of-contents)**
 
 ## Ajax
 
-Remplacer avec [fetch](https://github.com/camsong/fetch-ie8) et [fetch-jsonp](https://github.com/camsong/fetch-jsonp)
+[Fetch API](https://fetch.spec.whatwg.org/) est le nouveau standard qui a pour but de remplacer XMLHttpRequest afin de faire de l'ajax. Il fonctionne sous Chrome et Firefox, il est possible d'utiliser polyfills pour le faire fonctionner sur de vieux navigateurs.
+
+Essayer [github/fetch](http://github.com/github/fetch) sous IE9+ ou [fetch-ie8](https://github.com/camsong/fetch-ie8/) sous IE8+, [fetch-jsonp](https://github.com/camsong/fetch-jsonp) pour construire des requêtes JSONP.
 
 **[⬆ remonter](#table-of-contents)**
 
@@ -574,7 +630,13 @@ Pour remplacer complètement jusqu'aux espaces de nom et délégations, se réf�
 
 ## Utilitaires
 
-- [6.1](#6.1) <a name='6.1'></a> isArray
+La plupart des utilitaires se trouvent dans l'API native. D'autres fonctions avancées peuvent être choisiesafin de se concentrer sur la cohérence et la performance. Il est recommandé de remplacer par [lodash](https://lodash.com).
+
+- [6.1](#6.1) <a name='6.1'></a> Utilitaires basiques
+
+  + isArray
+
+  Détermine si l'argument est un tableau.
 
   ```js
   // jQuery
@@ -583,20 +645,106 @@ Pour remplacer complètement jusqu'aux espaces de nom et délégations, se réf�
   // Natif
   Array.isArray(range);
   ```
+ 
+  + isWindow
 
-- [6.2](#6.2) <a name='6.2'></a> Trim
+  Détermine si l'argument est une fenêtre.
 
   ```js
   // jQuery
-  $.trim(string);
+  $.isWindow(obj);
 
-  // Natif
-  string.trim();
+  // Native
+  function isWindow(obj) {
+    return obj != null && obj === obj.window;
+  }
   ```
 
-- [6.3](#6.3) <a name='6.3'></a> Assigner un objet
+  + inArray
 
-  Pour étendre, utiliser le polyfill object.assign https://github.com/ljharb/object.assign
+  Recherche une valeur spécifique à l'intérieur d'un tableau et retourne son index (ou -1 si rien n'a été trouvé).
+
+  ```js
+  // jQuery
+  $.inArray(item, array);
+
+  // Natif
+  Array.indexOf(item);
+  ```
+  
+  + isNumbic
+
+  Détermine si l'argument est un nombre.
+  Utiliser `typeof` pour décider du type. Si nécessaire utiliser une bibliothèque, parfois `typeof` n'est pas exacte.
+
+  ```js
+  // jQuery
+  $.isNumbic(item);
+
+  // Natif
+  function isNumbic(item) {
+    return typeof value === 'number';
+  }
+  ```
+
+  + isFunction
+
+  Détermine si l'argument est un objet fonction JavaScript.
+
+  ```js
+  // jQuery
+  $.isFunction(item);
+
+  // Natif
+  function isFunction(item) {
+    return typeof value === 'function';
+  }
+  ```
+  
+  + isEmptyObject
+
+  Vérifie si un objet est vide (ne contiens aucunes propriétés énumérables).
+
+  ```js
+  // jQuery
+  $.isEmptyObject(obj);
+
+  // Natif
+  function isEmptyObject(obj) {
+    for (let key in obj) {
+      return false;
+    }
+    return true;
+  }
+  ```
+
+  + isPlainObject
+
+  Vérifie si un object est un objet "plat" (créé en utilisant "{}" ou "new Object").
+
+  ```js
+  // jQuery
+  $.isPlainObject(obj);
+
+  // Natif
+  function isPlainObject(obj) {
+    if (typeof (obj) !== 'object' || obj.nodeType || obj != null && obj === obj.window) {
+      return false;
+    }
+
+    if (obj.constructor &&
+        !{}.hasOwnProperty.call(obj.constructor.prototype, 'isPrototypeOf')) {
+      return false;
+    }
+
+    return true;
+  }
+  ```
+
+  + extend
+
+  Fusionne le contenu de deux objets ou plus ensembles en un seul objet.
+  object.assign fait parti de l'API ES6, il est également possible d'utiliser [polyfill](https://github.com/ljharb/object.assign).
 
   ```js
   // jQuery
@@ -606,7 +754,126 @@ Pour remplacer complètement jusqu'aux espaces de nom et délégations, se réf�
   Object.assign({}, defaultOpts, opts);
   ```
 
-- [6.4](#6.4) <a name='6.4'></a> Contient
+  + trim
+  
+  Supprime le whitespace au début et à la fin d'une chaine.
+
+  ```js
+  // jQuery
+  $.trim(string);
+
+  // Natif
+  string.trim();
+  ```
+
+  + map
+
+  Traduit tous les éléments d'un tableau ou d'un objet vers un nouveau tableau d'éléments.
+
+  ```js
+  // jQuery
+  $.map(array, function(value, index) {
+  });
+
+  // Natif
+  array.map(function(value, index) {
+  });
+  ```
+
+  + each
+
+  Une fonction générique d'itération, qui peut être utilisée pour itérer de façon transparente à travers des objets et des tableaux.
+
+  ```js
+  // jQuery
+  $.each(array, function(value, index) {
+  });
+
+  // Natif
+  array.forEach(function(value, index) {
+  });
+  ```
+  
+  + grep
+
+  Trouve les éléments d'un tableau qui satisfont avec une fonction filtre.
+
+  ```js
+  // jQuery
+  $.grep(array, function(value, index) {
+  });
+
+  // Natif
+  array.filter(function(value, index) {
+  });
+  ```
+  
+  + type
+
+  Détermine la [[Class]] interne JavaScript d'un objet.
+
+  ```js
+  // jQuery
+  $.type(obj);
+
+  // Natif
+  Object.prototype.toString.call(obj).replace(/^\[object (.+)\]$/, '$1').toLowerCase();
+  ```
+  
+  + merge
+
+  Fusionne le contenu de deux tableau ensembles dans un seul tableau.
+
+  ```js
+  // jQuery
+  $.merge(array1, array2);
+
+  // Natif
+  // But concat function don't remove duplicate items.
+  function merge() {
+    return Array.prototype.concat.apply([], arguments)
+  }
+  ```
+
+  + now
+
+  Retourne un nombre représentant l'heure actuelle.
+
+  ```js
+  // jQuery
+  $.now();
+
+  // Natif
+  Date.now();
+  ```
+
+  + proxy
+
+  Prend une fonction et en retourne une nouvelle qui aura toujours un contexte particulier.
+
+  ```js
+  // jQuery
+  $.proxy(fn, context);
+
+  // Natif
+  fn.bind(context);
+  ```
+
+  + makeArray
+
+  Convertie un objet "array-like" vers un véritable tableau JavaScript.
+
+  ```js
+  // jQuery
+  $.makeArray(array);
+
+  // Natif
+  [].slice.call(array);
+  ```
+
+- [6.2](#6.2) <a name='6.2'></a> Contient
+  
+  Vérifie si un élément du DOM est un déscendant d'un autre élément du DOM.
 
   ```js
   // jQuery
@@ -616,7 +883,276 @@ Pour remplacer complètement jusqu'aux espaces de nom et délégations, se réf�
   el !== child && el.contains(child);
   ```
 
+- [6.3](#6.3) <a name='6.3'></a> Globaleval
+
+  Exécute du code JavaScript de manière globale.
+
+  ```js
+  // jQuery
+  $.globaleval(code);
+
+  // Natif
+  function Globaleval(code) {
+    let script = document.createElement('script');
+    script.text = code;
+
+    document.head.appendChild(script).parentNode.removeChild(script);
+  }
+
+  // Utilise eval, mais le contexte d'eval est l'actuel alors que le contexte de $.Globaleval est global.
+  eval(code);
+  ```
+
+- [6.4](#6.4) <a name='6.4'></a> parse
+
+  + parseHTML
+
+  Parse une chaine vers u tableau de noeuds DOM.
+
+  ```js
+  // jQuery
+  $.parseHTML(htmlString);
+
+  // Natif
+  function parseHTML(string) {
+    const tmp = document.implementation.createHTMLDocument();
+    tmp.body.innerHTML = string;
+    return tmp.body.children;
+  }
+  ```
+
+  + parseJSON
+
+  Prend une chaine JSON correctement formatée et retourne la valeur JavaScript résultante.
+
+  ```js
+  // jQuery
+  $.parseJSON(str);
+
+  // Natif
+  JSON.parse(str);
+  ```
+
 **[⬆ remonter](#table-of-contents)**
+
+## Promesses
+
+Une promesse représente le résultat éventuel d'une opération asynchrone. jQuery a sa propre manière de traiter les promesses. JavaScript natif implémente une API minimale et légère afin de traiter les promesses en accord avec les spécifications [Promises/A+](http://promises-aplus.github.io/promises-spec/).
+
+
+- [7.1](#7.1) <a name='7.1'></a> done, fail, always
+
+  `done` est appelée quand une promesse est résolue, `fail` est appelée quand une promesse est rejetée et `always` est appelée quand une promesse n'est ni résolue ni rejetée.
+
+  ```js
+  // jQuery
+  $promise.done(doneCallback).fail(failCallback).always(alwaysCallback)
+
+  // Natif
+  promise.then(doneCallback, failCallback).then(alwaysCallback, alwaysCallback)
+  ```
+
+- [7.2](#7.2) <a name='7.2'></a> when
+
+  `when` est utilisée pour traiter de multiples promesses. Elle sera résolue quand toutes les promesses le seront, and rejetée si au moins une est rejetée.
+
+  ```js
+  // jQuery
+  $.when($promise1, $promise2).done((promise1Result, promise2Result) => {})
+
+  // Natif
+  Promise.all([$promise1, $promise2]).then([promise1Result, promise2Result] => {});
+  ```
+
+- [7.3](#7.3) <a name='7.3'></a> Deferred
+
+  Deferred est un moyen de créer une promesse.
+
+  ```js
+  // jQuery
+  function asyncFunc() {
+    var d = new $.Deferred();
+    setTimeout(function() {
+      if(true) {
+        d.resolve('some_value_compute_asynchronously');
+      } else {
+        d.reject('failed');
+      }
+    }, 1000);
+    return d.promise();
+  }
+
+  // Natif
+  function asyncFunc() {
+    return new Promise((resolve, reject) => {
+      setTimeout(function() {
+        if (true) {
+          resolve('some_value_compute_asynchronously');
+        } else {
+          reject('failed');
+        }
+      }, 1000);
+    });
+  }
+  
+  // Avec deferred
+  function defer() {
+    let resolve, reject;
+    let promise = new Promise(function() {
+      resolve = arguments[0];
+      reject = arguments[1];
+    });
+    return { resolve, reject, promise };
+  }
+  function asyncFunc() {
+    var d = defer();
+    setTimeout(function() {
+      if(true) {
+        d.resolve('some_value_compute_asynchronously');
+      } else {
+        d.reject('failed');
+      }
+    }, 1000);
+    return d.promise;
+  }
+  ```
+
+**[⬆ remonter](#table-of-contents)**
+
+## Animation
+
+- [8.1](#8.1) <a name='8.1'></a> Show & Hide
+
+  ```js
+  // jQuery
+  $el.show();
+  $el.hide();
+
+  // Natif
+  //Pour plus de détails à propos de la méthode show, merci de se référer à https://github.com/oneuijs/oui-dom-utils/blob/master/src/index.js#L363
+
+  el.style.display = ''|'inline'|'inline-block'|'inline-table'|'block';
+  el.style.display = 'none';
+  ```
+
+- [8.2](#8.2) <a name='8.2'></a> Toggle
+
+  Affiche ou cache un élément.
+
+  ```js
+  // jQuery
+  $el.toggle();
+
+  // Natif
+  if (el.ownerDocument.defaultView.getComputedStyle(el, null).display === 'none') {
+    el.style.display = ''|'inline'|'inline-block'|'inline-table'|'block';
+  }
+  else {
+    el.style.display = 'none';
+  }
+  ```
+
+- [8.3](#8.3) <a name='8.3'></a> FadeIn & FadeOut
+
+  ```js
+  // jQuery
+  $el.fadeIn(3000);
+  $el.fadeOut(3000);
+
+  // Natif
+  el.style.transition = 'opacity 3s';
+  // fadeIn
+  el.style.opacity = '1';
+  // fadeOut
+  el.style.opacity = '0';
+  ```
+
+- [8.4](#8.4) <a name='8.4'></a> FadeTo
+
+  Ajuste l'opacité d'un élément.
+
+  ```js
+  // jQuery
+  $el.fadeTo('slow',0.15);
+  // Natif
+  el.style.transition = 'opacity 3s'; // assume que 'slow' vaut 3 seconds
+  el.style.opacity = '0.15';
+  ```
+
+- [8.5](#8.5) <a name='8.5'></a> FadeToggle
+
+  Affiche ou cache un élément en animant son opacité.
+
+  ```js
+  // jQuery
+  $el.fadeToggle();
+
+  // Natif
+  el.style.transition = 'opacity 3s';
+  let { opacity } = el.ownerDocument.defaultView.getComputedStyle(el, null);
+  if (opacity === '1') {
+    el.style.opacity = '0';
+  }
+  else {
+    el.style.opacity = '1';
+  }
+  ```
+
+- [8.6](#8.6) <a name='8.6'></a> SlideUp & SlideDown
+
+  ```js
+  // jQuery
+  $el.slideUp();
+  $el.slideDown();
+
+  // Natif
+  let originHeight = '100px';
+  el.style.transition = 'height 3s';
+  // slideUp
+  el.style.height = '0px';
+  // slideDown
+  el.style.height = originHeight;
+  ```
+
+- [8.7](#8.7) <a name='8.7'></a> SlideToggle
+
+  Affiche ou cache un élément en le faisant glisser.
+
+  ```js
+  // jQuery
+  $el.slideToggle();
+
+  // Natif
+  let originHeight = '100px';
+  el.style.transition = 'height 3s';
+  let { height } = el.ownerDocument.defaultView.getComputedStyle(el, null);
+  if (parseInt(height, 10) === 0) {
+    el.style.height = originHeight;
+  }
+  else {
+   el.style.height = '0px';
+  }
+  ```
+  
+- [8.8](#8.8) <a name='8.8'></a> Animate
+
+  Réalise une animation personnaliée à partir d'une collection de propriétée CSS.
+
+  ```js
+  // jQuery
+  $el.animate({params}, speed);
+
+  // Natif
+  el.style.transition = 'all' + speed;
+  Object.keys(params).forEach(function(key) {
+    el.style[key] = params[key];
+  })
+  ```
+  
+## Alternatives
+
+* [You Might Not Need jQuery](http://youmightnotneedjquery.com/) - Des exemples sur comment faire un simple évènement, ajax etc avec du javascript pur.
+* [npm-dom](http://github.com/npm-dom) et [webmodules](http://github.com/webmodules) - Modules DOM sur NPM.
 
 ## Traductions
 
