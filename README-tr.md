@@ -4,6 +4,7 @@
 
 ## İçerik Tablosu
 
+1. [Çeviriler](#Çeviriler)
 1. [Sorgu seçiciler](#sorgu-seçiciler)
 1. [CSS & Stil](#css--stil)
 1. [DOM düzenleme](#dom-düzenleme)
@@ -11,8 +12,21 @@
 1. [Olaylar](#olaylar)
 1. [Araçlar](#araçlar)
 1. [Alternatifler](#alternatifler)
-1. [Çeviriler](#Çeviriler)
 1. [Tarayıcı desteği](#tarayıcı-desteği)
+
+## Çeviriler
+
+* [한국어](./README.ko-KR.md)
+* [简体中文](./README.zh-CN.md)
+* [Bahasa Melayu](./README-my.md)
+* [Bahasa Indonesia](./README-id.md)
+* [Português(PT-BR)](./README.pt-BR.md)
+* [Tiếng Việt Nam](./README-vi.md)
+* [Español](./README-es.md)
+* [Русский](./README-ru.md)
+* [Türkçe](./README-tr.md)
+* [Italiano](./README-it.md)
+* [Français](./README-fr.md)
 
 ## Sorgu seçiciler
 
@@ -641,19 +655,6 @@ Namespace ve Delegasyon ile tam olarak değiştirmek için, https://github.com/o
 
 * [jQuery'e İhtiyacınız Yok](http://youmightnotneedjquery.com/) - Yaygın olan olay, öğe ve ajax işlemlerinin yalın Javascript'teki karşılıklarına ait örnekler
 * [npm-dom](http://github.com/npm-dom) ve [webmodules](http://github.com/webmodules) - NPM için ayrı DOM modül organizasyonları
-
-## Çeviriler
-
-* [한국어](./README.ko-KR.md)
-* [简体中文](./README.zh-CN.md)
-* [Bahasa Melayu](./README-my.md)
-* [Bahasa Indonesia](./README-id.md)
-* [Português(PT-BR)](./README.pt-BR.md)
-* [Tiếng Việt Nam](./README-vi.md)
-* [Español](./README-es.md)
-* [Русский](./README-ru.md)
-* [Türkçe](./README-tr.md)
-* [Français](./README-fr.md)
 
 ## Tarayıcı Desteği
 

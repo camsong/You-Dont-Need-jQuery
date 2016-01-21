@@ -4,6 +4,7 @@ Il mondo del Frontend si evolve rapidamente oggigiorno, i browsers moderni hanno
 
 ## Tabella contenuti
 
+1. [Traduzioni](#traduzioni)
 1. [Query Selector](#query-selector)
 1. [CSS & Style](#css--style)
 1. [Manipolazione DOM](#manipolazione-dom)
@@ -11,8 +12,21 @@ Il mondo del Frontend si evolve rapidamente oggigiorno, i browsers moderni hanno
 1. [Eventi](#eventi)
 1. [Utilities](#utilities)
 1. [Alternative](#alternative)
-1. [Traduzioni](#traduzioni)
 1. [Supporto Browsers](#supporto-browsers)
+
+## Traduzioni
+
+* [한국어](./README.ko-KR.md)
+* [简体中文](./README.zh-CN.md)
+* [Bahasa Melayu](./README-my.md)
+* [Bahasa Indonesia](./README-id.md)
+* [Português(PT-BR)](./README.pt-BR.md)
+* [Tiếng Việt Nam](./README-vi.md)
+* [Español](./README-es.md)
+* [Русский](./README-ru.md)
+* [Türkçe](./README-tr.md)
+* [Italiano](./README-it.md)
+* [Français](./README-fr.md)
 
 ## Query Selector
 
@@ -627,19 +641,6 @@ Per una completa sostituzione con namespace e delegation, riferire a https://git
 
 * [Forse non hai bisogno di jQuery](http://youmightnotneedjquery.com/) - Esempi di come creare eventi comuni, elementi, ajax etc usando puramente javascript.
 * [npm-dom](http://github.com/npm-dom) e [webmodules](http://github.com/webmodules) - Organizzazione dove puoi trovare moduli per il DOM individuale su NPM
-
-## Traduzioni
-
-* [한국어](./README.ko-KR.md)
-* [简体中文](./README.zh-CN.md)
-* [Bahasa Melayu](./README-my.md)
-* [Bahasa Indonesia](./README-id.md)
-* [Português(PT-BR)](./README.pt-BR.md)
-* [Tiếng Việt Nam](./README-vi.md)
-* [Español](./README-es.md)
-* [Italiano](./README-it.md)
-* [Türkçe](./README-tr.md)
-* [Français](./README-fr.md)
 
 ## Supporto Browsers
 
