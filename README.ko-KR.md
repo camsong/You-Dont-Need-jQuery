@@ -1,4 +1,4 @@
-## You Don't Need jQuery - ver.2
+## You Don't Need jQuery
 
 오늘날 프론트엔드 개발 환경은 급격히 진화하고 있고, 모던 브라우저들은 이미 충분히 많은 DOM/BOM API들을 구현했습니다. 우리는 jQuery를 DOM 처리나 이벤트를 위해 처음부터 배울 필요가 없습니다. React, Angular, Vue같은 프론트엔드 라이브러리들이 주도권을 차지하는 동안 DOM을 바로 처리하는 것은 안티패턴이 되었고, jQuery의 중요성은 줄어들었습니다. 이 프로젝트는 대부분의 jQuery 메소드의 대안을 IE 10 이상을 지원하는 네이티브 구현으로 소개합니다.
 
@@ -189,7 +189,7 @@
     $(e.currentTarget).index('.radio');
 
     // Native
-    [].indexOf.call(document.querySelectAll('.radio'), e.currentTarget);
+    [].indexOf.call(document.querySelectorAll('.radio'), e.currentTarget);
     ```
 
 - [1.9](#1.9) <a name='1.9'></a> Iframe Contents
@@ -366,7 +366,7 @@
 
     // Native
     function getHeight(el) {
-      const styles = this.getComputedStyles(el);
+      const styles = window.getComputedStyles(el);
       const height = el.offsetHeight;
       const borderTopWidth = parseFloat(styles.borderTopWidth);
       const borderBottomWidth = parseFloat(styles.borderBottomWidth);
@@ -753,13 +753,13 @@ namespace와 delegation을 포함해서 완전히 갈아 엎길 원하시면 htt
   }
   ```
 
-  + isPlanObject
+  + isPlainObject
 
   주어진 객체가 평범한 객체인지 검사합니다. (“{}”이나 “new Object”으로 생성되었는지 검사)
 
   ```js
   // jQuery
-  $.isPlanObject(obj);
+  $.isPlainObject(obj);
 
   // Native
   function isPlainObject(obj) {
@@ -768,7 +768,7 @@ namespace와 delegation을 포함해서 완전히 갈아 엎길 원하시면 htt
     }
 
     if (obj.constructor &&
-        !{}.hasOwnPropert.call(obj.constructor.prototype, 'isPrototypeOf')) {
+        !{}.hasOwnProperty.call(obj.constructor.prototype, 'isPrototypeOf')) {
       return false;
     }
 
@@ -906,13 +906,7 @@ namespace와 delegation을 포함해서 완전히 갈아 엎길 원하시면 htt
   [].slice.call(array);
   ```
 
-  + unique
-
-  DOM 엘리먼트 배열을 정렬하고 거기서 중복된 요소를 제거합니다. 주의할 것은 이것은 오직 DOM 엘리먼트에만 동작합니다. 문자열이나 숫자에는 적용되지 않습니다.
-
-  ```(준비중)```
-
-  + contains
+- [6.2](#6.2) <a name='6.2'></a> Contains
 
   주어진 엘리먼트가 주어진 또 다른 엘리먼트를 자손으로 포함하는지 검사합니다.
 
@@ -924,25 +918,25 @@ namespace와 delegation을 포함해서 완전히 갈아 엎길 원하시면 htt
   el !== child && el.contains(child);
   ```
 
-  - [6.3](#6.3) <a name='6.3'></a> Globaleval
+- [6.3](#6.3) <a name='6.3'></a> Globaleval
 
-    JavaScript 코드를 전역적으로 실행합니다.
+  JavaScript 코드를 전역적으로 실행합니다.
 
-    ```js
-    // jQuery
-    $.globaleval(code);
+  ```js
+  // jQuery
+  $.globaleval(code);
 
-    // Native
-    function Globaleval(code) {
-      let script = document.createElement('script');
-      script.text = code;
+  // Native
+  function Globaleval(code) {
+    let script = document.createElement('script');
+    script.text = code;
 
-      document.head.appendChild(script).parentNode.removeChild(script);
-    }
+    document.head.appendChild(script).parentNode.removeChild(script);
+  }
 
-    // eval 함수를 쓸 수도 있습니다. 하지만 $.Globaleval 의 context가 전역인 데 반해 eval 함수의 context 는 실행 영역입니다.
-    eval(code);
-    ```
+  // eval 함수를 쓸 수도 있습니다. 하지만 $.Globaleval 의 context가 전역인 데 반해 eval 함수의 context 는 실행 영역입니다.
+  eval(code);
+  ```
 
 - [6.4](#6.4) <a name='6.4'></a> parse
 
@@ -1033,6 +1027,27 @@ Promise는 비동기적인 작업의 결과를 표현합니다. jQuery는 자체
         }
       }, 1000);
     });
+  }
+
+  // Deferred way
+  function defer() {
+    let resolve, reject;
+    let promise = new Promise(function() {
+      resolve = arguments[0];
+      reject = arguments[1];
+    });
+    return { resolve, reject, promise };
+  }
+  function asyncFunc() {
+    var d = defer();
+    setTimeout(function() {
+      if(true) {
+        d.resolve('some_value_compute_asynchronously');
+      } else {
+        d.reject('failed');
+      }
+    }, 1000);
+    return d.promise;
   }
   ```
 
