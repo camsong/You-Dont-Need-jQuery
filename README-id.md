@@ -5,14 +5,28 @@ Dewasa ini perkembangan environment frontend sangatlah pesat, dimana banyak brow
 
 ## Daftar Isi
 
+1. [Terjemahan](#translation)
 1. [Query Selector](#query-selector)
 1. [CSS & Style](#css-style)
 1. [DOM Manipulation](#dom-manipulation)
 1. [Ajax](#ajax)
 1. [Events](#events)
 1. [Utilities](#utilities)
-1. [Translation](#translation)
 1. [Browser Support](#browser-yang-di-support)
+
+## Terjemahan
+
+* [한국어](./README.ko-KR.md)
+* [简体中文](./README.zh-CN.md)
+* [Bahasa Melayu](./README-my.md)
+* [Bahasa Indonesia](./README-id.md)
+* [Português(PT-BR)](./README.pt-BR.md)
+* [Tiếng Việt Nam](./README-vi.md)
+* [Español](./README-es.md)
+* [Русский](./README-ru.md)
+* [Türkçe](./README-tr.md)
+* [Italiano](./README-it.md)
+* [Français](./README-fr.md)
 
 ## Query Selector
 
@@ -611,18 +625,6 @@ Untuk penggantian secara menyeluruh dengan namespace dan delegation, rujuk ke ht
   ```
 
 **[⬆ back to top](#daftar-isi)**
-
-## Terjemahan
-
-* [한국어](./README.ko-KR.md)
-* [简体中文](./README.zh-CN.md)
-* [Bahasa Melayu](./README-my.md)
-* [Bahasa Indonesia](./README-id.md)
-* [Português(PT-BR)](./README.pt-BR.md)
-* [Tiếng Việt Nam](./README-vi.md)
-* [Русский](./README-ru.md)
-* [Türkçe](./README-tr.md)
-* [Français](./README-fr.md)
 
 ## Browser yang di Support
 

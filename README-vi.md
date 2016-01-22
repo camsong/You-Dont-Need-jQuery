@@ -13,6 +13,20 @@ Ngày nay, môi trường lập trình front-end phát triển rất nhanh chón
 1. [Ngôn ngữ khác](#ngôn-ngữ-khác)
 1. [Các trình duyệt hỗ trợ](#các-trình-duyệt-hỗ-trợ)
 
+## Ngôn ngữ khác
+
+* [한국어](./README.ko-KR.md)
+* [简体中文](./README.zh-CN.md)
+* [Bahasa Melayu](./README-my.md)
+* [Bahasa Indonesia](./README-id.md)
+* [Português(PT-BR)](./README.pt-BR.md)
+* [Tiếng Việt Nam](./README-vi.md)
+* [Español](./README-es.md)
+* [Русский](./README-ru.md)
+* [Türkçe](./README-tr.md)
+* [Italiano](./README-it.md)
+* [Français](./README-fr.md)
+
 ## Query Selector
 
 Đối với những selector phổ biến như class, id hoặc thuộc tính thì chúng ta có thể sử dụng `document.querySelector` hoặc `document.querySelectorAll` để thay thế cho jQuery selector. Sự khác biệt của hai hàm này là ở chỗ:
@@ -612,17 +626,6 @@ Thay thế bằng [fetch](https://github.com/camsong/fetch-ie8) và [fetch-jsonp
   ```
 
 **[⬆ Trở về đầu](#danh-mục)**
-
-## Ngôn ngữ khác
-
-* [한국어](./README.ko-KR.md)
-* [简体中文](./README.zh-CN.md)
-* [Bahasa Melayu](./README-my.md)
-* [Português(PT-BR)](./README.pt-BR.md)
-* [Tiếng Việt Nam](./README-vi.md)
-* [Русский](./README-ru.md)
-* [Türkçe](./README-tr.md)
-* [Français](./README-fr.md)
 
 ## Các trình duyệt hỗ trợ
 

@@ -4,6 +4,7 @@
 
 ## 目录
 
+1. [Translations](#translations)
 1. [Query Selector](#query-selector)
 1. [CSS & Style](#css--style)
 1. [DOM Manipulation](#dom-manipulation)
@@ -11,8 +12,21 @@
 1. [Events](#events)
 1. [Utilities](#utilities)
 1. [Alternatives](#alternatives)
-1. [Translations](#translations)
 1. [Browser Support](#browser-support)
+
+## Translations
+
+* [한국어](./README.ko-KR.md)
+* [简体中文](./README.zh-CN.md)
+* [Bahasa Melayu](./README-my.md)
+* [Bahasa Indonesia](./README-id.md)
+* [Português(PT-BR)](./README.pt-BR.md)
+* [Tiếng Việt Nam](./README-vi.md)
+* [Español](./README-es.md)
+* [Русский](./README-ru.md)
+* [Türkçe](./README-tr.md)
+* [Italiano](./README-it.md)
+* [Français](./README-fr.md)
 
 ## Query Selector
 
@@ -631,20 +645,6 @@
 
 * [你可能不需要 jQuery (You Might Not Need jQuery)](http://youmightnotneedjquery.com/) - 如何使用原生 JavaScript 实现通用事件，元素，ajax 等用法。
 * [npm-dom](http://github.com/npm-dom) 以及 [webmodules](http://github.com/webmodules) - 在 NPM 上提供独立 DOM 模块的组织
-
-## Translations
-
-* [한국어](./README.ko-KR.md)
-* [简体中文](./README.zh-CN.md)
-* [Bahasa Melayu](./README-my.md)
-* [Bahasa Indonesia](./README-id.md)
-* [Português(PT-BR)](./README.pt-BR.md)
-* [Tiếng Việt Nam](./README-vi.md)
-* [Español](./README-es.md)
-* [Русский](./README-ru.md)
-* [Türkçe](./README-tr.md)
-* [Italian](./README-it.md)
-* [Français](./READMEfr.md)
 
 ## Browser Support
 

@@ -7,6 +7,7 @@ Ambientes Frontend evoluem rapidamente nos dias de hoje, navegadores modernos j�
 
 ## Tabela de conteúdos
 
+1. [Translations](#translations)
 1. [Query Selector](#query-selector)
 1. [CSS & Estilo](#css--estilo)
 1. [Manipulação do DOM](#manipulação-do-dom)
@@ -14,6 +15,20 @@ Ambientes Frontend evoluem rapidamente nos dias de hoje, navegadores modernos j�
 1. [Eventos](#eventos)
 1. [Utilitários](#utilitários)
 1. [Suporte dos Navegadores](#suporte-dos-navegadores)
+
+## Translations
+
+* [한국어](./README.ko-KR.md)
+* [简体中文](./README.zh-CN.md)
+* [Bahasa Melayu](./README-my.md)
+* [Bahasa Indonesia](./README-id.md)
+* [Português(PT-BR)](./README.pt-BR.md)
+* [Tiếng Việt Nam](./README-vi.md)
+* [Español](./README-es.md)
+* [Русский](./README-ru.md)
+* [Türkçe](./README-tr.md)
+* [Italiano](./README-it.md)
+* [Français](./README-fr.md)
 
 ## Query Selector
 

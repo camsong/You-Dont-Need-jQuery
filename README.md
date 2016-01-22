@@ -4,6 +4,7 @@ Frontend environments evolve rapidly nowadays, modern browsers have already impl
 
 ## Table of Contents
 
+1. [Translations](#translations)
 1. [Query Selector](#query-selector)
 1. [CSS & Style](#css--style)
 1. [DOM Manipulation](#dom-manipulation)
@@ -13,8 +14,21 @@ Frontend environments evolve rapidly nowadays, modern browsers have already impl
 1. [Promises](#promises)
 1. [Animation](#animation)
 1. [Alternatives](#alternatives)
-1. [Translations](#translations)
 1. [Browser Support](#browser-support)
+
+## Translations
+
+* [한국어](./README.ko-KR.md)
+* [简体中文](./README.zh-CN.md)
+* [Bahasa Melayu](./README-my.md)
+* [Bahasa Indonesia](./README-id.md)
+* [Português(PT-BR)](./README.pt-BR.md)
+* [Tiếng Việt Nam](./README-vi.md)
+* [Español](./README-es.md)
+* [Русский](./README-ru.md)
+* [Türkçe](./README-tr.md)
+* [Italiano](./README-it.md)
+* [Français](./README-fr.md)
 
 ## Query Selector
 
@@ -1203,20 +1217,6 @@ A promise represents the eventual result of an asynchronous operation. jQuery ha
 
 * [You Might Not Need jQuery](http://youmightnotneedjquery.com/) - Examples of how to do common event, element, ajax etc with plain javascript.
 * [npm-dom](http://github.com/npm-dom) and [webmodules](http://github.com/webmodules) - Organizations you can find individual DOM modules on NPM
-
-## Translations
-
-* [한국어](./README.ko-KR.md)
-* [简体中文](./README.zh-CN.md)
-* [Bahasa Melayu](./README-my.md)
-* [Bahasa Indonesia](./README-id.md)
-* [Português(PT-BR)](./README.pt-BR.md)
-* [Tiếng Việt Nam](./README-vi.md)
-* [Español](./README-es.md)
-* [Русский](./README-ru.md)
-* [Türkçe](./README-tr.md)
-* [Italian](./README-it.md)
-* [Français](./README-fr.md)
 
 ## Browser Support
 

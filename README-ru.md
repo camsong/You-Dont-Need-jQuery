@@ -4,6 +4,7 @@
 
 ## Содержание
 
+1. [Переводы](#Переводы)
 1. [Query Selector](#query-selector)
 1. [CSS & Style](#css--style)
 1. [Манипуляция DOM](#Манипуляции-dom)
@@ -11,8 +12,21 @@
 1. [События](#События)
 1. [Утилиты](#Утилиты)
 1. [Альтернативы](#Альтернативы)
-1. [Переводы](#Переводы)
 1. [Поддержка браузеров](#Поддержка-браузеров)
+
+## Переводы
+
+* [한국어](./README.ko-KR.md)
+* [简体中文](./README.zh-CN.md)
+* [Bahasa Melayu](./README-my.md)
+* [Bahasa Indonesia](./README-id.md)
+* [Português(PT-BR)](./README.pt-BR.md)
+* [Tiếng Việt Nam](./README-vi.md)
+* [Español](./README-es.md)
+* [Русский](./README-ru.md)
+* [Türkçe](./README-tr.md)
+* [Italiano](./README-it.md)
+* [Français](./README-fr.md)
 
 ## Query Selector
 Для часто используемых селекторов, таких как class, id или attribute мы можем использовать `document.querySelector` или `document.querySelectorAll` для замены. Разница такова:
@@ -626,19 +640,6 @@
 
 * [You Might Not Need jQuery](http://youmightnotneedjquery.com/) - Примеры как исполняются частые события, элементы, ajax и тд с ванильным javascript.
 * [npm-dom](http://github.com/npm-dom) и [webmodules](http://github.com/webmodules) - Отдельные DOM модули можно найти на NPM
-
-## Переводы
-
-* [한국어](./README.ko-KR.md)
-* [简体中文](./README.zh-CN.md)
-* [Bahasa Melayu](./README-my.md)
-* [Bahasa Indonesia](./README-id.md)
-* [Português(PT-BR)](./README.pt-BR.md)
-* [Tiếng Việt Nam](./README-vi.md)
-* [Español](./README-es.md)
-* [Русский](./README-ru.md)
-* [Türkçe](./README-tr.md)
-* [Français](./README-fr.md)
 
 ## Поддержка браузеров
 

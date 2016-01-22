@@ -7,15 +7,28 @@ El desarrollo Frontend evoluciona día a día, y los navegadores modernos ya han
 
 ## Tabla de Contenidos
 
+1. [Traducción](#traducción)
 1. [Query Selector](#query-selector)
 1. [CSS & Estilo](#css--estilo)
 1. [Manipulación DOM](#manipulación-dom)
 1. [Ajax](#ajax)
 1. [Eventos](#eventos)
 1. [Utilidades](#utilidades)
-1. [Traducción](#traducción)
 1. [Soporte de Navegadores](#soporte-de-navegadores)
 
+## Traducción
+
+* [한국어](./README.ko-KR.md)
+* [简体中文](./README.zh-CN.md)
+* [Bahasa Melayu](./README-my.md)
+* [Bahasa Indonesia](./README-id.md)
+* [Português(PT-BR)](./README.pt-BR.md)
+* [Tiếng Việt Nam](./README-vi.md)
+* [Español](./README-es.md)
+* [Русский](./README-ru.md)
+* [Türkçe](./README-tr.md)
+* [Italiano](./README-it.md)
+* [Français](./README-fr.md)
 
 ## Query Selector
 
@@ -613,19 +626,6 @@ Para un reemplazo completo con namespace y delegación, utilizar https://github.
   ```
 
 **[⬆ volver al inicio](#tabla-de-contenidos)**
-
-## Traducción
-
-* [한국어](./README.ko-KR.md)
-* [简体中文](./README.zh-CN.md)
-* [Bahasa Melayu](./README-my.md)
-* [Bahasa Indonesia](./README-id.md)
-* [Português(PT-BR)](./README.pt-BR.md)
-* [Tiếng Việt Nam](./README-vi.md)
-* [Español](./README-es.md)
-* [Русский](./README-ru.md)
-* [Türkçe](./README-tr.md)
-* [Français](./README-fr.md)
 
 ## Soporte de Navegadores
 

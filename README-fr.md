@@ -5,6 +5,7 @@ De nos jours, les environnements frontend évolus si rapidement que les navigate
 
 ## Sommaire
 
+1. [Traductions](#translation)
 1. [Sélecteur jQuery](#query-selector)
 1. [Style et CSS](#css--style)
 1. [Manipulation du DOM](#dom-manipulation)
@@ -14,8 +15,21 @@ De nos jours, les environnements frontend évolus si rapidement que les navigate
 1. [Promises](#promises)
 1. [Animation](#animation)
 1. [Alternatives](#alternatives)
-1. [Traduction](#translation)
 1. [Navigateurs compatibles](#browser-support)
+
+## Traductions
+
+* [한국어](./README.ko-KR.md)
+* [简体中文](./README.zh-CN.md)
+* [Bahasa Melayu](./README-my.md)
+* [Bahasa Indonesia](./README-id.md)
+* [Português(PT-BR)](./README.pt-BR.md)
+* [Tiếng Việt Nam](./README-vi.md)
+* [Español](./README-es.md)
+* [Русский](./README-ru.md)
+* [Türkçe](./README-tr.md)
+* [Italiano](./README-it.md)
+* [Français](./README-fr.md)
 
 ## Sélecteur jQuery
 

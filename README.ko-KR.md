@@ -4,6 +4,7 @@
 
 ## 목차
 
+1. [번역](#번역)
 1. [Query Selector](#query-selector)
 1. [CSS & Style](#css--style)
 1. [DOM 조작](#dom-조작)
@@ -13,8 +14,21 @@
 1. [Promises](#promises)
 1. [Animation](#animation)
 1. [대안방법](#대안방법)
-1. [번역](#번역)
 1. [브라우저 지원](#브라우저-지원)
+
+## 번역
+
+* [한국어](./README.ko-KR.md)
+* [简体中文](./README.zh-CN.md)
+* [Bahasa Melayu](./README-my.md)
+* [Bahasa Indonesia](./README-id.md)
+* [Português(PT-BR)](./README.pt-BR.md)
+* [Tiếng Việt Nam](./README-vi.md)
+* [Español](./README-es.md)
+* [Русский](./README-ru.md)
+* [Türkçe](./README-tr.md)
+* [Italiano](./README-it.md)
+* [Français](./README-fr.md)
 
 ## Query Selector
 
@@ -1188,20 +1202,6 @@ Promise는 비동기적인 작업의 결과를 표현합니다. jQuery는 자체
 
 * [You Might Not Need jQuery](http://youmightnotneedjquery.com/) - 일반 자바스크립트로 공통이벤트, 엘리먼트, ajax 등을 다루는 방법 예제.
 * [npm-dom](http://github.com/npm-dom) 과 [webmodules](http://github.com/webmodules) - 개별 DOM모듈을 NPM에서 찾을 수 있습니다.
-
-## 번역
-
-* [한국어](./README.ko-KR.md)
-* [简体中文](./README.zh-CN.md)
-* [Bahasa Melayu](./README-my.md)
-* [Bahasa Indonesia](./README-id.md)
-* [Português(PT-BR)](./README.pt-BR.md)
-* [Tiếng Việt Nam](./README-vi.md)
-* [Español](./README-es.md)
-* [Русский](./README-ru.md)
-* [Türkçe](./README-tr.md)
-* [Italian](./README-it.md)
-* [Français](./README-fr.md)
 
 ## 브라우저 지원
 
