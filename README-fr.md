@@ -5,17 +5,17 @@ De nos jours, les environnements frontend évolus si rapidement que les navigate
 
 ## Sommaire
 
-1. [Traductions](#translation)
-1. [Sélecteur jQuery](#query-selector)
-1. [Style et CSS](#css--style)
-1. [Manipulation du DOM](#dom-manipulation)
+1. [Traductions](#traductions)
+1. [Sélecteur jQuery](#sélecteur-jquery)
+1. [Style et CSS](#style--css)
+1. [Manipulation du DOM](#manipulation-du-dom)
 1. [Ajax](#ajax)
-1. [Évènements](#events)
-1. [Utilitaires](#utilities)
-1. [Promises](#promises)
+1. [Évènements](#évènements)
+1. [Utilitaires](#utilitaires)
+1. [Promesses](#promesses)
 1. [Animation](#animation)
 1. [Alternatives](#alternatives)
-1. [Navigateurs compatibles](#browser-support)
+1. [Navigateurs compatibles](#navigateurs-compatibles)
 
 ## Traductions
 
