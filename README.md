@@ -738,17 +738,17 @@ Most of utilities are found by native API. Others advanced functions could be ch
   Array.indexOf(item);
   ```
 
-  + isNumbic
+  + isNumeric
 
   Determines whether its argument is a number.
   Use `typeof` to decide type. if necessary to use library, sometimes `typeof` isn't accurate.
 
   ```js
   // jQuery
-  $.isNumbic(item);
+  $.isNumeric(item);
 
   // Native
-  function isNumbic(item) {
+  function isNumeric(item) {
     return typeof value === 'number';
   }
   ```
