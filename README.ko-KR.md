@@ -721,17 +721,17 @@ namespace와 delegation을 포함해서 완전히 갈아 엎길 원하시면 htt
   Array.indexOf(item);
   ```
 
-  + isNumbic
+  + isNumeric
 
   주어진 인자가 숫자인지 검사합니다.
   검사에 `typeof` 를 사용합니다. 필요하면 라이브러리를 사용하세요. 가끔 `typeof`는 정확하지 않습니다.
 
   ```js
   // jQuery
-  $.isNumbic(item);
+  $.isNumeric(item);
 
   // Native
-  function isNumbic(item) {
+  function isNumeric(item) {
     return typeof value === 'number';
   }
   ```

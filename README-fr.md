@@ -686,17 +686,17 @@ La plupart des utilitaires se trouvent dans l'API native. D'autres fonctions ava
   Array.indexOf(item);
   ```
   
-  + isNumbic
+  + isNumeric
 
   Détermine si l'argument est un nombre.
   Utiliser `typeof` pour décider du type. Si nécessaire utiliser une bibliothèque, parfois `typeof` n'est pas exacte.
 
   ```js
   // jQuery
-  $.isNumbic(item);
+  $.isNumeric(item);
 
   // Natif
-  function isNumbic(item) {
+  function isNumeric(item) {
     return typeof value === 'number';
   }
   ```
