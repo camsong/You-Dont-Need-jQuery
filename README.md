@@ -761,7 +761,7 @@ Most of utilities are found by native API. Others advanced functions could be ch
 
   // Native
   function isNumeric(item) {
-    return typeof value === 'number';
+    return typeof item === 'number';
   }
   ```
 
@@ -775,7 +775,7 @@ Most of utilities are found by native API. Others advanced functions could be ch
 
   // Native
   function isFunction(item) {
-    return typeof value === 'function';
+    return typeof item === 'function';
   }
   ```
 
