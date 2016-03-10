@@ -29,6 +29,7 @@
 * [Français](./README-fr.md)
 
 ## Query Selector
+
 Для часто используемых селекторов, таких как class, id или attribute мы можем использовать `document.querySelector` или `document.querySelectorAll` для замены. Разница такова:
 * `document.querySelector` возвращает первый совпавший элемент
 * `document.querySelectorAll` возвращает все совспавшие элементы как  коллекцию узлов(NodeList). Его можно конвертировать в массив используя `[].slice.call(document.querySelectorAll(selector) || []);`
@@ -84,48 +85,13 @@
 
 - [1.4](#1.4) <a name='1.4'></a> Найти среди потомков
 
-  + Найти nodes
+  ```js
+  // jQuery
+  $el.find('li');
 
-    ```js
-    // jQuery
-    $el.find('li');
-
-    // Нативно
-    el.querySelectorAll('li');
-    ```
-
-  + Найти body
-
-    ```js
-    // jQuery
-    $('body');
-
-    // Нативно
-    document.body;
-    ```
-
-  + Найти атрибуты
-
-    ```js
-    // jQuery
-    $el.attr('foo');
-
-    // Нативно
-    e.getAttribute('foo');
-    ```
-
-  + Найти data attribute
-
-    ```js
-    // jQuery
-    $el.data('foo');
-
-    // Нативно
-    // используя getAttribute
-    el.getAttribute('data-foo');
-    // также можно использовать `dataset`, если не требуется поддержка ниже IE 11.
-    el.dataset['foo'];
-    ```
+  // Нативно
+  el.querySelectorAll('li');
+  ```
 
 - [1.5](#1.5) <a name='1.5'></a> Родственные/Предыдущие/Следующие Элементы
 
@@ -167,12 +133,12 @@
 
   ```js
   // jQuery
-  $el.closest(queryString);
-  
+  $el.closest(selector);
+
   // Нативно - Only latest, NO IE
   el.closest(selector);
 
-  // Нативно - IE10+ 
+  // Нативно - IE10+
   function closest(el, selector) {
     const matchesSelector = el.matches || el.webkitMatchesSelector || el.mozMatchesSelector || el.msMatchesSelector;
 
@@ -228,14 +194,14 @@
     document.querySelector('#my-input').value;
     ```
 
-  + получить индекс e.currentTarget между `.radio`
+  + Получить индекс e.currentTarget между `.radio`
 
     ```js
     // jQuery
     $(e.currentTarget).index('.radio');
 
     // Нативно
-    [].indexOf.call(document.querySelectAll('.radio'), e.currentTarget);
+    [].indexOf.call(document.querySelectorAll('.radio'), e.currentTarget);
     ```
 
 - [1.9](#1.9) <a name='1.9'></a> Контент Iframe
@@ -260,6 +226,49 @@
 
     // Нативно
     iframe.contentDocument.querySelectorAll('.css');
+    ```
+
+- [1.10](#1.10) <a name='1.10'></a> Найти body
+
+  ```js
+  // jQuery
+  $('body');
+
+  // Нативно
+  document.body;
+  ```
+
+- [1.11](#1.11) <a name='1.11'></a> Получение и изменение атрибута
+
+  + Найти атрибут
+
+    ```js
+    // jQuery
+    $el.attr('foo');
+
+    // Нативно
+    el.getAttribute('foo');
+    ```
+  + Добавление атрибута
+
+    ```js
+    // jQuery, это работает в памяти без изменения DOM
+    $el.attr('foo', 'bar');
+
+    // Native
+    el.setAttribute('foo', 'bar');
+    ```
+
+  + Найти `data-` атрибут
+
+    ```js
+    // jQuery
+    $el.data('foo');
+
+    // Нативно (используя `getAttribute`)
+    el.getAttribute('data-foo');
+    // Нативно (используя `dataset`, если не требуется поддержка ниже IE 11)
+    el.dataset['foo'];
     ```
 
 **[⬆ Наверх](#Содержание)**
@@ -340,7 +349,7 @@
 
   Ширина и высота теоритечески идентичны, например возьмем высоту:
 
-  + высота окна
+  + Высота окна
 
     ```js
     // Высота окна
@@ -351,7 +360,7 @@
     window.innerHeight;
     ```
 
-  + высота документа
+  + Высота документа
 
     ```js
     // jQuery
@@ -369,7 +378,7 @@
 
     // Нативно
     function getHeight(el) {
-      const styles = this.getComputedStyles(el);
+      const styles = window.getComputedStyle(el);
       const height = el.offsetHeight;
       const borderTopWidth = parseFloat(styles.borderTopWidth);
       const borderBottomWidth = parseFloat(styles.borderBottomWidth);
@@ -387,6 +396,8 @@
 
   + Позиция
 
+    Получить текущие координаты элемента относительно смещения его родителя
+
     ```js
     // jQuery
     $el.position();
@@ -396,6 +407,8 @@
     ```
 
   + Смещение
+
+    Получить текущие координаты элемента относительно документа
 
     ```js
     // jQuery
@@ -427,6 +440,9 @@
 ## Манипуляции DOM
 
 - [3.1](#3.1) <a name='3.1'></a> Remove
+
+  Удаление элемента из DOM.
+
   ```js
   // jQuery
   $el.remove();
@@ -438,6 +454,8 @@
 - [3.2](#3.2) <a name='3.2'></a> Текст
 
   + Получить текст
+
+    Получить текстовое содержимое элемента, включая его потомков,
 
     ```js
     // jQuery
@@ -543,7 +561,9 @@
 
 ## Ajax
 
-Заменить с [fetch](https://github.com/camsong/fetch-ie8) и [fetch-jsonp](https://github.com/camsong/fetch-jsonp)
+[Fetch API](https://fetch.spec.whatwg.org/) - новый стандарт, заменяющий XMLHttpRequest для ajax. Работает в Chrome и Firefox, вы можете использовать полифилы, для поддержки старых браузеров.
+
+Попробуйте [github/fetch](http://github.com/github/fetch) для IE9+ или [fetch-ie8](https://github.com/camsong/fetch-ie8/) для IE8+, [fetch-jsonp](https://github.com/camsong/fetch-jsonp) для JSONP-запросов.
 
 **[⬆ Наверх](#Содержание)**
 
