@@ -761,7 +761,7 @@ Most of utilities are found by native API. Others advanced functions could be ch
 
   // Native
   function isNumeric(item) {
-    return typeof value === 'number';
+    return typeof item === 'number';
   }
   ```
 
@@ -775,7 +775,7 @@ Most of utilities are found by native API. Others advanced functions could be ch
 
   // Native
   function isFunction(item) {
-    return typeof value === 'function';
+    return typeof item === 'function';
   }
   ```
 
@@ -943,10 +943,13 @@ Most of utilities are found by native API. Others advanced functions could be ch
 
   ```js
   // jQuery
-  $.makeArray(array);
+  $.makeArray(arrayLike);
 
   // Native
-  [].slice.call(array);
+  [].slice.call(arrayLike);
+  
+  // ES6-way
+  Array.from(arrayLike);
   ```
 
 - [6.2](#6.2) <a name='6.2'></a> Contains
