@@ -667,6 +667,16 @@ Try [github/fetch](http://github.com/github/fetch) on IE9+ or [fetch-ie8](https:
 
 For a complete replacement with namespace and delegation, refer to https://github.com/oneuijs/oui-dom-events
 
+- [5.0](#5.0) <a name='5.0'></a> Document ready by `DOMContentLoaded`
+
+  ```js
+  // jQuery
+  $(document).ready(eventHandler);
+
+  // Native
+  document.addEventListener("DOMContentLoaded", eventHandler);
+  ```
+
 - [5.1](#5.1) <a name='5.1'></a> Bind an event with on
 
   ```js
