@@ -1023,6 +1023,7 @@ Most of utilities are found by native API. Others advanced functions could be ch
     // are based on the document's URL
     const base = context.createElement('base');
     base.href = document.location.href;
+    context.head.appendChild(base);
 
     context.body.innerHTML = string;
     return context.body.children;
