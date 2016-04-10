@@ -283,7 +283,7 @@ In place of common selectors like class, id or attribute we can use `document.qu
 
     ```js
     // jQuery
-    $el.css("color");
+    $el.css('color');
 
     // Native
     // NOTE: Known bug, will return 'auto' if style value is 'auto'
@@ -296,7 +296,7 @@ In place of common selectors like class, id or attribute we can use `document.qu
 
     ```js
     // jQuery
-    $el.css({ color: "#ff0011" });
+    $el.css({ color: '#ff0011' });
 
     // Native
     el.style.color = '#ff0011';
@@ -512,7 +512,7 @@ In place of common selectors like class, id or attribute we can use `document.qu
   $el.append("<div id='container'>hello</div>");
 
   // Native
-  el.insertAdjacentHTML("beforeend","<div id='container'>hello</div>");
+  el.insertAdjacentHTML('beforeend',"<div id='container'>hello</div>");
   ```
 
 - [3.5](#3.5) <a name='3.5'></a> Prepend
@@ -522,7 +522,7 @@ In place of common selectors like class, id or attribute we can use `document.qu
   $el.prepend("<div id='container'>hello</div>");
 
   // Native
-  el.insertAdjacentHTML("afterbegin","<div id='container'>hello</div>");
+  el.insertAdjacentHTML('afterbegin',"<div id='container'>hello</div>");
   ```
 
 - [3.6](#3.6) <a name='3.6'></a> insertBefore
@@ -654,7 +654,7 @@ Try [github/fetch](http://github.com/github/fetch) on IE9+ or [fetch-ie8](https:
   ```js
   // jQuery
   $(selector).load(url, completeCallback)
-  
+
   // Native
   fetch(url).then(data => data.text()).then(data => {
     document.querySelector(selector).innerHTML = data
@@ -674,7 +674,7 @@ For a complete replacement with namespace and delegation, refer to https://githu
   $(document).ready(eventHandler);
 
   // Native
-  document.addEventListener("DOMContentLoaded", eventHandler);
+  document.addEventListener('DOMContentLoaded', eventHandler);
   ```
 
 - [5.1](#5.1) <a name='5.1'></a> Bind an event with on
@@ -957,7 +957,7 @@ Most of utilities are found by native API. Others advanced functions could be ch
 
   // Native
   [].slice.call(arrayLike);
-  
+
   // ES6-way
   Array.from(arrayLike);
   ```
@@ -1084,7 +1084,7 @@ A promise represents the eventual result of an asynchronous operation. jQuery ha
       }, 1000);
     });
   }
-  
+
   // Deferred way
   function defer() {
     let resolve, reject;
