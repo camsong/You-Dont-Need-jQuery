@@ -654,7 +654,7 @@ Try [github/fetch](http://github.com/github/fetch) on IE9+ or [fetch-ie8](https:
   ```js
   // jQuery
   $(selector).load(url, completeCallback)
-  
+
   // Native
   fetch(url).then(data => data.text()).then(data => {
     document.querySelector(selector).innerHTML = data
@@ -957,7 +957,7 @@ Most of utilities are found by native API. Others advanced functions could be ch
 
   // Native
   [].slice.call(arrayLike);
-  
+
   // ES6-way
   Array.from(arrayLike);
   ```
@@ -1006,9 +1006,15 @@ Most of utilities are found by native API. Others advanced functions could be ch
 
   // Native
   function parseHTML(string) {
-    const tmp = document.implementation.createHTMLDocument();
-    tmp.body.innerHTML = string;
-    return tmp.body.children;
+    const context = document.implementation.createHTMLDocument();
+
+    // Set the base href for the created document so any parsed elements with URLs
+    // are based on the document's URL
+    const base = context.createElement('base');
+    base.href = document.location.href;
+
+    context.body.innerHTML = string;
+    return context.body.children;
   }
   ```
 
@@ -1084,7 +1090,7 @@ A promise represents the eventual result of an asynchronous operation. jQuery ha
       }, 1000);
     });
   }
-  
+
   // Deferred way
   function defer() {
     let resolve, reject;
