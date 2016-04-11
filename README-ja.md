@@ -174,7 +174,7 @@ jQueryのセレクタと比べて以下の違いがあります。
     const result = [];
     const matchesSelector = el.matches || el.webkitMatchesSelector || el.mozMatchesSelector || el.msMatchesSelector;
 
-    // match start from parent
+    // parentから走査を開始する
     el = el.parentElement;
     while (el && !matchesSelector.call(el, selector)) {
       if (!filter) {
