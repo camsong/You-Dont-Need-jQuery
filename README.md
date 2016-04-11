@@ -34,7 +34,7 @@ Frontend environments evolve rapidly nowadays, modern browsers have already impl
 
 In place of common selectors like class, id or attribute we can use `document.querySelector` or `document.querySelectorAll` for substitution. The differences lie in:
 * `document.querySelector` returns the first matched element
-* `document.querySelectorAll` returns all matched elements as NodeList. It can be converted to Array using `[].slice.call(document.querySelectorAll(selector) || []);`
+* `document.querySelectorAll` returns all matched elements as NodeList. It can be converted to Array using `Array.prototype.slice.call(document.querySelectorAll(selector) || []);`
 * If no elements matched, jQuery would return `[]` whereas the DOM API will return `null`. Pay attention to Null Pointer Exception. You can also use `||` to set default value if not found, like `document.querySelectorAll(selector) || []`
 
 > Notice: `document.querySelector` and `document.querySelectorAll` are quite **SLOW**, try to use `getElementById`, `document.getElementsByClassName` or `document.getElementsByTagName` if you want to get a performance bonus.
@@ -104,7 +104,7 @@ In place of common selectors like class, id or attribute we can use `document.qu
     $el.siblings();
 
     // Native
-    [].filter.call(el.parentNode.children, function(child) {
+    Array.prototype.filter.call(el.parentNode.children, function(child) {
       return child !== el;
     });
     ```
@@ -203,7 +203,7 @@ In place of common selectors like class, id or attribute we can use `document.qu
     $(e.currentTarget).index('.radio');
 
     // Native
-    [].indexOf.call(document.querySelectorAll('.radio'), e.currentTarget);
+    Array.prototype.indexOf.call(document.querySelectorAll('.radio'), e.currentTarget);
     ```
 
 - [1.9](#1.9) <a name='1.9'></a> Iframe Contents
@@ -597,7 +597,7 @@ In place of common selectors like class, id or attribute we can use `document.qu
   $('.inner').wrap('<div class="wrapper"></div>');
 
   // Native
-  [].slice.call(document.querySelectorAll('.inner')).forEach(function(el) {
+  Array.prototype.slice.call(document.querySelectorAll('.inner')).forEach(function(el){
     var wrapper = document.createElement('div');
     wrapper.className = 'wrapper';
     el.parentNode.insertBefore(wrapper, el);
@@ -615,8 +615,8 @@ In place of common selectors like class, id or attribute we can use `document.qu
   $('.inner').unwrap();
 
   // Native
-  [].slice.call(document.querySelectorAll('.inner')).forEach(function(el) {
-    [].slice.call(el.childNodes).forEach(function(child) {
+  Array.prototype.slice.call(document.querySelectorAll('.inner')).forEach(function(el){
+    Array.prototype.slice.call(el.childNodes).forEach(function(child){
       el.parentNode.insertBefore(child, el);
     });
     el.parentNode.removeChild(el);
@@ -632,7 +632,7 @@ In place of common selectors like class, id or attribute we can use `document.qu
   $('.inner').replaceWith('<div class="outer"></div>');
 
   // Native
-  [].slice.call(document.querySelectorAll('.inner')).forEach(function(el) {
+  Array.prototype.slice.call(document.querySelectorAll('.inner')).forEach(function(el){
     var outer = document.createElement('div');
     outer.className = 'outer';
     el.parentNode.insertBefore(outer, el);
@@ -961,7 +961,7 @@ Most of utilities are found by native API. Others advanced functions could be ch
   $.makeArray(arrayLike);
 
   // Native
-  [].slice.call(arrayLike);
+  Array.prototype.slice.call(arrayLike);
 
   // ES6-way
   Array.from(arrayLike);
