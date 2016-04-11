@@ -579,7 +579,8 @@ jQueryのセレクタと比べて以下の違いがあります。
   // Native
   el.cloneNode();
 
-  // For Deep clone , set param as `true`
+  //  パラメータには`true`が渡され、深い複製を生成します。
+  // 浅い複製を生成するには、`false`を渡します。
   ```
 
 - [3.10](#3.10) <a name='3.10'></a> empty
