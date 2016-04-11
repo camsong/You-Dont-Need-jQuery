@@ -674,7 +674,12 @@ For a complete replacement with namespace and delegation, refer to https://githu
   $(document).ready(eventHandler);
 
   // Native
-  document.addEventListener("DOMContentLoaded", eventHandler);
+  // Check if the DOMContentLoaded has already been completed
+  if (document.readyState !== 'loading') {
+    eventHandler();
+  } else {
+    document.addEventListener('DOMContentLoaded', eventHandler);
+  }
   ```
 
 - [5.1](#5.1) <a name='5.1'></a> Bind an event with on
