@@ -29,6 +29,7 @@ Frontend environments evolve rapidly nowadays, modern browsers have already impl
 * [Türkçe](./README-tr.md)
 * [Italiano](./README-it.md)
 * [Français](./README-fr.md)
+* [日本語](./README-ja.md)
 
 ## Query Selector
 

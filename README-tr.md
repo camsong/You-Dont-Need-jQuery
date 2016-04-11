@@ -27,6 +27,7 @@
 * [Türkçe](./README-tr.md)
 * [Italiano](./README-it.md)
 * [Français](./README-fr.md)
+* [日本語](./README-ja.md)
 
 ## Sorgu seçiciler
 

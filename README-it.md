@@ -27,6 +27,7 @@ Il mondo del Frontend si evolve rapidamente oggigiorno, i browsers moderni hanno
 * [Türkçe](./README-tr.md)
 * [Italiano](./README-it.md)
 * [Français](./README-fr.md)
+* [日本語](./README-ja.md)
 
 ## Query Selector
 

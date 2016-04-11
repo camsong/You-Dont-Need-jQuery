@@ -26,6 +26,7 @@ Mutakhir ini perkembangan dalam persekitaran frontend berlaku begitu pesat sekal
 * [Türkçe](./README-tr.md)
 * [Italiano](./README-it.md)
 * [Français](./README-fr.md)
+* [日本語](./README-ja.md)
 
 ## Pemilihan Elemen
 
