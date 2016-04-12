@@ -750,7 +750,7 @@ Most of utilities are found by native API. Others advanced functions could be ch
 
   // Native
   function isWindow(obj) {
-    return obj != null && obj === obj.window;
+    return obj !== null obj !== undefined && obj === obj.window;
   }
   ```
 
@@ -763,7 +763,10 @@ Most of utilities are found by native API. Others advanced functions could be ch
   $.inArray(item, array);
 
   // Native
-  Array.indexOf(item);
+  array.indexOf(item) > -1;
+
+  // ES6-way
+  array.includes(item);
   ```
 
   + isNumeric
@@ -777,7 +780,7 @@ Most of utilities are found by native API. Others advanced functions could be ch
 
   // Native
   function isNumeric(item) {
-    return typeof item === 'number';
+    return typeof item === 'number' || Object.prototype.toString(item) === '[object Number]';
   }
   ```
 
@@ -791,7 +794,9 @@ Most of utilities are found by native API. Others advanced functions could be ch
 
   // Native
   function isFunction(item) {
-    return typeof item === 'function';
+    return typeof item === 'function' ||
+      Object.prototype.toString(item) === '[object Function]' ||
+      Object.prototype.toString(item) === '[object GeneratorFunction]';
   }
   ```
 
@@ -822,7 +827,7 @@ Most of utilities are found by native API. Others advanced functions could be ch
 
   // Native
   function isPlainObject(obj) {
-    if (typeof (obj) !== 'object' || obj.nodeType || obj != null && obj === obj.window) {
+    if (typeof (obj) !== 'object' || obj.nodeType || obj !== null && obj !== undefined && obj === obj.window) {
       return false;
     }
 
@@ -880,7 +885,7 @@ Most of utilities are found by native API. Others advanced functions could be ch
 
   ```js
   // jQuery
-  $.each(array, function(value, index) {
+  $.each(array, function(index, value) {
   });
 
   // Native
