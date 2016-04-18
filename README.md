@@ -284,7 +284,7 @@ In place of common selectors like class, id or attribute we can use `document.qu
 
     ```js
     // jQuery
-    $el.css("color");
+    $el.css('color');
 
     // Native
     // NOTE: Known bug, will return 'auto' if style value is 'auto'
@@ -297,7 +297,7 @@ In place of common selectors like class, id or attribute we can use `document.qu
 
     ```js
     // jQuery
-    $el.css({ color: "#ff0011" });
+    $el.css({ color: '#ff0011' });
 
     // Native
     el.style.color = '#ff0011';
@@ -513,7 +513,7 @@ In place of common selectors like class, id or attribute we can use `document.qu
   $el.append("<div id='container'>hello</div>");
 
   // Native
-  el.insertAdjacentHTML("beforeend","<div id='container'>hello</div>");
+  el.insertAdjacentHTML('beforeend',"<div id='container'>hello</div>");
   ```
 
 - [3.5](#3.5) <a name='3.5'></a> Prepend
@@ -523,7 +523,7 @@ In place of common selectors like class, id or attribute we can use `document.qu
   $el.prepend("<div id='container'>hello</div>");
 
   // Native
-  el.insertAdjacentHTML("afterbegin","<div id='container'>hello</div>");
+  el.insertAdjacentHTML('afterbegin',"<div id='container'>hello</div>");
   ```
 
 - [3.6](#3.6) <a name='3.6'></a> insertBefore
