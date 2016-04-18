@@ -675,12 +675,16 @@ For a complete replacement with namespace and delegation, refer to https://githu
   $(document).ready(eventHandler);
 
   // Native
+<<<<<<< HEAD
   // Check if the DOMContentLoaded has already been completed
   if (document.readyState !== 'loading') {
     eventHandler();
   } else {
     document.addEventListener('DOMContentLoaded', eventHandler);
   }
+=======
+  document.addEventListener('DOMContentLoaded', eventHandler);
+>>>>>>> origin/single-quotes
   ```
 
 - [5.1](#5.1) <a name='5.1'></a> Bind an event with on
@@ -967,7 +971,11 @@ Most of utilities are found by native API. Others advanced functions could be ch
   $.makeArray(arrayLike);
 
   // Native
+<<<<<<< HEAD
   Array.prototype.slice.call(arrayLike);
+=======
+  [].slice.call(arrayLike);
+>>>>>>> origin/single-quotes
 
   // ES6-way
   Array.from(arrayLike);
