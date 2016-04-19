@@ -599,7 +599,7 @@ In place of common selectors like class, id or attribute we can use `document.qu
 
   // Native
   Array.prototype.slice.call(document.querySelectorAll('.inner')).forEach(function(el){
-    var wrapper = document.createElement('div');
+    const wrapper = document.createElement('div');
     wrapper.className = 'wrapper';
     el.parentNode.insertBefore(wrapper, el);
     el.parentNode.removeChild(el);
@@ -634,7 +634,7 @@ In place of common selectors like class, id or attribute we can use `document.qu
 
   // Native
   Array.prototype.slice.call(document.querySelectorAll('.inner')).forEach(function(el){
-    var outer = document.createElement('div');
+    const outer = document.createElement('div');
     outer.className = 'outer';
     el.parentNode.insertBefore(outer, el);
     el.parentNode.removeChild(el);
@@ -995,7 +995,7 @@ Most of utilities are found by native API. Others advanced functions could be ch
 
   // Native
   function Globaleval(code) {
-    let script = document.createElement('script');
+    const script = document.createElement('script');
     script.text = code;
 
     document.head.appendChild(script).parentNode.removeChild(script);
@@ -1072,7 +1072,7 @@ A promise represents the eventual result of an asynchronous operation. jQuery ha
   ```js
   // jQuery
   function asyncFunc() {
-    var d = new $.Deferred();
+    const d = new $.Deferred();
     setTimeout(function() {
       if(true) {
         d.resolve('some_value_compute_asynchronously');
@@ -1099,14 +1099,14 @@ A promise represents the eventual result of an asynchronous operation. jQuery ha
   // Deferred way
   function defer() {
     let resolve, reject;
-    let promise = new Promise(function() {
+    const promise = new Promise(function() {
       resolve = arguments[0];
       reject = arguments[1];
     });
     return { resolve, reject, promise };
   }
   function asyncFunc() {
-    var d = defer();
+    const d = defer();
     setTimeout(function() {
       if(true) {
         d.resolve('some_value_compute_asynchronously');
@@ -1189,7 +1189,7 @@ A promise represents the eventual result of an asynchronous operation. jQuery ha
 
   // Native
   el.style.transition = 'opacity 3s';
-  let { opacity } = el.ownerDocument.defaultView.getComputedStyle(el, null);
+  const { opacity } = el.ownerDocument.defaultView.getComputedStyle(el, null);
   if (opacity === '1') {
     el.style.opacity = '0';
   }
@@ -1206,7 +1206,7 @@ A promise represents the eventual result of an asynchronous operation. jQuery ha
   $el.slideDown();
 
   // Native
-  let originHeight = '100px';
+  const originHeight = '100px';
   el.style.transition = 'height 3s';
   // slideUp
   el.style.height = '0px';
@@ -1223,9 +1223,9 @@ A promise represents the eventual result of an asynchronous operation. jQuery ha
   $el.slideToggle();
 
   // Native
-  let originHeight = '100px';
+  const originHeight = '100px';
   el.style.transition = 'height 3s';
-  let { height } = el.ownerDocument.defaultView.getComputedStyle(el, null);
+  const { height } = el.ownerDocument.defaultView.getComputedStyle(el, null);
   if (parseInt(height, 10) === 0) {
     el.style.height = originHeight;
   }
