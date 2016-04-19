@@ -30,6 +30,7 @@ De nos jours, les environnements frontend évolus si rapidement que les navigate
 * [Türkçe](./README-tr.md)
 * [Italiano](./README-it.md)
 * [Français](./README-fr.md)
+* [日本語](./README-ja.md)
 
 ## Sélecteur jQuery
 

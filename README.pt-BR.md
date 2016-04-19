@@ -29,6 +29,7 @@ Ambientes Frontend evoluem rapidamente nos dias de hoje, navegadores modernos j�
 * [Türkçe](./README-tr.md)
 * [Italiano](./README-it.md)
 * [Français](./README-fr.md)
+* [日本語](./README-ja.md)
 
 ## Query Selector
 
