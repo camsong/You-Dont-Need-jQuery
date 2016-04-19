@@ -284,7 +284,7 @@ In place of common selectors like class, id or attribute we can use `document.qu
 
     ```js
     // jQuery
-    $el.css("color");
+    $el.css('color');
 
     // Native
     // NOTE: Known bug, will return 'auto' if style value is 'auto'
@@ -297,7 +297,7 @@ In place of common selectors like class, id or attribute we can use `document.qu
 
     ```js
     // jQuery
-    $el.css({ color: "#ff0011" });
+    $el.css({ color: '#ff0011' });
 
     // Native
     el.style.color = '#ff0011';
@@ -510,20 +510,20 @@ In place of common selectors like class, id or attribute we can use `document.qu
 
   ```js
   // jQuery
-  $el.append("<div id='container'>hello</div>");
+  $el.append('<div id="container">hello</div>');
 
   // Native
-  el.insertAdjacentHTML("beforeend","<div id='container'>hello</div>");
+  el.insertAdjacentHTML('beforeend', '<div id="container">hello</div>');
   ```
 
 - [3.5](#3.5) <a name='3.5'></a> Prepend
 
   ```js
   // jQuery
-  $el.prepend("<div id='container'>hello</div>");
+  $el.prepend('<div id="container">hello</div>');
 
   // Native
-  el.insertAdjacentHTML("afterbegin","<div id='container'>hello</div>");
+  el.insertAdjacentHTML('afterbegin', '<div id="container">hello</div>');
   ```
 
 - [3.6](#3.6) <a name='3.6'></a> insertBefore
@@ -1017,9 +1017,16 @@ Most of utilities are found by native API. Others advanced functions could be ch
 
   // Native
   function parseHTML(string) {
-    const tmp = document.implementation.createHTMLDocument();
-    tmp.body.innerHTML = string;
-    return tmp.body.children;
+    const context = document.implementation.createHTMLDocument();
+
+    // Set the base href for the created document so any parsed elements with URLs
+    // are based on the document's URL
+    const base = context.createElement('base');
+    base.href = document.location.href;
+    context.head.appendChild(base);
+
+    context.body.innerHTML = string;
+    return context.body.children;
   }
   ```
 
