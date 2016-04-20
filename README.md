@@ -105,9 +105,9 @@ In place of common selectors like class, id or attribute we can use `document.qu
     $el.siblings();
 
     // Native
-    Array.prototype.filter.call(el.parentNode.children, function(child) {
-      return child !== el;
-    });
+    Array.prototype.filter.call(el.parentNode.children, (child) =>
+      child !== el;
+    );
     ```
 
   + Previous elements
@@ -598,7 +598,7 @@ In place of common selectors like class, id or attribute we can use `document.qu
   $('.inner').wrap('<div class="wrapper"></div>');
 
   // Native
-  Array.prototype.slice.call(document.querySelectorAll('.inner')).forEach(function(el){
+  Array.prototype.slice.call(document.querySelectorAll('.inner')).forEach((el) => {
     const wrapper = document.createElement('div');
     wrapper.className = 'wrapper';
     el.parentNode.insertBefore(wrapper, el);
@@ -616,8 +616,8 @@ In place of common selectors like class, id or attribute we can use `document.qu
   $('.inner').unwrap();
 
   // Native
-  Array.prototype.slice.call(document.querySelectorAll('.inner')).forEach(function(el){
-    Array.prototype.slice.call(el.childNodes).forEach(function(child){
+  Array.prototype.slice.call(document.querySelectorAll('.inner')).forEach((el) => {
+    Array.prototype.slice.call(el.childNodes).forEach((child) => {
       el.parentNode.insertBefore(child, el);
     });
     el.parentNode.removeChild(el);
@@ -633,7 +633,7 @@ In place of common selectors like class, id or attribute we can use `document.qu
   $('.inner').replaceWith('<div class="outer"></div>');
 
   // Native
-  Array.prototype.slice.call(document.querySelectorAll('.inner')).forEach(function(el){
+  Array.prototype.slice.call(document.querySelectorAll('.inner')).forEach((el) => {
     const outer = document.createElement('div');
     outer.className = 'outer';
     el.parentNode.insertBefore(outer, el);
@@ -832,7 +832,7 @@ Most of utilities are found by native API. Others advanced functions could be ch
     }
 
     if (obj.constructor &&
-        !{}.hasOwnProperty.call(obj.constructor.prototype, 'isPrototypeOf')) {
+        !Object.prototype.hasOwnProperty.call(obj.constructor.prototype, 'isPrototypeOf')) {
       return false;
     }
 
@@ -855,7 +855,7 @@ Most of utilities are found by native API. Others advanced functions could be ch
 
   + trim
 
-  Remove the whitespace from the beginning and end of a string.
+  Remove the white-space from the beginning and end of a string.
 
   ```js
   // jQuery
@@ -871,11 +871,11 @@ Most of utilities are found by native API. Others advanced functions could be ch
 
   ```js
   // jQuery
-  $.map(array, function(value, index) {
+  $.map(array, (value, index) => {
   });
 
   // Native
-  array.map(function(value, index) {
+  array.map((value, index) => {
   });
   ```
 
@@ -885,11 +885,11 @@ Most of utilities are found by native API. Others advanced functions could be ch
 
   ```js
   // jQuery
-  $.each(array, function(index, value) {
+  $.each(array, (index, value) => {
   });
 
   // Native
-  array.forEach(function(value, index) {
+  array.forEach((value, index) => {
   });
   ```
 
@@ -899,17 +899,17 @@ Most of utilities are found by native API. Others advanced functions could be ch
 
   ```js
   // jQuery
-  $.grep(array, function(value, index) {
+  $.grep(array, (value, index) => {
   });
 
   // Native
-  array.filter(function(value, index) {
+  array.filter((value, index) => {
   });
   ```
 
   + type
 
-  Determine the internal JavaScript [[Class]] of an object.
+  Determine the internal JavaScript [Class] of an object.
 
   ```js
   // jQuery
@@ -1066,7 +1066,8 @@ A promise represents the eventual result of an asynchronous operation. jQuery ha
 
   ```js
   // jQuery
-  $.when($promise1, $promise2).done((promise1Result, promise2Result) => {})
+  $.when($promise1, $promise2).done((promise1Result, promise2Result) => {
+  });
 
   // Native
   Promise.all([$promise1, $promise2]).then([promise1Result, promise2Result] => {});
@@ -1079,21 +1080,21 @@ A promise represents the eventual result of an asynchronous operation. jQuery ha
   ```js
   // jQuery
   function asyncFunc() {
-    const d = new $.Deferred();
-    setTimeout(function() {
+    const defer = new $.Deferred();
+    setTimeout(() => {
       if(true) {
-        d.resolve('some_value_compute_asynchronously');
+        defer.resolve('some_value_compute_asynchronously');
       } else {
-        d.reject('failed');
+        defer.reject('failed');
       }
     }, 1000);
-    return d.promise();
+    return defer.promise();
   }
 
   // Native
   function asyncFunc() {
     return new Promise((resolve, reject) => {
-      setTimeout(function() {
+      setTimeout(() => {
         if (true) {
           resolve('some_value_compute_asynchronously');
         } else {
@@ -1106,22 +1107,23 @@ A promise represents the eventual result of an asynchronous operation. jQuery ha
   // Deferred way
   function defer() {
     let resolve, reject;
-    const promise = new Promise(function() {
+    const promise = new Promise(() => {
       resolve = arguments[0];
       reject = arguments[1];
     });
     return { resolve, reject, promise };
   }
+
   function asyncFunc() {
-    const d = defer();
-    setTimeout(function() {
+    const defer = defer();
+    setTimeout(() => {
       if(true) {
-        d.resolve('some_value_compute_asynchronously');
+        defer.resolve('some_value_compute_asynchronously');
       } else {
-        d.reject('failed');
+        defer.reject('failed');
       }
     }, 1000);
-    return d.promise;
+    return defer.promise;
   }
   ```
 
@@ -1199,8 +1201,7 @@ A promise represents the eventual result of an asynchronous operation. jQuery ha
   const { opacity } = el.ownerDocument.defaultView.getComputedStyle(el, null);
   if (opacity === '1') {
     el.style.opacity = '0';
-  }
-  else {
+  } else {
     el.style.opacity = '1';
   }
   ```
@@ -1247,13 +1248,13 @@ A promise represents the eventual result of an asynchronous operation. jQuery ha
 
   ```js
   // jQuery
-  $el.animate({params}, speed);
+  $el.animate({ params }, speed);
 
   // Native
   el.style.transition = 'all' + speed;
-  Object.keys(params).forEach(function(key) {
+  Object.keys(params).forEach((key) =>
     el.style[key] = params[key];
-  })
+  )
   ```
 
 ## Alternatives
