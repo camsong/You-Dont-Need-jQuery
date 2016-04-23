@@ -270,6 +270,7 @@ In place of common selectors like class, id or attribute we can use `document.qu
 
     // Native (use `getAttribute`)
     el.getAttribute('data-foo');
+
     // Native (use `dataset` if only need to support IE 11+)
     el.dataset['foo'];
     ```
@@ -289,7 +290,8 @@ In place of common selectors like class, id or attribute we can use `document.qu
     // Native
     // NOTE: Known bug, will return 'auto' if style value is 'auto'
     const win = el.ownerDocument.defaultView;
-    // null means not return pseudo styles
+
+    // null means not to return pseudo styles
     win.getComputedStyle(el, null).color;
     ```
 
@@ -357,8 +359,10 @@ In place of common selectors like class, id or attribute we can use `document.qu
     ```js
     // window height
     $(window).height();
+
     // without scrollbar, behaves like jQuery
     window.document.documentElement.clientHeight;
+
     // with scrollbar
     window.innerHeight;
     ```
@@ -389,8 +393,10 @@ In place of common selectors like class, id or attribute we can use `document.qu
       const paddingBottom = parseFloat(styles.paddingBottom);
       return height - borderBottomWidth - borderTopWidth - paddingTop - paddingBottom;
     }
+
     // accurate to integer（when `border-box`, it's `height`; when `content-box`, it's `height + padding + border`）
     el.clientHeight;
+
     // accurate to decimal（when `border-box`, it's `height`; when `content-box`, it's `height + padding + border`）
     el.getBoundingClientRect().height;
     ```
@@ -676,7 +682,7 @@ For a complete replacement with namespace and delegation, refer to https://githu
 
   // Native
   // Check if the DOMContentLoaded has already been completed
-  if (document.readyState !== 'loading') {
+  if (document.readyState === 'complete' || document.readyState !== 'loading') {
     eventHandler();
   } else {
     document.addEventListener('DOMContentLoaded', eventHandler);
@@ -750,7 +756,7 @@ Most of utilities are found by native API. Others advanced functions could be ch
 
   // Native
   function isWindow(obj) {
-    return obj !== null obj !== undefined && obj === obj.window;
+    return obj !== null && obj !== undefined && obj === obj.window;
   }
   ```
 
