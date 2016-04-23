@@ -535,7 +535,7 @@ In place of common selectors like class, id or attribute we can use `document.qu
   el.insertAdjacentHTML('afterbegin', '<div id="container">Hello World</div>');
 
   // Native (Element)
-  el.insertBeforenewEl(newEl, el.firstChild);
+  el.insertBefore(newEl, el.firstChild);
   ```
 
 - [3.6](#3.6) <a name='3.6'></a> insertBefore
