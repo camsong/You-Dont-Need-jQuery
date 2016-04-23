@@ -1089,11 +1089,12 @@ A promise represents the eventual result of an asynchronous operation. jQuery ha
     const defer = new $.Deferred();
     setTimeout(() => {
       if(true) {
-        defer.resolve('some_value_compute_asynchronously');
+        defer.resolve('some_value_computed_asynchronously');
       } else {
         defer.reject('failed');
       }
     }, 1000);
+
     return defer.promise();
   }
 
@@ -1102,7 +1103,7 @@ A promise represents the eventual result of an asynchronous operation. jQuery ha
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         if (true) {
-          resolve('some_value_compute_asynchronously');
+          resolve('some_value_computed_asynchronously');
         } else {
           reject('failed');
         }
@@ -1112,24 +1113,30 @@ A promise represents the eventual result of an asynchronous operation. jQuery ha
 
   // Deferred way
   function defer() {
-    let resolve, reject;
-    const promise = new Promise(() => {
-      resolve = arguments[0];
-      reject = arguments[1];
+    const deferred = {};
+    const promise = new Promise((resolve, reject) => {
+      deferred.resolve = resolve;
+      deferred.reject = reject;
     });
-    return { resolve, reject, promise };
+
+    deferred.promise = () => {
+      return promise;
+    };
+
+    return deferred;
   }
 
   function asyncFunc() {
     const defer = defer();
     setTimeout(() => {
       if(true) {
-        defer.resolve('some_value_compute_asynchronously');
+        defer.resolve('some_value_computed_asynchronously');
       } else {
         defer.reject('failed');
       }
     }, 1000);
-    return defer.promise;
+
+    return defer.promise();
   }
   ```
 
