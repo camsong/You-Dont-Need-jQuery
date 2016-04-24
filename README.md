@@ -818,10 +818,7 @@ Most of utilities are found by native API. Others advanced functions could be ch
 
   // Native
   function isEmptyObject(obj) {
-    for (let key in obj) {
-      return false;
-    }
-    return true;
+    return Object.keys(obj).length === 0;
   }
   ```
 
