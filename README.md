@@ -793,16 +793,18 @@ Most of utilities are found by native API. Others advanced functions could be ch
 
   + isNumeric
 
-  Determines whether its argument is a number.
-  Use `typeof` to decide type. if necessary to use library, sometimes `typeof` isn't accurate.
+  Determine if the argument passed is numerical.
+  Use `typeof` to decide the type or the `type` example for better accuracy.
 
   ```js
   // jQuery
   $.isNumeric(item);
 
   // Native
-  function isNumeric(item) {
-    return typeof item === 'number' || Object.prototype.toString(item) === '[object Number]';
+  function isNumeric(value) {
+    var type = typeof value;
+
+    return (type === 'number' || type === 'string') && !Number.isNaN(value - Number.parseFloat(value));
   }
   ```
 
