@@ -1183,8 +1183,7 @@ A promise represents the eventual result of an asynchronous operation. jQuery ha
   // Native
   if (el.ownerDocument.defaultView.getComputedStyle(el, null).display === 'none') {
     el.style.display = ''|'inline'|'inline-block'|'inline-table'|'block';
-  }
-  else {
+  } else {
     el.style.display = 'none';
   }
   ```
