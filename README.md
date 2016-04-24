@@ -516,20 +516,26 @@ In place of common selectors like class, id or attribute we can use `document.qu
 
   ```js
   // jQuery
-  $el.append('<div id="container">hello</div>');
+  $el.append('<div id="container">Hello World</div>');
 
-  // Native
-  el.insertAdjacentHTML('beforeend', '<div id="container">hello</div>');
+  // Native (HTML string)
+  el.insertAdjacentHTML('beforeend', '<div id="container">Hello World</div>');
+
+  // Native (Element)
+  el.appendChild(newEl);
   ```
 
 - [3.5](#3.5) <a name='3.5'></a> Prepend
 
   ```js
   // jQuery
-  $el.prepend('<div id="container">hello</div>');
+  $el.prepend('<div id="container">Hello World</div>');
 
-  // Native
-  el.insertAdjacentHTML('afterbegin', '<div id="container">hello</div>');
+  // Native (HTML string)
+  el.insertAdjacentHTML('afterbegin', '<div id="container">Hello World</div>');
+
+  // Native (Element)
+  el.insertBefore(newEl, el.firstChild);
   ```
 
 - [3.6](#3.6) <a name='3.6'></a> insertBefore
@@ -538,11 +544,16 @@ In place of common selectors like class, id or attribute we can use `document.qu
 
   ```js
   // jQuery
-  $newEl.insertBefore(queryString);
+  $newEl.insertBefore(selector);
 
-  // Native
-  const target = document.querySelector(queryString);
-  target.parentNode.insertBefore(newEl, target);
+  // Native (HTML string)
+  el.insertAdjacentHTML('beforebegin ', '<div id="container">Hello World</div>');
+
+  // Native (Element)
+  const el = document.querySelector(selector);
+  if (el.parentNode) {
+    el.parentNode.insertBefore(newEl, el);
+  }
   ```
 
 - [3.7](#3.7) <a name='3.7'></a> insertAfter
@@ -551,11 +562,16 @@ In place of common selectors like class, id or attribute we can use `document.qu
 
   ```js
   // jQuery
-  $newEl.insertAfter(queryString);
+  $newEl.insertAfter(selector);
 
-  // Native
-  const target = document.querySelector(queryString);
-  target.parentNode.insertBefore(newEl, target.nextSibling);
+  // Native (HTML string)
+  el.insertAdjacentHTML('afterend', '<div id="container">Hello World</div>');
+
+  // Native (Element)
+  const el = document.querySelector(selector);
+  if (el.parentNode) {
+    el.parentNode.insertBefore(newEl, el.nextSibling);
+  }
   ```
 
 - [3.8](#3.8) <a name='3.8'></a> is
