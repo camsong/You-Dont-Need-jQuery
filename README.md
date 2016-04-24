@@ -299,10 +299,10 @@ In place of common selectors like class, id or attribute we can use `document.qu
 
     ```js
     // jQuery
-    $el.css({ color: '#ff0011' });
+    $el.css({ color: '#f01' });
 
     // Native
-    el.style.color = '#ff0011';
+    el.style.color = '#f01';
     ```
 
   + Get/Set Styles
@@ -430,7 +430,7 @@ In place of common selectors like class, id or attribute we can use `document.qu
       return {
         top: box.top + window.pageYOffset - document.documentElement.clientTop,
         left: box.left + window.pageXOffset - document.documentElement.clientLeft
-      }
+      };
     }
     ```
 
@@ -800,9 +800,11 @@ Most of utilities are found by native API. Others advanced functions could be ch
 
   // Native
   function isFunction(item) {
-    return typeof item === 'function' ||
-      Object.prototype.toString(item) === '[object Function]' ||
-      Object.prototype.toString(item) === '[object GeneratorFunction]';
+    if (typeof item === 'function') {
+      return true;
+    }
+    var type = Object.prototype.toString(item);
+    return type === '[object Function]' || type === '[object GeneratorFunction]';
   }
   ```
 
@@ -922,7 +924,12 @@ Most of utilities are found by native API. Others advanced functions could be ch
   $.type(obj);
 
   // Native
-  Object.prototype.toString.call(obj).replace(/(?:^\[object\s(.*?)\]$)/, '$1').toLowerCase();
+  function type(item) {
+    const reTypeOf = /(?:^\[object\s(.*?)\]$)/;
+    return Object.prototype.toString.call(obj)
+      .replace(reTypeOf, '$1')
+      .toLowerCase();
+  }
   ```
 
   + merge
@@ -934,9 +941,9 @@ Most of utilities are found by native API. Others advanced functions could be ch
   $.merge(array1, array2);
 
   // Native
-  // But concat function don't remove duplicate items.
-  function merge() {
-    return Array.prototype.concat.apply([], arguments)
+  // But concat function doesn't remove duplicate items.
+  function merge(...args) {
+    return Array.prototype.concat.apply([], ...args);
   }
   ```
 
