@@ -24,6 +24,7 @@ Il mondo del Frontend si evolve rapidamente oggigiorno, i browsers moderni hanno
 * [Tiếng Việt Nam](./README-vi.md)
 * [Español](./README-es.md)
 * [Русский](./README-ru.md)
+* [Кыргызча](./README-kg.md)
 * [Türkçe](./README-tr.md)
 * [Italiano](./README-it.md)
 * [Français](./README-fr.md)

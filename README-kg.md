@@ -23,6 +23,7 @@
 * [Tiếng Việt Nam](./README-vi.md)
 * [Español](./README-es.md)
 * [Русский](./README-ru.md)
+* [Кыргызча](./README-kg.md)
 * [Türkçe](./README-tr.md)
 * [Italiano](./README-it.md)
 * [Français](./README-fr.md)
