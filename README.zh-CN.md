@@ -370,7 +370,7 @@
     // Native
     // 与 jQuery 一致（一直为 content 区域的高度）
     function getHeight(el) {
-      const styles = this.getComputedStyles(el);
+      const styles = this.getComputedStyle(el);
       const height = el.offsetHeight;
       const borderTopWidth = parseFloat(styles.borderTopWidth);
       const borderBottomWidth = parseFloat(styles.borderBottomWidth);
