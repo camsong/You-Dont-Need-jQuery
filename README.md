@@ -961,7 +961,7 @@ Most of utilities are found by native API. Others advanced functions could be ch
   // Native
   function type(item) {
     const reTypeOf = /(?:^\[object\s(.*?)\]$)/;
-    return Object.prototype.toString.call(obj)
+    return Object.prototype.toString.call(item)
       .replace(reTypeOf, '$1')
       .toLowerCase();
   }
