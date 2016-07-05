@@ -7,15 +7,30 @@ El desarrollo Frontend evoluciona día a día, y los navegadores modernos ya han
 
 ## Tabla de Contenidos
 
+1. [Traducción](#traducción)
 1. [Query Selector](#query-selector)
 1. [CSS & Estilo](#css--estilo)
 1. [Manipulación DOM](#manipulación-dom)
 1. [Ajax](#ajax)
 1. [Eventos](#eventos)
 1. [Utilidades](#utilidades)
-1. [Traducción](#traducción)
 1. [Soporte de Navegadores](#soporte-de-navegadores)
 
+## Traducción
+
+* [한국어](./README.ko-KR.md)
+* [简体中文](./README.zh-CN.md)
+* [Bahasa Melayu](./README-my.md)
+* [Bahasa Indonesia](./README-id.md)
+* [Português(PT-BR)](./README.pt-BR.md)
+* [Tiếng Việt Nam](./README-vi.md)
+* [Español](./README-es.md)
+* [Русский](./README-ru.md)
+* [Кыргызча](./README-kg.md)
+* [Türkçe](./README-tr.md)
+* [Italiano](./README-it.md)
+* [Français](./README-fr.md)
+* [日本語](./README-ja.md)
 
 ## Query Selector
 
@@ -474,10 +489,7 @@ En lugar de los selectores comunes como clase, id o atributos podemos usar `docu
   $el.append("<div id='container'>hello</div>");
 
   // Nativo
-  let newEl = document.createElement('div');
-  newEl.setAttribute('id', 'container');
-  newEl.innerHTML = 'hello';
-  el.appendChild(newEl);
+  el.insertAdjacentHTML("beforeend","<div id='container'>hello</div>");
   ```
 
 - [3.5](#3.5) <a name='3.5'></a> Prepend
@@ -489,10 +501,7 @@ En lugar de los selectores comunes como clase, id o atributos podemos usar `docu
   $el.prepend("<div id='container'>hello</div>");
 
   // Nativo
-  let newEl = document.createElement('div');
-  newEl.setAttribute('id', 'container');
-  newEl.innerHTML = 'hello';
-  el.insertBefore(newEl, el.firstChild);
+  el.insertAdjacentHTML("afterbegin","<div id='container'>hello</div>");
   ```
 
 - [3.6](#3.6) <a name='3.6'></a> insertBefore
@@ -526,7 +535,9 @@ En lugar de los selectores comunes como clase, id o atributos podemos usar `docu
 ## Ajax
 
 Reemplazar con [fetch](https://github.com/camsong/fetch-ie8) y [fetch-jsonp](https://github.com/camsong/fetch-jsonp)
-
++[Fetch API](https://fetch.spec.whatwg.org/) es el nuevo estándar quue reemplaza a XMLHttpRequest para efectuar peticiones AJAX. Funciona en Chrome y Firefox, como también es posible usar un polyfill en otros navegadores.
++
++Es una buena alternativa utilizar [github/fetch](http://github.com/github/fetch) en IE9+ o [fetch-ie8](https://github.com/camsong/fetch-ie8/) en IE8+, [fetch-jsonp](https://github.com/camsong/fetch-jsonp) para efectuar peticiones JSONP.
 **[⬆ volver al inicio](#tabla-de-contenidos)**
 
 ## Eventos
@@ -617,16 +628,6 @@ Para un reemplazo completo con namespace y delegación, utilizar https://github.
   ```
 
 **[⬆ volver al inicio](#tabla-de-contenidos)**
-
-## Traducción
-
-* [한국어](./README.ko-KR.md)
-* [简体中文](./README.zh-CN.md)
-* [Bahasa Melayu](./README-my.md)
-* [Bahasa Indonesia](./README-id.md)
-* [Português(PT-BR)](./README.pt-BR.md)
-* [Tiếng Việt Nam](./README-vi.md)
-* [Español](./README-es.md)
 
 ## Soporte de Navegadores
 

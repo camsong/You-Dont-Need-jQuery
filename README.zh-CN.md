@@ -4,13 +4,31 @@
 
 ## 目录
 
+1. [Translations](#translations)
 1. [Query Selector](#query-selector)
-1. [CSS & Style](#css-style)
+1. [CSS & Style](#css--style)
 1. [DOM Manipulation](#dom-manipulation)
 1. [Ajax](#ajax)
 1. [Events](#events)
 1. [Utilities](#utilities)
+1. [Alternatives](#alternatives)
 1. [Browser Support](#browser-support)
+
+## Translations
+
+* [한국어](./README.ko-KR.md)
+* [简体中文](./README.zh-CN.md)
+* [Bahasa Melayu](./README-my.md)
+* [Bahasa Indonesia](./README-id.md)
+* [Português(PT-BR)](./README.pt-BR.md)
+* [Tiếng Việt Nam](./README-vi.md)
+* [Español](./README-es.md)
+* [Русский](./README-ru.md)
+* [Кыргызча](./README-kg.md)
+* [Türkçe](./README-tr.md)
+* [Italiano](./README-it.md)
+* [Français](./README-fr.md)
+* [日本語](./README-ja.md)
 
 ## Query Selector
 
@@ -216,7 +234,7 @@
     $(e.currentTarget).index('.radio');
 
     // Native
-    [].indexOf.call(document.querySelectAll('.radio'), e.currentTarget);
+    [].indexOf.call(document.querySelectorAll('.radio'), e.currentTarget);
     ```
 
 - [1.9](#1.9) <a name='1.9'></a> Iframe Contents
@@ -352,7 +370,7 @@
     // Native
     // 与 jQuery 一致（一直为 content 区域的高度）
     function getHeight(el) {
-      const styles = this.getComputedStyles(el);
+      const styles = this.getComputedStyle(el);
       const height = el.offsetHeight;
       const borderTopWidth = parseFloat(styles.borderTopWidth);
       const borderBottomWidth = parseFloat(styles.borderBottomWidth);
@@ -624,6 +642,11 @@
   ```
 
 **[⬆ 回到顶部](#目录)**
+
+## Alternatives
+
+* [你可能不需要 jQuery (You Might Not Need jQuery)](http://youmightnotneedjquery.com/) - 如何使用原生 JavaScript 实现通用事件，元素，ajax 等用法。
+* [npm-dom](http://github.com/npm-dom) 以及 [webmodules](http://github.com/webmodules) - 在 NPM 上提供独立 DOM 模块的组织
 
 ## Browser Support
 
