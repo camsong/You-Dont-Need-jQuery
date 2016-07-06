@@ -594,7 +594,6 @@ In place of common selectors like class, id or attribute we can use `document.qu
   // Native
   el.matches(selector);
   ```
-<<<<<<< HEAD
 
 - [3.9](#3.9) <a name='3.9'></a> empty
 
@@ -617,7 +616,6 @@ In place of common selectors like class, id or attribute we can use `document.qu
 - [3.10](#3.10) <a name='3.10'></a> empty
 
   Remove all child nodes
->>>>>>> upstream/master
 
   ```js
   // jQuery
@@ -626,8 +624,7 @@ In place of common selectors like class, id or attribute we can use `document.qu
   // Native
   el.innerHTML = '';
   ```
-<<<<<<< HEAD
-    
+
 =======
 
 - [3.11](#3.11) <a name='3.11'></a> wrap
@@ -683,7 +680,6 @@ In place of common selectors like class, id or attribute we can use `document.qu
   ```
 
 
->>>>>>> upstream/master
 **[⬆ back to top](#table-of-contents)**
 
 ## Ajax
