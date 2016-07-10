@@ -36,7 +36,7 @@ Frontend environments evolve rapidly nowadays, modern browsers have already impl
 
 In place of common selectors like class, id or attribute we can use `document.querySelector` or `document.querySelectorAll` for substitution. The differences lie in:
 * `document.querySelector` returns the first matched element
-* `document.querySelectorAll` returns all matched elements as NodeList. It can be converted to Array using `Array.prototype.slice.call(document.querySelectorAll(selector));`
+* `document.querySelectorAll` returns all matched elements as NodeList. It can be converted to Array using `Array.from(document.querySelectorAll(selector));`
 * If there are no elements matched, jQuery and `document.querySelectorAll` will return `[]`, whereas `document.querySelector` will return `null`.
 
 > Notice: `document.querySelector` and `document.querySelectorAll` are quite **SLOW**, try to use `document.getElementById`, `document.getElementsByClassName` or `document.getElementsByTagName` if you want to get a performance bonus.
@@ -629,7 +629,7 @@ In place of common selectors like class, id or attribute we can use `document.qu
   $('.inner').wrap('<div class="wrapper"></div>');
 
   // Native
-  Array.prototype.slice.call(document.querySelectorAll('.inner')).forEach((el) => {
+  Array.from(document.querySelectorAll('.inner')).forEach((el) => {
     const wrapper = document.createElement('div');
     wrapper.className = 'wrapper';
     el.parentNode.insertBefore(wrapper, el);
@@ -647,8 +647,8 @@ In place of common selectors like class, id or attribute we can use `document.qu
   $('.inner').unwrap();
 
   // Native
-  Array.prototype.slice.call(document.querySelectorAll('.inner')).forEach((el) => {
-    Array.prototype.slice.call(el.childNodes).forEach((child) => {
+  Array.from(document.querySelectorAll('.inner')).forEach((el) => {
+    Array.from(el.childNodes).forEach((child) => {
       el.parentNode.insertBefore(child, el);
     });
     el.parentNode.removeChild(el);
@@ -664,7 +664,7 @@ In place of common selectors like class, id or attribute we can use `document.qu
   $('.inner').replaceWith('<div class="outer"></div>');
 
   // Native
-  Array.prototype.slice.call(document.querySelectorAll('.inner')).forEach((el) => {
+  Array.from(document.querySelectorAll('.inner')).forEach((el) => {
     const outer = document.createElement('div');
     outer.className = 'outer';
     el.parentNode.insertBefore(outer, el);
@@ -794,10 +794,10 @@ Most of utilities are found by native API. Others advanced functions could be ch
   $.inArray(item, array);
 
   // Native
-  array.indexOf(item) > -1;
-
-  // ES6-way
   array.includes(item);
+
+  // ES5-way
+  array.indexOf(item) > -1;
   ```
 
   + isNumeric
@@ -830,7 +830,8 @@ Most of utilities are found by native API. Others advanced functions could be ch
     if (typeof item === 'function') {
       return true;
     }
-    var type = Object.prototype.toString(item);
+
+    var type = Object.prototype.toString.call(item);
     return type === '[object Function]' || type === '[object GeneratorFunction]';
   }
   ```
@@ -1004,10 +1005,10 @@ Most of utilities are found by native API. Others advanced functions could be ch
   $.makeArray(arrayLike);
 
   // Native
-  Array.prototype.slice.call(arrayLike);
-
-  // ES6-way
   Array.from(arrayLike);
+
+  // ES5-way
+  Array.prototype.slice.call(arrayLike);
   ```
 
 - [6.2](#6.2) <a name='6.2'></a> Contains
