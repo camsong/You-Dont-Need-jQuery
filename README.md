@@ -629,7 +629,7 @@ In place of common selectors like class, id or attribute we can use `document.qu
   $('.inner').wrap('<div class="wrapper"></div>');
 
   // Native
-  Array.prototype.slice.call(document.querySelectorAll('.inner')).forEach((el) => {
+  Array.prototype.forEach.call(document.querySelectorAll('.inner'), (el) => {
     const wrapper = document.createElement('div');
     wrapper.className = 'wrapper';
     el.parentNode.insertBefore(wrapper, el);
@@ -647,8 +647,8 @@ In place of common selectors like class, id or attribute we can use `document.qu
   $('.inner').unwrap();
 
   // Native
-  Array.prototype.slice.call(document.querySelectorAll('.inner')).forEach((el) => {
-    Array.prototype.slice.call(el.childNodes).forEach((child) => {
+  Array.prototype.forEach.call(document.querySelectorAll('.inner'), (el) => {
+    Array.prototype.forEach.call(el.childNodes, (child) => {
       el.parentNode.insertBefore(child, el);
     });
     el.parentNode.removeChild(el);
@@ -664,7 +664,7 @@ In place of common selectors like class, id or attribute we can use `document.qu
   $('.inner').replaceWith('<div class="outer"></div>');
 
   // Native
-  Array.prototype.slice.call(document.querySelectorAll('.inner')).forEach((el) => {
+  Array.prototype.forEach.call(document.querySelectorAll('.inner'), (el) => {
     const outer = document.createElement('div');
     outer.className = 'outer';
     el.parentNode.insertBefore(outer, el);
@@ -966,8 +966,8 @@ Most of utilities are found by native API. Others advanced functions could be ch
 
   // Native
   // But concat function doesn't remove duplicate items.
-  function merge(...args) {
-    return Array.prototype.concat.apply([], ...args);
+  function merge() {
+    return Array.prototype.concat.apply([], arguments);
   }
   ```
 
