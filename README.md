@@ -966,8 +966,8 @@ Most of utilities are found by native API. Others advanced functions could be ch
 
   // Native
   // But concat function doesn't remove duplicate items.
-  function merge() {
-    return Array.prototype.concat.apply([], arguments);
+  function merge(...args) {
+    return [].concat(...args)
   }
   ```
 
