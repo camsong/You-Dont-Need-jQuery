@@ -142,9 +142,20 @@ In place of common selectors like class, id or attribute we can use `document.qu
   // Native - Only latest, NO IE
   el.closest(selector);
 
-  // Native - IE10+
+  // Native - IE8+
   function closest(el, selector) {
-    const matchesSelector = el.matches || el.webkitMatchesSelector || el.mozMatchesSelector || el.msMatchesSelector;
+    const matchesSelector = 
+        el.matchesSelector || 
+        el.mozMatchesSelector ||
+        el.msMatchesSelector || 
+        el.oMatchesSelector || 
+        el.webkitMatchesSelector ||
+        function(s) {
+            const matches = (this.document || this.ownerDocument).querySelectorAll(s);
+            let i = matches.length;
+            while (--i >= 0 && matches.item(i) !== this) {}
+            return i > -1;            
+        };
 
     while (el) {
       if (matchesSelector.call(el, selector)) {
