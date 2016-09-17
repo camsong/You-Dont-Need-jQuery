@@ -1294,7 +1294,7 @@ A promise represents the eventual result of an asynchronous operation. jQuery ha
   $el.animate({ params }, speed);
 
   // Native
-  el.style.transition = 'all' + speed;
+  el.style.transition = 'all ' + speed;
   Object.keys(params).forEach((key) =>
     el.style[key] = params[key];
   )
