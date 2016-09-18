@@ -107,7 +107,7 @@ In place of common selectors like class, id or attribute we can use `document.qu
 
     // Native
     Array.prototype.filter.call(el.parentNode.children, (child) =>
-      child !== el;
+      child !== el
     );
     ```
 
