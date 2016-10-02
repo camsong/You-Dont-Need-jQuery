@@ -712,6 +712,9 @@ For a complete replacement with namespace and delegation, refer to https://githu
   } else {
     document.addEventListener('DOMContentLoaded', eventHandler);
   }
+  
+  // npm
+  require('domready')(eventHandler)
   ```
 
 - [5.1](#5.1) <a name='5.1'></a> Bind an event with on
