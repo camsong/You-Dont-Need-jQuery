@@ -361,10 +361,10 @@ In place of common selectors like class, id or attribute we can use `document.qu
     // window height
     $(window).height();
 
-    // without scrollbar, behaves like jQuery
+    // with scrollbar
     window.document.documentElement.clientHeight;
 
-    // with scrollbar
+    // without scrollbar, behaves like jQuery
     window.innerHeight;
     ```
 
