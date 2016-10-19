@@ -1,7 +1,7 @@
 ## Vous n'avez pas besoin de jQuery [![Build Status](https://travis-ci.org/oneuijs/You-Dont-Need-jQuery.svg)](https://travis-ci.org/oneuijs/You-Dont-Need-jQuery)
 
 
-De nos jours, les environnements frontend évolus si rapidement que les navigateurs récents ont déjà implémentés beaucoup d'API DOM/BOM suffisants. Il n'est pas utile d'apprendre jQuery à partir de rien pour manipuler le DOM ou les évènements. Pendant ce temps, grâce à l'efficacité de bibliothèques frontend comme React, Angular et Vue, manipuler directement le DOM est devenu obsolète, jQuery n'a jamais été aussi peu important. Ce projet résume la plupart des alternatives à jQuery à l'aide d'implémentations natives, compatibles IE 10+.
+De nos jours, les environnements frontend évoluent si rapidement que les navigateurs récents ont déjà implémenté beaucoup d'API DOM/BOM suffisants. Il n'est pas utile d'apprendre jQuery à partir de rien pour manipuler le DOM ou les évènements. Pendant ce temps, grâce à l'efficacité de bibliothèques frontend comme React, Angular et Vue, manipuler directement le DOM est devenu obsolète, jQuery n'a jamais été aussi peu important. Ce projet résume la plupart des alternatives à jQuery à l'aide d'implémentations natives, compatibles IE 10+.
 
 ## Sommaire
 
@@ -38,9 +38,9 @@ De nos jours, les environnements frontend évolus si rapidement que les navigate
 À la place des sélecteurs communs comme class, id ou attribute il est possible d'utiliser `document.querySelector` ou `document.querySelectorAll` à la place. Les différences consistent en:
 * `document.querySelector` retourne le premier élément trouvé
 * `document.querySelectorAll` retourne tous les éléments trouvés sous forme d'une NodeList. Il est possible de le convertir en Array à l'aide de `[].slice.call(document.querySelectorAll(selector) || []);`
-* Si aucun élément n'a été trouvé, jQuery peut retourner `[]` alors que l'API DOM va retourner `null`. Faite attention au Null Pointer Exception. Vous pouvez aussi utiliser `||` pour définir la valeur par défaut si rien n'a été trouvé, comme `document.querySelectorAll(selector) || []`
+* Si aucun élément n'a été trouvé, jQuery peut retourner `[]` alors que l'API DOM va retourner `null`. Faites attention au Null Pointer Exception. Vous pouvez aussi utiliser `||` pour définir la valeur par défaut si rien n'a été trouvé, comme `document.querySelectorAll(selector) || []`
 
-> Remarque: `document.querySelector` et `document.querySelectorAll` sont assez **LENT**, essayez plutôt d'utiliser `getElementById`, `document.getElementsByClassName` ou `document.getElementsByTagName` si vous souhaitez obtenir un gain de performance.
+> Remarque: `document.querySelector` et `document.querySelectorAll` sont assez **LENTS**, essayez plutôt d'utiliser `getElementById`, `document.getElementsByClassName` ou `document.getElementsByTagName` si vous souhaitez obtenir un gain de performance.
 
 - [1.0](#1.0) <a name='1.0'></a> Requête par sélecteur
 
@@ -131,7 +131,7 @@ De nos jours, les environnements frontend évolus si rapidement que les navigate
 
 - [1.6](#1.6) <a name='1.6'></a> Plus proche
 
-  Retourne le premier élément trouver à l'aide du sélecteur fourni, parcourant l'élément actuel vers le document.
+  Retourne le premier élément trouvé à l'aide du sélecteur fourni, parcourant l'élément actuel vers le document.
 
   ```js
   // jQuery
@@ -416,7 +416,7 @@ De nos jours, les environnements frontend évolus si rapidement que les navigate
 
   + Obtenir le texte
     
-    Récupère le contenu textuel combiné de l'élément en incluant ses déscendants.
+    Récupère le contenu textuel combiné de l'élément en incluant ses descendants.
 
     ```js
     // jQuery
@@ -428,7 +428,7 @@ De nos jours, les environnements frontend évolus si rapidement que les navigate
 
   + Définir le text
     
-    Défini le contenu de l'élément à partir du texte spécifié.
+    Définit le contenu de l'élément à partir du texte spécifié.
 
     ```js
     // jQuery
@@ -502,7 +502,7 @@ De nos jours, les environnements frontend évolus si rapidement que les navigate
 
 - [3.7](#3.7) <a name='3.7'></a> Insérer après
 
-  Insérer un nouveau noeud après les noeufs sélectionnés
+  Insérer un nouveau noeud après les noeuds sélectionnés
 
   ```js
   // jQuery
@@ -646,7 +646,7 @@ Pour remplacer complètement jusqu'aux espaces de nom et délégations, se réf�
 
 ## Utilitaires
 
-La plupart des utilitaires se trouvent dans l'API native. D'autres fonctions avancées peuvent être choisiesafin de se concentrer sur la cohérence et la performance. Il est recommandé de remplacer par [lodash](https://lodash.com).
+La plupart des utilitaires se trouvent dans l'API native. D'autres fonctions avancées peuvent être choisies afin de se concentrer sur la cohérence et la performance. Il est recommandé de remplacer par [lodash](https://lodash.com).
 
 - [6.1](#6.1) <a name='6.1'></a> Utilitaires basiques
 
@@ -691,7 +691,7 @@ La plupart des utilitaires se trouvent dans l'API native. D'autres fonctions ava
   + isNumeric
 
   Détermine si l'argument est un nombre.
-  Utiliser `typeof` pour décider du type. Si nécessaire utiliser une bibliothèque, parfois `typeof` n'est pas exacte.
+  Utiliser `typeof` pour décider du type. Si nécessaire utiliser une bibliothèque, parfois `typeof` n'est pas exact.
 
   ```js
   // jQuery
@@ -719,7 +719,7 @@ La plupart des utilitaires se trouvent dans l'API native. D'autres fonctions ava
   
   + isEmptyObject
 
-  Vérifie si un objet est vide (ne contiens aucunes propriétés énumérables).
+  Vérifie si un objet est vide (ne contient aucune propriétés énumérables).
 
   ```js
   // jQuery
@@ -736,7 +736,7 @@ La plupart des utilitaires se trouvent dans l'API native. D'autres fonctions ava
 
   + isPlainObject
 
-  Vérifie si un object est un objet "plat" (créé en utilisant "{}" ou "new Object").
+  Vérifie si un objet est un objet "plat" (créé en utilisant "{}" ou "new Object").
 
   ```js
   // jQuery
@@ -760,7 +760,7 @@ La plupart des utilitaires se trouvent dans l'API native. D'autres fonctions ava
   + extend
 
   Fusionne le contenu de deux objets ou plus ensembles en un seul objet.
-  object.assign fait parti de l'API ES6, il est également possible d'utiliser [polyfill](https://github.com/ljharb/object.assign).
+  Object.assign fait parti de l'API ES6, il est également possible d'utiliser [polyfill](https://github.com/ljharb/object.assign).
 
   ```js
   // jQuery
@@ -772,7 +772,7 @@ La plupart des utilitaires se trouvent dans l'API native. D'autres fonctions ava
 
   + trim
   
-  Supprime le whitespace au début et à la fin d'une chaine.
+  Supprime les espaces au début et à la fin d'une chaine de caractères String.
 
   ```js
   // jQuery
@@ -838,7 +838,7 @@ La plupart des utilitaires se trouvent dans l'API native. D'autres fonctions ava
   
   + merge
 
-  Fusionne le contenu de deux tableau ensembles dans un seul tableau.
+  Fusionne le contenu de deux tableau dans un seul tableau.
 
   ```js
   // jQuery
@@ -877,7 +877,7 @@ La plupart des utilitaires se trouvent dans l'API native. D'autres fonctions ava
 
   + makeArray
 
-  Convertie un objet "array-like" vers un véritable tableau JavaScript.
+  Convertit un objet "array-like" vers un véritable tableau JavaScript.
 
   ```js
   // jQuery
@@ -889,7 +889,7 @@ La plupart des utilitaires se trouvent dans l'API native. D'autres fonctions ava
 
 - [6.2](#6.2) <a name='6.2'></a> Contient
   
-  Vérifie si un élément du DOM est un déscendant d'un autre élément du DOM.
+  Vérifie si un élément du DOM est un descendant d'un autre élément du DOM.
 
   ```js
   // jQuery
@@ -923,7 +923,7 @@ La plupart des utilitaires se trouvent dans l'API native. D'autres fonctions ava
 
   + parseHTML
 
-  Parse une chaine vers u tableau de noeuds DOM.
+  Parse une chaine de caractères vers un tableau de noeuds DOM.
 
   ```js
   // jQuery
@@ -1152,7 +1152,7 @@ Une promesse représente le résultat éventuel d'une opération asynchrone. jQu
   
 - [8.8](#8.8) <a name='8.8'></a> Animate
 
-  Réalise une animation personnaliée à partir d'une collection de propriétée CSS.
+  Réalise une animation personnaliée à partir d'une collection de propriétés CSS.
 
   ```js
   // jQuery
