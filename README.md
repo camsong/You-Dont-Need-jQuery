@@ -202,7 +202,7 @@ In place of common selectors like class, id or attribute we can use `document.qu
 
     ```js
     // jQuery
-    $(e.currentTarget).index('.radio');
+    $('.radio').index(e.currentTarget);
 
     // Native
     Array.prototype.indexOf.call(document.querySelectorAll('.radio'), e.currentTarget);
