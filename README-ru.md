@@ -104,9 +104,9 @@
     $el.siblings();
 
     // Нативно
-    [].filter.call(el.parentNode.children, function(child) {
-      return child !== el;
-    });
+    Array.prototype.filter.call(el.parentNode.children, (child) =>
+      child !== el
+    );
     ```
 
   + Предыдущие элементы
@@ -200,10 +200,10 @@
 
     ```js
     // jQuery
-    $(e.currentTarget).index('.radio');
+    $('.radio').index(e.currentTarget);
 
     // Нативно
-    [].indexOf.call(document.querySelectorAll('.radio'), e.currentTarget);
+    Array.prototype.indexOf.call(document.querySelectorAll('.radio'), e.currentTarget);
     ```
 
 - [1.9](#1.9) <a name='1.9'></a> Контент Iframe
@@ -283,11 +283,12 @@
 
     ```js
     // jQuery
-    $el.css("color");
+    $el.css('color');
 
     // Нативно
     // ЗАМЕТКА: Известная ошика, возвращает 'auto' если значение стиля 'auto'
     const win = el.ownerDocument.defaultView;
+
     // null означает не возвращать псевдостили
     win.getComputedStyle(el, null).color;
     ```
@@ -296,10 +297,10 @@
 
     ```js
     // jQuery
-    $el.css({ color: "#ff0011" });
+    $el.css({ color: '#f01' });
 
     // Нативно
-    el.style.color = '#ff0011';
+    el.style.color = '#f01';
     ```
 
   + Получение/Присвоение стилей
@@ -356,8 +357,10 @@
     ```js
     // Высота окна
     $(window).height();
+
     // без скроллбара, ведет себя как jQuery
     window.document.documentElement.clientHeight;
+
     // вместе с скроллбаром
     window.innerHeight;
     ```
@@ -369,7 +372,15 @@
     $(document).height();
 
     // Нативно
-    document.documentElement.scrollHeight;
+    const body = document.body;
+    const html = document.documentElement;
+    const height = Math.max(
+      body.offsetHeight,
+      body.scrollHeight,
+      html.clientHeight,
+      html.offsetHeight,
+      html.scrollHeight
+    );
     ```
 
   + Высота элемента
@@ -388,8 +399,10 @@
       const paddingBottom = parseFloat(styles.paddingBottom);
       return height - borderBottomWidth - borderTopWidth - paddingTop - paddingBottom;
     }
+
     // С точностью до целого числа（когда `border-box`, это `height`; когда `content-box`, это `height + padding + border`）
     el.clientHeight;
+
     // С точностью до десятых（когда `border-box`, это `height`; когда `content-box`, это `height + padding + border`）
     el.getBoundingClientRect().height;
     ```
@@ -423,7 +436,7 @@
       return {
         top: box.top + window.pageYOffset - document.documentElement.clientTop,
         left: box.left + window.pageXOffset - document.documentElement.clientLeft
-      }
+      };
     }
     ```
 
@@ -505,20 +518,26 @@
 
   ```js
   // jQuery
-  $el.append("<div id='container'>hello</div>");
+  $el.append('<div id="container">Hello World</div>');
 
-  // Нативно
-  el.insertAdjacentHTML("beforeend","<div id='container'>hello</div>");
+  // Нативно (строка HTML)
+  el.insertAdjacentHTML('beforeend', '<div id="container">Hello World</div>');
+
+  // Нативно (элемент)
+  el.appendChild(newEl);
   ```
 
 - [3.5](#3.5) <a name='3.5'></a> Prepend
 
   ```js
   // jQuery
-  $el.prepend("<div id='container'>hello</div>");
+  $el.prepend('<div id="container">Hello World</div>');
 
-  // Нативно
-  el.insertAdjacentHTML("afterbegin","<div id='container'>hello</div>");
+  // Нативно (строка HTML)
+  el.insertAdjacentHTML('afterbegin', '<div id="container">Hello World</div>');
+
+  // Нативно (элемент)
+  el.insertBefore(newEl, el.firstChild);
   ```
 
 - [3.6](#3.6) <a name='3.6'></a> insertBefore
@@ -527,11 +546,16 @@
 
   ```js
   // jQuery
-  $newEl.insertBefore(queryString);
+  $newEl.insertBefore(selector);
 
-  // Нативно
-  const target = document.querySelector(queryString);
-  target.parentNode.insertBefore(newEl, target);
+  // Нативно (строка HTML)
+  el.insertAdjacentHTML('beforebegin ', '<div id="container">Hello World</div>');
+
+  // Нативно (элемент)
+  const el = document.querySelector(selector);
+  if (el.parentNode) {
+    el.parentNode.insertBefore(newEl, el);
+  }
   ```
 
 - [3.7](#3.7) <a name='3.7'></a> insertAfter
@@ -540,11 +564,16 @@
 
   ```js
   // jQuery
-  $newEl.insertAfter(queryString);
+  $newEl.insertAfter(selector);
 
-  // Нативно
-  const target = document.querySelector(queryString);
-  target.parentNode.insertBefore(newEl, target.nextSibling);
+  // Нативно (строка HTML)
+  el.insertAdjacentHTML('afterend', '<div id="container">Hello World</div>');
+
+  // Нативно (элемент)
+  const el = document.querySelector(selector);
+  if (el.parentNode) {
+    el.parentNode.insertBefore(newEl, el.nextSibling);
+  }
   ```
 
 - [3.8](#3.8) <a name='3.8'></a> is
@@ -618,10 +647,10 @@
 
   ```js
   // jQuery
-  $.isArray(range);
+  $.isArray(array);
 
   // Нативно
-  Array.isArray(range);
+  Array.isArray(array);
   ```
 
 - [6.2](#6.2) <a name='6.2'></a> Trim
@@ -665,10 +694,16 @@
 
 ## Поддержка браузеров
 
-![Chrome](https://raw.github.com/alrra/browser-logos/master/chrome/chrome_48x48.png) | ![Firefox](https://raw.github.com/alrra/browser-logos/master/firefox/firefox_48x48.png) | ![IE](https://raw.github.com/alrra/browser-logos/master/internet-explorer/internet-explorer_48x48.png) | ![Opera](https://raw.github.com/alrra/browser-logos/master/opera/opera_48x48.png) | ![Safari](https://raw.github.com/alrra/browser-logos/master/safari/safari_48x48.png)
+![Chrome][chrome-image] | ![Firefox][firefox-image] | ![IE][ie-image] | ![Opera][opera-image] | ![Safari][safari-image]
 --- | --- | --- | --- | --- |
 Latest ✔ | Latest ✔ | 10+ ✔ | Latest ✔ | 6.1+ ✔ |
 
 # License
 
 MIT
+
+[chrome-image]: https://raw.github.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png
+[firefox-image]: https://raw.github.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png
+[ie-image]: https://raw.github.com/alrra/browser-logos/master/src/archive/internet-explorer_9-11/internet-explorer_9-11_48x48.png
+[opera-image]: https://raw.github.com/alrra/browser-logos/master/src/opera/opera_48x48.png
+[safari-image]: https://raw.github.com/alrra/browser-logos/master/src/safari/safari_48x48.png
