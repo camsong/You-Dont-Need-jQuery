@@ -57,7 +57,7 @@
 
   // Native
   document.querySelectorAll('.css');
-  
+
   // or
   document.getElementsByClassName('css');
   ```
@@ -378,7 +378,7 @@
       const paddingBottom = parseFloat(styles.paddingBottom);
       return height - borderBottomWidth - borderTopWidth - paddingTop - paddingBottom;
     }
-    // 精确到整数（border-box 时为 height 值，content-box 时为 height + padding + border 值）
+    // 精确到整数（border-box 时为 height - border 值，content-box 时为 height + padding 值）
     el.clientHeight;
     // 精确到小数（border-box 时为 height 值，content-box 时为 height + padding + border 值）
     el.getBoundingClientRect().height;

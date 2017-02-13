@@ -381,7 +381,7 @@ No lugar de seletores comuns como classe, id ou atributo podemos usar `document.
       const paddingBottom = parseFloat(styles.paddingBottom);
       return height - borderBottomWidth - borderTopWidth - paddingTop - paddingBottom;
     }
-    // preciso para inteiro（quando `border-box`, é `height`; quando `content-box`, é `height + padding + border`）
+    // preciso para inteiro（quando `border-box`, é `height - border`; quando `content-box`, é `height + padding`）
     el.clientHeight;
     // preciso para decimal（quando `border-box`, é `height`; quando `content-box`, é `height + padding + border`）
     el.getBoundingClientRect().height;

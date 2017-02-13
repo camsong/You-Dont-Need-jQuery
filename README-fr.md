@@ -136,7 +136,7 @@ De nos jours, les environnements frontend évoluent si rapidement que les naviga
   ```js
   // jQuery
   $el.closest(queryString);
-  
+
   // Natif - Seulement le dernier, ne fonctionne pas sous IE
   el.closest(selector);
 
@@ -345,7 +345,7 @@ De nos jours, les environnements frontend évoluent si rapidement que les naviga
       const paddingBottom = parseFloat(styles.paddingBottom);
       return height - borderBottomWidth - borderTopWidth - paddingTop - paddingBottom;
     }
-    // précis à l'entier près (quand `border-box`, son `height`; quand `content-box`, son `height + padding + border`)
+    // précis à l'entier près (quand `border-box`, son `height - border`; quand `content-box`, son `height + padding`)
     el.clientHeight;
     // précis à la décimale près (quand `border-box`, son `height`; quand `content-box`, son `height + padding + border`)
     el.getBoundingClientRect().height;
@@ -354,7 +354,7 @@ De nos jours, les environnements frontend évoluent si rapidement que les naviga
 - [2.3](#2.3) <a name='2.3'></a> Position et offset
 
   + Position
-    
+
     Récupère les coordonnées courantes de l'élement relatif à l'offset parent.
 
     ```js
@@ -366,7 +366,7 @@ De nos jours, les environnements frontend évoluent si rapidement que les naviga
     ```
 
   + Offset
-    
+
     Récupère les coordonnées courantes de l'élement relatif au document.
 
     ```js
@@ -385,7 +385,7 @@ De nos jours, les environnements frontend évoluent si rapidement que les naviga
     ```
 
 - [2.4](#2.4) <a name='2.4'></a> Défiler vers le haut
-  
+
   Récupère la position verticale courante de l'ascenseur pour cet élément.
 
   ```js
@@ -401,9 +401,9 @@ De nos jours, les environnements frontend évoluent si rapidement que les naviga
 ## Manipulation du DOM
 
 - [3.1](#3.1) <a name='3.1'></a> Supprimer
-  
+
   Supprime l'élément du DOM.
-  
+
   ```js
   // jQuery
   $el.remove();
@@ -415,7 +415,7 @@ De nos jours, les environnements frontend évoluent si rapidement que les naviga
 - [3.2](#3.2) <a name='3.2'></a> Texte
 
   + Obtenir le texte
-    
+
     Récupère le contenu textuel combiné de l'élément en incluant ses descendants.
 
     ```js
@@ -427,7 +427,7 @@ De nos jours, les environnements frontend évoluent si rapidement que les naviga
     ```
 
   + Définir le text
-    
+
     Définit le contenu de l'élément à partir du texte spécifié.
 
     ```js
@@ -661,7 +661,7 @@ La plupart des utilitaires se trouvent dans l'API native. D'autres fonctions ava
   // Natif
   Array.isArray(range);
   ```
- 
+
   + isWindow
 
   Détermine si l'argument est une fenêtre.
@@ -687,7 +687,7 @@ La plupart des utilitaires se trouvent dans l'API native. D'autres fonctions ava
   // Natif
   Array.indexOf(item);
   ```
-  
+
   + isNumeric
 
   Détermine si l'argument est un nombre.
@@ -716,7 +716,7 @@ La plupart des utilitaires se trouvent dans l'API native. D'autres fonctions ava
     return typeof value === 'function';
   }
   ```
-  
+
   + isEmptyObject
 
   Vérifie si un objet est vide (ne contient aucune propriétés énumérables).
@@ -771,7 +771,7 @@ La plupart des utilitaires se trouvent dans l'API native. D'autres fonctions ava
   ```
 
   + trim
-  
+
   Supprime les espaces au début et à la fin d'une chaine de caractères String.
 
   ```js
@@ -809,7 +809,7 @@ La plupart des utilitaires se trouvent dans l'API native. D'autres fonctions ava
   array.forEach(function(value, index) {
   });
   ```
-  
+
   + grep
 
   Trouve les éléments d'un tableau qui satisfont avec une fonction filtre.
@@ -823,7 +823,7 @@ La plupart des utilitaires se trouvent dans l'API native. D'autres fonctions ava
   array.filter(function(value, index) {
   });
   ```
-  
+
   + type
 
   Détermine la [[Class]] interne JavaScript d'un objet.
@@ -835,7 +835,7 @@ La plupart des utilitaires se trouvent dans l'API native. D'autres fonctions ava
   // Natif
   Object.prototype.toString.call(obj).replace(/^\[object (.+)\]$/, '$1').toLowerCase();
   ```
-  
+
   + merge
 
   Fusionne le contenu de deux tableau dans un seul tableau.
@@ -888,7 +888,7 @@ La plupart des utilitaires se trouvent dans l'API native. D'autres fonctions ava
   ```
 
 - [6.2](#6.2) <a name='6.2'></a> Contient
-  
+
   Vérifie si un élément du DOM est un descendant d'un autre élément du DOM.
 
   ```js
@@ -1010,7 +1010,7 @@ Une promesse représente le résultat éventuel d'une opération asynchrone. jQu
       }, 1000);
     });
   }
-  
+
   // Avec deferred
   function defer() {
     let resolve, reject;
@@ -1149,7 +1149,7 @@ Une promesse représente le résultat éventuel d'une opération asynchrone. jQu
    el.style.height = '0px';
   }
   ```
-  
+
 - [8.8](#8.8) <a name='8.8'></a> Animate
 
   Réalise une animation personnaliée à partir d'une collection de propriétés CSS.
@@ -1164,7 +1164,7 @@ Une promesse représente le résultat éventuel d'une opération asynchrone. jQu
     el.style[key] = params[key];
   })
   ```
-  
+
 ## Alternatives
 
 * [You Might Not Need jQuery](http://youmightnotneedjquery.com/) - Des exemples sur comment faire un simple évènement, ajax etc avec du javascript pur.

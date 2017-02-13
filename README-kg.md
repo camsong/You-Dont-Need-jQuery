@@ -249,10 +249,10 @@
     // Нативдүү түрү
     el.getAttribute('foo');
     ```
-  + Атрибутту кошуу 
+  + Атрибутту кошуу
 
     ```js
-    // jQuery, DOM'ду өзгөртпөстөн эсте иштей берет 
+    // jQuery, DOM'ду өзгөртпөстөн эсте иштей берет
     $el.attr('foo', 'bar');
 
     // Нативдүү түрү
@@ -270,87 +270,87 @@
     // Нативдүү түрү  ( `dataset`'ти колдонуу, эгерде  IE 11 төмөн колдоо жок болсо)
     el.dataset['foo'];
     ```
-    
+
     **[⬆ Башына](#Мазмуну)**
-    
+
     ## CSS & Style
-    
+
     - [2.1](#2.1) <a name='2.1'></a> CSS
-    
+
       +  Стильди алуу
-    
+
         ```js
         // jQuery
         $el.css("color");
-    
-        // Нативдүү түрү 
+
+        // Нативдүү түрү
         // Белгилөө:  Белгилүү ката, эгерде стильдин мааниси 'auto' болсо, анда 'auto' кайтарат
         const win = el.ownerDocument.defaultView;
         // null псевдостильдерди кайтарбоону белгилейт
         win.getComputedStyle(el, null).color;
         ```
-    
+
       +  style менчиктоо
-    
+
         ```js
         // jQuery
         $el.css({ color: "#ff0011" });
-    
-        // Нативдүү түрү 
+
+        // Нативдүү түрү
         el.style.color = '#ff0011';
         ```
-    
-      +  Стильдерди Алуу/Менчиктоо 
-    
+
+      +  Стильдерди Алуу/Менчиктоо
+
         Заметьте что если вы хотите присвоить несколько стилей за раз, вы можете сослаться на [setStyles](https://github.com/oneuijs/oui-dom-utils/blob/master/src/index.js#L194) метод в oui-dom-utils package.
-    
-    
+
+
       + Классты кошуу
-    
+
         ```js
         // jQuery
         $el.addClass(className);
-    
-        // Нативдүү түрү 
+
+        // Нативдүү түрү
         el.classList.add(className);
         ```
-    
+
       + Классты жок кылуу
-    
+
         ```js
         // jQuery
         $el.removeClass(className);
-    
-        // Нативдүү түрү 
+
+        // Нативдүү түрү
         el.classList.remove(className);
         ```
-    
+
       +  Классты камтыйт
-    
+
         ```js
         // jQuery
         $el.hasClass(className);
-    
-        // Нативдүү түрү 
+
+        // Нативдүү түрү
         el.classList.contains(className);
         ```
-    
+
       +  Классты которуу
-    
+
         ```js
         // jQuery
         $el.toggleClass(className);
-    
-        // Нативдүү түрү 
+
+        // Нативдүү түрү
         el.classList.toggle(className);
         ```
-    
+
     - [2.2](#2.2) <a name='2.2'></a> Туурасы жана узундугу
-    
+
       Турасы жана узундугу теорикалык турдо бири-бирине окшош, узундугун мисалга алсак:
-    
-      + Терезенин узундугу 
-    
+
+      + Терезенин узундугу
+
         ```js
         // Терезенин узундугу
         $(window).height();
@@ -359,24 +359,24 @@
         // скролбар менен
         window.innerHeight;
         ```
-    
+
       + Документтин узундугу
-    
+
         ```js
         // jQuery
         $(document).height();
-    
-        // Нативдүү түрү 
+
+        // Нативдүү түрү
         document.documentElement.scrollHeight;
         ```
-    
+
       + Элементтин узундугу
-    
+
         ```js
         // jQuery
         $el.height();
-    
-        // Нативдүү түрү 
+
+        // Нативдүү түрү
         function getHeight(el) {
           const styles = window.getComputedStyle(el);
           const height = el.offsetHeight;
@@ -386,288 +386,288 @@
           const paddingBottom = parseFloat(styles.paddingBottom);
           return height - borderBottomWidth - borderTopWidth - paddingTop - paddingBottom;
         }
-        // Так сандарга чейин（ `border-box` болгондо, анда `height`;  `content-box` болгондо, анда  `height + padding + border`）
+        // Так сандарга чейин（ `border-box` болгондо, анда `height - border`;  `content-box` болгондо, анда  `height + padding`）
         el.clientHeight;
         // Ондон бирине чейин（ `border-box` болгондо, анда `height`;  `content-box` болгондо, анда `height + padding + border`）
         el.getBoundingClientRect().height;
         ```
-    
+
     - [2.3](#2.3) <a name='2.3'></a> Позиция  жана  өтүү
-    
+
       + Позициясы
-    
+
         Ата-энесин жылуусу боюнча учурдагы координаттарды алуу
-    
+
         ```js
         // jQuery
         $el.position();
-    
-        // Нативдүү түрү 
+
+        // Нативдүү түрү
         { left: el.offsetLeft, top: el.offsetTop }
         ```
-    
+
       + Ылдый өтүү
-    
+
         Учурдагы элементтин координаттарын кайтарып алуу
-    
+
         ```js
         // jQuery
         $el.offset();
-    
-        // Нативдүү түрү 
+
+        // Нативдүү түрү
         function getOffset (el) {
           const box = el.getBoundingClientRect();
-    
+
           return {
             top: box.top + window.pageYOffset - document.documentElement.clientTop,
             left: box.left + window.pageXOffset - document.documentElement.clientLeft
           }
         }
         ```
-    
-    - [2.4](#2.4) <a name='2.4'></a> Жогоруга жылдыруу 
-    
+
+    - [2.4](#2.4) <a name='2.4'></a> Жогоруга жылдыруу
+
       ```js
       // jQuery
       $(window).scrollTop();
-    
-      // Нативдүү түрү 
+
+      // Нативдүү түрү
       (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop;
       ```
-    
+
     **[⬆ Башына](#Мазмуну)**
-    
+
     ## DOM манипуляциясы
-    
+
     - [3.1](#3.1) <a name='3.1'></a> Remove
-    
+
        DOM'дон элементти өчүрүү .
-    
+
       ```js
       // jQuery
       $el.remove();
-    
-      // Нативдүү түрү 
+
+      // Нативдүү түрү
       el.parentNode.removeChild(el);
       ```
-    
+
     - [3.2](#3.2) <a name='3.2'></a> Текст
-    
+
       +  Текстти кайтарып алуу
-    
+
         Элементтин тексттик  түрүн кайтарып алуу
-    
+
         ```js
         // jQuery
         $el.text();
-    
-        // Нативдүү түрү 
+
+        // Нативдүү түрү
         el.textContent;
         ```
-    
-      +  Текстти менчиктөө 
-    
+
+      +  Текстти менчиктөө
+
         ```js
         // jQuery
         $el.text(string);
-    
-        // Нативдүү түрү 
+
+        // Нативдүү түрү
         el.textContent = string;
         ```
-    
+
     - [3.3](#3.3) <a name='3.3'></a> HTML
-    
+
       +  HTML кайтарып алуу
-    
+
         ```js
         // jQuery
         $el.html();
-    
-        // Нативдүү түрү 
+
+        // Нативдүү түрү
         el.innerHTML;
         ```
-    
+
       +  HTML'ны менчиктөө
-    
+
         ```js
         // jQuery
         $el.html(htmlString);
-    
-        // Нативдүү түрү 
+
+        // Нативдүү түрү
         el.innerHTML = htmlString;
         ```
-    
+
     - [3.4](#3.4) <a name='3.4'></a> Append
-    
+
       Акыркы ата-эненин баласындан кийин жаны элементти кошуу
-    
+
       ```js
       // jQuery
       $el.append("<div id='container'>hello</div>");
-    
-      // Нативдүү түрү 
+
+      // Нативдүү түрү
       el.insertAdjacentHTML("beforeend","<div id='container'>hello</div>");
       ```
-    
+
     - [3.5](#3.5) <a name='3.5'></a> Prepend
-    
+
       ```js
       // jQuery
       $el.prepend("<div id='container'>hello</div>");
-    
-      // Нативдүү түрү 
+
+      // Нативдүү түрү
       el.insertAdjacentHTML("afterbegin","<div id='container'>hello</div>");
       ```
-    
+
     - [3.6](#3.6) <a name='3.6'></a> insertBefore
-    
+
       Тандалган элементтин астына жаны элементти кошуу
 
-      
+
       ```js
       // jQuery
       $newEl.insertBefore(queryString);
-    
-      // Нативдүү түрү 
+
+      // Нативдүү түрү
       const target = document.querySelector(queryString);
       target.parentNode.insertBefore(newEl, target);
       ```
-    
+
     - [3.7](#3.7) <a name='3.7'></a> insertAfter
-    
+
       Тандалган элементтен кийин жаны элементти кошуу
-    
+
       ```js
       // jQuery
       $newEl.insertAfter(queryString);
-    
-      // Нативдүү түрү 
+
+      // Нативдүү түрү
       const target = document.querySelector(queryString);
       target.parentNode.insertBefore(newEl, target.nextSibling);
       ```
-    
+
     - [3.8](#3.8) <a name='3.8'></a> is
-    
+
        Эгерде селектордун кайрылуусуна  дал келсе, анда `true` кайтарат.
-    
+
       ```js
-      // jQuery - байсанар,   `is` `function` же  `elements` менен да иштейт. 
+      // jQuery - байсанар,   `is` `function` же  `elements` менен да иштейт.
       $el.is(selector);
-    
-      // Нативдүү түрү 
+
+      // Нативдүү түрү
       el.matches(selector);
       ```
-      
+
     **[⬆ Башына](#Мазмуну)**
-    
+
     ## Ajax
-    
+
     [Fetch API](https://fetch.spec.whatwg.org/) -  XMLHttpRequest ajax үчүн орун алган жаны стандарт. Chrome жана Firefox үчүн иштейт, бирок силер эски браузерлердин колдоосу үчүн полифилдерди колдонсонор болот.
-    
+
       IE9+ [github/fetch](http://github.com/github/fetch)үчүн  же  [fetch-ie8](https://github.com/camsong/fetch-ie8/)  IE8+ үчүн, [fetch-jsonp](https://github.com/camsong/fetch-jsonp)  JSONP-кайрылуулар үчүн колдонуп көргулө .
-    
+
     **[⬆ Башына](#Мазмуну)**
-    
+
     ## Окуялар
-    
+
     Аттардын мейкиндигни толук алмаштыруу жана делегирование кылыш үчүн  [oui-dom-events](https://github.com/oneuijs/oui-dom-events) кайрылуу керек
-    
+
     - [5.1](#5.1) <a name='5.1'></a> Окуяларды onn аркылуу  байланыштыруу
-    
+
       ```js
       // jQuery
       $el.on(eventName, eventHandler);
-    
-      // Нативдүү түрү 
+
+      // Нативдүү түрү
       el.addEventListener(eventName, eventHandler);
       ```
-    
+
     - [5.2](#5.2) <a name='5.2'></a> Окуяларды off аркылуу  жоюу
-    
+
       ```js
       // jQuery
       $el.off(eventName, eventHandler);
-    
-      // Нативдүү түрү 
+
+      // Нативдүү түрү
       el.removeEventListener(eventName, eventHandler);
       ```
-    
+
     - [5.3](#5.3) <a name='5.3'></a> Trigger
-    
+
       ```js
       // jQuery
       $(el).trigger('custom-event', {key1: 'data'});
-    
-      // Нативдүү түрү 
+
+      // Нативдүү түрү
       if (window.CustomEvent) {
         const event = new CustomEvent('custom-event', {detail: {key1: 'data'}});
       } else {
         const event = document.createEvent('CustomEvent');
         event.initCustomEvent('custom-event', true, true, {key1: 'data'});
       }
-    
+
       el.dispatchEvent(event);
       ```
-    
+
     **[⬆ Башына](#Мазмуну)**
-    
+
     ## Утилиталар
-    
+
     - [6.1](#6.1) <a name='6.1'></a> isArray
-    
+
       ```js
       // jQuery
       $.isArray(range);
-    
-      // Нативдүү түрү 
+
+      // Нативдүү түрү
       Array.isArray(range);
       ```
-    
+
     - [6.2](#6.2) <a name='6.2'></a> Trim
-    
+
       ```js
       // jQuery
       $.trim(string);
-    
-      // Нативдүү түрү 
+
+      // Нативдүү түрү
       string.trim();
       ```
-    
+
     - [6.3](#6.3) <a name='6.3'></a> Объектин дайындоосу
-    
+
       Кошумча  object.assign https://github.com/ljharb/object.assign полифилин колдонгула
-    
+
       ```js
       // jQuery
       $.extend({}, defaultOpts, opts);
-    
-      // Нативдүү түрү 
+
+      // Нативдүү түрү
       Object.assign({}, defaultOpts, opts);
       ```
-    
+
     - [6.4](#6.4) <a name='6.4'></a> Contains
-    
+
       ```js
       // jQuery
       $.contains(el, child);
-    
-      // Нативдүү түрү 
+
+      // Нативдүү түрү
       el !== child && el.contains(child);
       ```
-    
+
     **[⬆ Башына](#Мазмуну)**
-    
+
     ## Альтернативалар
-    
+
     * [You Might Not Need jQuery](http://youmightnotneedjquery.com/) - Бат-бат окуялар, элементтер, ajax ж.б.у.с мисалдардын ванильдуу javascript менен көрсөтүү.
     * [npm-dom](http://github.com/npm-dom) и [webmodules](http://github.com/webmodules) - Башка DOM бөлүктөрүy NPM'де тапса болот
-    
+
     ## Браузерлердин колдоосу
-    
+
     ![Chrome](https://raw.github.com/alrra/browser-logos/master/chrome/chrome_48x48.png) | ![Firefox](https://raw.github.com/alrra/browser-logos/master/firefox/firefox_48x48.png) | ![IE](https://raw.github.com/alrra/browser-logos/master/internet-explorer/internet-explorer_48x48.png) | ![Opera](https://raw.github.com/alrra/browser-logos/master/opera/opera_48x48.png) | ![Safari](https://raw.github.com/alrra/browser-logos/master/safari/safari_48x48.png)
     --- | --- | --- | --- | --- |
     Latest ✔ | Latest ✔ | 10+ ✔ | Latest ✔ | 6.1+ ✔ |
-    
+
     # License
-    
+
     MIT

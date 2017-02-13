@@ -400,7 +400,7 @@
       return height - borderBottomWidth - borderTopWidth - paddingTop - paddingBottom;
     }
 
-    // С точностью до целого числа（когда `border-box`, это `height`; когда `content-box`, это `height + padding + border`）
+    // С точностью до целого числа（когда `border-box`, это `height - border`; когда `content-box`, это `height + padding`）
     el.clientHeight;
 
     // С точностью до десятых（когда `border-box`, это `height`; когда `content-box`, это `height + padding + border`）
@@ -480,7 +480,7 @@
     el.textContent;
     ```
 
-  + Присвоить текст 
+  + Присвоить текст
 
     ```js
     // jQuery
@@ -587,7 +587,7 @@
   // Нативно
   el.matches(selector);
   ```
-  
+
 **[⬆ Наверх](#Содержание)**
 
 ## Ajax

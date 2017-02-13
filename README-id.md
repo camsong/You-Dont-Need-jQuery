@@ -375,7 +375,7 @@ Untuk selector-selector umum seperti class, id atau attribute, kita dapat menggu
       const paddingBottom = parseFloat(styles.paddingBottom);
       return height - borderBottomWidth - borderTopWidth - paddingTop - paddingBottom;
     }
-    // accurate to integer（when `border-box`, it's `height`; when `content-box`, it's `height + padding + border`）
+    // accurate to integer（when `border-box`, it's `height - border`; when `content-box`, it's `height + padding`）
     el.clientHeight;
     // accurate to decimal（when `border-box`, it's `height`; when `content-box`, it's `height + padding + border`）
     el.getBoundingClientRect().height;

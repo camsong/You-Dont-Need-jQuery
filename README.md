@@ -403,7 +403,7 @@ In place of common selectors like class, id or attribute we can use `document.qu
       return height - borderBottomWidth - borderTopWidth - paddingTop - paddingBottom;
     }
 
-    // accurate to integer（when `border-box`, it's `height`; when `content-box`, it's `height + padding + border`）
+    // accurate to integer（when `border-box`, it's `height - border`; when `content-box`, it's `height + padding`）
     el.clientHeight;
 
     // accurate to decimal（when `border-box`, it's `height`; when `content-box`, it's `height + padding + border`）

@@ -378,7 +378,7 @@ En lugar de los selectores comunes como clase, id o atributos podemos usar `docu
       const paddingBottom = parseFloat(styles.paddingBottom);
       return height - borderBottomWidth - borderTopWidth - paddingTop - paddingBottom;
     }
-    // Precisión de integer（when `border-box`, it's `height`; when `content-box`, it's `height + padding + border`）
+    // Precisión de integer（when `border-box`, it's `height - border`; when `content-box`, it's `height + padding`）
     el.clientHeight;
     // Precisión de decimal（when `border-box`, it's `height`; when `content-box`, it's `height + padding + border`）
     el.getBoundingClientRect().height;

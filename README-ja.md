@@ -55,7 +55,7 @@ jQueryのセレクタと比べて以下の違いがあります。
   // Native
   document.querySelectorAll('selector');
   ```
-  
+
 - [1.1](#1.1) <a name='1.1'></a> クラス名による選択
 
   ```js
@@ -310,7 +310,7 @@ jQueryのセレクタと比べて以下の違いがあります。
     ```
 
   + スタイルを一括取得、一括設定する
-	
+
 	複数のスタイルを一括で設定したいなら、oui-dom-utilsの[setStyles](https://github.com/oneuijs/oui-dom-utils/blob/master/src/index.js#L194)関数を参考にすると良いでしょう。
 
   + クラスを追加する
@@ -393,7 +393,7 @@ jQueryのセレクタと比べて以下の違いがあります。
       const paddingBottom = parseFloat(styles.paddingBottom);
       return height - borderBottomWidth - borderTopWidth - paddingTop - paddingBottom;
     }
-    // integerで取得（`border-box`の時は`height`が、`content-box`の時は`height + padding + border`が返る）
+    // integerで取得（`border-box`の時は`height - border`が、`content-box`の時は`height + padding`が返る）
     el.clientHeight;
     // decimalで取得（`border-box`の時は`height`が、`content-box`の時は`height + padding + border`が返る）
     el.getBoundingClientRect().height;
@@ -402,7 +402,7 @@ jQueryのセレクタと比べて以下の違いがあります。
 - [2.3](#2.3) <a name='2.3'></a> PositionとOffset
 
   + Position
-	
+
     offset parentを起点として、エレメントの座標を取得する。
 
     ```js
@@ -662,7 +662,7 @@ IE9以上なら[github/fetch](http://github.com/github/fetch)、IE8以上なら[
   ```js
   // jQuery
   $(selector).load(url, completeCallback)
-  
+
   // Native
   fetch(url).then(data => data.text()).then(data => {
     document.querySelector(selector).innerHTML = data
@@ -747,7 +747,7 @@ IE9以上なら[github/fetch](http://github.com/github/fetch)、IE8以上なら[
   // Native
   Array.isArray(array);
   ```
-  
+
   + isWindow
 
   windowかどうか判定する。
@@ -823,7 +823,7 @@ IE9以上なら[github/fetch](http://github.com/github/fetch)、IE8以上なら[
   + isPlainObject
 
   `{}`もしくは`new Object`で生成されたオブジェクトであるか判定する。
-  
+
   ```js
   // jQuery
   $.isPlainObject(obj);
@@ -844,10 +844,10 @@ IE9以上なら[github/fetch](http://github.com/github/fetch)、IE8以上なら[
   ```
 
   + extend
-  
+
   二つ以上のオブジェクトをマージする。
   `object.assign`はECMAScript6のAPIですが、[polyfill](https://github.com/ljharb/object.assign)も利用できます。
-  
+
   ```js
   // jQuery
   $.extend({}, defaultOpts, opts);
@@ -857,7 +857,7 @@ IE9以上なら[github/fetch](http://github.com/github/fetch)、IE8以上なら[
   ```
 
   + trim
-  
+
   前後の空白を除去する。
 
   ```js
@@ -885,7 +885,7 @@ IE9以上なら[github/fetch](http://github.com/github/fetch)、IE8以上なら[
   + each
 
   配列やオブジェクトに対して繰り返し処理を行う。
- 
+
   ```js
   // jQuery
   $.each(array, function(value, index) {
@@ -963,7 +963,7 @@ IE9以上なら[github/fetch](http://github.com/github/fetch)、IE8以上なら[
 
   + makeArray
 
-  配列形式のオブジェクトを配列に変換する。 
+  配列形式のオブジェクトを配列に変換する。
 
   ```js
   // jQuery
@@ -971,7 +971,7 @@ IE9以上なら[github/fetch](http://github.com/github/fetch)、IE8以上なら[
 
   // Native
   Array.prototype.slice.call(arrayLike);
-  
+
   // ES6なら
   Array.from(arrayLike);
   ```
@@ -1098,7 +1098,7 @@ promiseは非同期処理の最終的な処理結果を表します。jQueryに�
       }, 1000);
     });
   }
-  
+
   // Deferred way
   function defer() {
     let resolve, reject;
@@ -1133,7 +1133,7 @@ promiseは非同期処理の最終的な処理結果を表します。jQueryに�
   $el.hide();
 
   // Native
-  // show関数の詳細を見たければ次のURLを参照してください 
+  // show関数の詳細を見たければ次のURLを参照してください
   // https://github.com/oneuijs/oui-dom-utils/blob/master/src/index.js#L363
   el.style.display = ''|'inline'|'inline-block'|'inline-table'|'block';
   el.style.display = 'none';
@@ -1261,8 +1261,8 @@ promiseは非同期処理の最終的な処理結果を表します。jQueryに�
 ## 対応ブラウザ
 
 ![Chrome](https://raw.github.com/alrra/browser-logos/master/chrome/chrome_48x48.png) | ![Firefox](https://raw.github.com/alrra/browser-logos/master/firefox/firefox_48x48.png) | ![IE](https://raw.github.com/alrra/browser-logos/master/internet-explorer/internet-explorer_48x48.png) | ![Opera](https://raw.github.com/alrra/browser-logos/master/opera/opera_48x48.png) | ![Safari](https://raw.github.com/alrra/browser-logos/master/safari/safari_48x48.png)
---- | --- | --- | --- | --- 
-Latest ✔ | Latest ✔ | 10+ ✔ | Latest ✔ | 6.1+ ✔ 
+--- | --- | --- | --- | ---
+Latest ✔ | Latest ✔ | 10+ ✔ | Latest ✔ | 6.1+ ✔
 
 # ライセンス
 

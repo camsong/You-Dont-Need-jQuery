@@ -376,7 +376,7 @@ Ngày nay, môi trường lập trình front-end phát triển rất nhanh chón
       const paddingBottom = parseFloat(styles.paddingBottom);
       return height - borderBottomWidth - borderTopWidth - paddingTop - paddingBottom;
     }
-    // chính xác tới số nguyên（khi có thuộc tính `box-sizing` là `border-box`, nó là `height`; khi box-sizing là `content-box`, nó là `height + padding + border`）
+    // chính xác tới số nguyên（khi có thuộc tính `box-sizing` là `border-box`, nó là `height - border`; khi box-sizing là `content-box`, nó là `height + padding`）
     el.clientHeight;
     // Chính xác tới số thập phân（khi `box-sizing` là `border-box`, nó là `height`; khi `box-sizing` là `content-box`, nó là `height + padding + border`）
     el.getBoundingClientRect().height;

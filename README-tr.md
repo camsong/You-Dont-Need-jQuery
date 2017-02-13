@@ -1,6 +1,6 @@
 ## jQuery'e İhtiyacınız Yok  [![Build Status](https://travis-ci.org/oneuijs/You-Dont-Need-jQuery.svg)](https://travis-ci.org/oneuijs/You-Dont-Need-jQuery)
 
-Önyüz ortamları bugünlerde çok hızlı gelişiyor, öyle ki modern tarayıcılar DOM/DOM APİ'lere ait önemli gereklilikleri çoktan yerine getirdiler. DOM işleme ve olaylar için, en baştan jQuery ögrenmemize gerek kalmadı. Bu arada, üstünlükleri ile jQuery'i önemsizleştiren ve doğrudan DOM değişikliklerinin bir Anti-pattern olduğunu gösteren, React, Angular ve Vue gibi gelişmiş önyüz kütüphanelerine ayrıca teşekkür ederiz. Bu proje, IE10+ desteği ile coğunluğu jQuery yöntemlerine alternatif olan yerleşik uygulamaları içerir. 
+Önyüz ortamları bugünlerde çok hızlı gelişiyor, öyle ki modern tarayıcılar DOM/DOM APİ'lere ait önemli gereklilikleri çoktan yerine getirdiler. DOM işleme ve olaylar için, en baştan jQuery ögrenmemize gerek kalmadı. Bu arada, üstünlükleri ile jQuery'i önemsizleştiren ve doğrudan DOM değişikliklerinin bir Anti-pattern olduğunu gösteren, React, Angular ve Vue gibi gelişmiş önyüz kütüphanelerine ayrıca teşekkür ederiz. Bu proje, IE10+ desteği ile coğunluğu jQuery yöntemlerine alternatif olan yerleşik uygulamaları içerir.
 
 ## İçerik Tablosu
 
@@ -32,9 +32,9 @@
 
 ## Sorgu seçiciler
 
-Yaygın olan class, id ve özellik seçiciler yerine, `document.querySelector` yada `document.querySelectorAll` kullanabiliriz. Ayrıldıkları nokta: 
+Yaygın olan class, id ve özellik seçiciler yerine, `document.querySelector` yada `document.querySelectorAll` kullanabiliriz. Ayrıldıkları nokta:
 * `document.querySelector` ilk seçilen öğeyi döndürür
-* `document.querySelectorAll` Seçilen tüm öğeleri NodeList olarak geri döndürür. `[].slice.call(document.querySelectorAll(selector) || []);` kullanarak bir diziye dönüştürebilirsiniz. 
+* `document.querySelectorAll` Seçilen tüm öğeleri NodeList olarak geri döndürür. `[].slice.call(document.querySelectorAll(selector) || []);` kullanarak bir diziye dönüştürebilirsiniz.
 * Herhangi bir öğenin seçilememesi durumda ise, jQuery `[]` döndürürken, DOM API `null` döndürecektir. Null Pointer istisnası almamak için `||` ile varsayılan değere atama yapabilirsiniz, örnek: `document.querySelectorAll(selector) || []`
 
 > Uyarı: `document.querySelector` ve `document.querySelectorAll` biraz **YAVAŞ** olabilir, Daha hızlısını isterseniz, `getElementById`, `document.getElementsByClassName` yada `document.getElementsByTagName` kullanabilirsiniz.
@@ -171,11 +171,11 @@ Yaygın olan class, id ve özellik seçiciler yerine, `document.querySelector` y
   ```js
   // jQuery
   $el.closest(selector);
-  
+
   // Yerleşik - Sadece en güncellerde, IE desteklemiyor
   el.closest(selector);
 
-  // Yerleşik - IE10+ 
+  // Yerleşik - IE10+
   function closest(el, selector) {
     const matchesSelector = el.matches || el.webkitMatchesSelector || el.mozMatchesSelector || el.msMatchesSelector;
 
@@ -342,7 +342,7 @@ Yaygın olan class, id ve özellik seçiciler yerine, `document.querySelector` y
 - [2.2](#2.2) <a name='2.2'></a> Genişlik ve Yükseklik
 
   Genişlik ve Yükseklik teorik olarak aynı şekilde, örnek olarak Yükseklik veriliyor
-  
+
   + Window Yüksekliği
 
     ```js
@@ -380,7 +380,7 @@ Yaygın olan class, id ve özellik seçiciler yerine, `document.querySelector` y
       const paddingBottom = parseFloat(styles.paddingBottom);
       return height - borderBottomWidth - borderTopWidth - paddingTop - paddingBottom;
     }
-    // Tamsayı olarak daha doğru olanı（`border-box` iken, `height` esas; `content-box` ise, `height + padding + border` esas alınır）
+    // Tamsayı olarak daha doğru olanı（`border-box` iken, `height - border` esas; `content-box` ise, `height + padding` esas alınır）
     el.clientHeight;
     // Ondalık olarak daha doğru olanı（`border-box` iken, `height` esas; `content-box` ise, `height + padding + border` esas alınır）
     el.getBoundingClientRect().height;
@@ -546,14 +546,14 @@ Yaygın olan class, id ve özellik seçiciler yerine, `document.querySelector` y
   Mevcut öğenin bir derin kopyasını oluşturur
 
   ```js
-  // jQuery 
-  $el.clone(); 
+  // jQuery
+  $el.clone();
 
   // Yerleşik
   el.cloneNode();
-  
+
   // Derin kopya için, `true` parametresi kullanınız  
-  ``` 
+  ```
 **[⬆ üste dön](#İçerik-tablosu)**
 
 ## Ajax

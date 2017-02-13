@@ -171,11 +171,11 @@ Al posto di comuni selettori come class, id o attributi possiamo usare `document
   ```js
   // jQuery
   $el.closest(queryString);
-  
+
   // Nativo - Solo ultimo, NO IE
   el.closest(selector);
 
-  // Nativo - IE10+ 
+  // Nativo - IE10+
   function closest(el, selector) {
     const matchesSelector = el.matches || el.webkitMatchesSelector || el.mozMatchesSelector || el.msMatchesSelector;
 
@@ -380,7 +380,7 @@ Al posto di comuni selettori come class, id o attributi possiamo usare `document
       const paddingBottom = parseFloat(styles.paddingBottom);
       return height - borderBottomWidth - borderTopWidth - paddingTop - paddingBottom;
     }
-    // preciso a intero（quando `border-box`, e' `height`; quando `content-box`, e' `height + padding + border`）
+    // preciso a intero（quando `border-box`, e' `height - border`; quando `content-box`, e' `height + padding`）
     el.clientHeight;
     // preciso a decimale（quando `border-box`, e' `height`; quando `content-box`, e' `height + padding + border`）
     el.getBoundingClientRect().height;
@@ -541,7 +541,7 @@ Al posto di comuni selettori come class, id o attributi possiamo usare `document
   // Nativo
   el.matches(selector);
   ```
-  
+
 **[⬆ back to top](#table-of-contents)**
 
 ## Ajax
