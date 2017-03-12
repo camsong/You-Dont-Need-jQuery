@@ -30,7 +30,7 @@
     "karma-sourcemap-loader": "^0.3.7",
     "karma-webpack": "^2.0.2",
     "mocha": "^3.2.0",
-    "webpack": "^2.2.1"
+    "webpack": "^1.12.9"
   },
   "repository": {
     "type": "git",
