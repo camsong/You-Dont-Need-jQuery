@@ -1,11 +1,8 @@
+## Tú no necesitas jQuery [![Build Status](https://travis-ci.org/oneuijs/You-Dont-Need-jQuery.svg)](https://travis-ci.org/oneuijs/You-Dont-Need-jQuery)
 
-> #### You Don't Need jQuery
-
-Tú no necesitas jQuery
----
 El desarrollo Frontend evoluciona día a día, y los navegadores modernos ya han implementado nativamente APIs para trabajar con DOM/BOM, las cuales son muy buenas, por lo que definitivamente no es necesario aprender jQuery desde cero para manipular el DOM. En la actualidad, gracias al surgimiento de librerías frontend como React, Angular y Vue, manipular el DOM es contrario a los patrones establecidos, y jQuery se ha vuelto menos importante. Este proyecto resume la mayoría de métodos alternativos a jQuery, pero de forma nativa con soporte IE 10+.
 
-## Tabla de Contenidos
+## Tabla de Contenidos
 
 1. [Traducción](#traducción)
 1. [Query Selector](#query-selector)
@@ -39,7 +36,7 @@ En lugar de los selectores comunes como clase, id o atributos podemos usar `docu
 * `document.querySelectorAll` devuelve todos los elementos que cumplen con la condición en forma de NodeList. Puede ser convertido a Array usando `[].slice.call(document.querySelectorAll(selector) || []);`
 * Si ningún elemento cumple con la condición, jQuery retornaría `[]` mientras la API DOM retornaría `null`. Nótese el NullPointerException. Se puede usar `||` para establecer el valor por defecto al no encontrar elementos, como en `document.querySelectorAll(selector) || []`
 
-> Notice: `document.querySelector` and `document.querySelectorAll` are quite **SLOW**, try to use `getElementById`, `document.getElementsByClassName` o `document.getElementsByTagName` if you want to Obtener a performance bonus.
+> Nota: document.querySelector y document.querySelectorAll son bastante LENTOS, procuree utilizar getElementById, document.getElementsByClassName o document.getElementsByTagName si desea obtener un mejor rendimiento.
 
 - [1.0](#1.0) <a name='1.0'></a> Buscar por selector
 
@@ -87,9 +84,7 @@ En lugar de los selectores comunes como clase, id o atributos podemos usar `docu
   document.querySelectorAll('a[target=_blank]');
   ```
 
-- [1.4](#1.4) <a name='1.4'></a> Buscar
-
-  + Buscar nodos
+- [1.4](#1.4) <a name='1.4'></a> Buscar en descendientes
 
     ```js
     // jQuery
@@ -97,39 +92,6 @@ En lugar de los selectores comunes como clase, id o atributos podemos usar `docu
 
     // Nativo
     el.querySelectorAll('li');
-    ```
-
-  + Buscar "body"
-
-    ```js
-    // jQuery
-    $('body');
-
-    // Nativo
-    document.body;
-    ```
-
-  + Buscar Atributo
-
-    ```js
-    // jQuery
-    $el.attr('foo');
-
-    // Nativo
-    e.getAttribute('foo');
-    ```
-
-  + Buscar atributo "data"
-
-    ```js
-    // jQuery
-    $el.data('foo');
-
-    // Nativo
-    // Usando getAttribute
-    el.getAttribute('data-foo');
-    // También puedes utilizar `dataset` desde IE 11+
-    el.dataset['foo'];
     ```
 
 - [1.5](#1.5) <a name='1.5'></a> Elementos Hermanos/Previos/Siguientes
@@ -141,9 +103,9 @@ En lugar de los selectores comunes como clase, id o atributos podemos usar `docu
     $el.siblings();
 
     // Nativo
-    [].filter.call(el.parentNode.children, function(child) {
-      return child !== el;
-    });
+    Array.prototype.filter.call(el.parentNode.children, (child) =>
+      child !== el
+    );
     ```
 
   + Elementos previos
@@ -166,15 +128,18 @@ En lugar de los selectores comunes como clase, id o atributos podemos usar `docu
     el.nextElementSibling;
     ```
 
-- [1.6](#1.6) <a name='1.6'></a> Closest
+- [1.6](#1.6) <a name='1.6'></a> Más cercano
 
   Retorna el elemento más cercano que coincida con la condición, partiendo desde el nodo actual hasta document.
 
   ```js
   // jQuery
-  $el.closest(queryString);
+  $el.closest(selector);
 
-  // Nativo
+  // Nativo - Sólo el último, NO IE
+  el.closest(selector);
+
+  // Nativo - IE10+
   function closest(el, selector) {
     const matchesSelector = el.matches || el.webkitMatchesSelector || el.mozMatchesSelector || el.msMatchesSelector;
 
@@ -189,7 +154,7 @@ En lugar de los selectores comunes como clase, id o atributos podemos usar `docu
   }
   ```
 
-- [1.7](#1.7) <a name='1.7'></a> Parents Until
+- [1.7](#1.7) <a name='1.7'></a> Padres hasta
 
   Obtiene los ancestros de cada elemento en el set actual de elementos que cumplan con la condición, sin incluir el actual
 
@@ -234,10 +199,10 @@ En lugar de los selectores comunes como clase, id o atributos podemos usar `docu
 
     ```js
     // jQuery
-    $(e.currentTarget).index('.radio');
+    $('.radio').index(e.currentTarget);
 
     // Nativo
-    [].indexOf.call(document.querySelectAll('.radio'), e.currentTarget);
+    Array.prototype.indexOf.call(document.querySelectorAll('.radio'), e.currentTarget);
     ```
 
 - [1.9](#1.9) <a name='1.9'></a> Contenidos de Iframe
@@ -264,6 +229,50 @@ En lugar de los selectores comunes como clase, id o atributos podemos usar `docu
     iframe.contentDocument.querySelectorAll('.css');
     ```
 
+- [1.10](#1.10) <a name='1.10'></a> Obtener body
+
+  ```js
+  // jQuery
+  $('body');
+
+  // Nativo
+  document.body;
+  ```
+
+- [1.11](#1.11) <a name='1.11'></a> Obtener y establecer atributos
+
+  + Obtener un atributo
+
+    ```js
+    // jQuery
+    $el.attr('foo');
+
+    // Nativo
+    el.getAttribute('foo');
+    ```
+  + Establecer un atributo
+
+    ```js
+    // jQuery, note que esto funciona en memoria sin cambiar el DOM
+    $el.attr('foo', 'bar');
+
+    // Nativo
+    el.setAttribute('foo', 'bar');
+    ```
+
+  + Obtener un atributo `data-`
+
+    ```js
+    // jQuery
+    $el.data('foo');
+
+    // Nativo
+    el.getAttribute('data-foo');
+
+    // Nativo (Utilice `dataset` solamente si necesita dar soporte a IE 11+)
+    el.dataset['foo'];
+    ```
+
 **[⬆ volver al inicio](#tabla-de-contenidos)**
 
 ## CSS & Estilo
@@ -279,11 +288,12 @@ En lugar de los selectores comunes como clase, id o atributos podemos usar `docu
     // Nativo
     // NOTA: Bug conocido, retornará 'auto' si el valor de estilo es 'auto'
     const win = el.ownerDocument.defaultView;
-    // null significa que no tiene pseudo estilos
+
+    // null significa que no retorne pseudo estilos
     win.getComputedStyle(el, null).color;
     ```
 
-  + Establecer style
+  + Establecer estilo
 
     ```js
     // jQuery
@@ -296,6 +306,7 @@ En lugar de los selectores comunes como clase, id o atributos podemos usar `docu
   + Obtener/Establecer Estilos
 
     Nótese que si se desea establecer múltiples estilos a la vez, se puede utilizar el método [setStyles](https://github.com/oneuijs/oui-dom-utils/blob/master/src/index.js#L194) en el paquete oui-dom-utils.
+
 
   + Agregar clase
 
@@ -346,9 +357,11 @@ En lugar de los selectores comunes como clase, id o atributos podemos usar `docu
     ```js
     // alto de ventana
     $(window).height();
-    // Sin scrollbar, se comporta como jQuery
+
+    // Con scrollbar, se comporta como jQuery
     window.document.documentElement.clientHeight;
-    // Con scrollbar
+
+    // Sin scrollbar
     window.innerHeight;
     ```
 
@@ -358,8 +371,16 @@ En lugar de los selectores comunes como clase, id o atributos podemos usar `docu
     // jQuery
     $(document).height();
 
-    // Nativo
-    document.documentElement.scrollHeight;
+    // Native
+    const body = document.body;
+    const html = document.documentElement;
+    const height = Math.max(
+      body.offsetHeight,
+      body.scrollHeight,
+      html.clientHeight,
+      html.offsetHeight,
+      html.scrollHeight
+    );
     ```
 
   + Alto de Elemento
@@ -370,7 +391,7 @@ En lugar de los selectores comunes como clase, id o atributos podemos usar `docu
 
     // Nativo
     function getHeight(el) {
-      const styles = this.getComputedStyles(el);
+      const styles = window.getComputedStyle(el);
       const height = el.offsetHeight;
       const borderTopWidth = parseFloat(styles.borderTopWidth);
       const borderBottomWidth = parseFloat(styles.borderBottomWidth);
@@ -378,15 +399,19 @@ En lugar de los selectores comunes como clase, id o atributos podemos usar `docu
       const paddingBottom = parseFloat(styles.paddingBottom);
       return height - borderBottomWidth - borderTopWidth - paddingTop - paddingBottom;
     }
-    // Precisión de integer（when `border-box`, it's `height - border`; when `content-box`, it's `height + padding`）
+
+    // Precisión de entero（para `border-box`, es `height - border`; con content-box`, es `height + padding`）
     el.clientHeight;
-    // Precisión de decimal（when `border-box`, it's `height`; when `content-box`, it's `height + padding + border`）
+
+    // Precisión de decimal（para `border-box`, es `height`; con `content-box`, es `height + padding + border`）
     el.getBoundingClientRect().height;
     ```
 
-- [2.3](#2.3) <a name='2.3'></a> Posición & Offset
+- [2.3](#2.3) <a name='2.3'></a> Posición y Offset
 
   + Posición
+
+    Obtiene las coordenadas actuales del elemento, en relación con el padre.
 
     ```js
     // jQuery
@@ -397,6 +422,8 @@ En lugar de los selectores comunes como clase, id o atributos podemos usar `docu
     ```
 
   + Offset
+
+    Obtiene las coordenadas actuales del elemento, en relación con el documento.
 
     ```js
     // jQuery
@@ -413,7 +440,9 @@ En lugar de los selectores comunes como clase, id o atributos podemos usar `docu
     }
     ```
 
-- [2.4](#2.4) <a name='2.4'></a> Posición del Scroll Vertical
+- [2.4](#2.4) <a name='2.4'></a> Posición vertical del scroll
+
+  Obtiene la posición vertical actual de la barra de scroll para el elemento.
 
   ```js
   // jQuery
@@ -427,7 +456,10 @@ En lugar de los selectores comunes como clase, id o atributos podemos usar `docu
 
 ## Manipulación DOM
 
-- [3.1](#3.1) <a name='3.1'></a> Remove
+- [3.1](#3.1) <a name='3.1'></a> Eliminar
+
+  Elimina el elemento del DOM
+
   ```js
   // jQuery
   $el.remove();
@@ -436,9 +468,11 @@ En lugar de los selectores comunes como clase, id o atributos podemos usar `docu
   el.parentNode.removeChild(el);
   ```
 
-- [3.2](#3.2) <a name='3.2'></a> Text
+- [3.2](#3.2) <a name='3.2'></a> Texto
 
   + Obtener Texto
+
+    Obtiene los contenidos de texto combinado del elemento, incluyendo sus decendientes.
 
     ```js
     // jQuery
@@ -449,6 +483,8 @@ En lugar de los selectores comunes como clase, id o atributos podemos usar `docu
     ```
 
   + Establecer Texto
+
+    Establece el contenido del elemento al texto especificado
 
     ```js
     // jQuery
@@ -480,69 +516,200 @@ En lugar de los selectores comunes como clase, id o atributos podemos usar `docu
     el.innerHTML = htmlString;
     ```
 
-- [3.4](#3.4) <a name='3.4'></a> Append
+- [3.4](#3.4) <a name='3.4'></a> Añadir al final
 
   Añadir elemento hijo después del último hijo del elemento padre
 
   ```js
   // jQuery
-  $el.append("<div id='container'>hello</div>");
+  $el.append('<div id="container">Hello World</div>');
 
-  // Nativo
-  el.insertAdjacentHTML("beforeend","<div id='container'>hello</div>");
+  // Nativo (string de HTML)
+  el.insertAdjacentHTML('beforeend', '<div id="container">Hello World</div>');
+
+  // Nativo (Elemento)
+  el.appendChild(newEl);
   ```
 
-- [3.5](#3.5) <a name='3.5'></a> Prepend
-
-  Añadir elemento hijo después del último hijo del elemento padre
+- [3.5](#3.5) <a name='3.5'></a> Añadir al inicio
 
   ```js
   // jQuery
-  $el.prepend("<div id='container'>hello</div>");
+  $el.prepend('<div id="container">Hello World</div>');
 
-  // Nativo
-  el.insertAdjacentHTML("afterbegin","<div id='container'>hello</div>");
+  // Nativo (String HTML)
+  el.insertAdjacentHTML('afterbegin', '<div id="container">Hello World</div>');
+
+  // Nativo (Elemento)
+  el.insertBefore(newEl, el.firstChild);
   ```
 
-- [3.6](#3.6) <a name='3.6'></a> insertBefore
+- [3.6](#3.6) <a name='3.6'></a> Insertar Antes
 
-  Insertar un nuevo nodo antes del primero de los elementos seleccionados
+  Insertar un nuevo nodo antes de los elementos seleccionados
 
   ```js
   // jQuery
-  $newEl.insertBefore(queryString);
+  $newEl.insertBefore(selector);
 
-  // Nativo
-  const target = document.querySelector(queryString);
-  target.parentNode.insertBefore(newEl, target);
+  // Nativo (String HTML)
+  el.insertAdjacentHTML('beforebegin ', '<div id="container">Hello World</div>');
+
+  // Native (Elemento)
+  const el = document.querySelector(selector);
+  if (el.parentNode) {
+    el.parentNode.insertBefore(newEl, el);
+  }
   ```
 
-- [3.7](#3.7) <a name='3.7'></a> insertAfter
+- [3.7](#3.7) <a name='3.7'></a> Insertar después
 
   Insertar un nuevo nodo después de los elementos seleccionados
 
   ```js
   // jQuery
-  $newEl.insertAfter(queryString);
+  $newEl.insertAfter(selector);
+
+  // Nativo (String HTML)
+  el.insertAdjacentHTML('afterend', '<div id="container">Hello World</div>');
+
+  // Nativo (Elemento)
+  const el = document.querySelector(selector);
+  if (el.parentNode) {
+    el.parentNode.insertBefore(newEl, el.nextSibling);
+  }
+  ```
+
+- [3.8](#3.8) <a name='3.8'></a> es
+
+  Retorna `true` si coincide con el selector de la búsqueda
+
+  ```js
+  // jQuery - Nota `is` también funciona con `funciones` o `elementos` que no veremos aquí
+  $el.is(selector);
 
   // Nativo
-  const target = document.querySelector(queryString);
-  target.parentNode.insertBefore(newEl, target.nextSibling);
+  el.matches(selector);
   ```
+- [3.9](#3.9) <a name='3.9'></a> Clonar
+
+  Crea una copia profunda del elemento
+
+  ```js
+  // jQuery
+  $el.clone();
+
+  // Nativo
+  el.cloneNode();
+
+  // Para hacer copia profunda , establece como parametro `true`
+  ```
+
+- [3.10](#3.10) <a name='3.10'></a> Vaciar
+
+  Elimina todos los nodos hijo
+
+  ```js
+  // jQuery
+  $el.empty();
+
+  // Nativo
+  el.innerHTML = '';
+  ```
+
+- [3.11](#3.11) <a name='3.11'></a> Envolver
+
+  Crea una estructura HTML alrededor de cada elemento
+
+  ```js
+  // jQuery
+  $('.inner').wrap('<div class="wrapper"></div>');
+
+  // Nativo
+  Array.prototype.forEach.call(document.querySelectorAll('.inner'), (el) => {
+    const wrapper = document.createElement('div');
+    wrapper.className = 'wrapper';
+    el.parentNode.insertBefore(wrapper, el);
+    el.parentNode.removeChild(el);
+    wrapper.appendChild(el);
+  });
+  ```
+
+- [3.12](#3.12) <a name='3.12'></a> Desenvolver
+
+  Elimina los padres de una serie de elementos seleccionados del DOM
+
+  ```js
+  // jQuery
+  $('.inner').unwrap();
+
+  // Nativo
+  Array.prototype.forEach.call(document.querySelectorAll('.inner'), (el) => {
+    Array.prototype.forEach.call(el.childNodes, (child) => {
+      el.parentNode.insertBefore(child, el);
+    });
+    el.parentNode.removeChild(el);
+  });
+  ```
+
+- [3.13](#3.13) <a name='3.13'></a> Remplazar con
+
+  Remplaza cada elemento en una serie de elementos seleccionados con nuevo contenido.
+
+  ```js
+  // jQuery
+  $('.inner').replaceWith('<div class="outer"></div>');
+
+  // Nativo
+  Array.prototype.forEach.call(document.querySelectorAll('.inner'), (el) => {
+    const outer = document.createElement('div');
+    outer.className = 'outer';
+    el.parentNode.insertBefore(outer, el);
+    el.parentNode.removeChild(el);
+  });
+  ```
+
 
 **[⬆ volver al inicio](#tabla-de-contenidos)**
 
 ## Ajax
 
-Reemplazar con [fetch](https://github.com/camsong/fetch-ie8) y [fetch-jsonp](https://github.com/camsong/fetch-jsonp)
-+[Fetch API](https://fetch.spec.whatwg.org/) es el nuevo estándar quue reemplaza a XMLHttpRequest para efectuar peticiones AJAX. Funciona en Chrome y Firefox, como también es posible usar un polyfill en otros navegadores.
-+
-+Es una buena alternativa utilizar [github/fetch](http://github.com/github/fetch) en IE9+ o [fetch-ie8](https://github.com/camsong/fetch-ie8/) en IE8+, [fetch-jsonp](https://github.com/camsong/fetch-jsonp) para efectuar peticiones JSONP.
++[Fetch API](https://fetch.spec.whatwg.org/) es el nuevo estándar que reemplaza a XMLHttpRequest para efectuar peticiones AJAX. Funciona en Chrome y Firefox, como también es posible usar un polyfill en otros navegadores.
+
+Es una buena alternativa utilizar [github/fetch](http://github.com/github/fetch) en IE9+ o [fetch-ie8](https://github.com/camsong/fetch-ie8/) en IE8+, [fetch-jsonp](https://github.com/camsong/fetch-jsonp) para efectuar peticiones JSONP.
+
+- [4.1](#4.1) <a name='4.1'></a> Carga datos desde un servidor y coloca el HTML regresado en el elemento seleccionado.
+
+  ```js
+  // jQuery
+  $(selector).load(url, completeCallback)
+
+  // Nativo
+  fetch(url).then(data => data.text()).then(data => {
+    document.querySelector(selector).innerHTML = data
+  }).then(completeCallback)
+  ```
+
 **[⬆ volver al inicio](#tabla-de-contenidos)**
 
 ## Eventos
 
 Para un reemplazo completo con namespace y delegación, utilizar https://github.com/oneuijs/oui-dom-events
+
+- [5.0](#5.0) <a name='5.0'></a> Document ready by `DOMContentLoaded`
+
+  ```js
+  // jQuery
+  $(document).ready(eventHandler);
+
+  // Nativo
+  // Verifica que DOMContentLoaded ya se ha completado
+  if (document.readyState === 'complete' || document.readyState !== 'loading') {
+    eventHandler();
+  } else {
+    document.addEventListener('DOMContentLoaded', eventHandler);
+  }
+  ```
 
 - [5.1](#5.1) <a name='5.1'></a> Asignar un evento con "on"
 
@@ -638,3 +805,9 @@ Para un reemplazo completo con namespace y delegación, utilizar https://github.
 # Licencia
 
 MIT
+
+[chrome-image]: https://raw.github.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png
+[firefox-image]: https://raw.github.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png
+[ie-image]: https://raw.github.com/alrra/browser-logos/master/src/archive/internet-explorer_9-11/internet-explorer_9-11_48x48.png
+[opera-image]: https://raw.github.com/alrra/browser-logos/master/src/opera/opera_48x48.png
+[safari-image]: https://raw.github.com/alrra/browser-logos/master/src/safari/safari_48x48.png
