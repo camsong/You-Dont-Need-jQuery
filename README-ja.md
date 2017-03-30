@@ -32,6 +32,7 @@
 * [Türkçe](./README-tr.md)
 * [Italiano](./README-it.md)
 * [Français](./README-fr.md)
+* [Polski](./README-pl.md)
 
 ## セレクタ
 

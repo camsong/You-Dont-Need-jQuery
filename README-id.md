@@ -29,6 +29,7 @@ Dewasa ini perkembangan environment frontend sangatlah pesat, dimana banyak brow
 * [Italiano](./README-it.md)
 * [Français](./README-fr.md)
 * [日本語](./README-ja.md)
+* [Polski](./README-pl.md)
 
 ## Query Selector
 
