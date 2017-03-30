@@ -6,7 +6,7 @@
 
 1. [Tłumaczenia](#tłumaczenia)
 1. [Wybór przez selektory](#wybór-przez-selektory)
-1. [CSS i style](#css-i-style)
+1. [CSS i styl](#css-i-styl)
 1. [Manipulacja DOM](#manipulacja-dom)
 1. [Ajax](#ajax)
 1. [Zdarzenia](#zdarzenia)
@@ -134,7 +134,7 @@ Zamiast korzystania z powszechnych selektorów takich jak klasa, id czy też atr
 
 - [1.6](#1.6) <a name='1.6'></a> Najbliższy
 
-  Zwraca pierwszy pasujący element przez podany selektor, sprwadzając kolejno elementy od bieżącego.
+  Zwraca pierwszy pasujący element przez podany selektor, sprawdzając kolejno elementy od bieżącego.
 
   ```js
   // jQuery
@@ -160,7 +160,7 @@ Zamiast korzystania z powszechnych selektorów takich jak klasa, id czy też atr
 
 - [1.7](#1.7) <a name='1.7'></a> Rodzice dopóki
 
-  Zwraca potomków każdego elementu w bieżącym zbiorze pasujących elementów, aż do elementu dopasowany przez selektor, węzeł DOM, lub obiekt jQuery.
+  Zwraca potomków każdego elementu w bieżącym zbiorze pasujących elementów, aż do elementu dopasowanego przez selektor, węzeł DOM, lub obiekt jQuery.
 
   ```js
   // jQuery
@@ -309,7 +309,7 @@ Zamiast korzystania z powszechnych selektorów takich jak klasa, id czy też atr
 
   + Otrzymanie/Ustawienie styli
 
-    Jeżeli chcesz ustawiać wiele styli jednocześnie, możesz odwołać się do metody [setStyles](https://github.com/oneuijs/oui-dom-utils/blob/master/src/index.js#L194) w pakiecie oui-dom-utils.
+    Jeżeli chcesz ustawić wiele styli jednocześnie, możesz odwołać się do metody [setStyles](https://github.com/oneuijs/oui-dom-utils/blob/master/src/index.js#L194) w pakiecie oui-dom-utils.
 
 
   + Dodanie klasy
@@ -444,9 +444,9 @@ Zamiast korzystania z powszechnych selektorów takich jak klasa, id czy też atr
     }
     ```
 
-- [2.4](#2.4) <a name='2.4'></a> Przewinięcie na górę
+- [2.4](#2.4) <a name='2.4'></a> Przesunięcie widoku
 
-  Otrzymanie bieżącej pozycji w pionie paska przewijania elementu.
+  Otrzymanie bieżącego przesunięcia w pionie elementu.
 
   ```js
   // jQuery
@@ -609,7 +609,7 @@ Zamiast korzystania z powszechnych selektorów takich jak klasa, id czy też atr
   // Żeby kopiować głęboko, należy ustawić parametr na `true`
   ```
 
-- [3.10](#3.10) <a name='3.10'></a> Wyczyszczanie
+- [3.10](#3.10) <a name='3.10'></a> Wyczyszczenie
 
   Usuwa wszystkie węzły dzieci
 
@@ -621,7 +621,7 @@ Zamiast korzystania z powszechnych selektorów takich jak klasa, id czy też atr
   el.innerHTML = '';
   ```
 
-- [3.11](#3.11) <a name='3.11'></a> Zawijanie
+- [3.11](#3.11) <a name='3.11'></a> Zawinięcie
 
   Umieszczenie każdego elementu w strukturze HTML
 
@@ -639,7 +639,7 @@ Zamiast korzystania z powszechnych selektorów takich jak klasa, id czy też atr
   });
   ```
 
-- [3.12](#3.12) <a name='3.12'></a> Odwijanie
+- [3.12](#3.12) <a name='3.12'></a> Odwinięcie
 
   Usuwa rodziców z pasujących elementów z DOM
 
@@ -656,7 +656,7 @@ Zamiast korzystania z powszechnych selektorów takich jak klasa, id czy też atr
   });
   ```
 
-- [3.13](#3.13) <a name='3.13'></a> Zamienianie
+- [3.13](#3.13) <a name='3.13'></a> Zamiana
 
   Wymiana każdego elementu ze zbioru pasujących elementów na podaną nową zawartość
 
@@ -698,7 +698,7 @@ Wypróbuj [github/fetch](http://github.com/github/fetch) na IE9+ lub [fetch-ie8]
 
 ## Zdarzenia
 
-Dla pełnego zastąpienia z przestrzenią nazw i delegowaniem, odnieś się do https://github.com/oneuijs/oui-dom-events
+Dla pełnego zastąpienia ze wsparciem przestrzenią nazw i delegowaniem, odnieś się do https://github.com/oneuijs/oui-dom-events
 
 - [5.0](#5.0) <a name='5.0'></a> Dokument gotowy ze zdarzeniem `DOMContentLoaded`
 
@@ -756,7 +756,7 @@ Dla pełnego zastąpienia z przestrzenią nazw i delegowaniem, odnieś się do h
 
 ## Funkcje użytkowe
 
-Większość funkcji użytkowych można znaleźć w natywnym API. Pozostałe bardziej zaawansowane funkcje mogą zostać zastąpione lepszymi bibliotekami użytkowymi, które skupiają się na spójności i wydajności. Rekomendowana jest biblioteka [lodash](https://lodash.com).
+Większość funkcji użytkowych można znaleźć w natywnym API. Pozostałe, bardziej zaawansowane funkcje mogą zostać zastąpione lepszymi bibliotekami użytkowymi, które skupiają się na spójności i wydajności. Rekomendowaną biblioteką jest [lodash](https://lodash.com).
 
 - [6.1](#6.1) <a name='6.1'></a> Podstawowe funkcje użytkowe
 
@@ -852,7 +852,7 @@ Większość funkcji użytkowych można znaleźć w natywnym API. Pozostałe bar
 
   + isPlainObject
 
-  Sprawdza czy obiekt jest prostym obiektem (stworzonym przy pomocy “{}” lub “new Object”)
+  Sprawdza czy obiekt jest prostym obiektem (stworzonym przy pomocy “{}” lub “new Object”).
 
   ```js
   // jQuery
@@ -876,7 +876,7 @@ Większość funkcji użytkowych można znaleźć w natywnym API. Pozostałe bar
   + extend
 
   Scalenie zawartości dwóch lub większej ilości obiektów razem w pierwszy obiekt.
-  object.assign należy do API ES6, więc można również użyć [wypełnienia](https://github.com/ljharb/object.assign).
+  `Object.assign` należy do API ES6, więc można również użyć [wypełnienia](https://github.com/ljharb/object.assign).
 
   ```js
   // jQuery
@@ -942,7 +942,7 @@ Większość funkcji użytkowych można znaleźć w natywnym API. Pozostałe bar
 
   + type
 
-  Ustala wewnetrzną [Klasę] obiektu.
+  Ustala wewnetrzną klasę obiektu.
 
   ```js
   // jQuery
@@ -1084,11 +1084,11 @@ Większość funkcji użytkowych można znaleźć w natywnym API. Pozostałe bar
 
 ## Obietnice
 
-Obietnice (ang. Promises) reprezentują ewentualny wynik asynchronicznej operacji. jQuery posiada własny system zarządzania obietnicami. Natywny Javascript implementuje minimalną warstwę API do obsługi obietnic według specyfikacji [Promises/A+](http://promises-aplus.github.io/promises-spec/).
+Obietnice (_ang. Promises_) reprezentują ewentualny wynik asynchronicznej operacji. jQuery posiada własny system zarządzania obietnicami. Natywny Javascript implementuje minimalną warstwę API do obsługi obietnic według specyfikacji [Promises/A+](http://promises-aplus.github.io/promises-spec/).
 
 - [7.1](#7.1) <a name='7.1'></a> done, fail, always
 
-  `done` jest wywoływane gdy obietnica zostanie zakończona sukcesem, `fail` jest wywoływane gdy obietnica jest odrzucona, `always` gdy obietnica jest zakończona z obojętnie którym wynikiem.
+  `done` jest wywoływane gdy obietnica zostanie zakończona sukcesem, `fail` jest wywoływane gdy obietnica jest odrzucona, `always` gdy obietnica jest zakończona z dowolnym wynikiem.
 
   ```js
   // jQuery
@@ -1113,7 +1113,7 @@ Obietnice (ang. Promises) reprezentują ewentualny wynik asynchronicznej operacj
 
 - [7.3](#7.3) <a name='7.3'></a> Deferred
 
-  Deferred (pl. Odłożenie) jest metodą tworzenia obietnic.
+  Deferred (_pl. Odłożenie_) jest metodą tworzenia obietnic.
 
   ```js
   // jQuery
