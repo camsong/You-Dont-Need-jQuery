@@ -58,7 +58,7 @@ describe('query selector', () => {
       });
     });
 
-    it('1.4 Query in descendents', () => {
+    it('1.4 Query in descendants', () => {
       const $els = $('#query-selector-test1').find('.item');
       const els = document.getElementById('query-selector-test1').querySelectorAll('.item');
 
