@@ -14,7 +14,7 @@
 1. [Obietnice](#obietnice)
 1. [Animacja](#animacja)
 1. [Alternatywy](#alternatywy)
-1. [Wsparcie przeglądrek](#wsparcie-przeglądarek)
+1. [Wsparcie przeglądarek](#wsparcie-przeglądarek)
 
 ## Tłumaczenia
 
@@ -307,9 +307,9 @@ Zamiast korzystania z powszechnych selektorów takich jak klasa, id czy też atr
     el.style.color = '#f01';
     ```
 
-  + Otrzymanie/Ustawienie styli
+  + Otrzymanie/Ustawienie stylów
 
-    Jeżeli chcesz ustawić wiele styli jednocześnie, możesz odwołać się do metody [setStyles](https://github.com/oneuijs/oui-dom-utils/blob/master/src/index.js#L194) w pakiecie oui-dom-utils.
+    Jeżeli chcesz ustawić wiele stylów jednocześnie, możesz odwołać się do metody [setStyles](https://github.com/oneuijs/oui-dom-utils/blob/master/src/index.js#L194) w pakiecie oui-dom-utils.
 
 
   + Dodanie klasy
@@ -942,7 +942,7 @@ Większość funkcji użytkowych można znaleźć w natywnym API. Pozostałe, ba
 
   + type
 
-  Ustala wewnetrzną klasę obiektu.
+  Ustala wewnętrzną klasę obiektu.
 
   ```js
   // jQuery
