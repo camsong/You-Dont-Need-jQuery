@@ -109,6 +109,10 @@ In place of common selectors like class, id or attribute we can use `document.qu
     [...el.parentNode.children].filter((child) =>
       child !== el
     );
+    // Native (alternative) - latest, Edge13+
+    Array.from(el.parentNode.children).filter((child) =>
+      child !== el
+    );
     // Native - IE10+
     Array.prototype.filter.call(el.parentNode.children, (child) =>
       child !== el
