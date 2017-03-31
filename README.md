@@ -105,7 +105,11 @@ In place of common selectors like class, id or attribute we can use `document.qu
     // jQuery
     $el.siblings();
 
-    // Native
+    // Native - latest, Edge13+
+    [...el.parentNode.children].filter((child) =>
+      child !== el
+    );
+    // Native - IE10+
     Array.prototype.filter.call(el.parentNode.children, (child) =>
       child !== el
     );
