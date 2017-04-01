@@ -346,7 +346,7 @@ No lugar de seletores comuns como classe, id ou atributo podemos usar `document.
 
   + Altura da janela
 
-    ```jsc
+    ```js
     // window height
     $(window).height();
     // sem scrollbar, se comporta como jQuery
