@@ -87,7 +87,7 @@ In place of common selectors like class, id or attribute we can use `document.qu
   document.querySelectorAll('a[target=_blank]');
   ```
 
-- [1.4](#1.4) <a name='1.4'></a> Query in descendents
+- [1.4](#1.4) <a name='1.4'></a> Query in descendants
 
   ```js
   // jQuery
@@ -755,7 +755,7 @@ For a complete replacement with namespace and delegation, refer to https://githu
 
 ## Utilities
 
-Most of utilities are found by native API. Others advanced functions could be choosed better utilities library focus on consistency and performance. Recommend [lodash](https://lodash.com) to replace.
+Most of utilities are found by native API. Others advanced functions could be chosen better utilities library focus on consistency and performance. Recommend [lodash](https://lodash.com) to replace.
 
 - [6.1](#6.1) <a name='6.1'></a> Basic utilities
 
