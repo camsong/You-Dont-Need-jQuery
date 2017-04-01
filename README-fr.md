@@ -1,7 +1,7 @@
 ## Vous n'avez pas besoin de jQuery [![Build Status](https://travis-ci.org/oneuijs/You-Dont-Need-jQuery.svg)](https://travis-ci.org/oneuijs/You-Dont-Need-jQuery)
 
 
-De nos jours, les environnements frontend évoluent si rapidement que les navigateurs récents ont déjà implémenté beaucoup d'API DOM/BOM suffisants. Il n'est pas utile d'apprendre jQuery à partir de rien pour manipuler le DOM ou les évènements. Pendant ce temps, grâce à l'efficacité de bibliothèques frontend comme React, Angular et Vue, manipuler directement le DOM est devenu obsolète, jQuery n'a jamais été aussi peu important. Ce projet résume la plupart des alternatives à jQuery à l'aide d'implémentations natives, compatibles IE 10+.
+De nos jours, les environnements frontend évoluent si rapidement que les navigateurs récents ont déjà implémenté beaucoup d'API DOM/BOM suffisantes. Il n'est pas utile d'apprendre jQuery à partir de rien pour manipuler le DOM ou les évènements. Pendant ce temps, grâce à l'efficacité de bibliothèques frontend comme React, Angular et Vue, manipuler directement le DOM est devenu obsolète, jQuery n'a jamais été aussi peu important. Ce projet résume la plupart des alternatives à jQuery à l'aide d'implémentations natives, compatibles avec IE 10+.
 
 ## Sommaire
 
@@ -35,10 +35,10 @@ De nos jours, les environnements frontend évoluent si rapidement que les naviga
 
 ## Sélecteur jQuery
 
-À la place des sélecteurs communs comme class, id ou attribute il est possible d'utiliser `document.querySelector` ou `document.querySelectorAll` à la place. Les différences consistent en:
-* `document.querySelector` retourne le premier élément trouvé
-* `document.querySelectorAll` retourne tous les éléments trouvés sous forme d'une NodeList. Il est possible de le convertir en Array à l'aide de `[].slice.call(document.querySelectorAll(selector) || []);`
-* Si aucun élément n'a été trouvé, jQuery peut retourner `[]` alors que l'API DOM va retourner `null`. Faites attention au Null Pointer Exception. Vous pouvez aussi utiliser `||` pour définir la valeur par défaut si rien n'a été trouvé, comme `document.querySelectorAll(selector) || []`
+À la place des sélecteurs communs comme class, id ou attribute il est possible d'utiliser `document.querySelector` ou `document.querySelectorAll`. Les différences sont que:
+* `document.querySelector` retourne le premier élément trouvé,
+* `document.querySelectorAll` retourne tous les éléments trouvés sous forme d'une [NodeList](https://developer.mozilla.org/en-US/docs/Web/API/NodeList). Il est possible de le convertir en Array à l'aide de `[].slice.call(document.querySelectorAll(selector) || []);`,
+* si aucun élément n'a été trouvé, jQuery peut retourner `[]` alors que l'API DOM va retourner `null`. Faites attention au Null Pointer Exception. Vous pouvez aussi utiliser `||` pour définir la valeur par défaut si rien n'a été trouvé, comme `document.querySelectorAll(selector) || []`.
 
 > Remarque: `document.querySelector` et `document.querySelectorAll` sont assez **LENTS**, essayez plutôt d'utiliser `getElementById`, `document.getElementsByClassName` ou `document.getElementsByTagName` si vous souhaitez obtenir un gain de performance.
 
