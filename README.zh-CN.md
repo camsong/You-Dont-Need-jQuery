@@ -369,7 +369,7 @@
     $el.height();
 
     // Native
-    // 与 jQuery 一致（一直为 content 区域的高度）
+    // 与 jQuery 一致（一致为 content 区域的高度）
     function getHeight(el) {
       const styles = this.getComputedStyle(el);
       const height = el.offsetHeight;
