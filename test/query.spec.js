@@ -30,7 +30,7 @@ describe('query selector', () => {
       const els = document.querySelectorAll('li.item[data-role="red"]');
 
       expect($els.length).to.equal(2);
-      [].forEach.call($els, function($el, i) {
+      [].forEach.call($els, ($el, i) => {
         expect($el).to.equal(els[i]);
       });
     });
@@ -39,7 +39,7 @@ describe('query selector', () => {
       const $els = $('.item');
       const els = document.getElementsByClassName('item');
 
-      [].forEach.call($els, function($el, i) {
+      [].forEach.call($els, ($el, i) => {
         expect($el).to.equal(els[i]);
       });
     });
@@ -53,7 +53,7 @@ describe('query selector', () => {
       const els = document.querySelectorAll('[data-role="blue"]');
 
       expect($els.length).to.equal(2);
-      [].forEach.call($els, function($el, i) {
+      [].forEach.call($els, ($el, i) => {
         expect($el).to.equal(els[i]);
       });
     });
@@ -63,7 +63,7 @@ describe('query selector', () => {
       const els = document.getElementById('query-selector-test1').querySelectorAll('.item');
 
       expect($els.length).to.equal(4);
-      [].forEach.call($els, function($el, i) {
+      [].forEach.call($els, ($el, i) => {
         expect($el).to.equal(els[i]);
       });
     });
