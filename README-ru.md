@@ -35,8 +35,8 @@
 
 Для часто используемых селекторов, таких как class, id или attribute мы можем использовать `document.querySelector` или `document.querySelectorAll` для замены. Разница такова:
 * `document.querySelector` возвращает первый совпавший элемент
-* `document.querySelectorAll` возвращает все совпавшие элементы как коллекцию узлов (NodeList). Его можно конвертировать в массив, используя `[].slice.call(document.querySelectorAll(selector) || []);`
-* Если никакие элементы не совпадут, jQuery вернет `[]` где DOM API вернет `null`. Обратите внимание на указатель исключения Null (Null Pointer Exception). Вы так же можете использовать `||` для установки значения по умолчанию если не было найдено совпадений `document.querySelectorAll(selector) || []`
+* `document.querySelectorAll` возвращает все совпавшие элементы как коллекцию узлов (NodeList). Его можно конвертировать в массив, используя `Array.prototype.slice.call(document.querySelectorAll(selector));`
+* Если никакие элементы не совпадут, jQuery и `document.querySelectorAll` вернет `[]` где `document.querySelector` вернет `null`.
 
 > Заметка: `document.querySelector` и `document.querySelectorAll` достаточно **МЕДЛЕННЫ**, старайтесь использовать `getElementById`, `document.getElementsByClassName` или `document.getElementsByTagName` если хотите улучшить производительность.
 
@@ -185,7 +185,7 @@
   }
   ```
 
-- [1.8](#1.8) <a name='1.8'></a> От
+- [1.8](#1.8) <a name='1.8'></a> Форма
 
   + Input/Textarea
 
@@ -270,6 +270,7 @@
 
     // Нативно (используя `getAttribute`)
     el.getAttribute('data-foo');
+
     // Нативно (используя `dataset`, если не требуется поддержка ниже IE 11)
     el.dataset['foo'];
     ```
@@ -359,10 +360,10 @@
     // Высота окна
     $(window).height();
 
-    // без скроллбара, ведет себя как jQuery
+    // вместе с скроллбаром
     window.document.documentElement.clientHeight;
 
-    // вместе с скроллбаром
+    // без скроллбара, ведет себя как jQuery
     window.innerHeight;
     ```
 
@@ -597,11 +598,38 @@
 
 Попробуйте [github/fetch](http://github.com/github/fetch) для IE9+ или [fetch-ie8](https://github.com/camsong/fetch-ie8/) для IE8+, [fetch-jsonp](https://github.com/camsong/fetch-jsonp) для JSONP-запросов.
 
+- [4.1](#4.1) <a name='4.1'></a> Загрузить данные с сервера и поместить полученный HTML в элемент.
+
+  ```js
+  // jQuery
+  $(selector).load(url, completeCallback)
+
+  // Нативно
+  fetch(url).then(data => data.text()).then(data => {
+    document.querySelector(selector).innerHTML = data
+  }).then(completeCallback)
+  ```
+
 **[⬆ Наверх](#Содержание)**
 
 ## События
 
 Для полной замены с пространством имен и делегированием, сослаться на [oui-dom-events](https://github.com/oneuijs/oui-dom-events)
+
+- [5.0](#5.0) <a name='5.0'></a> Готовность документа по событию `DOMContentLoaded`
+
+  ```js
+  // jQuery
+  $(document).ready(eventHandler);
+
+  // Нативно
+  // Проверяем, что событие DOMContentLoaded уже наступило
+  if (document.readyState === 'complete' || document.readyState !== 'loading') {
+    eventHandler();
+  } else {
+    document.addEventListener('DOMContentLoaded', eventHandler);
+  }
+  ```
 
 - [5.1](#5.1) <a name='5.1'></a> Связать событие используя on
 
