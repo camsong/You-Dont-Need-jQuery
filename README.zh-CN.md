@@ -1,4 +1,4 @@
-## You Don't Need jQuery
+## You Don't Need jQuery [![Build Status](https://travis-ci.org/oneuijs/You-Dont-Need-jQuery.svg)](https://travis-ci.org/oneuijs/You-Dont-Need-jQuery)
 
 前端发展很快，现代浏览器原生 API 已经足够好用。我们并不需要为了操作 DOM、Event 等再学习一下 jQuery 的 API。同时由于 React、Angular、Vue 等框架的流行，直接操作 DOM 不再是好的模式，jQuery 使用场景大大减少。本项目总结了大部分 jQuery API 替代的方法，暂时只支持 IE10+ 以上浏览器。
 
@@ -11,6 +11,8 @@
 1. [Ajax](#ajax)
 1. [Events](#events)
 1. [Utilities](#utilities)
+1. [Promises](#promises)
+1. [Animation](#animation)
 1. [Alternatives](#alternatives)
 1. [Browser Support](#browser-support)
 
@@ -40,7 +42,7 @@
 
 > 注意：`document.querySelector` 和 `document.querySelectorAll` 性能很**差**。如果想提高性能，尽量使用 `document.getElementById`、`document.getElementsByClassName` 或 `document.getElementsByTagName`。
 
-- [1.0](#1.0) <a name='1.0'></a> Query by selector
+- [1.0](#1.0) <a name='1.0'></a> 选择器查询
 
   ```js
   // jQuery
@@ -50,20 +52,20 @@
   document.querySelectorAll('selector');
   ```
 
-- [1.1](#1.1) <a name='1.1'></a> Query by class
+- [1.1](#1.1) <a name='1.1'></a> class 查询
 
   ```js
   // jQuery
-  $('.css');
+  $('.class');
 
   // Native
-  document.querySelectorAll('.css');
+  document.querySelectorAll('.class');
 
   // or
-  document.getElementsByClassName('css');
+  document.getElementsByClassName('class');
   ```
 
-- [1.2](#1.2) <a name='1.2'></a> Query by id
+- [1.2](#1.2) <a name='1.2'></a> id 查询
 
   ```js
   // jQuery
@@ -76,7 +78,7 @@
   document.getElementById('id');
   ```
 
-- [1.3](#1.3) <a name='1.3'></a> Query by attribute
+- [1.3](#1.3) <a name='1.3'></a> 属性查询
 
   ```js
   // jQuery
@@ -86,66 +88,39 @@
   document.querySelectorAll('a[target=_blank]');
   ```
 
-- [1.4](#1.4) <a name='1.4'></a> Find sth.
+- [1.4](#1.4) <a name='1.4'></a> 后代查询
 
-  + Find nodes
+  ```js
+  // jQuery
+  $el.find('li');
 
-    ```js
-    // jQuery
-    $el.find('li');
+  // Native
+  el.querySelectorAll('li');
+  ```
 
-    // Native
-    el.querySelectorAll('li');
-    ```
+- [1.5](#1.5) <a name='1.5'></a> 兄弟及上下元素
 
-  + Find body
-
-    ```js
-    // jQuery
-    $('body');
-
-    // Native
-    document.body;
-    ```
-
-  + Find Attribute
-
-    ```js
-    // jQuery
-    $el.attr('foo');
-
-    // Native
-    e.getAttribute('foo');
-    ```
-
-  + Find data attribute
-
-    ```js
-    // jQuery
-    $el.data('foo');
-
-    // Native
-    // using getAttribute
-    el.getAttribute('data-foo');
-    // you can also use `dataset` if only need to support IE 11+
-    el.dataset['foo'];
-    ```
-
-- [1.5](#1.5) <a name='1.5'></a> Sibling/Previous/Next Elements
-
-  + Sibling elements
+  + 兄弟元素
 
     ```js
     // jQuery
     $el.siblings();
 
-    // Native
-    [].filter.call(el.parentNode.children, function(child) {
-      return child !== el;
-    });
+    // Native - latest, Edge13+
+    [...el.parentNode.children].filter((child) =>
+      child !== el
+    );
+    // Native (alternative) - latest, Edge13+
+    Array.from(el.parentNode.children).filter((child) =>
+      child !== el
+    );
+    // Native - IE10+
+    Array.prototype.filter.call(el.parentNode.children, (child) =>
+      child !== el
+    );
     ```
 
-  + Previous elements
+  + 上一个元素
 
     ```js
     // jQuery
@@ -156,11 +131,13 @@
 
     ```
 
-  + Next elements
+  + 下一个元素
 
     ```js
     // next
     $el.next();
+
+    // Native
     el.nextElementSibling;
     ```
 
@@ -172,7 +149,10 @@
   // jQuery
   $el.closest(queryString);
 
-  // Native
+  // Native - Only latest, NO IE
+  el.closest(selector);
+
+  // Native - IE10+
   function closest(el, selector) {
     const matchesSelector = el.matches || el.webkitMatchesSelector || el.mozMatchesSelector || el.msMatchesSelector;
 
@@ -228,14 +208,14 @@
     document.querySelector('#my-input').value;
     ```
 
-  + Get index of e.currentTarget between `.radio`
+  + 获取 e.currentTarget 在 `.radio` 中的数组索引
 
     ```js
     // jQuery
-    $(e.currentTarget).index('.radio');
+    $('.radio').index(e.currentTarget);
 
     // Native
-    [].indexOf.call(document.querySelectorAll('.radio'), e.currentTarget);
+    Array.prototype.indexOf.call(document.querySelectorAll('.radio'), e.currentTarget);
     ```
 
 - [1.9](#1.9) <a name='1.9'></a> Iframe Contents
@@ -262,6 +242,50 @@
     iframe.contentDocument.querySelectorAll('.css');
     ```
 
+- [1.10](#1.10) <a name='1.10'></a> 获取 body
+
+  ```js
+  // jQuery
+  $('body');
+
+  // Native
+  document.body;
+  ```
+
+- [1.11](#1.11) <a name='1.11'></a> 获取或设置属性
+
+  + 获取属性
+
+    ```js
+    // jQuery
+    $el.attr('foo');
+
+    // Native
+    el.getAttribute('foo');
+    ```
+  + 设置属性
+
+    ```js
+    // jQuery, note that this works in memory without change the DOM
+    $el.attr('foo', 'bar');
+
+    // Native
+    el.setAttribute('foo', 'bar');
+    ```
+
+  + 获取 `data-` 属性
+
+    ```js
+    // jQuery
+    $el.data('foo');
+
+    // Native (use `getAttribute`)
+    el.getAttribute('data-foo');
+
+    // Native (use `dataset` if only need to support IE 11+)
+    el.dataset['foo'];
+    ```
+
 **[⬆ 回到顶部](#目录)**
 
 ## CSS & Style
@@ -277,6 +301,7 @@
     // Native
     // 注意：此处为了解决当 style 值为 auto 时，返回 auto 的问题
     const win = el.ownerDocument.defaultView;
+
     // null 的意思是不返回伪类元素
     win.getComputedStyle(el, null).color;
     ```
@@ -342,13 +367,13 @@
   + Window height
 
     ```js
-    // jQuery
+    // window height
     $(window).height();
 
-    // Native
-    // 不含 scrollbar，与 jQuery 行为一致
-    window.document.documentElement.clientHeight;
     // 含 scrollbar
+    window.document.documentElement.clientHeight;
+
+    // 不含 scrollbar，与 jQuery 行为一致
     window.innerHeight;
     ```
 
@@ -359,7 +384,15 @@
     $(document).height();
 
     // Native
-    document.documentElement.scrollHeight;
+    const body = document.body;
+    const html = document.documentElement;
+    const height = Math.max(
+      body.offsetHeight,
+      body.scrollHeight,
+      html.clientHeight,
+      html.offsetHeight,
+      html.scrollHeight
+    );
     ```
 
   + Element height
@@ -369,7 +402,6 @@
     $el.height();
 
     // Native
-    // 与 jQuery 一致（一致为 content 区域的高度）
     function getHeight(el) {
       const styles = this.getComputedStyle(el);
       const height = el.offsetHeight;
@@ -379,27 +411,19 @@
       const paddingBottom = parseFloat(styles.paddingBottom);
       return height - borderBottomWidth - borderTopWidth - paddingTop - paddingBottom;
     }
+
     // 精确到整数（border-box 时为 height - border 值，content-box 时为 height + padding 值）
     el.clientHeight;
+
     // 精确到小数（border-box 时为 height 值，content-box 时为 height + padding + border 值）
     el.getBoundingClientRect().height;
-    ```
-
-  + Iframe height
-
-    $iframe .contents() 方法返回 iframe 的 contentDocument
-
-    ```js
-    // jQuery
-    $('iframe').contents().height();
-
-    // Native
-    iframe.contentDocument.documentElement.scrollHeight;
     ```
 
 - [2.3](#2.3) <a name='2.3'></a> Position & Offset
 
   + Position
+
+    获取元素相对于父元素的偏移坐标。
 
     ```js
     // jQuery
@@ -410,6 +434,8 @@
     ```
 
   + Offset
+
+    获取元素相对于 document 的坐标。
 
     ```js
     // jQuery
@@ -428,6 +454,8 @@
 
 - [2.4](#2.4) <a name='2.4'></a> Scroll Top
 
+  获取元素滚动条垂直位置。
+
   ```js
   // jQuery
   $(window).scrollTop();
@@ -441,6 +469,9 @@
 ## DOM Manipulation
 
 - [3.1](#3.1) <a name='3.1'></a> Remove
+
+  从 DOM 中移除元素。
+
   ```js
   // jQuery
   $el.remove();
@@ -453,6 +484,8 @@
 
   + Get text
 
+    获取元素及所有子代的内容。
+
     ```js
     // jQuery
     $el.text();
@@ -462,6 +495,8 @@
     ```
 
   + Set text
+
+    设置元素内容为指定文本。
 
     ```js
     // jQuery
@@ -501,10 +536,10 @@
   // jQuery
   $el.append("<div id='container'>hello</div>");
 
-  // Native
-  let newEl = document.createElement('div');
-  newEl.setAttribute('id', 'container');
-  newEl.innerHTML = 'hello';
+  // Native (HTML string)
+  el.insertAdjacentHTML('beforeend', '<div id="container">Hello World</div>');
+
+  // Native (Element)
   el.appendChild(newEl);
   ```
 
@@ -514,10 +549,10 @@
   // jQuery
   $el.prepend("<div id='container'>hello</div>");
 
-  // Native
-  let newEl = document.createElement('div');
-  newEl.setAttribute('id', 'container');
-  newEl.innerHTML = 'hello';
+  // Native (HTML string)
+  el.insertAdjacentHTML('afterbegin', '<div id="container">Hello World</div>');
+
+  // Native (Element)
   el.insertBefore(newEl, el.firstChild);
   ```
 
@@ -529,9 +564,14 @@
   // jQuery
   $newEl.insertBefore(queryString);
 
-  // Native
-  const target = document.querySelector(queryString);
-  target.parentNode.insertBefore(newEl, target);
+  // Native (HTML string)
+  el.insertAdjacentHTML('beforebegin ', '<div id="container">Hello World</div>');
+
+  // Native (Element)
+  const el = document.querySelector(selector);
+  if (el.parentNode) {
+    el.parentNode.insertBefore(newEl, el);
+  }
   ```
 
 - [3.7](#3.7) <a name='3.7'></a> insertAfter
@@ -542,16 +582,124 @@
   // jQuery
   $newEl.insertAfter(queryString);
 
+  // Native (HTML string)
+  el.insertAdjacentHTML('afterend', '<div id="container">Hello World</div>');
+
+  // Native (Element)
+  const el = document.querySelector(selector);
+  if (el.parentNode) {
+    el.parentNode.insertBefore(newEl, el.nextSibling);
+  }
+  ```
+
+- [3.8](#3.8) <a name='3.8'></a> is
+
+  如果匹配查询选择器则 `true`
+
+  ```js
+  // jQuery - Notice `is` also work with `function` or `elements` which is not concerned here
+  $el.is(selector);
+
   // Native
-  const target = document.querySelector(queryString);
-  target.parentNode.insertBefore(newEl, target.nextSibling);
+  el.matches(selector);
+  ```
+- [3.9](#3.9) <a name='3.9'></a> clone
+
+  创建元素的深度拷贝
+
+  ```js
+  // jQuery
+  $el.clone();
+
+  // Native
+  el.cloneNode();
+
+  // For Deep clone , set param as `true`
+  ```
+
+- [3.10](#3.10) <a name='3.10'></a> empty
+
+  移除所有子节点
+
+  ```js
+  // jQuery
+  $el.empty();
+
+  // Native
+  el.innerHTML = '';
+  ```
+
+- [3.11](#3.11) <a name='3.11'></a> wrap
+
+  使用 HTML 结构包装每个元素
+
+  ```js
+  // jQuery
+  $('.inner').wrap('<div class="wrapper"></div>');
+
+  // Native
+  Array.prototype.forEach.call(document.querySelectorAll('.inner'), (el) => {
+    const wrapper = document.createElement('div');
+    wrapper.className = 'wrapper';
+    el.parentNode.insertBefore(wrapper, el);
+    el.parentNode.removeChild(el);
+    wrapper.appendChild(el);
+  });
+  ```
+
+- [3.12](#3.12) <a name='3.12'></a> unwrap
+
+  从 DOM 中移除匹配元素的父集
+
+  ```js
+  // jQuery
+  $('.inner').unwrap();
+
+  // Native
+  Array.prototype.forEach.call(document.querySelectorAll('.inner'), (el) => {
+    Array.prototype.forEach.call(el.childNodes, (child) => {
+      el.parentNode.insertBefore(child, el);
+    });
+    el.parentNode.removeChild(el);
+  });
+  ```
+
+- [3.13](#3.13) <a name='3.13'></a> replaceWith
+
+  使用提供的新内容替换匹配元素的内容
+
+  ```js
+  // jQuery
+  $('.inner').replaceWith('<div class="outer"></div>');
+
+  // Native
+  Array.prototype.forEach.call(document.querySelectorAll('.inner'), (el) => {
+    const outer = document.createElement('div');
+    outer.className = 'outer';
+    el.parentNode.insertBefore(outer, el);
+    el.parentNode.removeChild(el);
+  });
   ```
 
 **[⬆ 回到顶部](#目录)**
 
 ## Ajax
 
-用 [fetch](https://github.com/camsong/fetch-ie8) 和 [fetch-jsonp](https://github.com/camsong/fetch-jsonp) 替代
+[Fetch API](https://fetch.spec.whatwg.org/) 是用于替换 XMLHttpRequest 处理 ajax 的新标准，Chrome 和 Firefox 均支持，旧浏览器可以使用 polyfills 提供支持。
+
+IE9+ 请使用 [github/fetch](http://github.com/github/fetch)，IE8+ 请使用 [fetch-ie8](https://github.com/camsong/fetch-ie8/)，JSONP 请使用 [fetch-jsonp](https://github.com/camsong/fetch-jsonp)。
+
+- [4.1](#4.1) <a name='4.1'></a> 从服务器读取数据并替换匹配元素的内容。
+
+  ```js
+  // jQuery
+  $(selector).load(url, completeCallback)
+
+  // Native
+  fetch(url).then(data => data.text()).then(data => {
+    document.querySelector(selector).innerHTML = data
+  }).then(completeCallback)
+  ```
 
 **[⬆ 回到顶部](#目录)**
 
@@ -559,7 +707,22 @@
 
 完整地替代命名空间和事件代理，链接到 https://github.com/oneuijs/oui-dom-events
 
-- [5.1](#5.1) <a name='5.1'></a> Bind an event with on
+- [5.0](#5.0) <a name='5.0'></a> Document ready by `DOMContentLoaded`
+
+  ```js
+  // jQuery
+  $(document).ready(eventHandler);
+
+  // Native
+  // 检测 DOMContentLoaded 是否已完成
+  if (document.readyState === 'complete' || document.readyState !== 'loading') {
+    eventHandler();
+  } else {
+    document.addEventListener('DOMContentLoaded', eventHandler);
+  }
+  ```
+
+- [5.1](#5.1) <a name='5.1'></a> 使用 on 绑定事件
 
   ```js
   // jQuery
@@ -569,7 +732,7 @@
   el.addEventListener(eventName, eventHandler);
   ```
 
-- [5.2](#5.2) <a name='5.2'></a> Unbind an event with off
+- [5.2](#5.2) <a name='5.2'></a> 使用 off 解绑事件
 
   ```js
   // jQuery
@@ -600,7 +763,13 @@
 
 ## Utilities
 
-- [6.1](#6.1) <a name='6.1'></a> isArray
+大部分实用工具都能在 native API 中找到. 其他高级功能可以选用专注于该领域的稳定性和性能都更好的库来代替，推荐 [lodash](https://lodash.com)。
+
+- [6.1](#6.1) <a name='6.1'></a> 基本工具
+
+  + isArray
+
+  检测参数是不是数组。
 
   ```js
   // jQuery
@@ -610,19 +779,111 @@
   Array.isArray(range);
   ```
 
-- [6.2](#6.2) <a name='6.2'></a> Trim
+  + isWindow
+
+  检测参数是不是 window。
 
   ```js
   // jQuery
-  $.trim(string);
+  $.isWindow(obj);
 
   // Native
-  string.trim();
+  function isWindow(obj) {
+    return obj !== null && obj !== undefined && obj === obj.window;
+  }
   ```
 
-- [6.3](#6.3) <a name='6.3'></a> Object Assign
+  + inArray
 
-  继承，使用 object.assign polyfill https://github.com/ljharb/object.assign
+  在数组中搜索指定值并返回索引 (找不到则返回 -1)。
+
+  ```js
+  // jQuery
+  $.inArray(item, array);
+
+  // Native
+  array.indexOf(item) > -1;
+
+  // ES6-way
+  array.includes(item);
+  ```
+
+  + isNumeric
+
+  检测传入的参数是不是数字。
+  Use `typeof` to decide the type or the `type` example for better accuracy.
+
+  ```js
+  // jQuery
+  $.isNumeric(item);
+
+  // Native
+  function isNumeric(value) {
+    var type = typeof value;
+
+    return (type === 'number' || type === 'string') && !Number.isNaN(value - Number.parseFloat(value));
+  }
+  ```
+
+  + isFunction
+
+  检测传入的参数是不是 JavaScript 函数对象。
+
+  ```js
+  // jQuery
+  $.isFunction(item);
+
+  // Native
+  function isFunction(item) {
+    if (typeof item === 'function') {
+      return true;
+    }
+    var type = Object.prototype.toString(item);
+    return type === '[object Function]' || type === '[object GeneratorFunction]';
+  }
+  ```
+
+  + isEmptyObject
+
+  检测对象是否为空 (包括不可枚举属性).
+
+  ```js
+  // jQuery
+  $.isEmptyObject(obj);
+
+  // Native
+  function isEmptyObject(obj) {
+    return Object.keys(obj).length === 0;
+  }
+  ```
+
+  + isPlainObject
+
+  检测是不是扁平对象 (使用 “{}” 或 “new Object” 创建).
+
+  ```js
+  // jQuery
+  $.isPlainObject(obj);
+
+  // Native
+  function isPlainObject(obj) {
+    if (typeof (obj) !== 'object' || obj.nodeType || obj !== null && obj !== undefined && obj === obj.window) {
+      return false;
+    }
+
+    if (obj.constructor &&
+        !Object.prototype.hasOwnProperty.call(obj.constructor.prototype, 'isPrototypeOf')) {
+      return false;
+    }
+
+    return true;
+  }
+  ```
+
+  + extend
+
+  合并多个对象的内容到第一个对象。
+  object.assign 是 ES6 API，也可以使用 [polyfill](https://github.com/ljharb/object.assign)。
 
   ```js
   // jQuery
@@ -632,7 +893,134 @@
   Object.assign({}, defaultOpts, opts);
   ```
 
-- [6.4](#6.4) <a name='6.4'></a> Contains
+  + trim
+
+  移除字符串头尾空白。
+
+  ```js
+  // jQuery
+  $.trim(string);
+
+  // Native
+  string.trim();
+  ```
+
+  + map
+
+  将数组或对象转化为包含新内容的数组。
+
+  ```js
+  // jQuery
+  $.map(array, (value, index) => {
+  });
+
+  // Native
+  array.map((value, index) => {
+  });
+  ```
+
+  + each
+
+  轮询函数，可用于平滑的轮询对象和数组。
+
+  ```js
+  // jQuery
+  $.each(array, (index, value) => {
+  });
+
+  // Native
+  array.forEach((value, index) => {
+  });
+  ```
+
+  + grep
+
+  找到数组中符合过滤函数的元素。
+
+  ```js
+  // jQuery
+  $.grep(array, (value, index) => {
+  });
+
+  // Native
+  array.filter((value, index) => {
+  });
+  ```
+
+  + type
+
+  检测对象的 JavaScript [Class] 内部类型。
+
+  ```js
+  // jQuery
+  $.type(obj);
+
+  // Native
+  function type(item) {
+    const reTypeOf = /(?:^\[object\s(.*?)\]$)/;
+    return Object.prototype.toString.call(item)
+      .replace(reTypeOf, '$1')
+      .toLowerCase();
+  }
+  ```
+
+  + merge
+
+  合并第二个数组内容到第一个数组。
+
+  ```js
+  // jQuery
+  $.merge(array1, array2);
+
+  // Native
+  // But concat function doesn't remove duplicate items.
+  function merge(...args) {
+    return [].concat(...args)
+  }
+  ```
+
+  + now
+
+  返回当前时间的数字呈现。
+
+  ```js
+  // jQuery
+  $.now();
+
+  // Native
+  Date.now();
+  ```
+
+  + proxy
+
+  传入函数并返回一个新函数，该函数绑定指定上下文。
+
+  ```js
+  // jQuery
+  $.proxy(fn, context);
+
+  // Native
+  fn.bind(context);
+  ```
+
+  + makeArray
+
+  类数组对象转化为真正的 JavaScript 数组。
+
+  ```js
+  // jQuery
+  $.makeArray(arrayLike);
+
+  // Native
+  Array.prototype.slice.call(arrayLike);
+
+  // ES6-way
+  Array.from(arrayLike);
+  ```
+
+- [6.2](#6.2) <a name='6.2'></a> 包含
+
+  检测 DOM 元素是不是其他 DOM 元素的后代.
 
   ```js
   // jQuery
@@ -640,6 +1028,284 @@
 
   // Native
   el !== child && el.contains(child);
+  ```
+
+- [6.3](#6.3) <a name='6.3'></a> Globaleval
+
+  全局执行 JavaScript 代码。
+
+  ```js
+  // jQuery
+  $.globaleval(code);
+
+  // Native
+  function Globaleval(code) {
+    const script = document.createElement('script');
+    script.text = code;
+
+    document.head.appendChild(script).parentNode.removeChild(script);
+  }
+
+  // Use eval, but context of eval is current, context of $.Globaleval is global.
+  eval(code);
+  ```
+
+- [6.4](#6.4) <a name='6.4'></a> 解析
+
+  + parseHTML
+
+  解析字符串为 DOM 节点数组.
+
+  ```js
+  // jQuery
+  $.parseHTML(htmlString);
+
+  // Native
+  function parseHTML(string) {
+    const context = document.implementation.createHTMLDocument();
+
+    // Set the base href for the created document so any parsed elements with URLs
+    // are based on the document's URL
+    const base = context.createElement('base');
+    base.href = document.location.href;
+    context.head.appendChild(base);
+
+    context.body.innerHTML = string;
+    return context.body.children;
+  }
+  ```
+
+  + parseJSON
+
+  传入格式正确的 JSON 字符串并返回 JavaScript 值.
+
+  ```js
+  // jQuery
+  $.parseJSON(str);
+
+  // Native
+  JSON.parse(str);
+  ```
+
+**[⬆ 回到顶部](#目录)**
+
+## Promises
+
+Promise 代表异步操作的最终结果。jQuery 用它自己的方式处理 promises，原生 JavaScript 遵循 [Promises/A+](http://promises-aplus.github.io/promises-spec/) 标准实现了最小 API 来处理 promises。
+
+- [7.1](#7.1) <a name='7.1'></a> done, fail, always
+
+  `done` 会在 promise 解决时调用，`fail` 会在 promise 拒绝时调用，`always` 总会调用。
+
+  ```js
+  // jQuery
+  $promise.done(doneCallback).fail(failCallback).always(alwaysCallback)
+
+  // Native
+  promise.then(doneCallback, failCallback).then(alwaysCallback, alwaysCallback)
+  ```
+
+- [7.2](#7.2) <a name='7.2'></a> when
+
+  `when` 用于处理多个 promises。当全部 promises 被解决时返回，当任一 promise 被拒绝时拒绝。
+
+  ```js
+  // jQuery
+  $.when($promise1, $promise2).done((promise1Result, promise2Result) => {
+  });
+
+  // Native
+  Promise.all([$promise1, $promise2]).then([promise1Result, promise2Result] => {});
+  ```
+
+- [7.3](#7.3) <a name='7.3'></a> Deferred
+
+  Deferred 是创建 promises 的一种方式。
+
+  ```js
+  // jQuery
+  function asyncFunc() {
+    const defer = new $.Deferred();
+    setTimeout(() => {
+      if(true) {
+        defer.resolve('some_value_computed_asynchronously');
+      } else {
+        defer.reject('failed');
+      }
+    }, 1000);
+
+    return defer.promise();
+  }
+
+  // Native
+  function asyncFunc() {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        if (true) {
+          resolve('some_value_computed_asynchronously');
+        } else {
+          reject('failed');
+        }
+      }, 1000);
+    });
+  }
+
+  // Deferred way
+  function defer() {
+    const deferred = {};
+    const promise = new Promise((resolve, reject) => {
+      deferred.resolve = resolve;
+      deferred.reject = reject;
+    });
+
+    deferred.promise = () => {
+      return promise;
+    };
+
+    return deferred;
+  }
+
+  function asyncFunc() {
+    const defer = defer();
+    setTimeout(() => {
+      if(true) {
+        defer.resolve('some_value_computed_asynchronously');
+      } else {
+        defer.reject('failed');
+      }
+    }, 1000);
+
+    return defer.promise();
+  }
+  ```
+
+**[⬆ 回到顶部](#目录)**
+
+## Animation
+
+- [8.1](#8.1) <a name='8.1'></a> Show & Hide
+
+  ```js
+  // jQuery
+  $el.show();
+  $el.hide();
+
+  // Native
+  // 更多 show 方法的细节详见 https://github.com/oneuijs/oui-dom-utils/blob/master/src/index.js#L363
+  el.style.display = ''|'inline'|'inline-block'|'inline-table'|'block';
+  el.style.display = 'none';
+  ```
+
+- [8.2](#8.2) <a name='8.2'></a> Toggle
+
+  显示或隐藏元素。
+
+  ```js
+  // jQuery
+  $el.toggle();
+
+  // Native
+  if (el.ownerDocument.defaultView.getComputedStyle(el, null).display === 'none') {
+    el.style.display = ''|'inline'|'inline-block'|'inline-table'|'block';
+  } else {
+    el.style.display = 'none';
+  }
+  ```
+
+- [8.3](#8.3) <a name='8.3'></a> FadeIn & FadeOut
+
+  ```js
+  // jQuery
+  $el.fadeIn(3000);
+  $el.fadeOut(3000);
+
+  // Native
+  el.style.transition = 'opacity 3s';
+  // fadeIn
+  el.style.opacity = '1';
+  // fadeOut
+  el.style.opacity = '0';
+  ```
+
+- [8.4](#8.4) <a name='8.4'></a> FadeTo
+
+  调整元素透明度。
+
+  ```js
+  // jQuery
+  $el.fadeTo('slow',0.15);
+  // Native
+  el.style.transition = 'opacity 3s'; // 假设 'slow' 等于 3 秒
+  el.style.opacity = '0.15';
+  ```
+
+- [8.5](#8.5) <a name='8.5'></a> FadeToggle
+
+  动画调整透明度用来显示或隐藏。
+
+  ```js
+  // jQuery
+  $el.fadeToggle();
+
+  // Native
+  el.style.transition = 'opacity 3s';
+  const { opacity } = el.ownerDocument.defaultView.getComputedStyle(el, null);
+  if (opacity === '1') {
+    el.style.opacity = '0';
+  } else {
+    el.style.opacity = '1';
+  }
+  ```
+
+- [8.6](#8.6) <a name='8.6'></a> SlideUp & SlideDown
+
+  ```js
+  // jQuery
+  $el.slideUp();
+  $el.slideDown();
+
+  // Native
+  const originHeight = '100px';
+  el.style.transition = 'height 3s';
+  // slideUp
+  el.style.height = '0px';
+  // slideDown
+  el.style.height = originHeight;
+  ```
+
+- [8.7](#8.7) <a name='8.7'></a> SlideToggle
+
+  滑动切换显示或隐藏。
+
+  ```js
+  // jQuery
+  $el.slideToggle();
+
+  // Native
+  const originHeight = '100px';
+  el.style.transition = 'height 3s';
+  const { height } = el.ownerDocument.defaultView.getComputedStyle(el, null);
+  if (parseInt(height, 10) === 0) {
+    el.style.height = originHeight;
+  }
+  else {
+   el.style.height = '0px';
+  }
+  ```
+
+- [8.8](#8.8) <a name='8.8'></a> Animate
+
+  执行一系列 CSS 属性动画。
+
+  ```js
+  // jQuery
+  $el.animate({ params }, speed);
+
+  // Native
+  el.style.transition = 'all ' + speed;
+  Object.keys(params).forEach((key) =>
+    el.style[key] = params[key];
+  )
   ```
 
 **[⬆ 回到顶部](#目录)**
