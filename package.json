@@ -19,6 +19,8 @@
     "chai": "^3.5.0",
     "eslint": "^3.17.1",
     "eslint-config-airbnb": "^14.1.0",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-jsx-a11y": "^4.0.0",
     "eslint-plugin-react": "^6.10.0",
     "isparta": "^4.0.0",
     "istanbul-instrumenter-loader": "^2.0.0",
