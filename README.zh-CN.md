@@ -401,6 +401,8 @@
 
   + Position
 
+    获得匹配元素相对父元素的偏移
+
     ```js
     // jQuery
     $el.position();
@@ -410,6 +412,8 @@
     ```
 
   + Offset
+
+    获得匹配元素相对文档的偏移
 
     ```js
     // jQuery
@@ -427,6 +431,8 @@
     ```
 
 - [2.4](#2.4) <a name='2.4'></a> Scroll Top
+
+  获得滚动条在垂直方向上的当前位置
 
   ```js
   // jQuery
@@ -453,6 +459,8 @@
 
   + Get text
 
+    返回指定元素及其后代的文本内容。
+
     ```js
     // jQuery
     $el.text();
@@ -462,6 +470,8 @@
     ```
 
   + Set text
+
+    设置元素的文本内容。
 
     ```js
     // jQuery
@@ -545,6 +555,93 @@
   // Native
   const target = document.querySelector(queryString);
   target.parentNode.insertBefore(newEl, target.nextSibling);
+  ```
+
+- [3.8](#3.8) <a name='3.8'></a> is
+
+  如果匹配给定的选择器，返回true
+
+    ```js
+    // jQuery
+    $el.is(selector);
+
+    // Native
+    el.matches(selector);
+    ```
+
+- [3.9](#3.9) <a name='3.9'></a> clone
+
+  深拷贝被选元素。（生成被选元素的副本，包含子节点、文本和属性。）
+
+  ```js
+  //jQuery
+  $el.clone();
+
+  //Native
+  el.cloneNode();
+  ```
+
+- [3.10](#3.10) <a name='3.10'></a> empty
+
+  移除所有子节点
+
+```js
+//jQuery
+$el.empty();
+
+//Native
+el.innerHTML = '';
+```
+
+-[3.11](#3.11) <a name='3.11'></a> wrap
+
+ 把每个被选元素放置在指定的HTML结构中。
+
+ ```js
+ //jQuery
+ $(".inner").wrap('<div class="wrapper"></div>');
+
+ //Native
+ Array.prototype.forEach.call(document.querySelector('.inner'), (el) => {
+   const wrapper = document.createElement("div");
+   wrapper.className = "wrapper";
+   el.parentNode.
+ });
+
+ ```
+
+-[3.12](#3.12) <a name="3.12"></a> unwrap
+
+  把被选元素的父元素移除DOM结构
+
+  ```js
+  //jQuery
+  $(".inner").unwrap();
+
+  //Native
+  Array.prototype.forEach.call(document.querySelectorAll('.inner'), (el) => {
+  Array.prototype.forEach.call(el.childNodes, (child) => {
+    el.parentNode.insertBefore(child, el);
+  });
+  el.parentNode.removeChild(el);
+});
+  ```
+
+-[3.13](#3.13) <a name="3.13"></a> replaceWith
+
+  用指定的元素替换被选的元素
+
+  ```js
+  //jQuery
+  $('.inner').replaceWith('<div class="outer"></div>');
+
+  //Native
+  Array.prototype.forEach.call(document.querySelectorAll('.inner'),(el) => {
+    const outer = document.createElement("div");
+    outer.className = "outer";
+    el.parentNode.insertBefore(outer, el);
+    el.parentNode.removeChild(el);
+  });
   ```
 
 **[⬆ 回到顶部](#目录)**
