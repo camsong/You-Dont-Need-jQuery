@@ -603,6 +603,11 @@ In place of common selectors like class, id or attribute we can use `document.qu
   // Native
   el.matches(selector);
   ```
+
+- [3.9](#3.9) <a name='3.9'></a> empty
+
+  Removes all child Nodes
+=======
 - [3.9](#3.9) <a name='3.9'></a> clone
 
   Create a deep copy of that element
@@ -628,6 +633,8 @@ In place of common selectors like class, id or attribute we can use `document.qu
   // Native
   el.innerHTML = '';
   ```
+
+=======
 
 - [3.11](#3.11) <a name='3.11'></a> wrap
 
