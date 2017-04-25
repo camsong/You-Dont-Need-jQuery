@@ -681,6 +681,26 @@ In place of common selectors like class, id or attribute we can use `document.qu
   });
   ```
 
+- [3.14](#3.14) <a name='3.14'></a> simple parse
+
+  Parse a string into HTML/SVG/XML
+
+  ```js
+  // jQuery
+  $(`<ol>
+  <li>a</li>
+  <li>b</li>
+</ol>
+<ol>
+  <li>c</li>
+  <li>d</li>
+</ol>`);
+
+  // Native
+range = document.createRange();
+parse = range.createContextualFragment.bind(range);
+  ```
+
 
 **[⬆ back to top](#table-of-contents)**
 
