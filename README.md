@@ -699,6 +699,15 @@ In place of common selectors like class, id or attribute we can use `document.qu
   // Native
 range = document.createRange();
 parse = range.createContextualFragment.bind(range);
+
+parse(`<ol>
+  <li>a</li>
+  <li>b</li>
+</ol>
+<ol>
+  <li>c</li>
+  <li>d</li>
+</ol>`);
   ```
 
 
