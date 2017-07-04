@@ -595,95 +595,6 @@
 
 - [3.8](#3.8) <a name='3.8'></a> is
 
-  如果匹配查询选择器则 `true`
-
-  ```js
-  // jQuery - Notice `is` also work with `function` or `elements` which is not concerned here
-  $el.is(selector);
-
-  // Native
-  el.matches(selector);
-  ```
-- [3.9](#3.9) <a name='3.9'></a> clone
-
-  创建元素的深度拷贝
-
-  ```js
-  // jQuery
-  $el.clone();
-
-  // Native
-  el.cloneNode();
-
-  // For Deep clone , set param as `true`
-  ```
-
-- [3.10](#3.10) <a name='3.10'></a> empty
-
-  移除所有子节点
-
-  ```js
-  // jQuery
-  $el.empty();
-
-  // Native
-  el.innerHTML = '';
-  ```
-
-- [3.11](#3.11) <a name='3.11'></a> wrap
-
-  使用 HTML 结构包装每个元素
-
-  ```js
-  // jQuery
-  $('.inner').wrap('<div class="wrapper"></div>');
-
-  // Native
-  Array.prototype.forEach.call(document.querySelectorAll('.inner'), (el) => {
-    const wrapper = document.createElement('div');
-    wrapper.className = 'wrapper';
-    el.parentNode.insertBefore(wrapper, el);
-    el.parentNode.removeChild(el);
-    wrapper.appendChild(el);
-  });
-  ```
-
-- [3.12](#3.12) <a name='3.12'></a> unwrap
-
-  从 DOM 中移除匹配元素的父集
-
-  ```js
-  // jQuery
-  $('.inner').unwrap();
-
-  // Native
-  Array.prototype.forEach.call(document.querySelectorAll('.inner'), (el) => {
-    Array.prototype.forEach.call(el.childNodes, (child) => {
-      el.parentNode.insertBefore(child, el);
-    });
-    el.parentNode.removeChild(el);
-  });
-  ```
-
-- [3.13](#3.13) <a name='3.13'></a> replaceWith
-
-  使用提供的新内容替换匹配元素的内容
-
-  ```js
-  // jQuery
-  $('.inner').replaceWith('<div class="outer"></div>');
-
-  // Native
-  Array.prototype.forEach.call(document.querySelectorAll('.inner'), (el) => {
-    const outer = document.createElement('div');
-    outer.className = 'outer';
-    el.parentNode.insertBefore(outer, el);
-    el.parentNode.removeChild(el);
-  });
-  ```
-
-- [3.8](#3.8) <a name='3.8'></a> is
-
   如果匹配给定的选择器，返回true
 
     ```js
@@ -704,7 +615,9 @@
 
   //Native
   el.cloneNode();
-  ```
+  
+  //深拷贝添加参数‘true’
+  ```
 
 - [3.10](#3.10) <a name='3.10'></a> empty
 
@@ -718,7 +631,7 @@ $el.empty();
 el.innerHTML = '';
 ```
 
--[3.11](#3.11) <a name='3.11'></a> wrap
+- [3.11](#3.11) <a name='3.11'></a> wrap
 
  把每个被选元素放置在指定的HTML结构中。
 
@@ -728,31 +641,33 @@ el.innerHTML = '';
 
  //Native
  Array.prototype.forEach.call(document.querySelector('.inner'), (el) => {
-   const wrapper = document.createElement("div");
-   wrapper.className = "wrapper";
-   el.parentNode.
+    const wrapper = document.createElement('div');
+    wrapper.className = 'wrapper';
+    el.parentNode.insertBefore(wrapper, el);
+    el.parentNode.removeChild(el);
+    wrapper.appendChild(el);
  });
 
  ```
 
--[3.12](#3.12) <a name="3.12"></a> unwrap
+- [3.12](#3.12) <a name="3.12"></a> unwrap
 
   把被选元素的父元素移除DOM结构
 
   ```js
-  //jQuery
-  $(".inner").unwrap();
+  // jQuery
+  $('.inner').unwrap();
 
-  //Native
+  // Native
   Array.prototype.forEach.call(document.querySelectorAll('.inner'), (el) => {
-  Array.prototype.forEach.call(el.childNodes, (child) => {
-    el.parentNode.insertBefore(child, el);
+    Array.prototype.forEach.call(el.childNodes, (child) => {
+      el.parentNode.insertBefore(child, el);
+    });
+    el.parentNode.removeChild(el);
   });
-  el.parentNode.removeChild(el);
-});
   ```
 
--[3.13](#3.13) <a name="3.13"></a> replaceWith
+- [3.13](#3.13) <a name="3.13"></a> replaceWith
 
   用指定的元素替换被选的元素
 
@@ -767,6 +682,35 @@ el.innerHTML = '';
     el.parentNode.insertBefore(outer, el);
     el.parentNode.removeChild(el);
   });
+  ```
+
+- [3.14](#3.14) <a name='3.14'></a> simple parse
+
+  解析 HTML/SVG/XML 字符串
+
+  ```js
+  // jQuery
+  $(`<ol>
+    <li>a</li>
+    <li>b</li>
+  </ol>
+  <ol>
+    <li>c</li>
+    <li>d</li>
+  </ol>`);
+
+  // Native
+  range = document.createRange();
+  parse = range.createContextualFragment.bind(range);
+
+  parse(`<ol>
+    <li>a</li>
+    <li>b</li>
+  </ol>
+  <ol>
+    <li>c</li>
+    <li>d</li>
+  </ol>`);
   ```
 
 **[⬆ 回到顶部](#目录)**
