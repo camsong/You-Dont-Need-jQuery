@@ -512,7 +512,7 @@
   $el.prepend("<div id='container'>hello</div>");
 
   // Native
-el.insertAdjacentHTML("afterbegin","<div id='container'>hello</div>");
+  el.insertAdjacentHTML("afterbegin","<div id='container'>hello</div>");
   ```
 
 - [3.6](#3.6) <a name='3.6'></a> 해당 엘리먼트 앞에 넣기(insertBefore)
@@ -578,57 +578,57 @@ el.insertAdjacentHTML("afterbegin","<div id='container'>hello</div>");
   el.innerHTML = '';
   ```
 
-  - [3.11](#3.11) <a name='3.11'></a> wrap
+- [3.11](#3.11) <a name='3.11'></a> wrap
 
-    각각의 엘리먼트를 주어진 HTML 구조로 감쌉니다.
+  각각의 엘리먼트를 주어진 HTML 구조로 감쌉니다.
 
-    ```js
-    // jQuery
-    $('.inner').wrap('<div class="wrapper"></div>');
+  ```js
+  // jQuery
+  $('.inner').wrap('<div class="wrapper"></div>');
 
-    // Native
-    [].slice.call(document.querySelectorAll('.inner')).forEach(function(el){
-      var wrapper = document.createElement('div');
-      wrapper.className = 'wrapper';
-      el.parentNode.insertBefore(wrapper, el);
-      el.parentNode.removeChild(el);
-      wrapper.appendChild(el);
+  // Native
+  [].slice.call(document.querySelectorAll('.inner')).forEach(function(el){
+    var wrapper = document.createElement('div');
+    wrapper.className = 'wrapper';
+    el.parentNode.insertBefore(wrapper, el);
+    el.parentNode.removeChild(el);
+    wrapper.appendChild(el);
+  });
+  ```
+
+- [3.12](#3.12) <a name='3.12'></a> unwrap
+
+  DOM에서 해당 엘리먼트를 감싸고 있는 부모 요소를 없앱니다.
+
+  ```js
+  // jQuery
+  $('.inner').unwrap();
+
+  // Native
+  [].slice.call(document.querySelectorAll('.inner')).forEach(function(el){
+    [].slice.call(el.childNodes).forEach(function(child){
+      el.parentNode.insertBefore(child, el);
     });
-    ```
+    el.parentNode.removeChild(el);
+  });
+  ```
 
-  - [3.12](#3.12) <a name='3.12'></a> unwrap
+- [3.13](#3.13) <a name='3.13'></a> replaceWith
 
-    DOM에서 해당 엘리먼트를 감싸고 있는 부모 요소를 없앱니다.
+  각각의 엘리먼트를 주어진 새 엘리먼트로 교체합니다.
 
-    ```js
-    // jQuery
-    $('.inner').unwrap();
+  ```js
+  // jQuery
+  $('.inner').replaceWith('<div class="outer"></div>');
 
-    // Native
-    [].slice.call(document.querySelectorAll('.inner')).forEach(function(el){
-      [].slice.call(el.childNodes).forEach(function(child){
-        el.parentNode.insertBefore(child, el);
-      });
-      el.parentNode.removeChild(el);
-    });
-    ```
-
-  - [3.13](#3.13) <a name='3.13'></a> replaceWith
-
-    각각의 엘리먼트를 주어진 새 엘리먼트로 교체합니다.
-
-    ```js
-    // jQuery
-    $('.inner').replaceWith('<div class="outer"></div>');
-
-    // Native
-    [].slice.call(document.querySelectorAll('.inner')).forEach(function(el){
-      var outer = document.createElement('div');
-      outer.className = 'outer';
-      el.parentNode.insertBefore(outer, el);
-      el.parentNode.removeChild(el);
-    });
-    ```
+  // Native
+  [].slice.call(document.querySelectorAll('.inner')).forEach(function(el){
+    var outer = document.createElement('div');
+    outer.className = 'outer';
+    el.parentNode.insertBefore(outer, el);
+    el.parentNode.removeChild(el);
+  });
+  ```
 
 **[⬆ 목차로 돌아가기](#목차)**
 
