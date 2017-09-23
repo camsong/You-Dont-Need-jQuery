@@ -1007,6 +1007,9 @@ Most of utilities are found by native API. Others advanced functions could be ch
   function merge(...args) {
     return [].concat(...args)
   }
+
+  // ES6-way
+  array1 = [...array1, ...array2]
   ```
 
   + now
