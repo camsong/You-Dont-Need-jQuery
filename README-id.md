@@ -1,6 +1,6 @@
 ## Anda tidak memerlukan jQuery
 
-Dewasa ini perkembangan environment frontend sangatlah pesat, dimana banyak browser sudah mengimplementasikan DOM/BOM APIs dengan baik. Kita tidak perlu lagi belajar jQuery dari nol untuk keperluan manipulasi DOM atau events. Disaat yang sama; dengan berterimakasih kepada library frontend terkini seperti React, Angular dan Vue; Memanipulasi DOM secara langsung telah menjadi anti-pattern alias sesuatu yang tidak perlu dilakukan. Dengan kata lain, jQuery sekarang menjadi semakin tidak diperlukan. Projek ini memberikan informasi mengenai metode alternatif dari jQuery untuk implementasi Native dengan support untuk browser IE 10+.
+Perkembangan environment frontend sangatlah pesat, dimana banyak browser sudah mengimplementasikan DOM/BOM APIs dengan baik. Kita tidak perlu lagi belajar jQuery dari nol untuk keperluan memanipulasi DOM atau events. Secara bersamaan; dengan berterimakasih kepada library frontend terkini seperti React, Angular dan Vue; Memanipulasi DOM secara langsung telah menjadi anti-pattern atau sesuatu yang tidak perlu dilakukan lagi. Dengan kata lain, jQuery sekarang menjadi semakin tidak diperlukan. Projek ini memberikan informasi mengenai metode alternatif dari jQuery untuk implementasi Native dengan support untuk browser IE 10+.
 
 
 ## Daftar Isi
@@ -36,7 +36,7 @@ Dewasa ini perkembangan environment frontend sangatlah pesat, dimana banyak brow
 Untuk selector-selector umum seperti class, id atau attribute, kita dapat menggunakan `document.querySelector` atau `document.querySelectorAll` sebagai pengganti. Perbedaan diantaranya adalah:
 * `document.querySelector` mengembalikan elemen pertama yang cocok
 * `document.querySelectorAll` mengembalikan semua elemen yang cocok sebagai NodeList. Hasilnya bisa dikonversikan menjadi Array `[].slice.call(document.querySelectorAll(selector) || []);`
-* Bila tidak ada hasil pengembalian elemen yang cocok, jQuery akan mengembalikan `[]` sedangkan DOM API akan mengembalikan `null`. Mohon diperhatikan mengenai Null Pointer Exception. Anda juga bisa menggunakan operator `||` untuk set nilai awal jika hasil pencarian tidak ditemukan : `document.querySelectorAll(selector) || []`
+* Bila tidak ada hasil balik pada elemen yang cocok, jQuery akan mengembalikan `[]` sedangkan DOM API akan mengembalikan `null`. Mohon diperhatikan mengenai Null Pointer Exception. Anda juga bisa menggunakan operator `||` untuk set nilai awal jika hasil pencarian tidak ditemukan : `document.querySelectorAll(selector) || []`
 
 > Perhatian: `document.querySelector` dan `document.querySelectorAll` sedikit **LAMBAT**. Silahkan menggunakan `getElementById`, `document.getElementsByClassName` atau `document.getElementsByTagName` jika anda menginginkan tambahan performa.
 
@@ -166,7 +166,7 @@ Untuk selector-selector umum seperti class, id atau attribute, kita dapat menggu
 
 - [1.6](#1.6) <a name='1.6'></a> Closest
 
-  Mengembalikan elemen pertama yang cocok dari selector yang digunakan, dengan cara mencari mulai dari elemen-sekarang sampai ke document.
+  Mengembalikan elemen sama yang digunakan dari selector pertama, dengan cara mencari elemen-sekarang sampai ke document.
 
   ```js
   // jQuery
@@ -189,7 +189,7 @@ Untuk selector-selector umum seperti class, id atau attribute, kita dapat menggu
 
 - [1.7](#1.7) <a name='1.7'></a> Parents Until
 
-  Digunakan untuk mendapatkan "ancestor" dari setiap elemen yang ditemukan. Namun tidak termasuk elemen-sekarang yang didapat dari pencarian oleh selector, DOM node, atau object jQuery.
+  Digunakan untuk mendapatkan "ancestor" dari setiap elemen yang ditemukan. Namun tidak termasuk elemen-sekarang yang sudah didapat dari pencarian oleh selector, DOM node, atau object jQuery.
 
   ```js
   // jQuery
@@ -293,7 +293,7 @@ Untuk selector-selector umum seperti class, id atau attribute, kita dapat menggu
 
   + Get/Set Styles
 
-    Mohon dicatat jika anda ingin men-set banyak style bersamaan, anda dapat menemukan referensi di metode [setStyles](https://github.com/oneuijs/oui-dom-utils/blob/master/src/index.js#L194) pada package oui-dom-utils
+    Mohon dicatat jika anda ingin mengubah style secara bersamaan, anda dapat menemukan referensi di metode [setStyles](https://github.com/oneuijs/oui-dom-utils/blob/master/src/index.js#L194) pada package oui-dom-utils
 
   + Add class
 
@@ -542,7 +542,7 @@ Gantikan dengan [fetch](https://github.com/camsong/fetch-ie8) dan [fetch-jsonp](
 
 ## Events
 
-Untuk penggantian secara menyeluruh dengan namespace dan delegation, rujuk ke https://github.com/oneuijs/oui-dom-events
+Untuk penggantian secara menyeluruh dengan namespace dan delegation, lihat ke https://github.com/oneuijs/oui-dom-events
 
 - [5.1](#5.1) <a name='5.1'></a> Bind event dengan menggunakan on
 
