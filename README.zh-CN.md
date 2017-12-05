@@ -850,10 +850,8 @@ IE9+ 请使用 [github/fetch](http://github.com/github/fetch)，IE8+ 请使用 [
   $.isNumeric(item);
 
   // Native
-  function isNumeric(value) {
-    var type = typeof value;
-
-    return (type === 'number' || type === 'string') && !Number.isNaN(value - Number.parseFloat(value));
+  function isNumeric(n) {
+    return !isNaN(parseFloat(n)) && isFinite(n);
   }
   ```
 
