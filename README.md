@@ -849,9 +849,7 @@ Most of utilities are found by native API. Others advanced functions could be ch
 
   // Native
   function isNumeric(value) {
-    var type = typeof value;
-
-    return (type === 'number' || type === 'string') && !Number.isNaN(value - Number.parseFloat(value));
+    return !isNaN(parseFloat(n)) && isFinite(n);
   }
   ```
 

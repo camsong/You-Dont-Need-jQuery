@@ -424,7 +424,7 @@
   + Position
 
     获得匹配元素相对父元素的偏移
-    
+
     ```js
     // jQuery
     $el.position();
@@ -484,7 +484,7 @@
 - [3.2](#3.2) <a name='3.2'></a> Text
 
   + Get text
-  
+
     返回指定元素及其后代的文本内容。
 
     ```js
@@ -615,7 +615,7 @@
 
   //Native
   el.cloneNode();
-  
+
   //深拷贝添加参数‘true’
   ```
 
@@ -1003,9 +1003,17 @@ IE9+ 请使用 [github/fetch](http://github.com/github/fetch)，IE8+ 请使用 [
   $.merge(array1, array2);
 
   // Native
-  // But concat function doesn't remove duplicate items.
+  // 使用 concat，不能去除重复值
   function merge(...args) {
     return [].concat(...args)
+  }
+
+  // ES6，同样不能去除重复值
+  array1 = [...array1, ...array2]
+
+  // 使用 Set，可以去除重复值
+  function merge(...args) {
+    return Array.from(new Set([].concat(...args)))
   }
   ```
 
