@@ -652,7 +652,7 @@ el.innerHTML = '';
 
 - [3.12](#3.12) <a name="3.12"></a> unwrap
 
-  把被选元素的父元素移除DOM结构
+  移除被选元素的父元素的DOM结构
 
   ```js
   // jQuery
@@ -660,10 +660,12 @@ el.innerHTML = '';
 
   // Native
   Array.prototype.forEach.call(document.querySelectorAll('.inner'), (el) => {
-    Array.prototype.forEach.call(el.childNodes, (child) => {
-      el.parentNode.insertBefore(child, el);
-    });
-    el.parentNode.removeChild(el);
+        let elParentNode = el.parentNode
+
+        if(elParentNode !== document.body) {
+            elParentNode.parentNode.insertBefore(el, elParentNode)
+            elParentNode.parentNode.removeChild(elParentNode)
+        }
   });
   ```
 
