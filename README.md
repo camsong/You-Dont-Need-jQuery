@@ -657,10 +657,12 @@ In place of common selectors like class, id or attribute we can use `document.qu
 
   // Native
   Array.prototype.forEach.call(document.querySelectorAll('.inner'), (el) => {
-    Array.prototype.forEach.call(el.childNodes, (child) => {
-      el.parentNode.insertBefore(child, el);
-    });
-    el.parentNode.removeChild(el);
+    let elParentNode = el.parentNode
+
+    if(elParentNode !== document.body) {
+        elParentNode.parentNode.insertBefore(el, elParentNode)
+        elParentNode.parentNode.removeChild(elParentNode)
+    }
   });
   ```
 
