@@ -40,7 +40,7 @@ In place of common selectors like class, id or attribute we can use `document.qu
 * `document.querySelectorAll` returns all matched elements as NodeList. It can be converted to Array using `Array.prototype.slice.call(document.querySelectorAll(selector));`
 * If there are no elements matched, jQuery and `document.querySelectorAll` will return `[]`, whereas `document.querySelector` will return `null`.
 
-> Notice: `document.querySelector` and `document.querySelectorAll` are quite **SLOW**, try to use `document.getElementById`, `document.getElementsByClassName` or `document.getElementsByTagName` if you want to get a performance bonus.
+> Notice: `document.querySelector` and `document.querySelectorAll` are quite **SLOW**, thus try to use `document.getElementById`, `document.getElementsByClassName` or `document.getElementsByTagName` if you want to get a performance bonus.
 
 - [1.0](#1.0) <a name='1.0'></a> Query by selector
 
@@ -265,7 +265,7 @@ In place of common selectors like class, id or attribute we can use `document.qu
   + Set an attribute
 
     ```js
-    // jQuery, note that this works in memory without change the DOM
+    // jQuery
     $el.attr('foo', 'bar');
 
     // Native
@@ -597,7 +597,7 @@ In place of common selectors like class, id or attribute we can use `document.qu
   Return `true` if it matches the query selector
 
   ```js
-  // jQuery - Notice `is` also work with `function` or `elements` which is not concerned here
+  // jQuery - Notice `is` also works with a function, an existing jQuery object or a DOM element, which are not of concern here
   $el.is(selector);
 
   // Native
