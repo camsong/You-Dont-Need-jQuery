@@ -142,7 +142,7 @@ In place of common selectors like class, id or attribute we can use `document.qu
 
 - [1.6](#1.6) <a name='1.6'></a> Closest
 
-  Return the first matched element by provided selector, traversing from current element to document.
+  Return the first matched element by provided selector, traversing from current element up through its ancestors in the DOM tree.
 
   ```js
   // jQuery
