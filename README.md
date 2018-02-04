@@ -605,16 +605,15 @@ In place of common selectors like class, id or attribute we can use `document.qu
   ```
 - [3.9](#3.9) <a name='3.9'></a> clone
 
-  Create a deep copy of that element
+  Create a deep copy of an element: it copies the matched element as well as all of its descendant elements and text nodes.
 
   ```js
-  // jQuery
+  // jQuery. Sets parameter as `true` to indicate that event handlers should be copied along with the element.
   $el.clone();
 
   // Native
   el.cloneNode();
 
-  // For Deep clone , set param as `true`
   ```
 
 - [3.10](#3.10) <a name='3.10'></a> empty
