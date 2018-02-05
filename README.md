@@ -912,15 +912,15 @@ Most of utilities are found by native API. Others advanced functions could be ch
 
   + extend
 
-  Merge the contents of two or more objects together into the first object.
-  object.assign is ES6 API, and you could use [polyfill](https://github.com/ljharb/object.assign) also.
+  Merge the contents of two or more objects together into a new object, without modifying either argument.
+  object.assign is part of ES6 API, and you could also use a [polyfill](https://github.com/ljharb/object.assign).
 
   ```js
   // jQuery
-  $.extend({}, defaultOpts, opts);
+  $.extend({}, object1, object2);
 
   // Native
-  Object.assign({}, defaultOpts, opts);
+  Object.assign({}, object1, object2);
   ```
 
   + trim
