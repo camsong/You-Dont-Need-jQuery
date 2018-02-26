@@ -35,10 +35,10 @@
 
 ## Query Selector
 
-평범한 class, id, attribute같은 selecotor는 `document.querySelector`나 `document.querySelectorAll`으로 대체할 수 있습니다.
+평범한 class, id, attribute같은 selector는 `document.querySelector`나 `document.querySelectorAll`으로 대체할 수 있습니다.
 * `document.querySelector`는 처음 매칭된 엘리먼트를 반환합니다.
-* `document.querySelectorAll`는 모든 매칭된 엘리먼트를 NodeList로 반환합니다. `[].slice.call`을 사용해서 Array로 변환할 수 있습니다.
-* 만약 매칭된 엘리멘트가 없으면 jQuery는 `[]` 를 반환하지만 DOM API는 `null`을 반환합니다. Null Pointer Exception에 주의하세요.
+* `document.querySelectorAll`는 모든 매칭된 엘리먼트를 NodeList로 반환합니다. `Array.prototype.slice.call(document.querySelectorAll(selector));`을 사용해서 Array로 변환할 수 있습니다.
+* 만약 매칭된 엘리멘트가 없으면 jQuery와 `document.querySelectorAll`는 `[]` 를 반환하지만 `document.querySelector`는 `null`을 반환합니다.
 
 > 안내: `document.querySelector`와 `document.querySelectorAll`는 꽤 **느립니다**, `getElementById`나 `document.getElementsByClassName`, `document.getElementsByTagName`를 사용하면 퍼포먼스가 향상을 기대할 수 있습니다.
 
@@ -106,10 +106,18 @@
     // jQuery
     $el.siblings();
 
-    // Native
-    [].filter.call(el.parentNode.children, function(child) {
-      return child !== el;
-    });
+    // Native - latest, Edge13+
+    [...el.parentNode.children].filter((child) =>
+      child !== el
+    );
+    // Native (alternative) - latest, Edge13+
+    Array.from(el.parentNode.children).filter((child) =>
+      child !== el
+    );
+    // Native - IE10+
+    Array.prototype.filter.call(el.parentNode.children, (child) =>
+      child !== el
+    );
     ```
 
   + 이전 엘리먼트
@@ -199,14 +207,14 @@
     document.querySelector('#my-input').value;
     ```
 
-  + e.currentTarget이 `.radio`의 몇번째인지 구하기
+  + e.currentTarget이 몇 번째 `.radio` 인지 구하기
 
     ```js
     // jQuery
     $(e.currentTarget).index('.radio');
 
     // Native
-    [].indexOf.call(document.querySelectorAll('.radio'), e.currentTarget);
+    Array.prototype.indexOf.call(document.querySelectorAll('.radio'), e.currentTarget);
     ```
 
 - [1.9](#1.9) <a name='1.9'></a> Iframe Contents
@@ -272,6 +280,7 @@
 
     // Native (`getAttribute` 사용)
     el.getAttribute('data-foo');
+
     // Native (IE 11 이상의 지원만 필요하다면 `dataset`을 사용)
     el.dataset['foo'];
     ```
@@ -299,10 +308,10 @@
 
     ```js
     // jQuery
-    $el.css({ color: "#ff0011" });
+    $el.css({ color: '#f01' });
 
     // Native
-    el.style.color = '#ff0011';
+    el.style.color = '#f01';
     ```
 
   + Style값들을 동시에 얻거나 설정하기
@@ -372,7 +381,15 @@
     $(document).height();
 
     // Native
-    document.documentElement.scrollHeight;
+    const body = document.body;
+    const html = document.documentElement;
+    const height = Math.max(
+      body.offsetHeight,
+      body.scrollHeight,
+      html.clientHeight,
+      html.offsetHeight,
+      html.scrollHeight
+    );
     ```
 
   + Element 높이
@@ -383,7 +400,7 @@
 
     // Native
     function getHeight(el) {
-      const styles = window.getComputedStyles(el);
+      const styles = window.getComputedStyle(el);
       const height = el.offsetHeight;
       const borderTopWidth = parseFloat(styles.borderTopWidth);
       const borderBottomWidth = parseFloat(styles.borderBottomWidth);
@@ -391,8 +408,10 @@
       const paddingBottom = parseFloat(styles.paddingBottom);
       return height - borderBottomWidth - borderTopWidth - paddingTop - paddingBottom;
     }
+
     // 정수로 정확하게（`border-box`일 때 이 값은 `height - border`이고, `content-box`일 때, 이 값은 `height + padding`）
     el.clientHeight;
+
     // 실수로 정확하게（`border-box`일 때 이 값은 `height`이고, `content-box`일 때, 이 값은 `height + padding + border`）
     el.getBoundingClientRect().height;
     ```
@@ -422,7 +441,7 @@
       return {
         top: box.top + window.pageYOffset - document.documentElement.clientTop,
         left: box.left + window.pageXOffset - document.documentElement.clientLeft
-      }
+      };
     }
     ```
 
@@ -499,20 +518,26 @@
 
   ```js
   // jQuery
-  $el.append("<div id='container'>hello</div>");
+  $el.append('<div id="container">Hello World</div>');
 
-  // Native
-  el.insertAdjacentHTML("beforeend","<div id='container'>hello</div>");
+  // Native (HTML 문자열)
+  el.insertAdjacentHTML('beforeend', '<div id="container">Hello World</div>');
+
+  // Native (엘리먼트)
+  el.appendChild(newEl);
   ```
 
 - [3.5](#3.5) <a name='3.5'></a> 해당 엘리먼트의 자식들 앞에 넣기(Prepend)
 
   ```js
   // jQuery
-  $el.prepend("<div id='container'>hello</div>");
+  $el.prepend('<div id="container">Hello World</div>');
 
-  // Native
-  el.insertAdjacentHTML("afterbegin","<div id='container'>hello</div>");
+  // Native (HTML 문자열)
+  el.insertAdjacentHTML('afterbegin', '<div id="container">Hello World</div>');
+
+  // Native (엘리먼트)
+  el.insertBefore(newEl, el.firstChild);
   ```
 
 - [3.6](#3.6) <a name='3.6'></a> 해당 엘리먼트 앞에 넣기(insertBefore)
@@ -521,11 +546,16 @@
 
   ```js
   // jQuery
-  $newEl.insertBefore(queryString);
+  $newEl.insertBefore(selector);
 
-  // Native
-  const target = document.querySelector(queryString);
-  target.parentNode.insertBefore(newEl, target);
+  // Native (HTML 문자열)
+  el.insertAdjacentHTML('beforebegin ', '<div id="container">Hello World</div>');
+
+  // Native (엘리먼트)
+  const el = document.querySelector(selector);
+  if (el.parentNode) {
+    el.parentNode.insertBefore(newEl, el);
+  }
   ```
 
 - [3.7](#3.7) <a name='3.7'></a> 해당 엘리먼트 뒤에 넣기(insertAfter)
@@ -534,11 +564,16 @@
 
   ```js
   // jQuery
-  $newEl.insertAfter(queryString);
+  $newEl.insertAfter(selector);
 
-  // Native
-  const target = document.querySelector(queryString);
-  target.parentNode.insertBefore(newEl, target.nextSibling);
+  // Native (HTML 문자열)
+  el.insertAdjacentHTML('afterend', '<div id="container">Hello World</div>');
+
+  // Native (엘리먼트)
+  onst el = document.querySelector(selector);
+  if (el.parentNode) {
+    el.parentNode.insertBefore(newEl, el.nextSibling);
+  }
   ```
 - [3.8](#3.8) <a name='3.8'></a> is
 
@@ -587,8 +622,8 @@
   $('.inner').wrap('<div class="wrapper"></div>');
 
   // Native
-  [].slice.call(document.querySelectorAll('.inner')).forEach(function(el){
-    var wrapper = document.createElement('div');
+  Array.prototype.forEach.call(document.querySelectorAll('.inner'), (el) => {
+    const wrapper = document.createElement('div');
     wrapper.className = 'wrapper';
     el.parentNode.insertBefore(wrapper, el);
     el.parentNode.removeChild(el);
@@ -605,11 +640,13 @@
   $('.inner').unwrap();
 
   // Native
-  [].slice.call(document.querySelectorAll('.inner')).forEach(function(el){
-    [].slice.call(el.childNodes).forEach(function(child){
-      el.parentNode.insertBefore(child, el);
-    });
-    el.parentNode.removeChild(el);
+  Array.prototype.forEach.call(document.querySelectorAll('.inner'), (el) => {
+    let elParentNode = el.parentNode
+
+    if(elParentNode !== document.body) {
+        elParentNode.parentNode.insertBefore(el, elParentNode)
+        elParentNode.parentNode.removeChild(elParentNode)
+    }
   });
   ```
 
@@ -622,13 +659,42 @@
   $('.inner').replaceWith('<div class="outer"></div>');
 
   // Native
-  [].slice.call(document.querySelectorAll('.inner')).forEach(function(el){
-    var outer = document.createElement('div');
+  Array.prototype.forEach.call(document.querySelectorAll('.inner'), (el) => {
+    const outer = document.createElement('div');
     outer.className = 'outer';
     el.parentNode.insertBefore(outer, el);
     el.parentNode.removeChild(el);
   });
   ```
+
+  - [3.14](#3.14) <a name='3.14'></a> 간단한 파싱
+
+    문자열을 HTML/SVG/XML 로 파싱합니다.
+
+    ```js
+    // jQuery
+    $(`<ol>
+      <li>a</li>
+      <li>b</li>
+    </ol>
+    <ol>
+      <li>c</li>
+      <li>d</li>
+    </ol>`);
+
+    // Native
+    range = document.createRange();
+    parse = range.createContextualFragment.bind(range);
+
+    parse(`<ol>
+      <li>a</li>
+      <li>b</li>
+    </ol>
+    <ol>
+      <li>c</li>
+      <li>d</li>
+    </ol>`);
+    ```
 
 **[⬆ 목차로 돌아가기](#목차)**
 
@@ -638,11 +704,38 @@
 
 IE9 이상에서 지원하는 [github/fetch](http://github.com/github/fetch) 혹은 IE8 이상에서 지원하는 [fetch-ie8](https://github.com/camsong/fetch-ie8/), JSONP 요청을 만드는 [fetch-jsonp](https://github.com/camsong/fetch-jsonp)를 이용해보세요.
 
+- [4.1](#4.1) <a name='4.1'></a> 서버로부터 HTML data를 불러와서 매칭된 엘리먼트에 배치.
+
+  ```js
+  // jQuery
+  $(selector).load(url, completeCallback)
+
+  // Native
+  fetch(url).then(data => data.text()).then(data => {
+    document.querySelector(selector).innerHTML = data
+  }).then(completeCallback)
+  ```
+
 **[⬆ 목차로 돌아가기](#목차)**
 
 ## 이벤트
 
 namespace와 delegation을 포함해서 완전히 갈아 엎길 원하시면 https://github.com/oneuijs/oui-dom-events 를 고려해보세요.
+
+- [5.0](#5.0) <a name='5.0'></a> `DOMContentLoaded`가 되어 문서가 사용 가능한지
+
+  ```js
+  // jQuery
+  $(document).ready(eventHandler);
+
+  // Native
+  // DOMContentLoaded 가 이미 끝났는지 검사
+  if (document.readyState === 'complete' || document.readyState !== 'loading') {
+    eventHandler();
+  } else {
+    document.addEventListener('DOMContentLoaded', eventHandler);
+  }
+  ```
 
 - [5.1](#5.1) <a name='5.1'></a> 이벤트 Bind 걸기
 
@@ -709,7 +802,7 @@ namespace와 delegation을 포함해서 완전히 갈아 엎길 원하시면 htt
 
   // Native
   function isWindow(obj) {
-    return obj != null && obj === obj.window;
+    return obj !== null && obj !== undefined && obj === obj.window;
   }
   ```
   + inArray
@@ -721,7 +814,10 @@ namespace와 delegation을 포함해서 완전히 갈아 엎길 원하시면 htt
   $.inArray(item, array);
 
   // Native
-  Array.indexOf(item);
+  array.indexOf(item) > -1;
+
+  // ES6 방식
+  array.includes(item);
   ```
 
   + isNumeric
@@ -734,8 +830,8 @@ namespace와 delegation을 포함해서 완전히 갈아 엎길 원하시면 htt
   $.isNumeric(item);
 
   // Native
-  function isNumeric(item) {
-    return typeof value === 'number';
+  function isNumeric(value) {
+    return !isNaN(parseFloat(n)) && isFinite(n);
   }
   ```
 
@@ -749,7 +845,11 @@ namespace와 delegation을 포함해서 완전히 갈아 엎길 원하시면 htt
 
   // Native
   function isFunction(item) {
-    return typeof value === 'function';
+    if (typeof item === 'function') {
+      return true;
+    }
+    var type = Object.prototype.toString(item);
+    return type === '[object Function]' || type === '[object GeneratorFunction]';
   }
   ```
 
@@ -763,10 +863,7 @@ namespace와 delegation을 포함해서 완전히 갈아 엎길 원하시면 htt
 
   // Native
   function isEmptyObject(obj) {
-    for (let key in obj) {
-      return false;
-    }
-    return true;
+    return Object.keys(obj).length === 0;
   }
   ```
 
@@ -780,12 +877,12 @@ namespace와 delegation을 포함해서 완전히 갈아 엎길 원하시면 htt
 
   // Native
   function isPlainObject(obj) {
-    if (typeof (obj) !== 'object' || obj.nodeType || obj != null && obj === obj.window) {
+    if (typeof (obj) !== 'object' || obj.nodeType || obj !== null && obj !== undefined && obj === obj.window) {
       return false;
     }
 
     if (obj.constructor &&
-        !{}.hasOwnProperty.call(obj.constructor.prototype, 'isPrototypeOf')) {
+        !Object.prototype.hasOwnProperty.call(obj.constructor.prototype, 'isPrototypeOf')) {
       return false;
     }
 
@@ -824,11 +921,11 @@ namespace와 delegation을 포함해서 완전히 갈아 엎길 원하시면 htt
 
   ```js
   // jQuery
-  $.map(array, function(value, index) {
+  $.map(array, (value, index) => {
   });
 
   // Native
-  array.map(function(value, index) {
+  array.map((value, index) => {
   });
   ```
 
@@ -838,11 +935,11 @@ namespace와 delegation을 포함해서 완전히 갈아 엎길 원하시면 htt
 
   ```js
   // jQuery
-  $.each(array, function(value, index) {
+  $.each(array, (index, value) => {
   });
 
   // Native
-  array.forEach(function(value, index) {
+  array.forEach((value, index) => {
   });
   ```
 
@@ -852,11 +949,11 @@ namespace와 delegation을 포함해서 완전히 갈아 엎길 원하시면 htt
 
   ```js
   // jQuery
-  $.grep(array, function(value, index) {
+  $.grep(array, (value, index) => {
   });
 
   // Native
-  array.filter(function(value, index) {
+  array.filter((value, index) => {
   });
   ```
 
@@ -869,7 +966,12 @@ namespace와 delegation을 포함해서 완전히 갈아 엎길 원하시면 htt
   $.type(obj);
 
   // Native
-  Object.prototype.toString.call(obj).replace(/^\[object (.+)\]$/, '$1').toLowerCase();
+  function type(item) {
+    const reTypeOf = /(?:^\[object\s(.*?)\]$)/;
+    return Object.prototype.toString.call(item)
+      .replace(reTypeOf, '$1')
+      .toLowerCase();
+  }
   ```
 
   + merge
@@ -882,8 +984,16 @@ namespace와 delegation을 포함해서 완전히 갈아 엎길 원하시면 htt
 
   // Native
   // concat은 중복된 요소를 제거해주진 않습니다.
-  function merge() {
-    return Array.prototype.concat.apply([], arguments)
+  function merge(...args) {
+    return [].concat(...args)
+  }
+
+  // ES6 사용 방식. 중복된 요소를 제거해주진 않습니다.
+  array1 = [...array1, ...array2]
+
+  // Set 사용 버전. 중복된 요소는 삭제됩니다.
+  function merge(...args) {
+    return Array.from(new Set([].concat(...args)))
   }
   ```
 
@@ -920,7 +1030,10 @@ namespace와 delegation을 포함해서 완전히 갈아 엎길 원하시면 htt
   $.makeArray(array);
 
   // Native
-  [].slice.call(array);
+  Array.prototype.slice.call(arrayLike);
+
+  // ES6 사용 방식
+  Array.from(arrayLike);
   ```
 
 - [6.2](#6.2) <a name='6.2'></a> Contains
@@ -945,7 +1058,7 @@ namespace와 delegation을 포함해서 완전히 갈아 엎길 원하시면 htt
 
   // Native
   function Globaleval(code) {
-    let script = document.createElement('script');
+    const script = document.createElement('script');
     script.text = code;
 
     document.head.appendChild(script).parentNode.removeChild(script);
@@ -967,9 +1080,15 @@ namespace와 delegation을 포함해서 완전히 갈아 엎길 원하시면 htt
 
   // Native
   function parseHTML(string) {
-    const tmp = document.implementation.createHTMLDocument();
-    tmp.body.innerHTML = string;
-    return tmp.body.children;
+    const context = document.implementation.createHTMLDocument();
+
+    // 생성된 도큐먼트를 위해 base href를 지정해서 URL이 있는 엘리먼트들은 도큐먼트 기준으로 처리됩니다.
+    const base = context.createElement('base');
+    base.href = document.location.href;
+    context.head.appendChild(base);
+
+    context.body.innerHTML = string;
+    return context.body.children;
   }
   ```
 
@@ -1009,7 +1128,8 @@ Promise는 비동기적인 작업의 결과를 표현합니다. jQuery는 자체
 
   ```js
   // jQuery
-  $.when($promise1, $promise2).done((promise1Result, promise2Result) => {})
+  $.when($promise1, $promise2).done((promise1Result, promise2Result) => {
+  });
 
   // Native
   Promise.all([$promise1, $promise2]).then([promise1Result, promise2Result] => {});
@@ -1022,23 +1142,24 @@ Promise는 비동기적인 작업의 결과를 표현합니다. jQuery는 자체
   ```js
   // jQuery
   function asyncFunc() {
-    var d = new $.Deferred();
-    setTimeout(function() {
+    const defer = new $.Deferred();
+    setTimeout(() => {
       if(true) {
-        d.resolve('some_value_compute_asynchronously');
+        defer.resolve('some_value_computed_asynchronously');
       } else {
-        d.reject('failed');
+        defer.reject('failed');
       }
     }, 1000);
-    return d.promise();
+
+    return defer.promise();
   }
 
   // Native
   function asyncFunc() {
     return new Promise((resolve, reject) => {
-      setTimeout(function() {
+      setTimeout(() => {
         if (true) {
-          resolve('some_value_compute_asynchronously');
+          resolve('some_value_computed_asynchronously');
         } else {
           reject('failed');
         }
@@ -1048,23 +1169,30 @@ Promise는 비동기적인 작업의 결과를 표현합니다. jQuery는 자체
 
   // Deferred way
   function defer() {
-    let resolve, reject;
-    let promise = new Promise(function() {
-      resolve = arguments[0];
-      reject = arguments[1];
+    const deferred = {};
+    const promise = new Promise((resolve, reject) => {
+      deferred.resolve = resolve;
+      deferred.reject = reject;
     });
-    return { resolve, reject, promise };
+
+    deferred.promise = () => {
+      return promise;
+    };
+
+    return deferred;
   }
+
   function asyncFunc() {
-    var d = defer();
-    setTimeout(function() {
+    const defer = defer();
+    setTimeout(() => {
       if(true) {
-        d.resolve('some_value_compute_asynchronously');
+        defer.resolve('some_value_computed_asynchronously');
       } else {
-        d.reject('failed');
+        defer.reject('failed');
       }
     }, 1000);
-    return d.promise;
+
+    return defer.promise();
   }
   ```
 
@@ -1139,11 +1267,10 @@ Promise는 비동기적인 작업의 결과를 표현합니다. jQuery는 자체
 
   // Native
   el.style.transition = 'opacity 3s';
-  let { opacity } = el.ownerDocument.defaultView.getComputedStyle(el, null);
+  const { opacity } = el.ownerDocument.defaultView.getComputedStyle(el, null);
   if (opacity === '1') {
     el.style.opacity = '0';
-  }
-  else {
+  } else {
     el.style.opacity = '1';
   }
   ```
@@ -1156,7 +1283,7 @@ Promise는 비동기적인 작업의 결과를 표현합니다. jQuery는 자체
   $el.slideDown();
 
   // Native
-  let originHeight = '100px';
+  const originHeight = '100px';
   el.style.transition = 'height 3s';
   // slideUp
   el.style.height = '0px';
@@ -1173,9 +1300,9 @@ Promise는 비동기적인 작업의 결과를 표현합니다. jQuery는 자체
   $el.slideToggle();
 
   // Native
-  let originHeight = '100px';
+  const originHeight = '100px';
   el.style.transition = 'height 3s';
-  let { height } = el.ownerDocument.defaultView.getComputedStyle(el, null);
+  const { height } = el.ownerDocument.defaultView.getComputedStyle(el, null);
   if (parseInt(height, 10) === 0) {
     el.style.height = originHeight;
   }
@@ -1190,13 +1317,13 @@ Promise는 비동기적인 작업의 결과를 표현합니다. jQuery는 자체
 
   ```js
   // jQuery
-  $el.animate({params}, speed);
+  $el.animate({ params }, speed);
 
   // Native
-  el.style.transition = 'all' + speed;
-  Object.keys(params).forEach(function(key) {
+  el.style.transition = 'all ' + speed;
+  Object.keys(params).forEach((key) =>
     el.style[key] = params[key];
-  })
+  )
   ```
 
 **[⬆ 목차로 돌아가기](#목차)**
@@ -1206,12 +1333,18 @@ Promise는 비동기적인 작업의 결과를 표현합니다. jQuery는 자체
 * [You Might Not Need jQuery](http://youmightnotneedjquery.com/) - 일반 자바스크립트로 공통이벤트, 엘리먼트, ajax 등을 다루는 방법 예제.
 * [npm-dom](http://github.com/npm-dom) 과 [webmodules](http://github.com/webmodules) - 개별 DOM모듈을 NPM에서 찾을 수 있습니다.
 
-## 브라우저 지원
+## Browser Support
 
-![Chrome](https://raw.github.com/alrra/browser-logos/master/chrome/chrome_48x48.png) | ![Firefox](https://raw.github.com/alrra/browser-logos/master/firefox/firefox_48x48.png) | ![IE](https://raw.github.com/alrra/browser-logos/master/internet-explorer/internet-explorer_48x48.png) | ![Opera](https://raw.github.com/alrra/browser-logos/master/opera/opera_48x48.png) | ![Safari](https://raw.github.com/alrra/browser-logos/master/safari/safari_48x48.png)
+![Chrome][chrome-image] | ![Firefox][firefox-image] | ![IE][ie-image] | ![Opera][opera-image] | ![Safari][safari-image]
 --- | --- | --- | --- | --- |
 Latest ✔ | Latest ✔ | 10+ ✔ | Latest ✔ | 6.1+ ✔ |
 
 # License
 
 MIT
+
+[chrome-image]: https://raw.github.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png
+[firefox-image]: https://raw.github.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png
+[ie-image]: https://raw.github.com/alrra/browser-logos/master/src/archive/internet-explorer_9-11/internet-explorer_9-11_48x48.png
+[opera-image]: https://raw.github.com/alrra/browser-logos/master/src/opera/opera_48x48.png
+[safari-image]: https://raw.github.com/alrra/browser-logos/master/src/safari/safari_48x48.png
