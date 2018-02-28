@@ -1261,8 +1261,10 @@ A promise represents the eventual result of an asynchronous operation. jQuery ha
   el.style.transition = 'opacity 3s';
   // fadeIn
   el.style.opacity = '1';
+  el.style.display = ''|'inline'|'inline-block'|'inline-table'|'block';
   // fadeOut
   el.style.opacity = '0';
+  el.style.display = 'none';
   ```
 
 - [8.4](#8.4) <a name='8.4'></a> FadeTo
