@@ -1,6 +1,6 @@
 ## You Don't Need jQuery [![Build Status](https://travis-ci.org/oneuijs/You-Dont-Need-jQuery.svg)](https://travis-ci.org/oneuijs/You-Dont-Need-jQuery)
 
-Frontend environments evolve rapidly nowadays, modern browsers have already implemented a great deal of DOM/BOM APIs which are good enough. We don't have to learn jQuery from scratch for DOM manipulation or events. In the meantime, thanks to the prevailing of frontend libraries such as React, Angular and Vue, manipulating DOM directly becomes anti-pattern, jQuery has never been less important. This project summarizes most of the jQuery method alternatives in native implementation, with IE 10+ support.
+Frontend environments evolve rapidly nowadays and modern browsers have already implemented a great deal of DOM/BOM APIs which are good enough for production use. We don't have to learn jQuery from scratch for DOM manipulation or event handling. In the meantime, thanks to the spread of frontend libraries such as React, Angular and Vue, manipulating the DOM directly becomes anti-pattern, so that jQuery usage has never been less important. This project summarizes most of the alternatives in native Javascript implementation to jQuery methods, with IE 10+ support.
 
 ## Table of Contents
 
@@ -283,6 +283,21 @@ In place of common selectors like class, id or attribute we can use `document.qu
 
     // Native (use `dataset` if only need to support IE 11+)
     el.dataset['foo'];
+    ```
+
+- [1.12](#1.12) <a name='1.12'></a> Selector containing string (case-sensitive)
+
+    ```js
+    // jQuery
+    $("selector:contains('text')");
+    
+    // Native
+    function contains(selector, text) {
+       var elements = document.querySelectorAll(selector);
+       return Array.prototype.filter.call(elements, function(element){
+          return RegExp(text).test(element.textContent);
+       });
+    }
     ```
 
 **[⬆ back to top](#table-of-contents)**
