@@ -794,7 +794,7 @@ For a complete replacement with namespace and delegation, refer to https://githu
 
 ## Utilities
 
-Most of utilities are found by native API. Others advanced functions could be chosen better utilities library focus on consistency and performance. Recommend [lodash](https://lodash.com) to replace.
+Most of jQuery utilities are also found in the native API. Other advanced functions could be chosen from better utilities libraries, focusing on consistency and performance. [Lodash](https://lodash.com) is a recommended replacement.
 
 - [6.1](#6.1) <a name='6.1'></a> Basic utilities
 
