@@ -656,13 +656,13 @@ In place of common selectors like class, id or attribute we can use `document.qu
 
   // Native
   Array.prototype.forEach.call(document.querySelectorAll('.inner'), (el) => {
-    let elParentNode = el.parentNode
+    let elParentNode = el.parentNode;
 
     if(elParentNode !== document.body) {
-        elParentNode.parentNode.insertBefore(el, elParentNode)
-        elParentNode.parentNode.removeChild(elParentNode)
+        elParentNode.parentNode.insertBefore(el, elParentNode);
+        elParentNode.parentNode.removeChild(elParentNode);
     }
-  });
+  });   
   ```
 
 - [3.13](#3.13) <a name='3.13'></a> replaceWith
