@@ -746,7 +746,7 @@ For a complete replacement with namespace and delegation, refer to https://githu
 
   // Native
   // Check if the DOMContentLoaded has already been completed
-  if (document.readyState === 'complete' || document.readyState !== 'loading') {
+  if (document.readyState !== 'loading') {
     eventHandler();
   } else {
     document.addEventListener('DOMContentLoaded', eventHandler);

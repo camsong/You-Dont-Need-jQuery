@@ -626,7 +626,7 @@
 
   // Native
   // Проверяем, что событие DOMContentLoaded было выполнено
-  if (document.readyState === 'complete' || document.readyState !== 'loading') {
+  if (document.readyState !== 'loading') {
     eventHandler();
   } else {
     document.addEventListener('DOMContentLoaded', eventHandler);
