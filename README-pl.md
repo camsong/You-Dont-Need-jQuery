@@ -708,7 +708,7 @@ Dla pełnego zastąpienia ze wsparciem przestrzenią nazw i delegowaniem, odnie�
 
   // Natywnie
   // Sprawdź czy zdarzenie DOMContentLoaded został zakończone
-  if (document.readyState === 'complete' || document.readyState !== 'loading') {
+  if (document.readyState !== 'loading') {
     eventHandler();
   } else {
     document.addEventListener('DOMContentLoaded', eventHandler);

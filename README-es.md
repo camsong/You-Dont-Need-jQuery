@@ -708,7 +708,7 @@ Para un reemplazo completo con namespace y delegación, utilizar https://github.
 
   // Nativo
   // Verifica que DOMContentLoaded ya se ha completado
-  if (document.readyState === 'complete' || document.readyState !== 'loading') {
+  if (document.readyState !== 'loading') {
     eventHandler();
   } else {
     document.addEventListener('DOMContentLoaded', eventHandler);
