@@ -1287,7 +1287,8 @@ A promise represents the eventual result of an asynchronous operation. jQuery ha
   {
 
     elem.style.opacity = 0;
-    elem.style.display = "inline-block";
+    // 'inline-block' | 'inline' | 'block' | ... According the needed case
+    elem.style.display = 'inline-block';
 
     if( ms )
     {
