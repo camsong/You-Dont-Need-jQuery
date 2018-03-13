@@ -290,7 +290,7 @@ In place of common selectors like class, id or attribute we can use `document.qu
     ```js
     // jQuery
     $("selector:contains('text')");
-    
+
     // Native
     function contains(selector, text) {
        var elements = document.querySelectorAll(selector);
@@ -677,7 +677,7 @@ In place of common selectors like class, id or attribute we can use `document.qu
         elParentNode.parentNode.insertBefore(el, elParentNode);
         elParentNode.parentNode.removeChild(elParentNode);
     }
-  });   
+  });
   ```
 
 - [3.13](#3.13) <a name='3.13'></a> replaceWith
@@ -1272,39 +1272,35 @@ A promise represents the eventual result of an asynchronous operation. jQuery ha
   $el.fadeOut(3000);
 
   // Native fadeOut
-  function fadeOut(el, ms){
-  if (ms) {
-  el.style.transition = 'opacity ' + ms + 'ms';
-    el.addEventListener("transitionend", function (event) {
+  function fadeOut(el, ms) {
+    if (ms) {
+      el.style.transition = `opacity ${ms} ms`;
+      el.addEventListener(
+        'transitionend',
+        function(event) {
           el.style.display = 'none';
-    }, false);
+        },
+        false
+      );
     }
     el.style.opacity = '0';
   }
 
   // Native fadeIn
-  function fadeIn( elem, ms )
-  {
-
+  function fadeIn(elem, ms) {
     elem.style.opacity = 0;
-    // 'inline-block' | 'inline' | 'block' | ... According the needed case
-    elem.style.display = 'inline-block';
 
-    if( ms )
-    {
-      var opacity = 0;
-      var timer = setInterval( function() {
+    if (ms) {
+      const opacity = 0;
+      const timer = setInterval(function() {
         opacity += 50 / ms;
-        if( opacity >= 1 )
-        {
+        if (opacity >= 1) {
           clearInterval(timer);
           opacity = 1;
         }
         elem.style.opacity = opacity;
-      }, 50 );
-    }
-    else
-    {
+      }, 50);
+    } else {
       elem.style.opacity = 1;
     }
   }
