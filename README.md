@@ -100,7 +100,7 @@ In place of common selectors like class, id or attribute we can use `document.qu
 
 - [1.5](#1.5) <a name='1.5'></a> Sibling/Previous/Next Elements
 
-  + Sibling elements
+  + All siblings 
 
     ```js
     // jQuery
@@ -120,7 +120,7 @@ In place of common selectors like class, id or attribute we can use `document.qu
     );
     ```
 
-  + Previous elements
+  + Previous sibling
 
     ```js
     // jQuery
@@ -129,8 +129,7 @@ In place of common selectors like class, id or attribute we can use `document.qu
     // Native
     el.previousElementSibling;
     ```
-
-  + Next elements
+   + Next sibling
 
     ```js
     // jQuery
@@ -140,6 +139,52 @@ In place of common selectors like class, id or attribute we can use `document.qu
     el.nextElementSibling;
     ```
 
+  + All previous siblings
+
+    ```js
+    // jQuery (optional filter selector) 
+    $el.prevAll($filter);
+
+    // Native (optional filter function)
+    function getPreviousSiblings(elem, filter) {
+      var sibs = [];
+      while (elem = elem.previousSibling) {
+          if (elem.nodeType === 3) continue; // ignore text nodes
+          if (!filter || filter(elem)) sibs.push(elem);
+      }
+      return sibs;
+    }
+    
+  + All next siblings
+
+    ```js
+    // jQuery (optional selector filter)
+    $el.nextAll($filter);
+
+    // Native (optional filter function)
+    function getAllSiblings(elem, filter) {
+      var sibs = [];
+      elem = elem.parentNode.firstChild;
+      do {
+          if (elem.nodeType === 3) continue; // ignore text nodes
+          if (!filter || filter(elem)) sibs.push(elem);
+      } while (elem = elem.nextSibling)
+    return sibs;
+}
+    
+An example of filter function:
+
+    function exampleFilter(elem) {
+        switch (elem.nodeName.toUpperCase()) {
+            case 'DIV':
+                return true;
+            case 'SPAN':
+                return true;
+            default:
+                return false;
+        }
+    }
+    
 - [1.6](#1.6) <a name='1.6'></a> Closest
 
   Return the first matched element by provided selector, traversing from current element up through its ancestors in the DOM tree.
