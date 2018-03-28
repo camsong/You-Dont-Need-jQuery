@@ -1113,6 +1113,7 @@ Most of jQuery utilities are also found in the native API. Other advanced functi
 
   // ES6-way
   Array.from(arrayLike);
+  [...arrayLike];
   ```
 
 - [6.2](#6.2) <a name='6.2'></a> Contains
