@@ -37,7 +37,7 @@ Frontend environments evolve rapidly nowadays and modern browsers have already i
 
 In place of common selectors like class, id or attribute we can use `document.querySelector` or `document.querySelectorAll` for substitution. The differences lie in:
 * `document.querySelector` returns the first matched element
-* `document.querySelectorAll` returns all matched elements as NodeList. It can be converted to Array using `Array.prototype.slice.call(document.querySelectorAll(selector));`
+* `document.querySelectorAll` returns all matched elements as NodeList. It can be converted to Array using `Array.prototype.slice.call(document.querySelectorAll(selector));` or any of the methods outlined in [makeArray](#makeArray)
 * If there are no elements matched, jQuery and `document.querySelectorAll` will return `[]`, whereas `document.querySelector` will return `null`.
 
 > Notice: `document.querySelector` and `document.querySelectorAll` are quite **SLOW**, thus try to use `document.getElementById`, `document.getElementsByClassName` or `document.getElementsByTagName` if you want to get a performance bonus.
@@ -129,7 +129,7 @@ In place of common selectors like class, id or attribute we can use `document.qu
     // Native
     el.previousElementSibling;
     ```
-   + Next sibling
+  + Next sibling
 
     ```js
     // jQuery
@@ -170,7 +170,7 @@ In place of common selectors like class, id or attribute we can use `document.qu
           if (!filter || filter(elem)) sibs.push(elem);
       } while (elem = elem.nextSibling)
     return sibs;
-}
+    }
     
 An example of filter function:
 
@@ -1100,7 +1100,7 @@ Most of jQuery utilities are also found in the native API. Other advanced functi
   fn.bind(context);
   ```
 
-  + makeArray
+  <a name="makeArray"></a>+ makeArray
 
   Convert an array-like object into a true JavaScript array.
 
@@ -1111,8 +1111,10 @@ Most of jQuery utilities are also found in the native API. Other advanced functi
   // Native
   Array.prototype.slice.call(arrayLike);
 
-  // ES6-way
+  // ES6-way: Array.from() method
   Array.from(arrayLike);
+  
+  // ES6-way: spread operator
   [...arrayLike];
   ```
 
@@ -1350,6 +1352,7 @@ A promise represents the eventual result of an asynchronous operation. jQuery ha
       elem.style.opacity = 1;
     }
   }
+```
 ```
 
 - [8.4](#8.4) <a name='8.4'></a> FadeTo
