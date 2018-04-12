@@ -100,7 +100,7 @@ In place of common selectors like class, id or attribute we can use `document.qu
 
 - [1.5](#1.5) <a name='1.5'></a> Sibling/Previous/Next Elements
 
-  + All siblings 
+  + All siblings
 
     ```js
     // jQuery
@@ -142,7 +142,7 @@ In place of common selectors like class, id or attribute we can use `document.qu
   + All previous siblings
 
     ```js
-    // jQuery (optional filter selector) 
+    // jQuery (optional filter selector)
     $el.prevAll($filter);
 
     // Native (optional filter function)
@@ -154,7 +154,7 @@ In place of common selectors like class, id or attribute we can use `document.qu
       }
       return sibs;
     }
-    
+
   + All next siblings
 
     ```js
@@ -171,7 +171,7 @@ In place of common selectors like class, id or attribute we can use `document.qu
       } while (elem = elem.nextSibling)
     return sibs;
     }
-    
+
 An example of filter function:
 
     function exampleFilter(elem) {
@@ -184,7 +184,7 @@ An example of filter function:
                 return false;
         }
     }
-    
+
 - [1.6](#1.6) <a name='1.6'></a> Closest
 
   Return the first matched element by provided selector, traversing from current element up through its ancestors in the DOM tree.
@@ -1113,7 +1113,7 @@ Most of jQuery utilities are also found in the native API. Other advanced functi
 
   // ES6-way: Array.from() method
   Array.from(arrayLike);
-  
+
   // ES6-way: spread operator
   [...arrayLike];
   ```
@@ -1352,7 +1352,6 @@ A promise represents the eventual result of an asynchronous operation. jQuery ha
       elem.style.opacity = 1;
     }
   }
-```
 ```
 
 - [8.4](#8.4) <a name='8.4'></a> FadeTo
