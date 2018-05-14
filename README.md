@@ -1352,7 +1352,7 @@ A promise represents the eventual result of an asynchronous operation. jQuery ha
       elem.style.opacity = 1;
     }
   }
-```
+  ```
 
 - [8.4](#8.4) <a name='8.4'></a> FadeTo
 
