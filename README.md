@@ -1174,19 +1174,7 @@ Most of jQuery utilities are also found in the native API. Other advanced functi
     return context.body.children;
   }
   ```
-
-  + parseJSON
-
-  Takes a well-formed JSON string and returns the resulting JavaScript value.
-
-  ```js
-  // jQuery
-  $.parseJSON(str);
-
-  // Native
-  JSON.parse(str);
-  ```
-
+      
 **[⬆ back to top](#table-of-contents)**
 
 ## Promises
