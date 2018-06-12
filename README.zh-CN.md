@@ -1,6 +1,6 @@
 ## You Don't Need jQuery [![Build Status](https://travis-ci.org/oneuijs/You-Dont-Need-jQuery.svg)](https://travis-ci.org/oneuijs/You-Dont-Need-jQuery)
 
-前端发展很快，现代浏览器原生 API 已经足够好用。我们并不需要为了操作 DOM、Event 等再学习一下 jQuery 的 API。同时由于 React、Angular、Vue 等框架的流行，直接操作 DOM 不再是好的模式，jQuery 使用场景大大减少。本项目总结了大部分 jQuery API 替代的方法，暂时只支持 IE10 以上浏览器。
+前端环境现在迅速发展，现代浏览器已经实现了大量适合生产使用的 DOM / BOM API。 我们不必从头学习 jQuery 来进行 DOM 操作或事件处理。 与此同时，由于 React ，Angular 和 Vue 等前端库的普及，直接操纵 DOM 成为反模式，因此 jQuery 的使用就不那么重要。 该项目将总结原生 Javascript 实现中替代 jQuery 且只支持 IE 10 以上的方法。
 
 ## 目录
 
