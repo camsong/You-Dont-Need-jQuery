@@ -1058,19 +1058,18 @@ Most of jQuery utilities are also found in the native API. Other advanced functi
   Merge the contents of two arrays together into the first array.
 
   ```js
-  // jQuery
+  // jQuery, doesn't remove duplicate items
   $.merge(array1, array2);
 
-  // Native
-  // But concat function doesn't remove duplicate items.
+  // Native, doesn't remove duplicate items
   function merge(...args) {
     return [].concat(...args)
   }
 
-  // ES6-way, doesn't remove duplicate items.
+  // ES6-way, doesn't remove duplicate items
   array1 = [...array1, ...array2]
 
-  // Set version, can remove duplicate items
+  // Set version, does remove duplicate items
   function merge(...args) {
     return Array.from(new Set([].concat(...args)))
   }
