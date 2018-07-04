@@ -549,7 +549,7 @@
   $newEl.insertBefore(selector);
 
   // Native (HTML 문자열)
-  el.insertAdjacentHTML('beforebegin ', '<div id="container">Hello World</div>');
+  el.insertAdjacentHTML('beforebegin', '<div id="container">Hello World</div>');
 
   // Native (엘리먼트)
   const el = document.querySelector(selector);
@@ -610,7 +610,7 @@
   $el.empty();
 
   // Native
-  el.innerHTML = '';
+  el.innerHTML = null;
   ```
 
 - [3.11](#3.11) <a name='3.11'></a> wrap
