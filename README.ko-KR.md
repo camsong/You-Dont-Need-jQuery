@@ -325,10 +325,10 @@
     // jQuery
     $el.addClass(className);
 
-    // Native
+    // Native IE - 10+
     el.classList.add(className);
     
-    // Native - IE8+
+    // Native
     if (el.classList)
       el.classList.add(className);
     else
@@ -341,10 +341,10 @@
     // jQuery
     $el.removeClass(className);
 
-    // Native
+    // Native - IE 10+
     el.classList.remove(className);
     
-    // Native - IE8+
+    // Native
     if (el.classList)
       el.classList.remove(className);
     else
