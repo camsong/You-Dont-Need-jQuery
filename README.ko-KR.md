@@ -327,6 +327,12 @@
 
     // Native
     el.classList.add(className);
+    
+    // Native - IE8+
+    if (el.classList)
+      el.classList.add(className);
+    else
+      el.className += ' ' + className;
     ```
 
   + class 제거하기
@@ -337,6 +343,12 @@
 
     // Native
     el.classList.remove(className);
+    
+    // Native - IE8+
+    if (el.classList)
+      el.classList.remove(className);
+    else
+      el.className = el.className.replace(new RegExp('(^|\\b)' + className.split(' ').join('|') + '(\\b|$)', 'gi'), ' ');
     ```
 
   + class를 포함하고 있는지 검사하기
