@@ -606,7 +606,7 @@ jQueryのセレクタと比べて以下の違いがあります。
   $('.inner').wrap('<div class="wrapper"></div>');
 
   // Native
- 　Array.prototype.slice.call(document.querySelectorAll('.inner')).forEach(function(el){
+  Array.prototype.slice.call(document.querySelectorAll('.inner')).forEach(function(el){
     var wrapper = document.createElement('div');
     wrapper.className = 'wrapper';
     el.parentNode.insertBefore(wrapper, el);
