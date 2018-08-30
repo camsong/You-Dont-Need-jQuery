@@ -174,16 +174,18 @@ In place of common selectors like class, id or attribute we can use `document.qu
 
 An example of filter function:
 
-    function exampleFilter(elem) {
-        switch (elem.nodeName.toUpperCase()) {
-            case 'DIV':
-                return true;
-            case 'SPAN':
-                return true;
-            default:
-                return false;
-        }
-    }
+```js
+function exampleFilter(elem) {
+  switch (elem.nodeName.toUpperCase()) {
+    case 'DIV':
+      return true;
+    case 'SPAN':
+      return true;
+    default:
+      return false;
+  }
+}
+```
 
 - [1.6](#1.6) <a name='1.6'></a> Closest
 
