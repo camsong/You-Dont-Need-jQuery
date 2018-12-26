@@ -606,7 +606,7 @@ jQueryのセレクタと比べて以下の違いがあります。
   $('.inner').wrap('<div class="wrapper"></div>');
 
   // Native
- 　Array.prototype.slice.call(document.querySelectorAll('.inner')).forEach(function(el){
+  Array.prototype.slice.call(document.querySelectorAll('.inner')).forEach(function(el){
     var wrapper = document.createElement('div');
     wrapper.className = 'wrapper';
     el.parentNode.insertBefore(wrapper, el);
@@ -1261,10 +1261,16 @@ promiseは非同期処理の最終的な処理結果を表します。jQueryに�
 
 ## 対応ブラウザ
 
-![Chrome](https://raw.github.com/alrra/browser-logos/master/chrome/chrome_48x48.png) | ![Firefox](https://raw.github.com/alrra/browser-logos/master/firefox/firefox_48x48.png) | ![IE](https://raw.github.com/alrra/browser-logos/master/internet-explorer/internet-explorer_48x48.png) | ![Opera](https://raw.github.com/alrra/browser-logos/master/opera/opera_48x48.png) | ![Safari](https://raw.github.com/alrra/browser-logos/master/safari/safari_48x48.png)
+![Chrome][chrome-image] | ![Firefox][firefox-image] | ![IE][ie-image] | ![Opera][opera-image] | ![Safari][safari-image]
 --- | --- | --- | --- | ---
 Latest ✔ | Latest ✔ | 10+ ✔ | Latest ✔ | 6.1+ ✔
 
 # ライセンス
 
 MIT
+
+[chrome-image]: https://raw.github.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png
+[firefox-image]: https://raw.github.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png
+[ie-image]: https://raw.github.com/alrra/browser-logos/master/src/archive/internet-explorer_9-11/internet-explorer_9-11_48x48.png
+[opera-image]: https://raw.github.com/alrra/browser-logos/master/src/opera/opera_48x48.png
+[safari-image]: https://raw.github.com/alrra/browser-logos/master/src/safari/safari_48x48.png
