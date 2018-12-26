@@ -1178,7 +1178,26 @@ Most of jQuery utilities are also found in the native API. Other advanced functi
     return context.body.children;
   }
   ```
-      
+- [6.5](#6.4) <a name='6.5'></a> exists
+
++ exists
+
+  Check if an element exists in the DOM 
+  
+  ```js
+  // jQuery
+  if ($('selector').length) {
+     // exists
+  }
+
+  // Native
+  var element =  document.getElementById('elementId');
+  if (typeof(element) != 'undefined' && element != null) 
+  {
+     // exists
+  }
+  ```
+
 **[⬆ back to top](#table-of-contents)**
 
 ## Promises
