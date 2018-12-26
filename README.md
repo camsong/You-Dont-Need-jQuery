@@ -593,27 +593,29 @@ An example of filter function:
   Append child element after the last child of parent element
 
   ```js
-  // jQuery
-  $el.append('<div id="container">Hello World</div>');
+  // jQuery: unified syntax for DOMString and Node objects
+  $parent.append(newEl | '<div id="container">Hello World</div>');
 
-  // Native (HTML string)
-  el.insertAdjacentHTML('beforeend', '<div id="container">Hello World</div>');
+  // Native: different syntax
+  parent.insertAdjacentHTML('beforeend', '<div id="container">Hello World</div>');
+  parent.appendChild(newEl);
 
-  // Native (Element)
-  el.appendChild(newEl);
+  // Native (ES6-way): unified syntax
+  parent.append(newEl | '<div id="container">Hello World</div>');
   ```
 
 - [3.5](#3.5) <a name='3.5'></a> Prepend
 
   ```js
-  // jQuery
-  $el.prepend('<div id="container">Hello World</div>');
+  // jQuery: unified syntax for DOMString and Node objects
+  $parent.prepend(newEl | '<div id="container">Hello World</div>');
 
-  // Native (HTML string)
-  el.insertAdjacentHTML('afterbegin', '<div id="container">Hello World</div>');
-
-  // Native (Element)
-  el.insertBefore(newEl, el.firstChild);
+  // Native: different syntax
+  parent.insertAdjacentHTML('afterbegin', '<div id="container">Hello World</div>');
+  parent.insertBefore(newEl, parent.firstChild);
+  
+  // Native (ES6-way): unified syntax
+  parent.prepend(newEl | '<div id="container">Hello World</div>');
   ```
 
 - [3.6](#3.6) <a name='3.6'></a> insertBefore
