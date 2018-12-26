@@ -689,7 +689,7 @@ function exampleFilter(elem) {
   $el.empty();
 
   // Native
-  el.innerHTML = '';
+  el.innerHTML = null;
   ```
 
 - [3.11](#3.11) <a name='3.11'></a> wrap
