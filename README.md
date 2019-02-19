@@ -162,15 +162,21 @@ In place of common selectors like class, id or attribute we can use `document.qu
     $el.nextAll($filter);
 
     // Native (optional filter function)
-    function getAllSiblings(elem, filter) {
-      var sibs = [];
-      elem = elem.parentNode.firstChild;
-      do {
-          if (elem.nodeType === 3) continue; // ignore text nodes
-          if (!filter || filter(elem)) sibs.push(elem);
-      } while (elem = elem.nextSibling)
-    return sibs;
-    }
+    function getNextSiblings(elem, filter) {
+            var sibs = [];
+            var nextElem = elem.parentNode.firstChild;
+            do {
+                if (nextElem.nodeType === 3) continue; // ignore text nodes
+                if (nextElem === elem) continue; // ignore elem of target
+                if (nextElem === elem.nextElementSibling) {
+                    if (!filter || filter(elem)) {
+                        sibs.push(nextElem);
+                        elem = nextElem;
+                    }
+                }
+            } while(nextElem = nextElem.nextSibling)
+            return sibs;
+        }
 
 An example of filter function:
 
@@ -931,7 +937,7 @@ Most of jQuery utilities are also found in the native API. Other advanced functi
     if (typeof item === 'function') {
       return true;
     }
-    var type = Object.prototype.toString(item);
+    var type = Object.prototype.toString.call(item);
     return type === '[object Function]' || type === '[object GeneratorFunction]';
   }
   ```
@@ -1349,7 +1355,7 @@ A promise represents the eventual result of an asynchronous operation. jQuery ha
     elem.style.opacity = 0;
 
     if (ms) {
-      const opacity = 0;
+      let opacity = 0;
       const timer = setInterval(function() {
         opacity += 50 / ms;
         if (opacity >= 1) {
@@ -1424,8 +1430,7 @@ A promise represents the eventual result of an asynchronous operation. jQuery ha
   const { height } = el.ownerDocument.defaultView.getComputedStyle(el, null);
   if (parseInt(height, 10) === 0) {
     el.style.height = originHeight;
-  }
-  else {
+  } else {
    el.style.height = '0px';
   }
   ```
