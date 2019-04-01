@@ -268,6 +268,8 @@ function exampleFilter(elem) {
     $('.radio').index(e.currentTarget);
 
     // Native
+    Array.from(document.querySelectorAll('.radio')).indexOf(e.currentTarget);
+    or
     Array.prototype.indexOf.call(document.querySelectorAll('.radio'), e.currentTarget);
     ```
 
@@ -347,10 +349,10 @@ function exampleFilter(elem) {
 
     // Native
     function contains(selector, text) {
-       var elements = document.querySelectorAll(selector);
-       return Array.prototype.filter.call(elements, function(element){
-          return RegExp(text).test(element.textContent);
-       });
+      var elements = document.querySelectorAll(selector);
+      return Array.from(elements).filter(function(element) {
+        return RegExp(text).test(element.textContent);
+      });
     }
     ```
 
@@ -708,7 +710,7 @@ function exampleFilter(elem) {
   $('.inner').wrap('<div class="wrapper"></div>');
 
   // Native
-  Array.prototype.forEach.call(document.querySelectorAll('.inner'), (el) => {
+  Array.from(document.querySelectorAll('.inner')).forEach.((el) => {
     const wrapper = document.createElement('div');
     wrapper.className = 'wrapper';
     el.parentNode.insertBefore(wrapper, el);
@@ -726,7 +728,7 @@ function exampleFilter(elem) {
   $('.inner').unwrap();
 
   // Native
-  Array.prototype.forEach.call(document.querySelectorAll('.inner'), (el) => {
+  Array.from(document.querySelectorAll('.inner')).forEach((el) => {
     let elParentNode = el.parentNode;
 
     if(elParentNode !== document.body) {
@@ -745,7 +747,7 @@ function exampleFilter(elem) {
   $('.inner').replaceWith('<div class="outer"></div>');
 
   // Native
-  Array.prototype.forEach.call(document.querySelectorAll('.inner'), (el) => {
+  Array.from(document.querySelectorAll('.inner')).forEach((el) => {
     const outer = document.createElement('div');
     outer.className = 'outer';
     el.parentNode.insertBefore(outer, el);
