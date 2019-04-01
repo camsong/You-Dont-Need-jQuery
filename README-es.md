@@ -19,6 +19,7 @@ El desarrollo Frontend evoluciona día a día, y los navegadores modernos ya han
 ## Traducción
 
 * [한국어](./README.ko-KR.md)
+* [正體中文](./README.zh-TW.md)
 * [简体中文](./README.zh-CN.md)
 * [Bahasa Melayu](./README-my.md)
 * [Bahasa Indonesia](./README-id.md)
