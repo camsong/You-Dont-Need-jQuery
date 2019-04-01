@@ -194,6 +194,7 @@ function exampleFilter(elem) {
       return false;
   }
 }
+```
 
 - [1.6](#1.6) <a name='1.6'></a> Closest
 
