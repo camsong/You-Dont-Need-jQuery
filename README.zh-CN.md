@@ -480,6 +480,9 @@
 
   // Native
   el.parentNode.removeChild(el);
+
+  // Native - Only latest, NO IE
+  el.remove();
   ```
 
 - [3.2](#3.2) <a name='3.2'></a> Text
