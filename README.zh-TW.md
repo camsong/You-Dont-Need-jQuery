@@ -445,7 +445,7 @@ function exampleFilter(elem) {
     // 有捲軸
     window.document.documentElement.clientHeight;
 
-    // 沒有捲軸，往為像 jQuery
+    // 沒有捲軸，行為像 jQuery
     window.innerHeight;
     ```
 
