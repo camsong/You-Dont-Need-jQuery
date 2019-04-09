@@ -710,7 +710,7 @@ function exampleFilter(elem) {
   $('.inner').wrap('<div class="wrapper"></div>');
 
   // Native
-  Array.from(document.querySelectorAll('.inner')).forEach.((el) => {
+  Array.from(document.querySelectorAll('.inner')).forEach((el) => {
     const wrapper = document.createElement('div');
     wrapper.className = 'wrapper';
     el.parentNode.insertBefore(wrapper, el);
