@@ -62,7 +62,7 @@
   // Native
   document.querySelectorAll('.class');
 
-  // or
+  // 或
   document.getElementsByClassName('class');
   ```
 
@@ -75,7 +75,7 @@
   // Native
   document.querySelector('#id');
 
-  // or
+  // 或
   document.getElementById('id');
   ```
 
@@ -101,7 +101,7 @@
 
 - [1.5](#1.5) <a name='1.5'></a> 同層相鄰及前後元素
 
-  + 同層相鄰
+  + 同層相鄰 (兄弟元素)
 
     ```js
     // jQuery
@@ -145,10 +145,10 @@
   + 所有同層裡之前的元素
 
     ```js
-    // jQuery (optional filter selector)
+    // jQuery (可選的過濾選擇器)
     $el.prevAll($filter);
 
-    // Native (optional filter function)
+    // Native (可選的過濾函式)
     function getPreviousSiblings(elem, filter) {
       var sibs = [];
       while (elem = elem.previousSibling) {
@@ -161,10 +161,10 @@
   + 所有同層裡之後的元素
 
     ```js
-    // jQuery (optional selector filter)
+    // jQuery (可選的過濾選擇器)
     $el.nextAll($filter);
 
-    // Native (optional filter function)
+    // Native (可選的過濾函式)
     function getNextSiblings(elem, filter) {
             var sibs = [];
             var nextElem = elem.parentNode.firstChild;
@@ -204,7 +204,7 @@ function exampleFilter(elem) {
   // jQuery
   $el.closest(queryString);
 
-  // Native - Only latest, NO IE
+  // Native - 只支援最新版本，NO IE
   el.closest(selector);
 
   // Native - IE10+
@@ -235,7 +235,7 @@ function exampleFilter(elem) {
     const result = [];
     const matchesSelector = el.matches || el.webkitMatchesSelector || el.mozMatchesSelector || el.msMatchesSelector;
 
-    // match start from parent
+    // 從父母開始匹配
     el = el.parentElement;
     while (el && !matchesSelector.call(el, selector)) {
       if (!filter) {
@@ -270,6 +270,8 @@ function exampleFilter(elem) {
     $('.radio').index(e.currentTarget);
 
     // Native
+    Array.from(document.querySelectorAll('.radio')).indexOf(e.currentTarget);
+    or
     Array.prototype.indexOf.call(document.querySelectorAll('.radio'), e.currentTarget);
     ```
 
@@ -321,7 +323,7 @@ function exampleFilter(elem) {
   + 設置屬性
 
     ```js
-    // jQuery, note that this works in memory without change the DOM
+    // jQuery, 請注意，這可以在記憶體中工作，無需更改 DOM
     $el.attr('foo', 'bar');
 
     // Native
@@ -334,12 +336,27 @@ function exampleFilter(elem) {
     // jQuery
     $el.data('foo');
 
-    // Native (use `getAttribute`)
+    // Native (使用 `getAttribute`)
     el.getAttribute('data-foo');
 
-    // Native (use `dataset` if only need to support IE 11+)
+    // Native (如果只需要支援 IE 11 以上，可以使用 `dataset`)
     el.dataset['foo'];
     ```
+    
+- [1.12](#1.12) <a name='1.12'></a> 包含字串的選擇器 (區分大小寫)
+
+    ```js
+    // jQuery
+    $("selector:contains('text')");
+
+    // Native
+    function contains(selector, text) {
+      var elements = document.querySelectorAll(selector);
+      return Array.from(elements).filter(function(element) {
+        return RegExp(text).test(element.textContent);
+      });
+    }
+    ```   
 
 **[⬆ 回到頂部](#目錄)**
 
@@ -354,10 +371,10 @@ function exampleFilter(elem) {
     $el.css("color");
 
     // Native
-    // NOTE: Known bug, will return 'auto' if style value is 'auto'
+    // 注意: 已知問題，如果樣式的值為 'auto'，將會返回 'auto'
     const win = el.ownerDocument.defaultView;
 
-    // null means not to return pseudo styles
+    // null 意指不返回偽樣式
     win.getComputedStyle(el, null).color;
     ```
 
@@ -425,10 +442,10 @@ function exampleFilter(elem) {
     // window height
     $(window).height();
 
-    // with scrollbar
+    // 有捲軸
     window.document.documentElement.clientHeight;
 
-    // without scrollbar, behaves like jQuery
+    // 沒有捲軸，行為像 jQuery
     window.innerHeight;
     ```
 
@@ -467,10 +484,10 @@ function exampleFilter(elem) {
       return height - borderBottomWidth - borderTopWidth - paddingTop - paddingBottom;
     }
 
-    // accurate to integer（when `border-box`, it's `height - border`; when `content-box`, it's `height + padding`）
+    // 精準到整數（當 `border-box` 時為 `height - border` 值；當 `content-box` 時為 `height + padding` 值）
     el.clientHeight;
 
-    // accurate to decimal（when `border-box`, it's `height`; when `content-box`, it's `height + padding + border`）
+    // 精準到小數（當 `border-box` 時為 `height` 值；當 `content-box` 時為 `height + padding + border` 值）
     el.getBoundingClientRect().height;
     ```
 
@@ -592,10 +609,10 @@ function exampleFilter(elem) {
   // jQuery
   $el.append("<div id='container'>hello</div>");
 
-  // Native (HTML string)
+  // Native (HTML 字串)
   el.insertAdjacentHTML('beforeend', '<div id="container">Hello World</div>');
 
-  // Native (Element)
+  // Native (元素)
   el.appendChild(newEl);
   ```
 
@@ -605,10 +622,10 @@ function exampleFilter(elem) {
   // jQuery
   $el.prepend("<div id='container'>hello</div>");
 
-  // Native (HTML string)
+  // Native (HTML 字串)
   el.insertAdjacentHTML('afterbegin', '<div id="container">Hello World</div>');
 
-  // Native (Element)
+  // Native (元素)
   el.insertBefore(newEl, el.firstChild);
   ```
 
@@ -620,10 +637,10 @@ function exampleFilter(elem) {
   // jQuery
   $newEl.insertBefore(queryString);
 
-  // Native (HTML string)
+  // Native (HTML 字串)
   el.insertAdjacentHTML('beforebegin ', '<div id="container">Hello World</div>');
 
-  // Native (Element)
+  // Native (元素)
   const el = document.querySelector(selector);
   if (el.parentNode) {
     el.parentNode.insertBefore(newEl, el);
@@ -638,10 +655,10 @@ function exampleFilter(elem) {
   // jQuery
   $newEl.insertAfter(queryString);
 
-  // Native (HTML string)
+  // Native (HTML 字串)
   el.insertAdjacentHTML('afterend', '<div id="container">Hello World</div>');
 
-  // Native (Element)
+  // Native (元素)
   const el = document.querySelector(selector);
   if (el.parentNode) {
     el.parentNode.insertBefore(newEl, el.nextSibling);
@@ -665,7 +682,7 @@ function exampleFilter(elem) {
   創造一個深拷貝元素：此拷貝包含匹配元素及其所有後代元素和文本節點。
 
   ```js
-  // jQuery. Sets parameter as `true` to indicate that event handlers should be copied along with the element.
+  // jQuery. 將參數設為 `true` 以表示應將事件處理程序與元素一起複製。
   $el.clone();
 
   // Native
@@ -693,7 +710,7 @@ el.innerHTML = '';
  $(".inner").wrap('<div class="wrapper"></div>');
 
  // Native
- Array.prototype.forEach.call(document.querySelector('.inner'), (el) => {
+ Array.from(document.querySelectorAll('.inner')).forEach.((el) => {
     const wrapper = document.createElement('div');
     wrapper.className = 'wrapper';
     el.parentNode.insertBefore(wrapper, el);
@@ -712,26 +729,26 @@ el.innerHTML = '';
   $('.inner').unwrap();
 
   // Native
-  Array.prototype.forEach.call(document.querySelectorAll('.inner'), (el) => {
-        let elParentNode = el.parentNode
+  Array.from(document.querySelectorAll('.inner')).forEach((el) => {
+    let elParentNode = el.parentNode
 
-        if(elParentNode !== document.body) {
-            elParentNode.parentNode.insertBefore(el, elParentNode)
-            elParentNode.parentNode.removeChild(elParentNode)
-        }
+    if(elParentNode !== document.body) {
+      elParentNode.parentNode.insertBefore(el, elParentNode)
+      elParentNode.parentNode.removeChild(elParentNode)
+    }
   });
   ```
 
 - [3.13](#3.13) <a name="3.13"></a> replaceWith
 
-  用提供的新內容取代任匹配元素集中的每個元素
+  用提供的新內容取代任何匹配元素集中的每個元素
 
   ```js
   //jQuery
   $('.inner').replaceWith('<div class="outer"></div>');
 
   //Native
-  Array.prototype.forEach.call(document.querySelectorAll('.inner'),(el) => {
+  Array.prototype.forEach.call(document.querySelectorAll('.inner'), (el) => {
     const outer = document.createElement("div");
     outer.className = "outer";
     el.parentNode.insertBefore(outer, el);
@@ -801,7 +818,7 @@ IE9+ 請使用 [github/fetch](http://github.com/github/fetch)，IE8+ 請使用 [
   $(document).ready(eventHandler);
 
   // Native
-  // Check if the DOMContentLoaded has already been completed
+  // 檢查 DOMContentLoaded 是否已經完成
   if (document.readyState !== 'loading') {
     eventHandler();
   } else {
@@ -1054,18 +1071,18 @@ IE9+ 請使用 [github/fetch](http://github.com/github/fetch)，IE8+ 請使用 [
   將二個陣列的內容合併到第一個陣列裡。
 
   ```js
-  // jQuery, doesn't remove duplicate items
+  // jQuery, 不會刪除重複的項目
   $.merge(array1, array2);
 
-  // Native, doesn't remove duplicate items
+  // Native, 不會刪除重複的項目
   function merge(...args) {
     return [].concat(...args)
   }
 
-  // ES6-way, doesn't remove duplicate items
+  // ES6-way, 不會刪除重複的項目
   array1 = [...array1, ...array2]
 
-  // Set version, does remove duplicate items
+  // Set version, 不會刪除重複的項目
   function merge(...args) {
     return Array.from(new Set([].concat(...args)))
   }
@@ -1109,7 +1126,7 @@ IE9+ 請使用 [github/fetch](http://github.com/github/fetch)，IE8+ 請使用 [
   // ES6-way: Array.from() method
   Array.from(arrayLike);
 
-  // ES6-way: spread operator
+  // ES6-way: spread operator 展開運算式
   [...arrayLike];
   ```
 
@@ -1141,7 +1158,7 @@ IE9+ 請使用 [github/fetch](http://github.com/github/fetch)，IE8+ 請使用 [
     document.head.appendChild(script).parentNode.removeChild(script);
   }
 
-  // Use eval, but context of eval is current, context of $.Globaleval is global.
+  // 使用 eval，但 eval 的上下文是當前的，而 $.Globaleval 的上下文是 global 全域的。
   eval(code);
   ```
 
@@ -1293,7 +1310,7 @@ promise 表示異步操作的最終結果。 jQuery 用它自己的方式來處�
   $el.hide();
 
   // Native
-  // More detail about show method, please refer to https://github.com/oneuijs/oui-dom-utils/blob/master/src/index.js#L363
+  // 更多 show 方法的細節，請參考 https://github.com/oneuijs/oui-dom-utils/blob/master/src/index.js#L363
   el.style.display = ''|'inline'|'inline-block'|'inline-table'|'block';
   el.style.display = 'none';
   ```
