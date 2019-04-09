@@ -746,12 +746,18 @@ function exampleFilter(elem) {
   // jQuery
   $('.inner').replaceWith('<div class="outer"></div>');
 
+  // Native (alternative) - latest, Edge17+
+  Array.from(document.querySelectorAll('.inner')).forEach((el) => {
+    const outer = document.createElement('div');
+    outer.className = 'outer';
+    el.replaceWith(outer);
+  });
+
   // Native
   Array.from(document.querySelectorAll('.inner')).forEach((el) => {
     const outer = document.createElement('div');
     outer.className = 'outer';
-    el.parentNode.insertBefore(outer, el);
-    el.parentNode.removeChild(el);
+    el.parentNode.replaceChild(outer, el);
   });
   ```
 
