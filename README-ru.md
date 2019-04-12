@@ -7,7 +7,7 @@
 1. [Переводы](#Переводы)
 1. [Query Selector](#query-selector)
 1. [CSS & Style](#css--style)
-1. [Манипуляция DOM](#Манипуляции-dom)
+1. [Манипуляция с DOM](#Манипуляции-dom)
 1. [Ajax](#ajax)
 1. [События](#События)
 1. [Утилиты](#Утилиты)
@@ -47,7 +47,7 @@
   // jQuery
   $('selector');
 
-  // Native
+  // Нативно
   document.querySelectorAll('selector');
   ```
 
@@ -57,7 +57,7 @@
   // jQuery
   $('.class');
 
-  // Native
+  // Нативно
   document.querySelectorAll('.class');
 
   // или
@@ -70,7 +70,7 @@
   // jQuery
   $('#id');
 
-  // Native
+  // Нативно
   document.querySelector('#id');
 
   // или
@@ -83,7 +83,7 @@
   // jQuery
   $('a[target=_blank]');
 
-  // Native
+  // Нативно
   document.querySelectorAll('a[target=_blank]');
   ```
 
@@ -93,7 +93,7 @@
   // jQuery
   $el.find('li');
 
-  // Native
+  // Нативно
   el.querySelectorAll('li');
   ```
 
@@ -105,7 +105,7 @@
     // jQuery
     $el.siblings();
 
-    // Native
+    // Нативно
     Array.prototype.filter.call(el.parentNode.children, (child) =>
       child !== el
     );
@@ -117,7 +117,7 @@
     // jQuery
     $el.prev();
 
-    // Native
+    // Нативно
     el.previousElementSibling;
     ```
 
@@ -127,7 +127,7 @@
     // jQuery
     $el.next();
 
-    // Native
+    // Нативно
     el.nextElementSibling;
     ```
 
@@ -139,10 +139,10 @@
   // jQuery
   $el.closest(selector);
 
-  // Native - только последние версии браузеров, без IE
+  // Нативно - только последние версии браузеров, без IE
   el.closest(selector);
 
-  // Native - IE10+
+  // Нативно - IE10+
   function closest(el, selector) {
     const matchesSelector = el.matches || el.webkitMatchesSelector || el.mozMatchesSelector || el.msMatchesSelector;
 
@@ -165,7 +165,7 @@
   // jQuery
   $el.parentsUntil(selector, filter);
 
-  // Native
+  // Нативно
   function parentsUntil(el, selector, filter) {
     const result = [];
     const matchesSelector = el.matches || el.webkitMatchesSelector || el.mozMatchesSelector || el.msMatchesSelector;
@@ -194,7 +194,7 @@
     // jQuery
     $('#my-input').val();
 
-    // Native
+    // Нативно
     document.querySelector('#my-input').value;
     ```
 
@@ -204,7 +204,7 @@
     // jQuery
     $('.radio').index(e.currentTarget);
 
-    // Native
+    // Нативно
     Array.prototype.indexOf.call(document.querySelectorAll('.radio'), e.currentTarget);
     ```
 
@@ -218,7 +218,7 @@
     // jQuery
     $iframe.contents();
 
-    // Native
+    // Нативно
     iframe.contentDocument;
     ```
 
@@ -228,7 +228,7 @@
     // jQuery
     $iframe.contents().find('.css');
 
-    // Native
+    // Нативно
     iframe.contentDocument.querySelectorAll('.css');
     ```
 
@@ -238,7 +238,7 @@
   // jQuery
   $('body');
 
-  // Native
+  // Нативно
   document.body;
   ```
 
@@ -250,7 +250,7 @@
     // jQuery
     $el.attr('foo');
 
-    // Native
+    // Нативно
     el.getAttribute('foo');
     ```
   + Добавление атрибута
@@ -259,7 +259,7 @@
     // jQuery, помните, это происходит в памяти без изменения DOM
     $el.attr('foo', 'bar');
 
-    // Native
+    // Нативно
     el.setAttribute('foo', 'bar');
     ```
 
@@ -269,10 +269,10 @@
     // jQuery
     $el.data('foo');
 
-    // Native (используя `getAttribute`)
+    // Нативно (используя `getAttribute`)
     el.getAttribute('data-foo');
 
-    // Native (используя `dataset`, если не требуется поддержка ниже IE 11)
+    // Нативно (используя `dataset`, если не требуется поддержка ниже IE 11)
     el.dataset['foo'];
     ```
 
@@ -288,7 +288,7 @@
     // jQuery
     $el.css('color');
 
-    // Native
+    // Нативно
     // ЗАМЕТКА: Известная ошибка, возвращает 'auto' если значение стиля 'auto'
     const win = el.ownerDocument.defaultView;
 
@@ -302,7 +302,7 @@
     // jQuery
     $el.css({ color: '#f01' });
 
-    // Native
+    // Нативно
     el.style.color = '#f01';
     ```
 
@@ -317,7 +317,7 @@
     // jQuery
     $el.addClass(className);
 
-    // Native
+    // Нативно
     el.classList.add(className);
     ```
 
@@ -327,7 +327,7 @@
     // jQuery
     $el.removeClass(className);
 
-    // Native
+    // Нативно
     el.classList.remove(className);
     ```
 
@@ -337,7 +337,7 @@
     // jQuery
     $el.hasClass(className);
 
-    // Native
+    // Нативно
     el.classList.contains(className);
     ```
 
@@ -347,7 +347,7 @@
     // jQuery
     $el.toggleClass(className);
 
-    // Native
+    // Нативно
     el.classList.toggle(className);
     ```
 
@@ -374,7 +374,7 @@
     // jQuery
     $(document).height();
 
-    // Native
+    // Нативно
     const body = document.body;
     const html = document.documentElement;
     const height = Math.max(
@@ -392,7 +392,7 @@
     // jQuery
     $el.height();
 
-    // Native
+    // Нативно
     function getHeight(el) {
       const styles = window.getComputedStyle(el);
       const height = el.offsetHeight;
@@ -420,7 +420,7 @@
     // jQuery
     $el.position();
 
-    // Native
+    // Нативно
     { left: el.offsetLeft, top: el.offsetTop }
     ```
 
@@ -432,7 +432,7 @@
     // jQuery
     $el.offset();
 
-    // Native
+    // Нативно
     function getOffset (el) {
       const box = el.getBoundingClientRect();
 
@@ -449,13 +449,13 @@
   // jQuery
   $(window).scrollTop();
 
-  // Native
+  // Нативно
   (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop;
   ```
 
 **[⬆ Наверх](#Содержание)**
 
-## Манипуляции DOM
+## Манипуляции с DOM
 
 - [3.1](#3.1) <a name='3.1'></a> Remove
 
@@ -465,7 +465,7 @@
   // jQuery
   $el.remove();
 
-  // Native
+  // Нативно
   el.parentNode.removeChild(el);
   ```
 
@@ -479,7 +479,7 @@
     // jQuery
     $el.text();
 
-    // Native
+    // Нативно
     el.textContent;
     ```
 
@@ -489,7 +489,7 @@
     // jQuery
     $el.text(string);
 
-    // Native
+    // Нативно
     el.textContent = string;
     ```
 
@@ -501,7 +501,7 @@
     // jQuery
     $el.html();
 
-    // Native
+    // Нативно
     el.innerHTML;
     ```
 
@@ -511,7 +511,7 @@
     // jQuery
     $el.html(htmlString);
 
-    // Native
+    // Нативно
     el.innerHTML = htmlString;
     ```
 
@@ -523,10 +523,10 @@
   // jQuery
   $el.append('<div id="container">Hello World</div>');
 
-  // Native (строка HTML)
+  // Нативно (строка HTML)
   el.insertAdjacentHTML('beforeend', '<div id="container">Hello World</div>');
 
-  // Native (элемент)
+  // Нативно (элемент)
   el.appendChild(newEl);
   ```
 
@@ -538,10 +538,10 @@
   // jQuery
   $el.prepend('<div id="container">Hello World</div>');
 
-  // Native (строка HTML)
+  // Нативно (строка HTML)
   el.insertAdjacentHTML('afterbegin', '<div id="container">Hello World</div>');
 
-  // Native (элемент)
+  // Нативно (элемент)
   el.insertBefore(newEl, el.firstChild);
   ```
 
@@ -553,10 +553,10 @@
   // jQuery
   $newEl.insertBefore(selector);
 
-  // Native (строка HTML)
+  // Нативно (строка HTML)
   el.insertAdjacentHTML('beforebegin ', '<div id="container">Hello World</div>');
 
-  // Native (элемент)
+  // Нативно (элемент)
   const el = document.querySelector(selector);
   if (el.parentNode) {
     el.parentNode.insertBefore(newEl, el);
@@ -571,10 +571,10 @@
   // jQuery
   $newEl.insertAfter(selector);
 
-  // Native (строка HTML)
+  // Нативно (строка HTML)
   el.insertAdjacentHTML('afterend', '<div id="container">Hello World</div>');
 
-  // Native (элемент)
+  // Нативно (элемент)
   const el = document.querySelector(selector);
   if (el.parentNode) {
     el.parentNode.insertBefore(newEl, el.nextSibling);
@@ -589,7 +589,7 @@
   // jQuery - заметьте что `is` так же работает с `function` или `elements` которые не имеют к этому отношения
   $el.is(selector);
 
-  // Native
+  // Нативно
   el.matches(selector);
   ```
 
@@ -607,7 +607,7 @@
   // jQuery
   $(selector).load(url, completeCallback)
 
-  // Native
+  // Нативно
   fetch(url).then(data => data.text()).then(data => {
     document.querySelector(selector).innerHTML = data
   }).then(completeCallback)
@@ -625,7 +625,7 @@
   // jQuery
   $(document).ready(eventHandler);
 
-  // Native
+  // Нативно
   // Проверяем, что событие DOMContentLoaded было выполнено
   if (document.readyState !== 'loading') {
     eventHandler();
@@ -640,7 +640,7 @@
   // jQuery
   $el.on(eventName, eventHandler);
 
-  // Native
+  // Нативно
   el.addEventListener(eventName, eventHandler);
   ```
 
@@ -650,7 +650,7 @@
   // jQuery
   $el.off(eventName, eventHandler);
 
-  // Native
+  // Нативно
   el.removeEventListener(eventName, eventHandler);
   ```
 
@@ -660,7 +660,7 @@
   // jQuery
   $(el).trigger('custom-event', {key1: 'data'});
 
-  // Native
+  // Нативно
   if (window.CustomEvent) {
     const event = new CustomEvent('custom-event', {detail: {key1: 'data'}});
   } else {
@@ -675,49 +675,591 @@
 
 ## Утилиты
 
-- [6.1](#6.1) <a name='6.1'></a> isArray
+Большинство из утилит, представленных в jQuery также могут быть найдены в нативном API. Более продвинутые функции могут быть выбраны из других, более актуальных библиотек, направленных на согласованность данных и производительность. Например, [Lodash](https://lodash.com) является рекомендуемой заменой.
+
+- [6.1](#6.1) <a name='6.1'></a> Basic utilities
+
+  + isArray
+
+  Определить, является ли аргумент массивом.
 
   ```js
   // jQuery
   $.isArray(array);
 
-  // Native
+  // Нативно
   Array.isArray(array);
   ```
++ isWindow
 
-- [6.2](#6.2) <a name='6.2'></a> Trim
+  Определить, является ли аргумент окном.
+
+  ```js
+  // jQuery
+  $.isWindow(obj);
+
+  // Нативно
+  function isWindow(obj) {
+    return obj !== null && obj !== undefined && obj === obj.window;
+  }
+  ```
+
+  + inArray
+
+ Поиск определенного значения в массиве и возвращение его индекса (или -1 если значение не найдено)
+
+  ```js
+  // jQuery
+  $.inArray(item, array);
+
+  // Нативно
+  array.indexOf(item) > -1;
+
+  // В нотации ES6
+  array.includes(item);
+  ```
+
+  + isNumeric
+
+  Determine if the argument passed is numerical.
+  Use `typeof` to decide the type or the `type` example for better accuracy. Определить, является ли переданный аргумент числовым. Используйте `typeof` для определения типа или `type` для большей точности.
+
+  ```js
+  // jQuery
+  $.isNumeric(item);
+
+  // Нативно
+  function isNumeric(value) {
+    return !isNaN(parseFloat(n)) && isFinite(n);
+  }
+  ```
+
+  + isFunction
+
+  Определить,  является ли переданный аргумент функцией(объектом) JavaScript.
+
+  ```js
+  // jQuery
+  $.isFunction(item);
+
+  // Нативно
+  function isFunction(item) {
+    if (typeof item === 'function') {
+      return true;
+    }
+    var type = Object.prototype.toString.call(item);
+    return type === '[object Function]' || type === '[object GeneratorFunction]';
+  }
+  ```
+
+  + isEmptyObject
+
+  Проверить, является ли объект пустым (не содержащим перечесляемых свойств)
+
+  ```js
+  // jQuery
+  $.isEmptyObject(obj);
+
+  // Нативно
+  function isEmptyObject(obj) {
+    return Object.keys(obj).length === 0;
+  }
+  ```
+
+  + isPlainObject
+
+  Проверить, является ли объект простым / 'ванильным' (созданным с помощью “{}” или “new Object”)
+
+  ```js
+  // jQuery
+  $.isPlainObject(obj);
+
+  // Нативно
+  function isPlainObject(obj) {
+    if (typeof (obj) !== 'object' || obj.nodeType || obj !== null && obj !== undefined && obj === obj.window) {
+      return false;
+    }
+
+    if (obj.constructor &&
+        !Object.prototype.hasOwnProperty.call(obj.constructor.prototype, 'isPrototypeOf')) {
+      return false;
+    }
+
+    return true;
+  }
+  ```
+
+  + extend
+
+  Объединить содержимое двух или более объектов в новый объект, не изменяя ни один из аргументов. 
+  object.assign является частью ES6 API, также можно использовать [полифилл](https://github.com/ljharb/object.assign).
+
+  ```js
+  // jQuery
+  $.extend({}, object1, object2);
+
+  // Нативно
+  Object.assign({}, object1, object2);
+  ```
+
+  + trim
+
+  Убрать символы пробелов из начала и конца строки.
 
   ```js
   // jQuery
   $.trim(string);
 
-  // Native
+  // Нативно
   string.trim();
   ```
 
-- [6.3](#6.3) <a name='6.3'></a> Назначение объекта
+  + map
 
-  Дополнительно, используйте полифил object.assign https://github.com/ljharb/object.assign
+  Преобразовать все элементы массива или объекта в новый массив.
 
   ```js
   // jQuery
-  $.extend({}, defaultOpts, opts);
+  $.map(array, (value, index) => {
+  });
 
-  // Native
-  Object.assign({}, defaultOpts, opts);
+  // Нативно
+  array.map((value, index) => {
+  });
   ```
 
-- [6.4](#6.4) <a name='6.4'></a> Contains
+  + each
+
+  Общая (generic) функция итератора, которую можно использовать для последовательной итерации как по объектам, так и по массивам.
+
+  ```js
+  // jQuery
+  $.each(array, (index, value) => {
+  });
+
+  // Нативно
+  array.forEach((value, index) => {
+  });
+  ```
+
+  + grep
+
+  Найти элементы массива которые удовлетворяют функции-фильтру.
+
+  ```js
+  // jQuery
+  $.grep(array, (value, index) => {
+  });
+
+  // Нативно
+  array.filter((value, index) => {
+  });
+  ```
+
+  + type
+
+  Определите внутренний класс JavaScript объекта.
+
+  ```js
+  // jQuery
+  $.type(obj);
+
+  // Нативно
+  function type(item) {
+    const reTypeOf = /(?:^\[object\s(.*?)\]$)/;
+    return Object.prototype.toString.call(item)
+      .replace(reTypeOf, '$1')
+      .toLowerCase();
+  }
+  ```
+
+  + merge
+
+  Объединить содержимое двух массивов в первый массив.
+
+  ```js
+  // jQuery, не удаляя дубликаты
+  $.merge(array1, array2);
+
+  // Нативно, не удаляя дубликаты
+  function merge(...args) {
+    return [].concat(...args)
+  }
+
+  // В нотации ES6, не удаляя дубликаты
+  array1 = [...array1, ...array2]
+
+  // Версия с удалением дубликатов
+  function merge(...args) {
+    return Array.from(new Set([].concat(...args)))
+  }
+  ```
+
+  + now
+
+  Вернуть текущее время в числовом формате.
+
+  ```js
+  // jQuery
+  $.now();
+
+  // Нативно
+  Date.now();
+  ```
+
+  + proxy
+
+  По заданной функции, создает другую такую же, cохраняя контекст.
+
+  ```js
+  // jQuery
+  $.proxy(fn, context);
+
+  // Нативно
+  fn.bind(context);
+  ```
+
+  <a name="makeArray"></a>+ makeArray
+
+  Конвертирует объекты, похожие на массивы, в массивы JavaScript.
+
+  ```js
+  // jQuery
+  $.makeArray(arrayLike);
+
+  // Нативно
+  Array.prototype.slice.call(arrayLike);
+
+  // В нотации ES6: Array.from() метод
+  Array.from(arrayLike);
+
+  // В нотации ES6: используя оператор распространения
+  [...arrayLike];
+  ```
+
+- [6.2](#6.2) <a name='6.2'></a> Contains
+
+  Проверяет, не является ли элемент DOM потомком другого элемента DOM. 
 
   ```js
   // jQuery
   $.contains(el, child);
 
-  // Native
+  // Нативно
   el !== child && el.contains(child);
   ```
 
+- [6.3](#6.3) <a name='6.3'></a> Globaleval
+
+  Исполняет определенный JavaScript код глобально.
+
+  ```js
+  // jQuery
+  $.globaleval(code);
+
+  // Нативно
+  function Globaleval(code) {
+    const script = document.createElement('script');
+    script.text = code;
+
+    document.head.appendChild(script).parentNode.removeChild(script);
+  }
+
+  // Используем eval, учитывая, что контекст eval текущий, а контекст $.Globaleval глобальный.
+  eval(code);
+  ```
+
+- [6.4](#6.4) <a name='6.4'></a> parse
+
+  + parseHTML
+
+  Разбирает строку в массив узлов DOM. 
+
+  ```js
+  // jQuery
+  $.parseHTML(htmlString);
+
+  // Нативно
+  function parseHTML(string) {
+    const context = document.implementation.createHTMLDocument();
+
+    // Устанавливает базовую ссылку для созданного документа, чтобы любые проанализированные элементы с URL-адресами
+    // основывались на URL-адресе документа.
+    const base = context.createElement('base');
+    base.href = document.location.href;
+    context.head.appendChild(base);
+
+    context.body.innerHTML = string;
+    return context.body.children;
+  }
+  ```
+- [6.5](#6.4) <a name='6.5'></a> exists
+
++ exists
+
+  Проверяет, существует ли элемент в DOM.
+  
+  ```js
+  // jQuery
+  if ($('selector').length) {
+     // exists
+  }
+
+  // Нативно
+  var element =  document.getElementById('elementId');
+  if (typeof(element) != 'undefined' && element != null) 
+  {
+     // exists
+  }
+  ```
+
 **[⬆ Наверх](#Содержание)**
+
+## Промисы (Promises)
+
+Промисы предоставляют собой удобный способ организации асинхронного кода. У jQuery есть свой способ обработки промисов. Нативный JavaScript реализует тонкий и минимальный API для обработки промисов в соответствии с [Promises/A+](http://promises-aplus.github.io/promises-spec/) спецификацией.
+
+- [7.1](#7.1) <a name='7.1'></a> done, fail, always
+
+  `done` вызывается, когда промис разрешен,` fail` вызывается, когда промис отклонен, `always` вызывается, когда промис либо разрешен, либо отклонен.
+
+  ```js
+  // jQuery
+  $promise.done(doneCallback).fail(failCallback).always(alwaysCallback)
+
+  // Нативно
+  promise.then(doneCallback, failCallback).then(alwaysCallback, alwaysCallback)
+  ```
+
+- [7.2](#7.2) <a name='7.2'></a> when
+
+  `when` используется для обработки нескольких промисов. Он разрешится, когда будут выполнены все промисы, и отклонится, если один из промисов будет отклонен.
+
+  ```js
+  // jQuery
+  $.when($promise1, $promise2).done((promise1Result, promise2Result) => {
+  });
+
+  // Нативно
+  Promise.all([$promise1, $promise2]).then([promise1Result, promise2Result] => {});
+  ```
+
+- [7.3](#7.3) <a name='7.3'></a> Deferred 
+
+  Отложенный способ создания промисов.
+
+  ```js
+  // jQuery
+  function asyncFunc() {
+    const defer = new $.Deferred();
+    setTimeout(() => {
+      if(true) {
+        defer.resolve('some_value_computed_asynchronously');
+      } else {
+        defer.reject('failed');
+      }
+    }, 1000);
+
+    return defer.promise();
+  }
+
+  // Нативно
+  function asyncFunc() {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        if (true) {
+          resolve('some_value_computed_asynchronously');
+        } else {
+          reject('failed');
+        }
+      }, 1000);
+    });
+  }
+
+  // Отложенным способом 
+  function defer() {
+    const deferred = {};
+    const promise = new Promise((resolve, reject) => {
+      deferred.resolve = resolve;
+      deferred.reject = reject;
+    });
+
+    deferred.promise = () => {
+      return promise;
+    };
+
+    return deferred;
+  }
+
+  function asyncFunc() {
+    const defer = defer();
+    setTimeout(() => {
+      if(true) {
+        defer.resolve('some_value_computed_asynchronously');
+      } else {
+        defer.reject('failed');
+      }
+    }, 1000);
+
+    return defer.promise();
+  }
+  ```
+
+**[⬆ Наверх](#Содержание)**
+
+## Анимации
+
+- [8.1](#8.1) <a name='8.1'></a> Show & Hide
+
+  ```js
+  // jQuery
+  $el.show();
+  $el.hide();
+
+  // Нативно
+  // За дополнительной информацией о методе show, пройдите по ссылке https://github.com/oneuijs/oui-dom-utils/blob/master/src/index.js#L363
+  el.style.display = ''|'inline'|'inline-block'|'inline-table'|'block';
+  el.style.display = 'none';
+  ```
+
+- [8.2](#8.2) <a name='8.2'></a> Toggle
+
+  Показать или скрыть элемент.
+
+  ```js
+  // jQuery
+  $el.toggle();
+
+  // Нативно
+  if (el.ownerDocument.defaultView.getComputedStyle(el, null).display === 'none') {
+    el.style.display = ''|'inline'|'inline-block'|'inline-table'|'block';
+  } else {
+    el.style.display = 'none';
+  }
+  ```
+
+- [8.3](#8.3) <a name='8.3'></a> FadeIn & FadeOut
+
+  ```js
+  // jQuery
+  $el.fadeIn(3000);
+  $el.fadeOut(3000);
+
+  // Нативный fadeOut (исчезновение)
+  function fadeOut(el, ms) {
+    if (ms) {
+      el.style.transition = `opacity ${ms} ms`;
+      el.addEventListener(
+        'transitionend',
+        function(event) {
+          el.style.display = 'none';
+        },
+        false
+      );
+    }
+    el.style.opacity = '0';
+  }
+
+  // Нативный fadeIn (появление)
+  function fadeIn(elem, ms) {
+    elem.style.opacity = 0;
+
+    if (ms) {
+      let opacity = 0;
+      const timer = setInterval(function() {
+        opacity += 50 / ms;
+        if (opacity >= 1) {
+          clearInterval(timer);
+          opacity = 1;
+        }
+        elem.style.opacity = opacity;
+      }, 50);
+    } else {
+      elem.style.opacity = 1;
+    }
+  }
+  ```
+
+- [8.4](#8.4) <a name='8.4'></a> FadeTo
+
+  Регулировка непрозрачности элемента.
+
+  ```js
+  // jQuery
+  $el.fadeTo('slow',0.15);
+  // Нативно
+  el.style.transition = 'opacity 3s'; // assume 'slow' equals 3 seconds
+  el.style.opacity = '0.15';
+  ```
+
+- [8.5](#8.5) <a name='8.5'></a> FadeToggle
+
+  Отображение или скрытие элемента через изменение его непрозрачности.
+
+  ```js
+  // jQuery
+  $el.fadeToggle();
+
+  // Нативно
+  el.style.transition = 'opacity 3s';
+  const { opacity } = el.ownerDocument.defaultView.getComputedStyle(el, null);
+  if (opacity === '1') {
+    el.style.opacity = '0';
+  } else {
+    el.style.opacity = '1';
+  }
+  ```
+
+- [8.6](#8.6) <a name='8.6'></a> SlideUp & SlideDown
+
+  ```js
+  // jQuery
+  $el.slideUp();
+  $el.slideDown();
+
+  // Нативно
+  const originHeight = '100px';
+  el.style.transition = 'height 3s';
+  // slideUp
+  el.style.height = '0px';
+  // slideDown
+  el.style.height = originHeight;
+  ```
+
+- [8.7](#8.7) <a name='8.7'></a> SlideToggle
+
+  Отобразить или скрыть элемент скользящим движением (слайдом).
+
+  ```js
+  // jQuery
+  $el.slideToggle();
+
+  // Нативно
+  const originHeight = '100px';
+  el.style.transition = 'height 3s';
+  const { height } = el.ownerDocument.defaultView.getComputedStyle(el, null);
+  if (parseInt(height, 10) === 0) {
+    el.style.height = originHeight;
+  } else {
+   el.style.height = '0px';
+  }
+  ```
+
+- [8.8](#8.8) <a name='8.8'></a> Animate
+
+  Perform a custom animation of a set of CSS properties. Применить пользовательский набор свойств анимации CSS.
+
+  ```js
+  // jQuery
+  $el.animate({ params }, speed);
+
+  // Нативно
+  el.style.transition = 'all ' + speed;
+  Object.keys(params).forEach((key) =>
+    el.style[key] = params[key];
+  )
+  ```
+
 
 ## Альтернативы
 
