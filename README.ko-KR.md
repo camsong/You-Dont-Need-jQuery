@@ -922,7 +922,7 @@ namespace와 delegation을 포함해서 완전히 갈아 엎길 원하시면 htt
   $.isNumeric(item);
 
   // Native
-  function isNumeric(value) {
+  function isNumeric(n) {
     return !isNaN(parseFloat(n)) && isFinite(n);
   }
   ```

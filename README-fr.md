@@ -701,7 +701,7 @@ La plupart des utilitaires se trouvent dans l'API native. D'autres fonctions ava
 
   // Natif
   function isNumeric(item) {
-    return typeof value === 'number';
+    return typeof item === 'number';
   }
   ```
 

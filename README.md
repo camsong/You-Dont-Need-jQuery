@@ -930,7 +930,7 @@ Most of jQuery utilities are also found in the native API. Other advanced functi
   $.isNumeric(item);
 
   // Native
-  function isNumeric(value) {
+  function isNumeric(n) {
     return !isNaN(parseFloat(n)) && isFinite(n);
   }
   ```

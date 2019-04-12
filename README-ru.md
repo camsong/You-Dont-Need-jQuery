@@ -729,7 +729,7 @@
   $.isNumeric(item);
 
   // Нативно
-  function isNumeric(value) {
+  function isNumeric(n) {
     return !isNaN(parseFloat(n)) && isFinite(n);
   }
   ```
