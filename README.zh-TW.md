@@ -932,7 +932,7 @@ IE9+ 請使用 [github/fetch](http://github.com/github/fetch)，IE8+ 請使用 [
 
   // Native
   function isNumeric(value) {
-    return !isNaN(parseFloat(n)) && isFinite(n);
+    return !isNaN(parseFloat(value)) && isFinite(value);
   }
   ```
 
