@@ -79,6 +79,9 @@ In place of common selectors like class, id or attribute we can use `document.qu
 
   // or
   document.getElementById('id');
+  
+  // or
+  window['id']
   ```
 
 - [1.3](#1.3) <a name='1.3'></a> Query by attribute
