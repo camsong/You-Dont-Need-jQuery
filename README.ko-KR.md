@@ -1,6 +1,8 @@
-## You Don't Need jQuery
+## You (Might) Don't Need jQuery [![Build Status](https://travis-ci.org/oneuijs/You-Dont-Need-jQuery.svg)](https://travis-ci.org/oneuijs/You-Dont-Need-jQuery)
 
 오늘날 프론트엔드 개발 환경은 급격히 진화하고 있고, 모던 브라우저들은 이미 충분히 많은 DOM/BOM API들을 구현했습니다. 우리는 jQuery를 DOM 처리나 이벤트를 위해 처음부터 배울 필요가 없습니다. React, Angular, Vue같은 프론트엔드 라이브러리들이 주도권을 차지하는 동안 DOM을 바로 처리하는 것은 안티패턴이 되었고, jQuery의 중요성은 줄어들었습니다. 이 프로젝트는 대부분의 jQuery 메소드의 대안을 IE 10 이상을 지원하는 네이티브 구현으로 소개합니다.
+
+노트: jQuery는 여전히 훌륭한 라이브러리이며 많은 유즈 케이스를 갖고 있습니다. 원하지 않으신다면 마이그레이트하지 않으셔도됩니다.
 
 ## 목차
 
@@ -62,7 +64,7 @@
   // Native
   document.querySelectorAll('.class');
 
-  // or
+  // 또는
   document.getElementsByClassName('class');
   ```
 
@@ -75,8 +77,11 @@
   // Native
   document.querySelector('#id');
 
-  // or
+  // 또는
   document.getElementById('id');
+
+  // 또는
+  window['id']
   ```
 
 - [1.3](#1.3) <a name='1.3'></a> 속성(attribute)으로 찾기
@@ -746,12 +751,18 @@ function exampleFilter(elem) {
   // jQuery
   $('.inner').replaceWith('<div class="outer"></div>');
 
+  // Native (대안) - 최신, Edge17+
+  Array.from(document.querySelectorAll('.inner')).forEach((el) => {
+    const outer = document.createElement('div');
+    outer.className = 'outer';
+    el.replaceWith(outer);
+  });
+
   // Native
   Array.from(document.querySelectorAll('.inner')).forEach((el) => {
     const outer = document.createElement('div');
     outer.className = 'outer';
-    el.parentNode.insertBefore(outer, el);
-    el.parentNode.removeChild(el);
+    el.parentNode.replaceChild(outer, el);
   });
   ```
 
