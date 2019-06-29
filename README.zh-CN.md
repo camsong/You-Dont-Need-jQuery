@@ -5,16 +5,16 @@
 ## 目录
 
 1. [Translations](#translations)
-1. [Query Selector](#query-selector)
-1. [CSS & Style](#css--style)
-1. [DOM Manipulation](#dom-manipulation)
-1. [Ajax](#ajax)
-1. [Events](#events)
-1. [Utilities](#utilities)
-1. [Promises](#promises)
-1. [Animation](#animation)
-1. [Alternatives](#alternatives)
-1. [Browser Support](#browser-support)
+2. [Query Selector](#query-selector)
+3. [CSS & Style](#css--style)
+4. [DOM Manipulation](#dom-manipulation)
+5. [Ajax](#ajax)
+6. [Events](#events)
+7. [Utilities](#utilities)
+8. [Promises](#promises)
+9. [Animation](#animation)
+10. [Alternatives](#alternatives)
+11. [Browser Support](#browser-support)
 
 ## Translations
 
@@ -618,41 +618,39 @@
   $el.clone();
 
   //Native
+  //深拷贝添加参数'true'
   el.cloneNode();
-
-  //深拷贝添加参数‘true’
-  ```
+  ```
 
 - [3.10](#3.10) <a name='3.10'></a> empty
 
   移除所有子节点
 
-```js
-//jQuery
-$el.empty();
+  ```js
+  //jQuery
+  $el.empty();
 
-//Native
-el.innerHTML = '';
-```
+  //Native
+  el.innerHTML = '';
+  ```
 
 - [3.11](#3.11) <a name='3.11'></a> wrap
 
- 把每个被选元素放置在指定的HTML结构中。
+  把每个被选元素放置在指定的HTML结构中。
 
- ```js
- //jQuery
- $(".inner").wrap('<div class="wrapper"></div>');
+  ```js
+  //jQuery
+  $(".inner").wrap('<div class="wrapper"></div>');
 
- //Native
- Array.prototype.forEach.call(document.querySelector('.inner'), (el) => {
+  //Native
+  Array.prototype.forEach.call(document.querySelector('.inner'), (el) => {
     const wrapper = document.createElement('div');
     wrapper.className = 'wrapper';
     el.parentNode.insertBefore(wrapper, el);
     el.parentNode.removeChild(el);
     wrapper.appendChild(el);
- });
-
- ```
+  });
+  ```
 
 - [3.12](#3.12) <a name="3.12"></a> unwrap
 
