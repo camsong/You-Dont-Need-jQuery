@@ -690,7 +690,7 @@
 
 - [3.14](#3.14) <a name='3.14'></a> simple parse
 
-  解析 HTML/SVG/XML 字符串
+  解析 HTML/SVG/XML 字符串
 
   ```js
   // jQuery
