@@ -1,4 +1,4 @@
-## You (Might) Don't Need jQuery [![Build Status](https://travis-ci.org/oneuijs/You-Dont-Need-jQuery.svg)](https://travis-ci.org/oneuijs/You-Dont-Need-jQuery)
+## You (Might) Don't Need jQuery [![Build Status](https://api.travis-ci.org/nefe/You-Dont-Need-jQuery.svg)](https://travis-ci.org/nefe/You-Dont-Need-jQuery)
 
 當今的前端環境發展迅速，現代瀏覽器已經提供了夠好用的 DOM/BOM API，我們不需要為了 DOM 操作或事件處理而從頭開始學 jQuery。同時，由於 React、Angular 和 Vue 等前端框架的普及，直接操作 DOM 變成了反模式，jQuery 的使用性大幅減少。本專案概述了大部份 Javascript 替代 jQuery 的方式，支援 IE 10 以上。
 

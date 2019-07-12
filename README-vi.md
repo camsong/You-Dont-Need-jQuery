@@ -1,3 +1,5 @@
+## You (Might) Don't Need jQuery [![Build Status](https://api.travis-ci.org/nefe/You-Dont-Need-jQuery.svg)](https://travis-ci.org/nefe/You-Dont-Need-jQuery)
+
 ## Bạn không cần jQuery nữa đâu
 
 Ngày nay, môi trường lập trình front-end phát triển rất nhanh chóng, các trình duyệt hiện đại đã cung cấp các API đủ tốt để làm việc với DOM/BOM. Bạn không còn cần phải học về jQuery nữa. Đồng thời, nhờ sự ra đời của các thư viện như React, Angular và Vue đã khiến cho việc can thiệp trực tiếp vào DOM trở thành một việc không tốt. jQuery đã không còn quan trọng như trước nữa. Bài viết này tổng hợp những cách để thay thế các hàm của jQuery bằng các hàm được hỗ trợ bởi trình duyệt, và hó cũng hoạt động trên IE 10+
