@@ -719,7 +719,6 @@ function exampleFilter(elem) {
     const wrapper = document.createElement('div');
     wrapper.className = 'wrapper';
     el.parentNode.insertBefore(wrapper, el);
-    el.parentNode.removeChild(el);
     wrapper.appendChild(el);
   });
   ```
