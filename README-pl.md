@@ -363,10 +363,10 @@ Zamiast korzystania z powszechnych selektorów takich jak klasa, id czy też atr
     // window height
     $(window).height();
 
-    // z paskiem przewijania
+    // bez paska, działa jak jQuery
     window.document.documentElement.clientHeight;
 
-    // bez paska, działa jak jQuery
+    // z paskiem przewijania
     window.innerHeight;
     ```
 

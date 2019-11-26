@@ -371,10 +371,10 @@
     // window height
     $(window).height();
 
-    // 含 scrollbar
+    // 不含 scrollbar，与 jQuery 行为一致
     window.document.documentElement.clientHeight;
 
-    // 不含 scrollbar，与 jQuery 行为一致
+    // 含 scrollbar
     window.innerHeight;
     ```
 

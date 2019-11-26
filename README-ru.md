@@ -361,10 +361,10 @@
     // Высота окна
     $(window).height();
 
-    // вместе с полосой прокрутки
+    // без полосы прокрутки, ведет себя как jQuery
     window.document.documentElement.clientHeight;
 
-    // без полосы прокрутки, ведет себя как jQuery
+    // вместе с полосой прокрутки
     window.innerHeight;
     ```
 
@@ -791,7 +791,7 @@
 
   + extend
 
-  Объединить содержимое двух или более объектов в новый объект, не изменяя ни один из аргументов. 
+  Объединить содержимое двух или более объектов в новый объект, не изменяя ни один из аргументов.
   object.assign является частью ES6 API, также можно использовать [полифилл](https://github.com/ljharb/object.assign).
 
   ```js
@@ -939,7 +939,7 @@
 
 - [6.2](#6.2) <a name='6.2'></a> Contains
 
-  Проверяет, не является ли элемент DOM потомком другого элемента DOM. 
+  Проверяет, не является ли элемент DOM потомком другого элемента DOM.
 
   ```js
   // jQuery
@@ -973,7 +973,7 @@
 
   + parseHTML
 
-  Разбирает строку в массив узлов DOM. 
+  Разбирает строку в массив узлов DOM.
 
   ```js
   // jQuery
@@ -998,7 +998,7 @@
 + exists
 
   Проверяет, существует ли элемент в DOM.
-  
+
   ```js
   // jQuery
   if ($('selector').length) {
@@ -1007,7 +1007,7 @@
 
   // Нативно
   var element =  document.getElementById('elementId');
-  if (typeof(element) != 'undefined' && element != null) 
+  if (typeof(element) != 'undefined' && element != null)
   {
      // exists
   }
@@ -1044,7 +1044,7 @@
   Promise.all([$promise1, $promise2]).then([promise1Result, promise2Result] => {});
   ```
 
-- [7.3](#7.3) <a name='7.3'></a> Deferred 
+- [7.3](#7.3) <a name='7.3'></a> Deferred
 
   Отложенный способ создания промисов.
 
@@ -1076,7 +1076,7 @@
     });
   }
 
-  // Отложенным способом 
+  // Отложенным способом
   function defer() {
     const deferred = {};
     const promise = new Promise((resolve, reject) => {

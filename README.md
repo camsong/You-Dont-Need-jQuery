@@ -79,7 +79,7 @@ In place of common selectors like class, id or attribute we can use `document.qu
 
   // or
   document.getElementById('id');
-  
+
   // or
   window['id']
   ```
@@ -446,10 +446,10 @@ function exampleFilter(elem) {
     // window height
     $(window).height();
 
-    // with scrollbar
+    // without scrollbar, behaves like jQuery
     window.document.documentElement.clientHeight;
 
-    // without scrollbar, behaves like jQuery
+    // with scrollbar
     window.innerHeight;
     ```
 
@@ -629,7 +629,7 @@ function exampleFilter(elem) {
   // Native: different syntax
   parent.insertAdjacentHTML('afterbegin', '<div id="container">Hello World</div>');
   parent.insertBefore(newEl, parent.firstChild);
-  
+
   // Native (ES6-way): unified syntax
   parent.prepend(newEl | '<div id="container">Hello World</div>');
   ```
@@ -1201,8 +1201,8 @@ Most of jQuery utilities are also found in the native API. Other advanced functi
 
 + exists
 
-  Check if an element exists in the DOM 
-  
+  Check if an element exists in the DOM
+
   ```js
   // jQuery
   if ($('selector').length) {
@@ -1211,7 +1211,7 @@ Most of jQuery utilities are also found in the native API. Other advanced functi
 
   // Native
   var element =  document.getElementById('elementId');
-  if (typeof(element) != 'undefined' && element != null) 
+  if (typeof(element) != 'undefined' && element != null)
   {
      // exists
   }
