@@ -1,4 +1,4 @@
-## Nie Potrzebujesz jQuery [![Build Status](https://travis-ci.org/oneuijs/You-Dont-Need-jQuery.svg)](https://travis-ci.org/oneuijs/You-Dont-Need-jQuery)
+## Nie Potrzebujesz jQuery
 
 Środowiska frontendowe rozwijają się błyskawicznie, nowsze przeglądarki zaimplementowały już większą część API DOM/BOM, które są całkiem użyteczne. Nie musimy uczyć się jQuery od podstaw by manipulować modelem dokumentu lub obsługiwać zdarzenia. Tymczasem, dzięki coraz większej dominacji bibliotek frontendowych takich jak React, Angular czy Vue, obsługa DOM bezpośrednio staje się antywzorcem projektowym, a jQuery coraz bardziej traci na znaczeniu. Ten projekt pokazuje w jaki sposób można zastąpić większość metod jQuery korzystając z natywnej implementacji, ze wsparciem dla IE 10+.
 
@@ -363,10 +363,10 @@ Zamiast korzystania z powszechnych selektorów takich jak klasa, id czy też atr
     // window height
     $(window).height();
 
-    // z paskiem przewijania
+    // bez paska, działa jak jQuery
     window.document.documentElement.clientHeight;
 
-    // bez paska, działa jak jQuery
+    // z paskiem przewijania
     window.innerHeight;
     ```
 

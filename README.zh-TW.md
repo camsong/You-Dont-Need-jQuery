@@ -1,4 +1,4 @@
-## You (Might) Don't Need jQuery [![Build Status](https://travis-ci.org/oneuijs/You-Dont-Need-jQuery.svg)](https://travis-ci.org/oneuijs/You-Dont-Need-jQuery)
+## You (Might) Don't Need jQuery [![Build Status](https://api.travis-ci.org/nefe/You-Dont-Need-jQuery.svg)](https://travis-ci.org/nefe/You-Dont-Need-jQuery)
 
 當今的前端環境發展迅速，現代瀏覽器已經提供了夠好用的 DOM/BOM API，我們不需要為了 DOM 操作或事件處理而從頭開始學 jQuery。同時，由於 React、Angular 和 Vue 等前端框架的普及，直接操作 DOM 變成了反模式，jQuery 的使用性大幅減少。本專案概述了大部份 Javascript 替代 jQuery 的方式，支援 IE 10 以上。
 
@@ -183,7 +183,7 @@
             } while(nextElem = nextElem.nextSibling)
             return sibs;
         }
-   
+
 一個篩選函式範例：
 
 ```js
@@ -345,7 +345,7 @@ function exampleFilter(elem) {
     // Native (如果只需要支援 IE 11 以上，可以使用 `dataset`)
     el.dataset['foo'];
     ```
-    
+
 - [1.12](#1.12) <a name='1.12'></a> 包含字串的選擇器 (區分大小寫)
 
     ```js
@@ -359,7 +359,7 @@ function exampleFilter(elem) {
         return RegExp(text).test(element.textContent);
       });
     }
-    ```   
+    ```
 
 **[⬆ 回到頂部](#目錄)**
 
@@ -445,10 +445,10 @@ function exampleFilter(elem) {
     // window height
     $(window).height();
 
-    // 有捲軸
+    // 沒有捲軸，行為像 jQuery
     window.document.documentElement.clientHeight;
 
-    // 沒有捲軸，行為像 jQuery
+    // 有捲軸
     window.innerHeight;
     ```
 
@@ -749,7 +749,7 @@ el.innerHTML = '';
   ```js
   // jQuery
   $('.inner').replaceWith('<div class="outer"></div>');
-  
+
   // Native (方案一) - 最新版或 Edge17+
   Array.from(document.querySelectorAll('.inner')).forEach((el) => {
     const outer = document.createElement('div');
@@ -931,7 +931,7 @@ IE9+ 請使用 [github/fetch](http://github.com/github/fetch)，IE8+ 請使用 [
   $.isNumeric(item);
 
   // Native
-  function isNumeric(value) {
+  function isNumeric(n) {
     return !isNaN(parseFloat(n)) && isFinite(n);
   }
   ```
@@ -1200,7 +1200,7 @@ IE9+ 請使用 [github/fetch](http://github.com/github/fetch)，IE8+ 請使用 [
 + exists
 
   檢查元素是否存在於 DOM 裡。
-  
+
   ```js
   // jQuery
   if ($('selector').length) {
@@ -1209,7 +1209,7 @@ IE9+ 請使用 [github/fetch](http://github.com/github/fetch)，IE8+ 請使用 [
 
   // Native
   var element =  document.getElementById('elementId');
-  if (typeof(element) != 'undefined' && element != null) 
+  if (typeof(element) != 'undefined' && element != null)
   {
      // exists
   }

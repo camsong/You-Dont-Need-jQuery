@@ -1,20 +1,20 @@
-## You Don't Need jQuery [![Build Status](https://travis-ci.org/oneuijs/You-Dont-Need-jQuery.svg)](https://travis-ci.org/oneuijs/You-Dont-Need-jQuery)
+## You (Might) Don't Need jQuery [![Build Status](https://api.travis-ci.org/nefe/You-Dont-Need-jQuery.svg)](https://travis-ci.org/nefe/You-Dont-Need-jQuery)
 
 前端发展很快，现代浏览器原生 API 已经足够好用。我们并不需要为了操作 DOM、Event 等再学习一下 jQuery 的 API。同时由于 React、Angular、Vue 等框架的流行，直接操作 DOM 不再是好的模式，jQuery 使用场景大大减少。本项目总结了大部分 jQuery API 替代的方法，暂时只支持 IE10 以上浏览器。
 
 ## 目录
 
 1. [Translations](#translations)
-1. [Query Selector](#query-selector)
-1. [CSS & Style](#css--style)
-1. [DOM Manipulation](#dom-manipulation)
-1. [Ajax](#ajax)
-1. [Events](#events)
-1. [Utilities](#utilities)
-1. [Promises](#promises)
-1. [Animation](#animation)
-1. [Alternatives](#alternatives)
-1. [Browser Support](#browser-support)
+2. [Query Selector](#query-selector)
+3. [CSS & Style](#css--style)
+4. [DOM Manipulation](#dom-manipulation)
+5. [Ajax](#ajax)
+6. [Events](#events)
+7. [Utilities](#utilities)
+8. [Promises](#promises)
+9. [Animation](#animation)
+10. [Alternatives](#alternatives)
+11. [Browser Support](#browser-support)
 
 ## Translations
 
@@ -371,10 +371,10 @@
     // window height
     $(window).height();
 
-    // 含 scrollbar
+    // 不含 scrollbar，与 jQuery 行为一致
     window.document.documentElement.clientHeight;
 
-    // 不含 scrollbar，与 jQuery 行为一致
+    // 含 scrollbar
     window.innerHeight;
     ```
 
@@ -480,6 +480,9 @@
 
   // Native
   el.parentNode.removeChild(el);
+
+  // Native - Only latest, NO IE
+  el.remove();
   ```
 
 - [3.2](#3.2) <a name='3.2'></a> Text
@@ -615,41 +618,39 @@
   $el.clone();
 
   //Native
+  //深拷贝添加参数'true'
   el.cloneNode();
-
-  //深拷贝添加参数‘true’
-  ```
+  ```
 
 - [3.10](#3.10) <a name='3.10'></a> empty
 
   移除所有子节点
 
-```js
-//jQuery
-$el.empty();
+  ```js
+  //jQuery
+  $el.empty();
 
-//Native
-el.innerHTML = '';
-```
+  //Native
+  el.innerHTML = '';
+  ```
 
 - [3.11](#3.11) <a name='3.11'></a> wrap
 
- 把每个被选元素放置在指定的HTML结构中。
+  把每个被选元素放置在指定的HTML结构中。
 
- ```js
- //jQuery
- $(".inner").wrap('<div class="wrapper"></div>');
+  ```js
+  //jQuery
+  $(".inner").wrap('<div class="wrapper"></div>');
 
- //Native
- Array.prototype.forEach.call(document.querySelector('.inner'), (el) => {
+  //Native
+  Array.prototype.forEach.call(document.querySelector('.inner'), (el) => {
     const wrapper = document.createElement('div');
     wrapper.className = 'wrapper';
     el.parentNode.insertBefore(wrapper, el);
     el.parentNode.removeChild(el);
     wrapper.appendChild(el);
- });
-
- ```
+  });
+  ```
 
 - [3.12](#3.12) <a name="3.12"></a> unwrap
 
@@ -689,7 +690,7 @@ el.innerHTML = '';
 
 - [3.14](#3.14) <a name='3.14'></a> simple parse
 
-  解析 HTML/SVG/XML 字符串
+  解析 HTML/SVG/XML 字符串
 
   ```js
   // jQuery

@@ -1,4 +1,5 @@
-## Vous n'avez pas besoin de jQuery [![Build Status](https://travis-ci.org/oneuijs/You-Dont-Need-jQuery.svg)](https://travis-ci.org/oneuijs/You-Dont-Need-jQuery)
+## Vous n'avez pas besoin de jQuery [![Build Status](https://api.travis-ci.org/nefe/You-Dont-Need-jQuery.svg)](https://travis-ci.org/nefe/You-Dont-Need-jQuery)
+
 
 
 De nos jours, les environnements frontend évoluent si rapidement que les navigateurs récents ont déjà implémenté beaucoup d'API DOM/BOM suffisantes. Il n'est pas utile d'apprendre jQuery à partir de rien pour manipuler le DOM ou les évènements. Pendant ce temps, grâce à l'efficacité de bibliothèques frontend comme React, Angular et Vue, manipuler directement le DOM est devenu obsolète, jQuery n'a jamais été aussi peu important. Ce projet résume la plupart des alternatives à jQuery à l'aide d'implémentations natives, compatibles avec IE 10+.
@@ -701,7 +702,7 @@ La plupart des utilitaires se trouvent dans l'API native. D'autres fonctions ava
 
   // Natif
   function isNumeric(item) {
-    return typeof value === 'number';
+    return typeof item === 'number';
   }
   ```
 

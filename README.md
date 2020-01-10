@@ -1,6 +1,8 @@
-## You Don't Need jQuery [![Build Status](https://travis-ci.org/oneuijs/You-Dont-Need-jQuery.svg)](https://travis-ci.org/oneuijs/You-Dont-Need-jQuery)
+## You (Might) Don't Need jQuery [![Build Status](https://api.travis-ci.org/nefe/You-Dont-Need-jQuery.svg)](https://travis-ci.org/nefe/You-Dont-Need-jQuery)
 
 Frontend environments evolve rapidly nowadays and modern browsers have already implemented a great deal of DOM/BOM APIs which are good enough for production use. We don't have to learn jQuery from scratch for DOM manipulation or event handling. In the meantime, thanks to the spread of frontend libraries such as React, Angular and Vue, manipulating the DOM directly becomes anti-pattern, so that jQuery usage has never been less important. This project summarizes most of the alternatives in native Javascript implementation to jQuery methods, with IE 10+ support.
+
+Note: jQuery is still a great library and has many valid use cases. Don’t migrate away if you don’t want to!
 
 ## Table of Contents
 
@@ -77,6 +79,9 @@ In place of common selectors like class, id or attribute we can use `document.qu
 
   // or
   document.getElementById('id');
+
+  // or
+  window['id']
   ```
 
 - [1.3](#1.3) <a name='1.3'></a> Query by attribute
@@ -268,6 +273,8 @@ function exampleFilter(elem) {
     $('.radio').index(e.currentTarget);
 
     // Native
+    Array.from(document.querySelectorAll('.radio')).indexOf(e.currentTarget);
+    or
     Array.prototype.indexOf.call(document.querySelectorAll('.radio'), e.currentTarget);
     ```
 
@@ -347,10 +354,10 @@ function exampleFilter(elem) {
 
     // Native
     function contains(selector, text) {
-       var elements = document.querySelectorAll(selector);
-       return Array.prototype.filter.call(elements, function(element){
-          return RegExp(text).test(element.textContent);
-       });
+      var elements = document.querySelectorAll(selector);
+      return Array.from(elements).filter(function(element) {
+        return RegExp(text).test(element.textContent);
+      });
     }
     ```
 
@@ -439,10 +446,10 @@ function exampleFilter(elem) {
     // window height
     $(window).height();
 
-    // with scrollbar
+    // without scrollbar, behaves like jQuery
     window.document.documentElement.clientHeight;
 
-    // without scrollbar, behaves like jQuery
+    // with scrollbar
     window.innerHeight;
     ```
 
@@ -622,7 +629,7 @@ function exampleFilter(elem) {
   // Native: different syntax
   parent.insertAdjacentHTML('afterbegin', '<div id="container">Hello World</div>');
   parent.insertBefore(newEl, parent.firstChild);
-  
+
   // Native (ES6-way): unified syntax
   parent.prepend(newEl | '<div id="container">Hello World</div>');
   ```
@@ -708,11 +715,10 @@ function exampleFilter(elem) {
   $('.inner').wrap('<div class="wrapper"></div>');
 
   // Native
-  Array.prototype.forEach.call(document.querySelectorAll('.inner'), (el) => {
+  Array.from(document.querySelectorAll('.inner')).forEach((el) => {
     const wrapper = document.createElement('div');
     wrapper.className = 'wrapper';
     el.parentNode.insertBefore(wrapper, el);
-    el.parentNode.removeChild(el);
     wrapper.appendChild(el);
   });
   ```
@@ -726,7 +732,7 @@ function exampleFilter(elem) {
   $('.inner').unwrap();
 
   // Native
-  Array.prototype.forEach.call(document.querySelectorAll('.inner'), (el) => {
+  Array.from(document.querySelectorAll('.inner')).forEach((el) => {
     let elParentNode = el.parentNode;
 
     if(elParentNode !== document.body) {
@@ -744,12 +750,18 @@ function exampleFilter(elem) {
   // jQuery
   $('.inner').replaceWith('<div class="outer"></div>');
 
-  // Native
-  Array.prototype.forEach.call(document.querySelectorAll('.inner'), (el) => {
+  // Native (alternative) - latest, Edge17+
+  Array.from(document.querySelectorAll('.inner')).forEach((el) => {
     const outer = document.createElement('div');
     outer.className = 'outer';
-    el.parentNode.insertBefore(outer, el);
-    el.parentNode.removeChild(el);
+    el.replaceWith(outer);
+  });
+
+  // Native
+  Array.from(document.querySelectorAll('.inner')).forEach((el) => {
+    const outer = document.createElement('div');
+    outer.className = 'outer';
+    el.parentNode.replaceChild(outer, el);
   });
   ```
 
@@ -920,7 +932,7 @@ Most of jQuery utilities are also found in the native API. Other advanced functi
   $.isNumeric(item);
 
   // Native
-  function isNumeric(value) {
+  function isNumeric(n) {
     return !isNaN(parseFloat(n)) && isFinite(n);
   }
   ```
@@ -1188,8 +1200,8 @@ Most of jQuery utilities are also found in the native API. Other advanced functi
 
 + exists
 
-  Check if an element exists in the DOM 
-  
+  Check if an element exists in the DOM
+
   ```js
   // jQuery
   if ($('selector').length) {
@@ -1198,7 +1210,7 @@ Most of jQuery utilities are also found in the native API. Other advanced functi
 
   // Native
   var element =  document.getElementById('elementId');
-  if (typeof(element) != 'undefined' && element != null) 
+  if (typeof(element) != 'undefined' && element != null)
   {
      // exists
   }

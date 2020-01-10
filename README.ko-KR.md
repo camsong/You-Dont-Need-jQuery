@@ -1,6 +1,8 @@
-## You Don't Need jQuery
+## You (Might) Don't Need jQuery [![Build Status](https://api.travis-ci.org/nefe/You-Dont-Need-jQuery.svg)](https://travis-ci.org/nefe/You-Dont-Need-jQuery)
 
 오늘날 프론트엔드 개발 환경은 급격히 진화하고 있고, 모던 브라우저들은 이미 충분히 많은 DOM/BOM API들을 구현했습니다. 우리는 jQuery를 DOM 처리나 이벤트를 위해 처음부터 배울 필요가 없습니다. React, Angular, Vue같은 프론트엔드 라이브러리들이 주도권을 차지하는 동안 DOM을 바로 처리하는 것은 안티패턴이 되었고, jQuery의 중요성은 줄어들었습니다. 이 프로젝트는 대부분의 jQuery 메소드의 대안을 IE 10 이상을 지원하는 네이티브 구현으로 소개합니다.
+
+노트: jQuery는 여전히 훌륭한 라이브러리이며 많은 유즈 케이스를 갖고 있습니다. 원하지 않으신다면 마이그레이트하지 않으셔도됩니다.
 
 ## 목차
 
@@ -62,7 +64,7 @@
   // Native
   document.querySelectorAll('.class');
 
-  // or
+  // 또는
   document.getElementsByClassName('class');
   ```
 
@@ -75,8 +77,11 @@
   // Native
   document.querySelector('#id');
 
-  // or
+  // 또는
   document.getElementById('id');
+
+  // 또는
+  window['id']
   ```
 
 - [1.3](#1.3) <a name='1.3'></a> 속성(attribute)으로 찾기
@@ -130,7 +135,6 @@
     // Native
     el.previousElementSibling;
     ```
-
   + 다음 엘리먼트
 
     ```js
@@ -140,6 +144,60 @@
     // Native
     el.nextElementSibling;
     ```
+
+  + 모든 이전 형제 엘리먼트
+
+    ```js
+    // jQuery (선택적 필터 셀렉터)
+    $el.prevAll($filter);
+
+    // Native (선택적 필터 함수)
+    function getPreviousSiblings(elem, filter) {
+      var sibs = [];
+      while (elem = elem.previousSibling) {
+          if (elem.nodeType === 3) continue; // 텍스트 노트 무시
+          if (!filter || filter(elem)) sibs.push(elem);
+      }
+      return sibs;
+    }
+
+  + 모든 다음 형제 엘리먼트
+
+    ```js
+    // jQuery (선택적 셀렉터 필터)
+    $el.nextAll($filter);
+
+    // Native (선택적 필터 함수)
+    function getNextSiblings(elem, filter) {
+            var sibs = [];
+            var nextElem = elem.parentNode.firstChild;
+            do {
+                if (nextElem.nodeType === 3) continue; // 텍스트 노드 무시
+                if (nextElem === elem) continue; // 대상 elem 무시
+                if (nextElem === elem.nextElementSibling) {
+                    if (!filter || filter(elem)) {
+                        sibs.push(nextElem);
+                        elem = nextElem;
+                    }
+                }
+            } while(nextElem = nextElem.nextSibling)
+            return sibs;
+        }
+
+필터 함수 예제:
+
+```js
+function exampleFilter(elem) {
+  switch (elem.nodeName.toUpperCase()) {
+    case 'DIV':
+      return true;
+    case 'SPAN':
+      return true;
+    default:
+      return false;
+  }
+}
+```
 
 - [1.6](#1.6) <a name='1.6'></a> Closest
 
@@ -215,6 +273,8 @@
     $(e.currentTarget).index('.radio');
 
     // Native
+    Array.from(document.querySelectorAll('.radio')).indexOf(e.currentTarget);
+    또는
     Array.prototype.indexOf.call(document.querySelectorAll('.radio'), e.currentTarget);
     ```
 
@@ -286,6 +346,21 @@
     el.dataset['foo'];
     ```
 
+- [1.12](#1.12) <a name='1.12'></a> 문자열을 포함하는 셀렉터(대소문자 구분)
+
+    ```js
+    // jQuery
+    $("selector:contains('text')");
+
+    // Native
+    function contains(selector, text) {
+      var elements = document.querySelectorAll(selector);
+      return Array.from(elements).filter(function(element) {
+        return RegExp(text).test(element.textContent);
+      });
+    }
+    ```
+
 **[⬆ 목차로 돌아가기](#목차)**
 
 ## CSS & Style
@@ -301,6 +376,7 @@
     // Native
     // NOTE: 알려진 버그로, style값이 'auto'이면 'auto'를 반환합니다.
     const win = el.ownerDocument.defaultView;
+
     // null은 가상 스타일은 반환하지 않음을 의미합니다.
     win.getComputedStyle(el, null).color;
     ```
@@ -326,14 +402,8 @@
     // jQuery
     $el.addClass(className);
 
-    // Native IE - 10+
-    el.classList.add(className);
-    
     // Native
-    if (el.classList)
-      el.classList.add(className);
-    else
-      el.className += ' ' + className;
+    el.classList.add(className);
     ```
 
   + class 제거하기
@@ -342,14 +412,8 @@
     // jQuery
     $el.removeClass(className);
 
-    // Native - IE 10+
-    el.classList.remove(className);
-    
     // Native
-    if (el.classList)
-      el.classList.remove(className);
-    else
-      el.className = el.className.replace(new RegExp('(^|\\b)' + className.split(' ').join('|') + '(\\b|$)', 'gi'), ' ');
+    el.classList.remove(className);
     ```
 
   + class를 포함하고 있는지 검사하기
@@ -381,8 +445,10 @@
     ```js
     // window 높이
     $(window).height();
+
     // jQuery처럼 스크롤바를 제외하기
     window.document.documentElement.clientHeight;
+
     // 스크롤바 포함
     window.innerHeight;
     ```
@@ -433,6 +499,8 @@
 
   + Position
 
+    오프셋 부모를 기준으로 엘리먼트의 현재 위치를 얻습니다.
+
     ```js
     // jQuery
     $el.position();
@@ -442,6 +510,8 @@
     ```
 
   + Offset
+
+    다큐먼트를 기준으로 엘리먼트의 현재 위치를 얻습니다.
 
     ```js
     // jQuery
@@ -460,6 +530,8 @@
 
 - [2.4](#2.4) <a name='2.4'></a> Scroll Top
 
+  엘리먼트에대한 스크롤바의 현재 수직 위치를 얻습니다.
+
   ```js
   // jQuery
   $(window).scrollTop();
@@ -473,6 +545,9 @@
 ## DOM 조작
 
 - [3.1](#3.1) <a name='3.1'></a> 제거
+
+  DOM으로부터 엘리먼트를 제거합니다.
+
   ```js
   // jQuery
   $el.remove();
@@ -485,6 +560,8 @@
 
   + text 가져오기
 
+    자손을 포함하는 엘리먼트의 결합된 텍스트 컨텐츠를 얻습니다.
+
     ```js
     // jQuery
     $el.text();
@@ -495,6 +572,8 @@
 
   + text 설정하기
 
+    엘리먼트의 컨텐츠를 지정한 텍스트로 설정합니다.
+  
     ```js
     // jQuery
     $el.text(string);
@@ -527,30 +606,32 @@
 
 - [3.4](#3.4) <a name='3.4'></a> 해당 엘리먼트의 자식들 뒤에 넣기(Append)
 
-  부모 엘리먼트의 마지막 자식으로 엘리먼트를 추가합니다.
+  부모 엘리먼트의 마지막 자식 다음으로 엘리먼트를 추가합니다.
 
   ```js
-  // jQuery
-  $el.append('<div id="container">Hello World</div>');
+  // jQuery: DOMString과 Node 객체를 위한 통합된 구문
+  $parent.append(newEl | '<div id="container">Hello World</div>');
 
-  // Native (HTML 문자열)
-  el.insertAdjacentHTML('beforeend', '<div id="container">Hello World</div>');
+  // Native: 다른 구문
+  parent.insertAdjacentHTML('beforeend', '<div id="container">Hello World</div>');
+  parent.appendChild(newEl);
 
-  // Native (엘리먼트)
-  el.appendChild(newEl);
+  // Native (ES6 방식): 통합된 구문
+  parent.append(newEl | '<div id="container">Hello World</div>');
   ```
 
 - [3.5](#3.5) <a name='3.5'></a> 해당 엘리먼트의 자식들 앞에 넣기(Prepend)
 
   ```js
-  // jQuery
-  $el.prepend('<div id="container">Hello World</div>');
+  // jQuery: DOMString과 Node 객체를 위한 통합된 구문
+  $parent.prepend(newEl | '<div id="container">Hello World</div>');
 
-  // Native (HTML 문자열)
-  el.insertAdjacentHTML('afterbegin', '<div id="container">Hello World</div>');
-
-  // Native (엘리먼트)
-  el.insertBefore(newEl, el.firstChild);
+  // Native: 다른 구문
+  parent.insertAdjacentHTML('afterbegin', '<div id="container">Hello World</div>');
+  parent.insertBefore(newEl, parent.firstChild);
+  
+  // Native (ES6 방식): 통합된 구문
+  parent.prepend(newEl | '<div id="container">Hello World</div>');
   ```
 
 - [3.6](#3.6) <a name='3.6'></a> 해당 엘리먼트 앞에 넣기(insertBefore)
@@ -588,30 +669,29 @@
     el.parentNode.insertBefore(newEl, el.nextSibling);
   }
   ```
+
 - [3.8](#3.8) <a name='3.8'></a> is
 
   query selector와 일치하면 `true` 를 반환합니다.
 
-   ```js
-  // jQuery
+  ```js
+  // jQuery - `is`는 함수, 존재하는 jQuery 객체 또는 여기에서 언급하지 않은 DOM 엘리먼트와도 동작함을 알립니다.
   $el.is(selector);
 
   // Native
   el.matches(selector);
   ```
-
 - [3.9](#3.9) <a name='3.9'></a> clone
 
-  엘리먼트의 복제본을 만듭니다.
+  엘리먼트의 깊은 복사본을 생성합니다. 일치한 엘리먼트를 포함해 그 자손 노드와 텍스트 노드를 모두 복사합니다.
 
   ```js
-  // jQuery
+  // jQuery. 이벤트 핸들러가 엘리먼트와 함께 복사되어야함을 알리려면 파라미터를 `true`로 설정하세요.
   $el.clone();
 
   // Native
   el.cloneNode();
 
-  // Deep clone은 파라미터를 `true` 로 설정하세요.
   ```
 
 - [3.10](#3.10) <a name='3.10'></a> empty
@@ -635,7 +715,7 @@
   $('.inner').wrap('<div class="wrapper"></div>');
 
   // Native
-  Array.prototype.forEach.call(document.querySelectorAll('.inner'), (el) => {
+  Array.from(document.querySelectorAll('.inner')).forEach((el) => {
     const wrapper = document.createElement('div');
     wrapper.className = 'wrapper';
     el.parentNode.insertBefore(wrapper, el);
@@ -653,12 +733,12 @@
   $('.inner').unwrap();
 
   // Native
-  Array.prototype.forEach.call(document.querySelectorAll('.inner'), (el) => {
-    let elParentNode = el.parentNode
+  Array.from(document.querySelectorAll('.inner')).forEach((el) => {
+    let elParentNode = el.parentNode;
 
     if(elParentNode !== document.body) {
-        elParentNode.parentNode.insertBefore(el, elParentNode)
-        elParentNode.parentNode.removeChild(elParentNode)
+        elParentNode.parentNode.insertBefore(el, elParentNode);
+        elParentNode.parentNode.removeChild(elParentNode);
     }
   });
   ```
@@ -671,12 +751,18 @@
   // jQuery
   $('.inner').replaceWith('<div class="outer"></div>');
 
-  // Native
-  Array.prototype.forEach.call(document.querySelectorAll('.inner'), (el) => {
+  // Native (대안) - 최신, Edge17+
+  Array.from(document.querySelectorAll('.inner')).forEach((el) => {
     const outer = document.createElement('div');
     outer.className = 'outer';
-    el.parentNode.insertBefore(outer, el);
-    el.parentNode.removeChild(el);
+    el.replaceWith(outer);
+  });
+
+  // Native
+  Array.from(document.querySelectorAll('.inner')).forEach((el) => {
+    const outer = document.createElement('div');
+    outer.className = 'outer';
+    el.parentNode.replaceChild(outer, el);
   });
   ```
 
@@ -708,6 +794,7 @@
       <li>d</li>
     </ol>`);
     ```
+
 
 **[⬆ 목차로 돌아가기](#목차)**
 
@@ -742,7 +829,7 @@ namespace와 delegation을 포함해서 완전히 갈아 엎길 원하시면 htt
   $(document).ready(eventHandler);
 
   // Native
-  // DOMContentLoaded 가 이미 끝났는지 검사
+  // DOMContentLoaded가 이미 완료되었는지를 확인
   if (document.readyState !== 'loading') {
     eventHandler();
   } else {
@@ -791,6 +878,8 @@ namespace와 delegation을 포함해서 완전히 갈아 엎길 원하시면 htt
 
 ## 유틸리티
 
+대부분의 jQuery 유틸은 네이티브 API에서도 찾을 수 있습니다. 다른 향상된 기능들은 지속성과 성능에 중점을 둔 더 나은 유틸 라이브러리로부터 선택할 수 있습니다. 권장하는 대안은 [Lodash](https://lodash.com)입니다.
+
 - [6.1](#6.1) <a name='6.1'></a> 기본 유틸리티
 
   + isArray
@@ -818,6 +907,7 @@ namespace와 delegation을 포함해서 완전히 갈아 엎길 원하시면 htt
     return obj !== null && obj !== undefined && obj === obj.window;
   }
   ```
+
   + inArray
 
   배열에서 해당 값이 있는지 검색하고 해당 값의 순번을 반환합니다. (검색 결과가 없을 경우 -1을 반환)
@@ -843,7 +933,7 @@ namespace와 delegation을 포함해서 완전히 갈아 엎길 원하시면 htt
   $.isNumeric(item);
 
   // Native
-  function isNumeric(value) {
+  function isNumeric(n) {
     return !isNaN(parseFloat(n)) && isFinite(n);
   }
   ```
@@ -992,19 +1082,18 @@ namespace와 delegation을 포함해서 완전히 갈아 엎길 원하시면 htt
   두 배열을 첫 번째 배열로 합칩니다.
 
   ```js
-  // jQuery
+  // jQuery, 중복된 항목을 제거하지 않습니다
   $.merge(array1, array2);
 
-  // Native
-  // concat은 중복된 요소를 제거해주진 않습니다.
+  // Native, 중복된 항목을 제거하지 않습니다
   function merge(...args) {
     return [].concat(...args)
   }
 
-  // ES6 사용 방식. 중복된 요소를 제거해주진 않습니다.
+  // ES6 방식, 중복된 항목을 제거하지 않습니다
   array1 = [...array1, ...array2]
 
-  // Set 사용 버전. 중복된 요소는 삭제됩니다.
+  // Set 버전, 중복된 항목을 제거합니다
   function merge(...args) {
     return Array.from(new Set([].concat(...args)))
   }
@@ -1034,19 +1123,22 @@ namespace와 delegation을 포함해서 완전히 갈아 엎길 원하시면 htt
   fn.bind(context);
   ```
 
-  + makeArray
+  <a name="makeArray"></a>+ makeArray
 
   array-like 한 객체를 진짜 JavaScript 배열로 변환합니다.
 
   ```js
   // jQuery
-  $.makeArray(array);
+  $.makeArray(arrayLike);
 
   // Native
   Array.prototype.slice.call(arrayLike);
 
-  // ES6 사용 방식
+  // ES6 방식: Array.from() 메소드
   Array.from(arrayLike);
+
+  // ES6 방식: spread 연산자
+  [...arrayLike];
   ```
 
 - [6.2](#6.2) <a name='6.2'></a> Contains
@@ -1105,16 +1197,24 @@ namespace와 delegation을 포함해서 완전히 갈아 엎길 원하시면 htt
   }
   ```
 
-  + parseJSON
+- [6.5](#6.4) <a name='6.5'></a> exists
 
-  정상적인 JSON 문자열을 받아서 JavaScript 값을 받습니다.
++ exists
 
+  엘리먼트가 DOM에 존재하는지를 확인합니다
+  
   ```js
   // jQuery
-  $.parseJSON(str);
+  if ($('selector').length) {
+     // 존재함
+  }
 
   // Native
-  JSON.parse(str);
+  var element =  document.getElementById('elementId');
+  if (typeof(element) != 'undefined' && element != null) 
+  {
+     // 존재함
+  }
   ```
 
 **[⬆ 목차로 돌아가기](#목차)**
@@ -1237,8 +1337,7 @@ Promise는 비동기적인 작업의 결과를 표현합니다. jQuery는 자체
   // Native
   if (el.ownerDocument.defaultView.getComputedStyle(el, null).display === 'none') {
     el.style.display = ''|'inline'|'inline-block'|'inline-table'|'block';
-  }
-  else {
+  } else {
     el.style.display = 'none';
   }
   ```
@@ -1250,12 +1349,39 @@ Promise는 비동기적인 작업의 결과를 표현합니다. jQuery는 자체
   $el.fadeIn(3000);
   $el.fadeOut(3000);
 
-  // Native
-  el.style.transition = 'opacity 3s';
-  // fadeIn
-  el.style.opacity = '1';
-  // fadeOut
-  el.style.opacity = '0';
+  // Native fadeOut
+  function fadeOut(el, ms) {
+    if (ms) {
+      el.style.transition = `opacity ${ms} ms`;
+      el.addEventListener(
+        'transitionend',
+        function(event) {
+          el.style.display = 'none';
+        },
+        false
+      );
+    }
+    el.style.opacity = '0';
+  }
+
+  // Native fadeIn
+  function fadeIn(elem, ms) {
+    elem.style.opacity = 0;
+
+    if (ms) {
+      let opacity = 0;
+      const timer = setInterval(function() {
+        opacity += 50 / ms;
+        if (opacity >= 1) {
+          clearInterval(timer);
+          opacity = 1;
+        }
+        elem.style.opacity = opacity;
+      }, 50);
+    } else {
+      elem.style.opacity = 1;
+    }
+  }
   ```
 
 - [8.4](#8.4) <a name='8.4'></a> FadeTo
@@ -1318,8 +1444,7 @@ Promise는 비동기적인 작업의 결과를 표현합니다. jQuery는 자체
   const { height } = el.ownerDocument.defaultView.getComputedStyle(el, null);
   if (parseInt(height, 10) === 0) {
     el.style.height = originHeight;
-  }
-  else {
+  } else {
    el.style.height = '0px';
   }
   ```
@@ -1338,8 +1463,6 @@ Promise는 비동기적인 작업의 결과를 표현합니다. jQuery는 자체
     el.style[key] = params[key];
   )
   ```
-
-**[⬆ 목차로 돌아가기](#목차)**
 
 ## 대안방법
 
