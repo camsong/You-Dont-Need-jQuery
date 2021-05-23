@@ -2,7 +2,7 @@
 
 當今的前端環境發展迅速，現代瀏覽器已經提供了夠好用的 DOM/BOM API，我們不需要為了 DOM 操作或事件處理而從頭開始學 jQuery。同時，由於 React、Angular 和 Vue 等前端框架的普及，直接操作 DOM 變成了反模式，jQuery 的使用性大幅減少。本專案概述了大部份 Javascript 替代 jQuery 的方式，支援 IE 10 以上。
 
-備註: jQuery 仍然是一個很棒的函式庫，有很多有效的案例。不用刻意為了變而改變 !
+備註：jQuery 仍然是一個很棒的函式庫，有很多有效的案例。不用刻意為了變而改變 !
 
 
 ## 目錄
@@ -46,7 +46,7 @@
 
 > 注意：`document.querySelector` 和 `document.querySelectorAll` 效能**很差**。如果想提高效能，盡量使用 `document.getElementById`、`document.getElementsByClassName` 或 `document.getElementsByTagName`。
 
-- [1.0](#1.0) <a name='1.0'></a> 選擇器查詢
+- [1.0](#1.0) <a name='1.0'></a> Query by selector 選擇器查詢 
 
   ```js
   // jQuery
@@ -56,7 +56,7 @@
   document.querySelectorAll('selector');
   ```
 
-- [1.1](#1.1) <a name='1.1'></a> class 查詢
+- [1.1](#1.1) <a name='1.1'></a> Query by class 查詢 class
 
   ```js
   // jQuery
@@ -69,7 +69,7 @@
   document.getElementsByClassName('class');
   ```
 
-- [1.2](#1.2) <a name='1.2'></a> id 查詢
+- [1.2](#1.2) <a name='1.2'></a> Query by id 查詢 id 
 
   ```js
   // jQuery
@@ -82,7 +82,7 @@
   document.getElementById('id');
   ```
 
-- [1.3](#1.3) <a name='1.3'></a> 屬性查詢
+- [1.3](#1.3) <a name='1.3'></a> Query by attribute 屬性查詢 
 
   ```js
   // jQuery
@@ -92,7 +92,7 @@
   document.querySelectorAll('a[target=_blank]');
   ```
 
-- [1.4](#1.4) <a name='1.4'></a> 後代查詢
+- [1.4](#1.4) <a name='1.4'></a> Query in descendants 後代查詢 
 
   ```js
   // jQuery
@@ -102,9 +102,9 @@
   el.querySelectorAll('li');
   ```
 
-- [1.5](#1.5) <a name='1.5'></a> 同層相鄰及前後元素
+- [1.5](#1.5) <a name='1.5'></a> Sibling/Previous/Next Elements 同層相鄰及前後元素 
 
-  + 同層相鄰 (兄弟元素)
+  + All siblings 同層相鄰 (兄弟元素) 
 
     ```js
     // jQuery
@@ -124,7 +124,7 @@
     );
     ```
 
-  + 同層前一個元素
+  + Previous sibling 同層前一個元素 
 
     ```js
     // jQuery
@@ -135,7 +135,7 @@
 
     ```
 
-  + 同層後一個元素
+  + Next sibling 同層後一個元素 
 
     ```js
     // next
@@ -144,8 +144,8 @@
     // Native
     el.nextElementSibling;
     ```
-
-  + 所有同層裡之前的元素
+    
+  + All previous siblings 所有同層裡之前的元素 
 
     ```js
     // jQuery (可選的過濾選擇器)
@@ -161,7 +161,7 @@
       return sibs;
     }
 
-  + 所有同層裡之後的元素
+  + All next siblings 所有同層裡之後的元素 
 
     ```js
     // jQuery (可選的過濾選擇器)
@@ -199,7 +199,7 @@ function exampleFilter(elem) {
 }
 ```
 
-- [1.6](#1.6) <a name='1.6'></a> Closest
+- [1.6](#1.6) <a name='1.6'></a> Closest 遍尋
 
   Closest 返回匹配選擇器的第一個父元素，從當前元素開始沿 DOM 樹向上遍尋。
 
@@ -314,7 +314,7 @@ function exampleFilter(elem) {
 
 - [1.11](#1.11) <a name='1.11'></a> 獲取或設置屬性
 
-  + 獲取屬性
+  + Get an attribute 獲取屬性 
 
     ```js
     // jQuery
@@ -323,7 +323,7 @@ function exampleFilter(elem) {
     // Native
     el.getAttribute('foo');
     ```
-  + 設置屬性
+  + Set an attribute 設置屬性 
 
     ```js
     // jQuery, 請注意，這可以在記憶體中工作，無需更改 DOM
@@ -333,7 +333,7 @@ function exampleFilter(elem) {
     el.setAttribute('foo', 'bar');
     ```
 
-  + 獲取 `data-` 屬性
+  + 獲取 `data-` 屬性 
 
     ```js
     // jQuery
@@ -395,7 +395,7 @@ function exampleFilter(elem) {
 
     注意：如果想一次設置多個樣式，可以參考 oui-dom-utils 裡 [setStyles](https://github.com/oneuijs/oui-dom-utils/blob/master/src/index.js#L194) 的方法
 
-  + add class
+  + Add class 增加樣式 
 
     ```js
     // jQuery
@@ -405,7 +405,7 @@ function exampleFilter(elem) {
     el.classList.add(className);
     ```
 
-  + remove class
+  + remove class 移除樣式 
 
     ```js
     // jQuery
@@ -415,7 +415,7 @@ function exampleFilter(elem) {
     el.classList.remove(className);
     ```
 
-  + has class
+  + has class 是否有樣式 
 
     ```js
     // jQuery
@@ -425,7 +425,7 @@ function exampleFilter(elem) {
     el.classList.contains(className);
     ```
 
-  + Toggle class
+  + Toggle class 觸發樣式 
 
     ```js
     // jQuery
@@ -494,9 +494,9 @@ function exampleFilter(elem) {
     el.getBoundingClientRect().height;
     ```
 
-- [2.3](#2.3) <a name='2.3'></a> Position & Offset
+- [2.3](#2.3) <a name='2.3'></a> Position & Offset 定位和位移 
 
-  + Position
+  + Position 定位 
 
     獲得匹配元素相對於父元素的坐標
 
@@ -508,7 +508,7 @@ function exampleFilter(elem) {
     { left: el.offsetLeft, top: el.offsetTop }
     ```
 
-  + Offset
+  + Offset 位移 
 
     獲得匹配元素相對於文件的坐標
 
@@ -542,9 +542,9 @@ function exampleFilter(elem) {
 
 **[⬆ 回到頂部](#目錄)**
 
-## DOM Manipulation
+## DOM Manipulation DOM 操作 
 
-- [3.1](#3.1) <a name='3.1'></a> Remove
+- [3.1](#3.1) <a name='3.1'></a> Remove 移除 
 
   從 DOM 中移除元素。
 
@@ -556,9 +556,9 @@ function exampleFilter(elem) {
   el.parentNode.removeChild(el);
   ```
 
-- [3.2](#3.2) <a name='3.2'></a> Text
+- [3.2](#3.2) <a name='3.2'></a> Text 文字 
 
-  + Get text
+  + Get text 獲取文字 
 
     返回元素的文本內容，包含其後代。
 
@@ -570,7 +570,7 @@ function exampleFilter(elem) {
     el.textContent;
     ```
 
-  + Set text
+  + Set text 設置文字 
 
     設置元素的文本內容。
 
@@ -584,7 +584,7 @@ function exampleFilter(elem) {
 
 - [3.3](#3.3) <a name='3.3'></a> HTML
 
-  + Get HTML
+  + Get HTML 獲取 HTML 
 
     ```js
     // jQuery
@@ -594,7 +594,7 @@ function exampleFilter(elem) {
     el.innerHTML;
     ```
 
-  + Set HTML
+  + Set HTML 設置 HTML 
 
     ```js
     // jQuery
@@ -604,7 +604,7 @@ function exampleFilter(elem) {
     el.innerHTML = htmlString;
     ```
 
-- [3.4](#3.4) <a name='3.4'></a> Append
+- [3.4](#3.4) <a name='3.4'></a> Append 追加 
 
   Append 在父元素的最後一個子元素後追加子元素
 
@@ -619,7 +619,7 @@ function exampleFilter(elem) {
   el.appendChild(newEl);
   ```
 
-- [3.5](#3.5) <a name='3.5'></a> Prepend
+- [3.5](#3.5) <a name='3.5'></a> Prepend 前置 
 
   ```js
   // jQuery
@@ -632,7 +632,7 @@ function exampleFilter(elem) {
   el.insertBefore(newEl, el.firstChild);
   ```
 
-- [3.6](#3.6) <a name='3.6'></a> insertBefore
+- [3.6](#3.6) <a name='3.6'></a> insertBefore 在元素前方插入 
 
   在選取的元素前插入新節點
 
@@ -650,7 +650,7 @@ function exampleFilter(elem) {
   }
   ```
 
-- [3.7](#3.7) <a name='3.7'></a> insertAfter
+- [3.7](#3.7) <a name='3.7'></a> insertAfter 在元素後方插入 
 
   在選取的元素插入新節點
 
