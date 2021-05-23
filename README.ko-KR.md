@@ -41,7 +41,7 @@
 평범한 class, id, attribute같은 selector는 `document.querySelector`나 `document.querySelectorAll`으로 대체할 수 있습니다.
 * `document.querySelector`는 처음 매칭된 엘리먼트를 반환합니다.
 * `document.querySelectorAll`는 모든 매칭된 엘리먼트를 NodeList로 반환합니다. `Array.prototype.slice.call(document.querySelectorAll(selector));`을 사용해서 Array로 변환할 수 있습니다.
-* 만약 매칭된 엘리멘트가 없으면 jQuery와 `document.querySelectorAll`는 `[]` 를 반환하지만 `document.querySelector`는 `null`을 반환합니다.
+* 만약 매칭된 엘리멘트가 없으면 jQuery와 `document.querySelectorAll`는 `[]`를 반환하지만 `document.querySelector`는 `null`을 반환합니다.
 
 > 안내: `document.querySelector`와 `document.querySelectorAll`는 꽤 **느립니다**, `getElementById`나 `document.getElementsByClassName`, `document.getElementsByTagName`를 사용하면 퍼포먼스가 향상을 기대할 수 있습니다.
 
@@ -155,8 +155,8 @@
     function getPreviousSiblings(elem, filter) {
       var sibs = [];
       while (elem = elem.previousSibling) {
-          if (elem.nodeType === 3) continue; // 텍스트 노트 무시
-          if (!filter || filter(elem)) sibs.push(elem);
+        if (elem.nodeType === 3) continue; // 텍스트 노트 무시
+        if (!filter || filter(elem)) sibs.push(elem);
       }
       return sibs;
     }
@@ -169,20 +169,20 @@
 
     // Native (선택적 필터 함수)
     function getNextSiblings(elem, filter) {
-            var sibs = [];
-            var nextElem = elem.parentNode.firstChild;
-            do {
-                if (nextElem.nodeType === 3) continue; // 텍스트 노드 무시
-                if (nextElem === elem) continue; // 대상 elem 무시
-                if (nextElem === elem.nextElementSibling) {
-                    if (!filter || filter(elem)) {
-                        sibs.push(nextElem);
-                        elem = nextElem;
-                    }
-                }
-            } while(nextElem = nextElem.nextSibling)
-            return sibs;
+      var sibs = [];
+      var nextElem = elem.parentNode.firstChild;
+      do {
+        if (nextElem.nodeType === 3) continue; // 텍스트 노드 무시
+        if (nextElem === elem) continue; // 대상 elem 무시
+        if (nextElem === elem.nextElementSibling) {
+          if (!filter || filter(elem)) {
+            sibs.push(nextElem);
+            elem = nextElem;
+          }
         }
+      } while(nextElem = nextElem.nextSibling)
+      return sibs;
+    }
 
 필터 함수 예제:
 
@@ -719,7 +719,6 @@ function exampleFilter(elem) {
     const wrapper = document.createElement('div');
     wrapper.className = 'wrapper';
     el.parentNode.insertBefore(wrapper, el);
-    el.parentNode.removeChild(el);
     wrapper.appendChild(el);
   });
   ```
@@ -736,9 +735,9 @@ function exampleFilter(elem) {
   Array.from(document.querySelectorAll('.inner')).forEach((el) => {
     let elParentNode = el.parentNode;
 
-    if(elParentNode !== document.body) {
-        elParentNode.parentNode.insertBefore(el, elParentNode);
-        elParentNode.parentNode.removeChild(elParentNode);
+    if (elParentNode !== document.body) {
+      elParentNode.parentNode.insertBefore(el, elParentNode);
+      elParentNode.parentNode.removeChild(elParentNode);
     }
   });
   ```
@@ -1072,8 +1071,8 @@ namespace와 delegation을 포함해서 완전히 갈아 엎길 원하시면 htt
   function type(item) {
     const reTypeOf = /(?:^\[object\s(.*?)\]$)/;
     return Object.prototype.toString.call(item)
-      .replace(reTypeOf, '$1')
-      .toLowerCase();
+        .replace(reTypeOf, '$1')
+        .toLowerCase();
   }
   ```
 
@@ -1206,14 +1205,14 @@ namespace와 delegation을 포함해서 완전히 갈아 엎길 원하시면 htt
   ```js
   // jQuery
   if ($('selector').length) {
-     // 존재함
+    // 존재함
   }
 
   // Native
   var element =  document.getElementById('elementId');
   if (typeof(element) != 'undefined' && element != null) 
   {
-     // 존재함
+    // 존재함
   }
   ```
 
@@ -1298,7 +1297,7 @@ Promise는 비동기적인 작업의 결과를 표현합니다. jQuery는 자체
   function asyncFunc() {
     const defer = defer();
     setTimeout(() => {
-      if(true) {
+      if (true) {
         defer.resolve('some_value_computed_asynchronously');
       } else {
         defer.reject('failed');
@@ -1445,7 +1444,7 @@ Promise는 비동기적인 작업의 결과를 표현합니다. jQuery는 자체
   if (parseInt(height, 10) === 0) {
     el.style.height = originHeight;
   } else {
-   el.style.height = '0px';
+    el.style.height = '0px';
   }
   ```
 
