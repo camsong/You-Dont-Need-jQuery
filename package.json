@@ -8,7 +8,6 @@
     "test-cov": "karma start --auto-watch --single-run --reporters progress,coverage",
     "lint": "eslint src test"
   },
-  "dependencies": {},
   "devDependencies": {
     "babel-cli": "^6.23.0",
     "babel-core": "^6.23.1",
@@ -26,30 +25,31 @@
     "istanbul-instrumenter-loader": "^2.0.0",
     "jquery": "^3.1.1",
     "karma": "^1.5.0",
+    "karma-chrome-launcher": "^3.1.0",
     "karma-coverage": "^1.1.1",
-    "karma-firefox-launcher": "^1.0.1",
     "karma-mocha": "^1.3.0",
     "karma-sourcemap-loader": "^0.3.7",
     "karma-webpack": "^2.0.2",
     "mocha": "^3.2.0",
+    "puppeteer": "^9.1.1",
     "webpack": "^1.12.9"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/oneuijs/You-Dont-Need-jQuery.git"
+    "url": "https://github.com/nefe/You-Dont-Need-jQuery.git"
   },
   "keywords": [
-    "convertion guide",
+    "Vanilla JS",
     "jQuery",
+    "convertion guide",
     "es6",
     "es2015",
-    "babel",
-    "OneUI Group"
+    "babel"
   ],
-  "author": "OneUI Group",
+  "author": "Cam Song and open source authors",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/oneuijs/You-Dont-Need-jQuery/issues"
+    "url": "https://github.com/nefe/You-Dont-Need-jQuery/issues"
   },
-  "homepage": "https://github.com/oneuijs/You-Dont-Need-jQuery"
+  "homepage": "https://github.com/nefe/You-Dont-Need-jQuery"
 }
