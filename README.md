@@ -836,6 +836,28 @@ For a complete replacement with namespace and delegation, refer to https://githu
   } else {
     document.addEventListener('DOMContentLoaded', eventHandler);
   }
+  
+  // Example 2
+  // Async Method - Ternary - No Arrow IE
+  (async function() {
+      (document.readyState !== 'loading') ?
+          console.log('Loading') // EventHandler
+            : document.addEventListener('DOMContentLoaded', 
+            function() {
+                console.log('Loaded') // EventHandler
+            });
+  })();
+  
+  // Example 3
+  // Non Async Method - Ternary - No Arrow IE
+  (function()  {
+  (document.readyState !== 'loading') ?
+    console.log('Loading') // EventHandler
+        : document.addEventListener('DOMContentLoaded',
+   function() {
+        console.log('Loaded') // EventHandler
+        });
+    })();
   ```
 
 - [5.1](#5.1) <a name='5.1'></a> Bind an event with on
