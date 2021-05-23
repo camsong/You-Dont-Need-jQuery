@@ -77,6 +77,9 @@
 
   // or
   document.getElementById('id');
+  
+  // or
+  window['id']
   ```
 
 - [1.3](#1.3) <a name='1.3'></a> 属性查询
@@ -643,7 +646,7 @@
   $(".inner").wrap('<div class="wrapper"></div>');
 
   //Native
-  Array.prototype.forEach.call(document.querySelector('.inner'), (el) => {
+  Array.from(document.querySelectorAll('.inner')).forEach((el) => {
     const wrapper = document.createElement('div');
     wrapper.className = 'wrapper';
     el.parentNode.insertBefore(wrapper, el);
@@ -854,8 +857,8 @@ IE9+ 请使用 [github/fetch](http://github.com/github/fetch)，IE8+ 请使用 [
   $.isNumeric(item);
 
   // Native
-  function isNumeric(n) {
-    return !isNaN(parseFloat(n)) && isFinite(n);
+  function isNumeric(value) {
+    return !isNaN(parseFloat(value)) && isFinite(value);
   }
   ```
 
