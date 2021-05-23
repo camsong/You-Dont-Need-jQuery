@@ -1,10 +1,14 @@
 language: node_js
 node_js:
-  - "5"
-  - "4"
-before_script:
-  - export DISPLAY=:99.0
-  - sh -e /etc/init.d/xvfb start
+  - '10'
+sudo: required
+services:
+  - xvfb
+addons:
+    chrome: stable
+install:
+  - npm set progress=false
+  - npm install
 script:
   - npm run lint
   - npm test
