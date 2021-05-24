@@ -840,23 +840,21 @@ For a complete replacement with namespace and delegation, refer to https://githu
   // Example 2
   // Async Method - Ternary - No Arrow IE
   (async function() {
-      (document.readyState !== 'loading') ?
-          console.log('Loading') // EventHandler
-            : document.addEventListener('DOMContentLoaded', 
-            function() {
-                console.log('Loaded') // EventHandler
-            });
+    (document.readyState !== 'loading') ?
+       console.log('Loading') // EventHandler
+         : document.addEventListener('DOMContentLoaded', 
+           function() {
+             eventHandler(); // EventHandler
+           });
   })();
   
-  // Example 3
-  // Non Async Method - Ternary - No Arrow IE
-  (function()  {
-  (document.readyState !== 'loading') ?
-    console.log('Loading') // EventHandler
-        : document.addEventListener('DOMContentLoaded',
-   function() {
-        console.log('Loaded') // EventHandler
-        });
+  // Native Example 3 - Ternary Operator - Non Async
+  (function() {
+    (document.readyState !== 'loading') ?
+      console.log('Loading') // EventHandler : document.addEventListener('DOMContentLoaded',
+      function() {
+        eventHandler(); // EventHandler
+      });
     })();
   ```
 
