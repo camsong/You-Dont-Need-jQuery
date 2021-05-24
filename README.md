@@ -850,7 +850,7 @@ For a complete replacement with namespace and delegation, refer to https://githu
   // Native Example 3 - Ternary Operator - Non Async
   (function() {
     (document.readyState !== 'loading') ?
-      console.log('Loading') : document.addEventListener('DOMContentLoaded',
+      eventHandler(); : document.addEventListener('DOMContentLoaded',
       function() {
         eventHandler(); // EventHandler
       });
