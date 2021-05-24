@@ -841,7 +841,7 @@ For a complete replacement with namespace and delegation, refer to https://githu
   // Async Method - Ternary - No Arrow IE
   (async function() {
     (document.readyState !== 'loading') ?
-       console.log('Loading') // EventHandler
+       eventHandler(); // EventHandler
          : document.addEventListener('DOMContentLoaded', 
            function() {
              eventHandler(); // EventHandler
@@ -851,7 +851,7 @@ For a complete replacement with namespace and delegation, refer to https://githu
   // Native Example 3 - Ternary Operator - Non Async
   (function() {
     (document.readyState !== 'loading') ?
-      console.log('Loading') // EventHandler : document.addEventListener('DOMContentLoaded',
+      console.log('Loading') : document.addEventListener('DOMContentLoaded',
       function() {
         eventHandler(); // EventHandler
       });
