@@ -837,8 +837,7 @@ For a complete replacement with namespace and delegation, refer to https://githu
     document.addEventListener('DOMContentLoaded', eventHandler);
   }
   
-  // Example 2
-  // Async Method - Ternary - No Arrow IE
+  // Native Example 2 - Ternary Operator - Async
   (async function() {
     (document.readyState !== 'loading') ?
        eventHandler(); // EventHandler
