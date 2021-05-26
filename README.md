@@ -2,7 +2,7 @@
 
 Frontend environments evolve rapidly nowadays and modern browsers have already implemented a great deal of DOM/BOM APIs which are good enough for production use. We don't have to learn jQuery from scratch for DOM manipulation or event handling. In the meantime, thanks to the spread of frontend libraries such as React, Angular and Vue, manipulating the DOM directly becomes anti-pattern, so that jQuery usage has never been less important. This project summarizes most of the alternatives in native Javascript implementation to jQuery methods, with IE 10+ support.
 
-ℹ️ Notice: 
+ℹ️ Notice:
 1. jQuery is still a great library and has many valid use cases. Don’t migrate away if you don’t want to!
 2. The alternatives are not completely equivalent in all scenarios, and it is recommended that you test it before using it.
 
@@ -398,45 +398,45 @@ function exampleFilter(elem) {
     Note that if you want to set multiple styles once, you could refer to [setStyles](https://github.com/oneuijs/oui-dom-utils/blob/master/src/index.js#L194) method in oui-dom-utils package.
 
 
-  + Add class
++ Add class
 
-    ```js
-    // jQuery
-    $el.addClass(className);
+  ```js
+  // jQuery
+  $el.addClass(className);
 
-    // Native
-    el.classList.add(className);
-    ```
+  // Native
+  el.classList.add(className);
+  ```
 
-  + Remove class
++ Remove class
 
-    ```js
-    // jQuery
-    $el.removeClass(className);
+  ```js
+  // jQuery
+  $el.removeClass(className);
 
-    // Native
-    el.classList.remove(className);
-    ```
+  // Native
+  el.classList.remove(className);
+  ```
 
-  + has class
++ has class
 
-    ```js
-    // jQuery
-    $el.hasClass(className);
+  ```js
+  // jQuery
+  $el.hasClass(className);
 
-    // Native
-    el.classList.contains(className);
-    ```
+  // Native
+  el.classList.contains(className);
+  ```
 
-  + Toggle class
++ Toggle class
 
-    ```js
-    // jQuery
-    $el.toggleClass(className);
+  ```js
+  // jQuery
+  $el.toggleClass(className);
 
-    // Native
-    el.classList.toggle(className);
-    ```
+  // Native
+  el.classList.toggle(className);
+  ```
 
 - [2.2](#2.2) <a name='2.2'></a> Width & Height
 
@@ -836,21 +836,27 @@ For a complete replacement with namespace and delegation, refer to https://githu
   } else {
     document.addEventListener('DOMContentLoaded', eventHandler);
   }
-  
-  // Native Example 2 - Ternary Operator - Async
+
+  // Native 
+  // Example 2 - Ternary Operator - Async
+  // Check if the DOMContentLoaded has already been completed
   (async function() {
-    // Check if the DOMContentLoaded has already been completed
-    (document.readyState !== 'loading') ? eventHandler() 
-      : document.addEventListener('DOMContentLoaded', 
-        function() { eventHandler(); });
+    (document.readyState !== 'loading') ?
+      eventHandler() : document.addEventListener('DOMContentLoaded',
+        function() {
+          eventHandler(); 
+       });
   })();
-  
-  // Native Example 3 - Ternary Operator - Non Async
+
+  // Native
+  // Example 3 - Ternary Operator - Non Async
+  // Check if the DOMContentLoaded has already been completed
   (function() {
-    // Check if the DOMContentLoaded has already been completed
-    (document.readyState !== 'loading') ? eventHandler() // EventHandler
-      : document.addEventListener('DOMContentLoaded',
-        function() { eventHandler(); }); // EventHandler 
+    (document.readyState !== 'loading') ?
+     eventHandler() : document.addEventListener('DOMContentLoaded',
+        function() {
+          eventHandler(); // EventHandler
+        });
   })();
   ```
 
