@@ -839,19 +839,22 @@ For a complete replacement with namespace and delegation, refer to https://githu
   
   // Native Example 2 - Ternary Operator - Async
   (async function() {
-    // Check if the DOMContentLoaded has already been completed
-    (document.readyState !== 'loading') ? eventHandler() 
-      : document.addEventListener('DOMContentLoaded', 
-        function() { eventHandler(); });
+    (document.readyState !== 'loading') ?
+       eventHandler(); // EventHandler
+         : document.addEventListener('DOMContentLoaded', 
+           function() {
+             eventHandler(); // EventHandler
+           });
   })();
   
   // Native Example 3 - Ternary Operator - Non Async
   (function() {
-    // Check if the DOMContentLoaded has already been completed
-    (document.readyState !== 'loading') ? eventHandler() // EventHandler
-      : document.addEventListener('DOMContentLoaded',
-        function() { eventHandler(); }); // EventHandler 
-  })();
+    (document.readyState !== 'loading') ?
+      eventHandler(); : document.addEventListener('DOMContentLoaded',
+      function() {
+        eventHandler(); // EventHandler
+      });
+    })();
   ```
 
 - [5.1](#5.1) <a name='5.1'></a> Bind an event with on
