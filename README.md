@@ -845,7 +845,7 @@ For a complete replacement with namespace and delegation, refer to https://githu
       eventHandler() : document.addEventListener('DOMContentLoaded',
         function() {
           eventHandler(); 
-       });
+        });
   })();
 
   // Native
@@ -853,7 +853,7 @@ For a complete replacement with namespace and delegation, refer to https://githu
   // Check if the DOMContentLoaded has already been completed
   (function() {
     (document.readyState !== 'loading') ?
-     eventHandler() : document.addEventListener('DOMContentLoaded',
+      eventHandler() : document.addEventListener('DOMContentLoaded',
         function() {
           eventHandler(); // EventHandler
         });
