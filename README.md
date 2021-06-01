@@ -844,7 +844,7 @@ For a complete replacement with namespace and delegation, refer to https://githu
     (document.readyState !== 'loading') ?
       eventHandler() : document.addEventListener('DOMContentLoaded',
         function() {
-          eventHandler(); 
+          eventHandler(); // EventHandler
         });
   })();
 
