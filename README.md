@@ -826,17 +826,39 @@ For a complete replacement with namespace and delegation, refer to https://githu
 - [5.0](#5.0) <a name='5.0'></a> Document ready by `DOMContentLoaded`
 
   ```js
-  // jQuery
-  $(document).ready(eventHandler);
+    // jQuery
+    $(document).ready(eventHandler);
 
-  // Native
-  // Check if the DOMContentLoaded has already been completed
-  if (document.readyState !== 'loading') {
-    eventHandler();
-  } else {
-    document.addEventListener('DOMContentLoaded', eventHandler);
-  }
-  ```
+    // Native
+    // Check if the DOMContentLoaded has already been completed
+    if (document.readyState !== 'loading') {
+      eventHandler();
+    } else {
+      document.addEventListener('DOMContentLoaded', eventHandler);
+    }
+
+    // Native 
+    // Example 2 - Ternary Operator - Async
+    // Check if the DOMContentLoaded has already been completed
+    (async function() {
+      (document.readyState !== 'loading') ?
+        eventHandler() : document.addEventListener('DOMContentLoaded',
+          function() {
+            eventHandler(); // EventHandler
+          });
+    })();
+
+    // Native
+    // Example 3 - Ternary Operator - Non Async
+    // Check if the DOMContentLoaded has already been completed
+    (function() {
+      (document.readyState !== 'loading') ?
+        eventHandler() : document.addEventListener('DOMContentLoaded',
+          function() {
+            eventHandler(); // EventHandler
+          });
+    })();
+  ``` 
 
 - [5.1](#5.1) <a name='5.1'></a> Bind an event with on
 
@@ -850,7 +872,7 @@ For a complete replacement with namespace and delegation, refer to https://githu
 
 - [5.2](#5.2) <a name='5.2'></a> Unbind an event with off
 
-  ```js
+```js
   // jQuery
   $el.off(eventName, eventHandler);
 
@@ -873,7 +895,7 @@ For a complete replacement with namespace and delegation, refer to https://githu
   }
 
   el.dispatchEvent(event);
-  ```
+```
 
 **[⬆ back to top](#table-of-contents)**
 
