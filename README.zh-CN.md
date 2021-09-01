@@ -1,22 +1,22 @@
-## You (Might) Don't Need jQuery [![Build Status](https://api.travis-ci.org/nefe/You-Dont-Need-jQuery.svg)](https://travis-ci.org/nefe/You-Dont-Need-jQuery)
+## 你也许不需要 jQuery （You (Might) Don't Need jQuery） [![Build Status](https://api.travis-ci.org/nefe/You-Dont-Need-jQuery.svg)](https://travis-ci.org/nefe/You-Dont-Need-jQuery)
 
 前端发展很快，现代浏览器原生 API 已经足够好用。我们并不需要为了操作 DOM、Event 等再学习一下 jQuery 的 API。同时由于 React、Angular、Vue 等框架的流行，直接操作 DOM 不再是好的模式，jQuery 使用场景大大减少。本项目总结了大部分 jQuery API 替代的方法，暂时只支持 IE10 以上浏览器。
 
 ## 目录
 
-1. [Translations](#translations)
-2. [Query Selector](#query-selector)
+1. [翻译](#翻译)
+2. [Query 选择器](#query-选择器)
 3. [CSS & Style](#css--style)
-4. [DOM Manipulation](#dom-manipulation)
+4. [DOM 操作](#dom-操作)
 5. [Ajax](#ajax)
-6. [Events](#events)
-7. [Utilities](#utilities)
+6. [事件](#事件)
+7. [实用工具](#实用工具)
 8. [Promises](#promises)
-9. [Animation](#animation)
-10. [Alternatives](#alternatives)
-11. [Browser Support](#browser-support)
+9. [动画](#动画)
+10. [替代品](#替代品)
+11. [浏览器支持](#浏览器支持)
 
-## Translations
+## 翻译
 
 * [한국어](./README.ko-KR.md)
 * [正體中文](./README.zh-TW.md)
@@ -34,7 +34,7 @@
 * [日本語](./README-ja.md)
 * [Polski](./README-pl.md)
 
-## Query Selector
+## Query 选择器
 
 常用的 class、id、属性 选择器都可以使用 `document.querySelector` 或 `document.querySelectorAll` 替代。区别是
 * `document.querySelector` 返回第一个匹配的 Element
@@ -471,7 +471,7 @@
 
 **[⬆ 回到顶部](#目录)**
 
-## DOM Manipulation
+## DOM 操作
 
 - [3.1](#3.1) <a name='3.1'></a> Remove
 
@@ -742,7 +742,7 @@ IE9+ 请使用 [github/fetch](http://github.com/github/fetch)，IE8+ 请使用 [
 
 **[⬆ 回到顶部](#目录)**
 
-## Events
+## 事件
 
 完整地替代命名空间和事件代理，链接到 https://github.com/oneuijs/oui-dom-events
 
@@ -800,7 +800,7 @@ IE9+ 请使用 [github/fetch](http://github.com/github/fetch)，IE8+ 请使用 [
 
 **[⬆ 回到顶部](#目录)**
 
-## Utilities
+## 实用工具
 
 大部分实用工具都能在 native API 中找到. 其他高级功能可以选用专注于该领域的稳定性和性能都更好的库来代替，推荐 [lodash](https://lodash.com)。
 
@@ -1226,7 +1226,7 @@ Promise 代表异步操作的最终结果。jQuery 用它自己的方式处理 p
 
 **[⬆ 回到顶部](#目录)**
 
-## Animation
+## 动画
 
 - [8.1](#8.1) <a name='8.1'></a> Show & Hide
 
@@ -1355,12 +1355,12 @@ Promise 代表异步操作的最终结果。jQuery 用它自己的方式处理 p
 
 **[⬆ 回到顶部](#目录)**
 
-## Alternatives
+## 替代品
 
 * [你可能不需要 jQuery (You Might Not Need jQuery)](http://youmightnotneedjquery.com/) - 如何使用原生 JavaScript 实现通用事件，元素，ajax 等用法。
 * [npm-dom](http://github.com/npm-dom) 以及 [webmodules](http://github.com/webmodules) - 在 NPM 上提供独立 DOM 模块的组织
 
-## Browser Support
+## 浏览器支持
 
 ![Chrome][chrome-image] | ![Firefox][firefox-image] | ![IE][ie-image] | ![Opera][opera-image] | ![Safari][safari-image]
 --- | --- | --- | --- | --- |
