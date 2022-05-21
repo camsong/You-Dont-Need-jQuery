@@ -1482,9 +1482,9 @@ A promise represents the eventual result of an asynchronous operation. jQuery ha
 
   // Native
   el.style.transition = 'all ' + speed;
-  Object.keys(params).forEach((key) =>
+  Object.keys(params).forEach((key) => {
     el.style[key] = params[key];
-  )
+  });
   ```
 
 ## Alternatives
