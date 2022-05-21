@@ -872,7 +872,7 @@ For a complete replacement with namespace and delegation, refer to https://githu
 
 - [5.2](#5.2) <a name='5.2'></a> Unbind an event with off
 
-```js
+  ```js
   // jQuery
   $el.off(eventName, eventHandler);
 
@@ -895,7 +895,7 @@ For a complete replacement with namespace and delegation, refer to https://githu
   }
 
   el.dispatchEvent(event);
-```
+  ```
 
 **[⬆ back to top](#table-of-contents)**
 
