@@ -1458,9 +1458,9 @@ Promise는 비동기적인 작업의 결과를 표현합니다. jQuery는 자체
 
   // Native
   el.style.transition = 'all ' + speed;
-  Object.keys(params).forEach((key) =>
+  Object.keys(params).forEach((key) => {
     el.style[key] = params[key];
-  )
+  });
   ```
 
 ## 대안방법

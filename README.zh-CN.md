@@ -1348,9 +1348,9 @@ Promise 代表异步操作的最终结果。jQuery 用它自己的方式处理 p
 
   // Native
   el.style.transition = 'all ' + speed;
-  Object.keys(params).forEach((key) =>
+  Object.keys(params).forEach((key) => {
     el.style[key] = params[key];
-  )
+  });
   ```
 
 **[⬆ 回到顶部](#目录)**

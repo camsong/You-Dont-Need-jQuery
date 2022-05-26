@@ -1297,9 +1297,9 @@ Una promesa, representa el resultado eventual de una operación asíncrona. jQue
 
   // Nativo
   el.style.transition = 'all ' + speed;
-  Object.keys(params).forEach((key) =>
+  Object.keys(params).forEach((key) => {
     el.style[key] = params[key];
-  )
+  });
   ```
 
 ## Alternativas

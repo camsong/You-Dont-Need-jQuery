@@ -1457,9 +1457,9 @@ promise 表示異步操作的最終結果。 jQuery 用它自己的方式來處�
 
   // Native
   el.style.transition = 'all ' + speed;
-  Object.keys(params).forEach((key) =>
+  Object.keys(params).forEach((key) => {
     el.style[key] = params[key];
-  )
+  });
   ```
 
 ## Alternatives
