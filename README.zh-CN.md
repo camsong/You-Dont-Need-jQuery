@@ -882,7 +882,7 @@ IE9+ 请使用 [github/fetch](http://github.com/github/fetch)，IE8+ 请使用 [
 
   + isEmptyObject
 
-  检测对象是否为空 (包括不可枚举属性).
+  检测对象是否为空 (包括不可枚举属性)。
 
   ```js
   // jQuery
@@ -896,7 +896,7 @@ IE9+ 请使用 [github/fetch](http://github.com/github/fetch)，IE8+ 请使用 [
 
   + isPlainObject
 
-  检测是不是扁平对象 (使用 “{}” 或 “new Object” 创建).
+  检测是不是扁平对象 (使用 “{}” 或 “new Object” 创建)。
 
   ```js
   // jQuery
@@ -1065,7 +1065,7 @@ IE9+ 请使用 [github/fetch](http://github.com/github/fetch)，IE8+ 请使用 [
 
 - [6.2](#6.2) <a name='6.2'></a> 包含
 
-  检测 DOM 元素是不是其他 DOM 元素的后代.
+  检测 DOM 元素是不是其他 DOM 元素的后代。
 
   ```js
   // jQuery
@@ -1099,7 +1099,7 @@ IE9+ 请使用 [github/fetch](http://github.com/github/fetch)，IE8+ 请使用 [
 
   + parseHTML
 
-  解析字符串为 DOM 节点数组.
+  解析字符串为 DOM 节点数组。
 
   ```js
   // jQuery
@@ -1122,7 +1122,7 @@ IE9+ 请使用 [github/fetch](http://github.com/github/fetch)，IE8+ 请使用 [
 
   + parseJSON
 
-  传入格式正确的 JSON 字符串并返回 JavaScript 值.
+  传入格式正确的 JSON 字符串并返回 JavaScript 值。
 
   ```js
   // jQuery
