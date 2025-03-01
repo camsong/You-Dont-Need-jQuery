@@ -1,4 +1,4 @@
-## You (Might) Don't Need jQuery [![Build Status](https://api.travis-ci.org/nefe/You-Dont-Need-jQuery.svg)](https://travis-ci.org/nefe/You-Dont-Need-jQuery)
+## You (Might) Don't Need jQuery
 
 ## Bạn không cần jQuery nữa đâu
 
