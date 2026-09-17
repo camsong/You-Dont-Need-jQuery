@@ -407,7 +407,7 @@
 
     // Native
     function getHeight(el) {
-      const styles = this.getComputedStyle(el);
+      const styles = window.getComputedStyle(el);
       const height = el.offsetHeight;
       const borderTopWidth = parseFloat(styles.borderTopWidth);
       const borderBottomWidth = parseFloat(styles.borderBottomWidth);
@@ -544,11 +544,16 @@
   // jQuery
   $el.append("<div id='container'>hello</div>");
 
+  // Native (Element)
+  el.appendChild(newEl);
+
   // Native (HTML string)
   el.insertAdjacentHTML('beforeend', '<div id="container">Hello World</div>');
 
-  // Native (Element)
-  el.appendChild(newEl);
+  // Native (ES6-way)：可以传 Node 或字符串，
+  // 但字符串会作为纯文本插入，不会被解析成 HTML；
+  // 插入 HTML 字符串请用上面的 insertAdjacentHTML
+  el.append(newEl | 'Hello World');
   ```
 
 - [3.5](#3.5) <a name='3.5'></a> Prepend
@@ -557,11 +562,16 @@
   // jQuery
   $el.prepend("<div id='container'>hello</div>");
 
+  // Native (Element)
+  el.insertBefore(newEl, el.firstChild);
+
   // Native (HTML string)
   el.insertAdjacentHTML('afterbegin', '<div id="container">Hello World</div>');
 
-  // Native (Element)
-  el.insertBefore(newEl, el.firstChild);
+  // Native (ES6-way)：可以传 Node 或字符串，
+  // 但字符串会作为纯文本插入，不会被解析成 HTML；
+  // 插入 HTML 字符串请用上面的 insertAdjacentHTML
+  el.prepend(newEl | 'Hello World');
   ```
 
 - [3.6](#3.6) <a name='3.6'></a> insertBefore
@@ -573,7 +583,7 @@
   $newEl.insertBefore(queryString);
 
   // Native (HTML string)
-  el.insertAdjacentHTML('beforebegin ', '<div id="container">Hello World</div>');
+  el.insertAdjacentHTML('beforebegin', '<div id="container">Hello World</div>');
 
   // Native (Element)
   const el = document.querySelector(selector);
@@ -617,12 +627,11 @@
   深拷贝被选元素。（生成被选元素的副本，包含子节点、文本和属性。）
 
   ```js
-  //jQuery
+  // jQuery。传 `true` 会同时复制事件处理函数和数据
   $el.clone();
 
-  //Native
-  //深拷贝添加参数'true'
-  el.cloneNode();
+  // Native。传 `true` 才是深拷贝；事件监听器不会被复制
+  el.cloneNode(true);
   ```
 
 - [3.10](#3.10) <a name='3.10'></a> empty
@@ -707,8 +716,8 @@
   </ol>`);
 
   // Native
-  range = document.createRange();
-  parse = range.createContextualFragment.bind(range);
+  const range = document.createRange();
+  const parse = range.createContextualFragment.bind(range);
 
   parse(`<ol>
     <li>a</li>
@@ -787,12 +796,14 @@ IE9+ 请使用 [github/fetch](http://github.com/github/fetch)，IE8+ 请使用 [
   // jQuery
   $(el).trigger('custom-event', {key1: 'data'});
 
-  // Native
-  if (window.CustomEvent) {
-    const event = new CustomEvent('custom-event', {detail: {key1: 'data'}});
+  // Native。jQuery 事件默认冒泡，原生事件需要 `bubbles: true`
+  // 在处理函数里通过 `event.detail` 读取数据
+  let event;
+  if (typeof window.CustomEvent === 'function') {
+    event = new CustomEvent('custom-event', { bubbles: true, cancelable: true, detail: { key1: 'data' } });
   } else {
-    const event = document.createEvent('CustomEvent');
-    event.initCustomEvent('custom-event', true, true, {key1: 'data'});
+    event = document.createEvent('CustomEvent');
+    event.initCustomEvent('custom-event', true, true, { key1: 'data' });
   }
 
   el.dispatchEvent(event);
@@ -839,6 +850,16 @@ IE9+ 请使用 [github/fetch](http://github.com/github/fetch)，IE8+ 请使用 [
   ```js
   // jQuery
   $.inArray(item, array);
+
+  // Native
+  array.indexOf(item);
+  ```
+
+  检测数组中是否包含指定值。
+
+  ```js
+  // jQuery
+  $.inArray(item, array) > -1;
 
   // Native
   array.indexOf(item) > -1;
@@ -904,23 +925,19 @@ IE9+ 请使用 [github/fetch](http://github.com/github/fetch)，IE8+ 请使用 [
 
   // Native
   function isPlainObject(obj) {
-    if (typeof (obj) !== 'object' || obj.nodeType || obj !== null && obj !== undefined && obj === obj.window) {
+    if (Object.prototype.toString.call(obj) !== '[object Object]') {
       return false;
     }
 
-    if (obj.constructor &&
-        !Object.prototype.hasOwnProperty.call(obj.constructor.prototype, 'isPrototypeOf')) {
-      return false;
-    }
-
-    return true;
+    const proto = Object.getPrototypeOf(obj);
+    return proto === null || proto === Object.prototype;
   }
   ```
 
   + extend
 
   合并多个对象的内容到第一个对象。
-  object.assign 是 ES6 API，也可以使用 [polyfill](https://github.com/ljharb/object.assign)。
+  `Object.assign` 是 ES6 API，也可以使用 [polyfill](https://github.com/ljharb/object.assign)。和不带 `deep` 参数的 `$.extend` 一样，只做浅拷贝。
 
   ```js
   // jQuery
@@ -1006,21 +1023,20 @@ IE9+ 请使用 [github/fetch](http://github.com/github/fetch)，IE8+ 请使用 [
   合并第二个数组内容到第一个数组。
 
   ```js
-  // jQuery
+  // jQuery，会修改 array1，不去除重复值
   $.merge(array1, array2);
 
-  // Native
-  // 使用 concat，不能去除重复值
+  // Native，会修改 array1，不去除重复值
+  array1.push(...array2);
+
+  // Native，使用 concat 返回新数组，不去除重复值
   function merge(...args) {
-    return [].concat(...args)
+    return [].concat(...args);
   }
 
-  // ES6，同样不能去除重复值
-  array1 = [...array1, ...array2]
-
-  // 使用 Set，可以去除重复值
+  // 使用 Set 返回新数组，会去除重复值
   function merge(...args) {
-    return Array.from(new Set([].concat(...args)))
+    return Array.from(new Set([].concat(...args)));
   }
   ```
 
@@ -1075,23 +1091,23 @@ IE9+ 请使用 [github/fetch](http://github.com/github/fetch)，IE8+ 请使用 [
   el !== child && el.contains(child);
   ```
 
-- [6.3](#6.3) <a name='6.3'></a> Globaleval
+- [6.3](#6.3) <a name='6.3'></a> globalEval
 
   全局执行 JavaScript 代码。
 
   ```js
   // jQuery
-  $.globaleval(code);
+  $.globalEval(code);
 
   // Native
-  function Globaleval(code) {
+  function globalEval(code) {
     const script = document.createElement('script');
     script.text = code;
 
     document.head.appendChild(script).parentNode.removeChild(script);
   }
 
-  // Use eval, but context of eval is current, context of $.Globaleval is global.
+  // Use eval, but context of eval is current, context of $.globalEval is global.
   eval(code);
   ```
 
@@ -1116,7 +1132,7 @@ IE9+ 请使用 [github/fetch](http://github.com/github/fetch)，IE8+ 请使用 [
     context.head.appendChild(base);
 
     context.body.innerHTML = string;
-    return context.body.children;
+    return Array.from(context.body.childNodes);
   }
   ```
 
@@ -1147,7 +1163,7 @@ Promise 代表异步操作的最终结果。jQuery 用它自己的方式处理 p
   $promise.done(doneCallback).fail(failCallback).always(alwaysCallback)
 
   // Native
-  promise.then(doneCallback, failCallback).then(alwaysCallback, alwaysCallback)
+  promise.then(doneCallback, failCallback).finally(alwaysCallback);
   ```
 
 - [7.2](#7.2) <a name='7.2'></a> when
@@ -1160,7 +1176,7 @@ Promise 代表异步操作的最终结果。jQuery 用它自己的方式处理 p
   });
 
   // Native
-  Promise.all([$promise1, $promise2]).then([promise1Result, promise2Result] => {});
+  Promise.all([promise1, promise2]).then(([promise1Result, promise2Result]) => {});
   ```
 
 - [7.3](#7.3) <a name='7.3'></a> Deferred
@@ -1211,16 +1227,16 @@ Promise 代表异步操作的最终结果。jQuery 用它自己的方式处理 p
   }
 
   function asyncFunc() {
-    const defer = defer();
+    const deferred = defer();
     setTimeout(() => {
-      if(true) {
-        defer.resolve('some_value_computed_asynchronously');
+      if (true) {
+        deferred.resolve('some_value_computed_asynchronously');
       } else {
-        defer.reject('failed');
+        deferred.reject('failed');
       }
     }, 1000);
 
-    return defer.promise();
+    return deferred.promise();
   }
   ```
 
@@ -1280,7 +1296,7 @@ Promise 代表异步操作的最终结果。jQuery 用它自己的方式处理 p
   // jQuery
   $el.fadeTo('slow',0.15);
   // Native
-  el.style.transition = 'opacity 3s'; // 假设 'slow' 等于 3 秒
+  el.style.transition = 'opacity 600ms'; // jQuery 中 'slow' 等于 600 毫秒
   el.style.opacity = '0.15';
   ```
 
@@ -1346,8 +1362,8 @@ Promise 代表异步操作的最终结果。jQuery 用它自己的方式处理 p
   // jQuery
   $el.animate({ params }, speed);
 
-  // Native
-  el.style.transition = 'all ' + speed;
+  // Native（speed 单位为毫秒）
+  el.style.transition = `all ${speed}ms`;
   Object.keys(params).forEach((key) => {
     el.style[key] = params[key];
   });
