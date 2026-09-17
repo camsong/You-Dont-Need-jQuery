@@ -67,4 +67,26 @@ describe('utilities', () => {
     expect(Boolean(document.querySelector('.here'))).toBe(Boolean($('.here').length));
     expect(Boolean(document.querySelector('.missing'))).toBe(Boolean($('.missing').length));
   });
+  it('6.1 extend', () => {
+    const object1 = { a: 1, nested: { x: 1 } };
+    const object2 = { b: 2 };
+
+    expect(Object.assign({}, object1, object2)).toEqual($.extend({}, object1, object2));
+    expect({ ...object1, ...object2 }).toEqual($.extend({}, object1, object2));
+
+    const deep = structuredClone(object1);
+    expect(deep).toEqual($.extend(true, {}, object1));
+    expect(deep.nested).not.toBe(object1.nested);
+  });
+
+  it('6.1 isWindow', () => {
+    function isWindow(obj) {
+      return obj != null && obj === obj.window;
+    }
+
+    expect(isWindow(window)).toBe(true);
+    [null, undefined, {}, document].forEach((value) => {
+      expect(isWindow(value)).toBe(false);
+    });
+  });
 });

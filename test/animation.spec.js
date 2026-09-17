@@ -1,41 +1,55 @@
 // tests for Animation related
-import { describe, it, expect } from 'vitest';
+// jsdom has no Web Animations API, so el.animate is stubbed to check the
+// keyframes passed and the state left behind when the animation finishes.
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 
 describe('animation', () => {
-  it('8.3 fadeOut sets a valid transition and hides the element', () => {
-    function fadeOut(el, ms) {
-      if (ms) {
-        el.style.transition = `opacity ${ms}ms`;
-        el.addEventListener(
-          'transitionend',
-          () => {
-            el.style.display = 'none';
-          },
-          { once: true }
-        );
-      } else {
-        el.style.display = 'none';
-      }
-      el.style.opacity = '0';
-    }
+  let el;
 
-    const el = document.createElement('div');
-    fadeOut(el, 3000);
-    expect(el.style.transition).toBe('opacity 3000ms');
-
-    el.dispatchEvent(new Event('transitionend'));
-    expect(el.style.display).toBe('none');
-
-    const instant = document.createElement('div');
-    fadeOut(instant);
-    expect(instant.style.display).toBe('none');
+  beforeEach(() => {
+    Element.prototype.animate = vi.fn(() => ({ finished: Promise.resolve() }));
+    el = document.createElement('div');
+    document.body.append(el);
   });
 
-  it('8.8 Animate sets a valid transition', () => {
-    const el = document.createElement('div');
-    const speed = 400;
-    el.style.transition = `all ${speed}ms`;
+  afterEach(() => {
+    delete Element.prototype.animate;
+  });
 
-    expect(el.style.transition).toBe('all 400ms');
+  function fadeIn(el, ms = 400) {
+    el.style.display = '';
+    return el.animate([{ opacity: 0 }, { opacity: 1 }], ms).finished;
+  }
+
+  function fadeOut(el, ms = 400) {
+    return el.animate([{ opacity: 1 }, { opacity: 0 }], ms).finished.then(() => {
+      el.style.display = 'none';
+    });
+  }
+
+  it('8.3 fadeOut hides the element when finished', async () => {
+    await fadeOut(el, 3000);
+
+    expect(el.animate).toHaveBeenCalledWith([{ opacity: 1 }, { opacity: 0 }], 3000);
+    expect(el.style.display).toBe('none');
+  });
+
+  it('8.3 fadeIn shows the element', async () => {
+    el.style.display = 'none';
+    await fadeIn(el);
+
+    expect(el.animate).toHaveBeenCalledWith([{ opacity: 0 }, { opacity: 1 }], 400);
+    expect(el.style.display).toBe('');
+  });
+
+  it('8.5 fadeToggle picks the direction from display', async () => {
+    el.style.display = 'none';
+    const toggle = () => (getComputedStyle(el).display === 'none' ? fadeIn(el) : fadeOut(el));
+
+    await toggle();
+    expect(el.style.display).toBe('');
+
+    await toggle();
+    expect(el.style.display).toBe('none');
   });
 });
