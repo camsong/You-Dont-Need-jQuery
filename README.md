@@ -155,10 +155,9 @@ In place of common selectors like class, id or attribute we can use `document.qu
 
     // Native (optional filter function)
     function getPreviousSiblings(elem, filter) {
-      var sibs = [];
-      while (elem = elem.previousSibling) {
-          if (elem.nodeType === 3) continue; // ignore text nodes
-          if (!filter || filter(elem)) sibs.push(elem);
+      const sibs = [];
+      while ((elem = elem.previousElementSibling)) {
+        if (!filter || filter(elem)) sibs.push(elem);
       }
       return sibs;
     }
@@ -172,35 +171,28 @@ In place of common selectors like class, id or attribute we can use `document.qu
 
     // Native (optional filter function)
     function getNextSiblings(elem, filter) {
-            var sibs = [];
-            var nextElem = elem.parentNode.firstChild;
-            do {
-                if (nextElem.nodeType === 3) continue; // ignore text nodes
-                if (nextElem === elem) continue; // ignore elem of target
-                if (nextElem === elem.nextElementSibling) {
-                    if (!filter || filter(elem)) {
-                        sibs.push(nextElem);
-                        elem = nextElem;
-                    }
-                }
-            } while(nextElem = nextElem.nextSibling)
-            return sibs;
-        }
+      const sibs = [];
+      while ((elem = elem.nextElementSibling)) {
+        if (!filter || filter(elem)) sibs.push(elem);
+      }
+      return sibs;
+    }
+    ```
 
-An example of filter function:
+    An example of filter function:
 
-```js
-function exampleFilter(elem) {
-  switch (elem.nodeName.toUpperCase()) {
-    case 'DIV':
-      return true;
-    case 'SPAN':
-      return true;
-    default:
-      return false;
-  }
-}
-```
+    ```js
+    function exampleFilter(elem) {
+      switch (elem.nodeName.toUpperCase()) {
+        case 'DIV':
+          return true;
+        case 'SPAN':
+          return true;
+        default:
+          return false;
+      }
+    }
+    ```
 
 - [1.6](#1.6) <a name='1.6'></a> Closest
 
@@ -277,7 +269,7 @@ function exampleFilter(elem) {
 
     // Native
     Array.from(document.querySelectorAll('.radio')).indexOf(e.currentTarget);
-    or
+    // or
     Array.prototype.indexOf.call(document.querySelectorAll('.radio'), e.currentTarget);
     ```
 
@@ -357,10 +349,10 @@ function exampleFilter(elem) {
 
     // Native
     function contains(selector, text) {
-      var elements = document.querySelectorAll(selector);
-      return Array.from(elements).filter(function(element) {
-        return RegExp(text).test(element.textContent);
-      });
+      const elements = document.querySelectorAll(selector);
+      return Array.from(elements).filter((element) =>
+        element.textContent.includes(text)
+      );
     }
     ```
 
@@ -394,14 +386,14 @@ function exampleFilter(elem) {
     el.style.color = '#f01';
     ```
 
-  + Get/Set Styles
+  + Set multiple styles
 
     ```js
     // jQuery
-    $el.css({ color: '#f01', 'border-color': '#f02' })
-    
+    $el.css({ color: '#f01', 'border-color': '#f02' });
+
     // Native
-    Object.assign(el.style, { color: '#f01', borderColor: '#f02' }) 
+    Object.assign(el.style, { color: '#f01', borderColor: '#f02' });
     ```
 
   + Add class
@@ -451,7 +443,7 @@ function exampleFilter(elem) {
   + Window height
 
     ```js
-    // window height
+    // jQuery
     $(window).height();
 
     // without scrollbar, behaves like jQuery
@@ -496,10 +488,10 @@ function exampleFilter(elem) {
       return height - borderBottomWidth - borderTopWidth - paddingTop - paddingBottom;
     }
 
-    // accurate to integer（when `border-box`, it's `height - border`; when `content-box`, it's `height + padding`）
+    // accurate to integer (when `border-box`, it's `height - border`; when `content-box`, it's `height + padding`)
     el.clientHeight;
 
-    // accurate to decimal（when `border-box`, it's `height`; when `content-box`, it's `height + padding + border`）
+    // accurate to decimal (when `border-box`, it's `height`; when `content-box`, it's `height + padding + border`)
     el.getBoundingClientRect().height;
     ```
 
@@ -514,7 +506,7 @@ function exampleFilter(elem) {
     $el.position();
 
     // Native
-    { left: el.offsetLeft, top: el.offsetTop }
+    const position = { left: el.offsetLeft, top: el.offsetTop };
     ```
 
   + Offset
@@ -621,11 +613,13 @@ function exampleFilter(elem) {
   $parent.append(newEl | '<div id="container">Hello World</div>');
 
   // Native: different syntax
-  parent.insertAdjacentHTML('beforeend', '<div id="container">Hello World</div>');
   parent.appendChild(newEl);
+  parent.insertAdjacentHTML('beforeend', '<div id="container">Hello World</div>');
 
-  // Native (ES6-way): unified syntax
-  parent.append(newEl | '<div id="container">Hello World</div>');
+  // Native (ES6-way): accepts both Node objects and strings,
+  // but strings are inserted as plain text (not parsed as HTML);
+  // for HTML strings, use insertAdjacentHTML (see above)
+  parent.append(newEl | 'Hello World');
   ```
 
 - [3.5](#3.5) <a name='3.5'></a> Prepend
@@ -635,11 +629,13 @@ function exampleFilter(elem) {
   $parent.prepend(newEl | '<div id="container">Hello World</div>');
 
   // Native: different syntax
-  parent.insertAdjacentHTML('afterbegin', '<div id="container">Hello World</div>');
   parent.insertBefore(newEl, parent.firstChild);
+  parent.insertAdjacentHTML('afterbegin', '<div id="container">Hello World</div>');
 
-  // Native (ES6-way): unified syntax
-  parent.prepend(newEl | '<div id="container">Hello World</div>');
+  // Native (ES6-way): accepts both Node objects and strings,
+  // but strings are inserted as plain text (not parsed as HTML);
+  // for HTML strings, use insertAdjacentHTML (see above)
+  parent.prepend(newEl | 'Hello World');
   ```
 
 - [3.6](#3.6) <a name='3.6'></a> insertBefore
@@ -650,14 +646,15 @@ function exampleFilter(elem) {
   // jQuery
   $newEl.insertBefore(selector);
 
-  // Native (HTML string)
-  el.insertAdjacentHTML('beforebegin', '<div id="container">Hello World</div>');
+  const el = document.querySelector(selector);
 
   // Native (Element)
-  const el = document.querySelector(selector);
   if (el.parentNode) {
     el.parentNode.insertBefore(newEl, el);
   }
+
+  // Native (HTML string)
+  el.insertAdjacentHTML('beforebegin', '<div id="container">Hello World</div>');
   ```
 
 - [3.7](#3.7) <a name='3.7'></a> insertAfter
@@ -668,14 +665,15 @@ function exampleFilter(elem) {
   // jQuery
   $newEl.insertAfter(selector);
 
-  // Native (HTML string)
-  el.insertAdjacentHTML('afterend', '<div id="container">Hello World</div>');
+  const el = document.querySelector(selector);
 
   // Native (Element)
-  const el = document.querySelector(selector);
   if (el.parentNode) {
     el.parentNode.insertBefore(newEl, el.nextSibling);
   }
+
+  // Native (HTML string)
+  el.insertAdjacentHTML('afterend', '<div id="container">Hello World</div>');
   ```
 
 - [3.8](#3.8) <a name='3.8'></a> is
@@ -694,12 +692,11 @@ function exampleFilter(elem) {
   Create a deep copy of an element: it copies the matched element as well as all of its descendant elements and text nodes.
 
   ```js
-  // jQuery. Sets parameter as `true` to indicate that event handlers should be copied along with the element.
+  // jQuery. Pass `true` to also copy event handlers and data.
   $el.clone();
 
-  // Native
-  el.cloneNode();
-
+  // Native. Pass `true` for a deep copy; event listeners are never copied.
+  el.cloneNode(true);
   ```
 
 - [3.10](#3.10) <a name='3.10'></a> empty
@@ -711,7 +708,7 @@ function exampleFilter(elem) {
   $el.empty();
 
   // Native
-  el.innerHTML = null;
+  el.innerHTML = '';
   ```
 
 - [3.11](#3.11) <a name='3.11'></a> wrap
@@ -741,11 +738,11 @@ function exampleFilter(elem) {
 
   // Native
   Array.from(document.querySelectorAll('.inner')).forEach((el) => {
-    let elParentNode = el.parentNode;
+    const elParentNode = el.parentNode;
 
-    if(elParentNode !== document.body) {
-        elParentNode.parentNode.insertBefore(el, elParentNode);
-        elParentNode.parentNode.removeChild(elParentNode);
+    if (elParentNode !== document.body) {
+      elParentNode.parentNode.insertBefore(el, elParentNode);
+      elParentNode.parentNode.removeChild(elParentNode);
     }
   });
   ```
@@ -789,8 +786,8 @@ function exampleFilter(elem) {
   </ol>`);
 
   // Native
-  range = document.createRange();
-  parse = range.createContextualFragment.bind(range);
+  const range = document.createRange();
+  const parse = range.createContextualFragment.bind(range);
 
   parse(`<ol>
     <li>a</li>
@@ -832,39 +829,17 @@ For a complete replacement with namespace and delegation, refer to https://githu
 - [5.0](#5.0) <a name='5.0'></a> Document ready by `DOMContentLoaded`
 
   ```js
-    // jQuery
-    $(document).ready(eventHandler);
+  // jQuery
+  $(document).ready(eventHandler);
 
-    // Native
-    // Check if the DOMContentLoaded has already been completed
-    if (document.readyState !== 'loading') {
-      eventHandler();
-    } else {
-      document.addEventListener('DOMContentLoaded', eventHandler);
-    }
-
-    // Native 
-    // Example 2 - Ternary Operator - Async
-    // Check if the DOMContentLoaded has already been completed
-    (async function() {
-      (document.readyState !== 'loading') ?
-        eventHandler() : document.addEventListener('DOMContentLoaded',
-          function() {
-            eventHandler(); // EventHandler
-          });
-    })();
-
-    // Native
-    // Example 3 - Ternary Operator - Non Async
-    // Check if the DOMContentLoaded has already been completed
-    (function() {
-      (document.readyState !== 'loading') ?
-        eventHandler() : document.addEventListener('DOMContentLoaded',
-          function() {
-            eventHandler(); // EventHandler
-          });
-    })();
-  ``` 
+  // Native
+  // Check if the DOMContentLoaded has already been completed
+  if (document.readyState !== 'loading') {
+    eventHandler();
+  } else {
+    document.addEventListener('DOMContentLoaded', eventHandler);
+  }
+  ```
 
 - [5.1](#5.1) <a name='5.1'></a> Bind an event with on
 
@@ -892,12 +867,14 @@ For a complete replacement with namespace and delegation, refer to https://githu
   // jQuery
   $(el).trigger('custom-event', {key1: 'data'});
 
-  // Native
-  if (window.CustomEvent) {
-    const event = new CustomEvent('custom-event', {detail: {key1: 'data'}});
+  // Native. jQuery events bubble, native ones don't unless `bubbles: true`.
+  // Read the data from `event.detail` in the handler.
+  let event;
+  if (typeof window.CustomEvent === 'function') {
+    event = new CustomEvent('custom-event', { bubbles: true, cancelable: true, detail: { key1: 'data' } });
   } else {
-    const event = document.createEvent('CustomEvent');
-    event.initCustomEvent('custom-event', true, true, {key1: 'data'});
+    event = document.createEvent('CustomEvent');
+    event.initCustomEvent('custom-event', true, true, { key1: 'data' });
   }
 
   el.dispatchEvent(event);
@@ -944,6 +921,16 @@ Most of jQuery utilities are also found in the native API. Other advanced functi
   ```js
   // jQuery
   $.inArray(item, array);
+
+  // Native
+  array.indexOf(item);
+  ```
+
+  Test if a specified value is found within an array.
+
+  ```js
+  // jQuery
+  $.inArray(item, array) > -1;
 
   // Native
   array.indexOf(item) > -1;
@@ -1009,23 +996,19 @@ Most of jQuery utilities are also found in the native API. Other advanced functi
 
   // Native
   function isPlainObject(obj) {
-    if (typeof (obj) !== 'object' || obj.nodeType || obj !== null && obj !== undefined && obj === obj.window) {
+    if (Object.prototype.toString.call(obj) !== '[object Object]') {
       return false;
     }
 
-    if (obj.constructor &&
-        !Object.prototype.hasOwnProperty.call(obj.constructor.prototype, 'isPrototypeOf')) {
-      return false;
-    }
-
-    return true;
+    const proto = Object.getPrototypeOf(obj);
+    return proto === null || proto === Object.prototype;
   }
   ```
 
   + extend
 
   Merge the contents of two or more objects together into a new object, without modifying either argument.
-  object.assign is part of ES6 API, and you could also use a [polyfill](https://github.com/ljharb/object.assign).
+  `Object.assign` is part of ES6 API, and you could also use a [polyfill](https://github.com/ljharb/object.assign). Like `$.extend` without `deep`, it only makes a shallow copy.
 
   ```js
   // jQuery
@@ -1066,12 +1049,16 @@ Most of jQuery utilities are also found in the native API. Other advanced functi
   A generic iterator function, which can be used to seamlessly iterate over both objects and arrays.
 
   ```js
-  // jQuery
+  // jQuery (return `false` to break)
   $.each(array, (index, value) => {
   });
 
-  // Native
+  // Native (use `for...of` or `some` if you need to break early)
   array.forEach((value, index) => {
+  });
+
+  // Native, for objects
+  Object.entries(obj).forEach(([key, value]) => {
   });
   ```
 
@@ -1111,20 +1098,20 @@ Most of jQuery utilities are also found in the native API. Other advanced functi
   Merge the contents of two arrays together into the first array.
 
   ```js
-  // jQuery, doesn't remove duplicate items
+  // jQuery, modifies array1, doesn't remove duplicate items
   $.merge(array1, array2);
 
-  // Native, doesn't remove duplicate items
+  // Native, modifies array1, doesn't remove duplicate items
+  array1.push(...array2);
+
+  // Native, returns a new array, doesn't remove duplicate items
   function merge(...args) {
-    return [].concat(...args)
+    return [].concat(...args);
   }
 
-  // ES6-way, doesn't remove duplicate items
-  array1 = [...array1, ...array2]
-
-  // Set version, does remove duplicate items
+  // Set version, returns a new array, does remove duplicate items
   function merge(...args) {
-    return Array.from(new Set([].concat(...args)))
+    return Array.from(new Set([].concat(...args)));
   }
   ```
 
@@ -1182,23 +1169,23 @@ Most of jQuery utilities are also found in the native API. Other advanced functi
   el !== child && el.contains(child);
   ```
 
-- [6.3](#6.3) <a name='6.3'></a> Globaleval
+- [6.3](#6.3) <a name='6.3'></a> globalEval
 
   Execute some JavaScript code globally.
 
   ```js
   // jQuery
-  $.globaleval(code);
+  $.globalEval(code);
 
   // Native
-  function Globaleval(code) {
+  function globalEval(code) {
     const script = document.createElement('script');
     script.text = code;
 
     document.head.appendChild(script).parentNode.removeChild(script);
   }
 
-  // Use eval, but context of eval is current, context of $.Globaleval is global.
+  // Use eval, but context of eval is current, context of $.globalEval is global.
   eval(code);
   ```
 
@@ -1223,26 +1210,23 @@ Most of jQuery utilities are also found in the native API. Other advanced functi
     context.head.appendChild(base);
 
     context.body.innerHTML = string;
-    return context.body.children;
+    return Array.from(context.body.childNodes);
   }
   ```
-- [6.5](#6.5) <a name='6.5'></a> exists
 
-+ exists
+- [6.5](#6.5) <a name='6.5'></a> exists
 
   Check if an element exists in the DOM
 
   ```js
   // jQuery
   if ($('selector').length) {
-     // exists
+    // exists
   }
 
   // Native
-  var element =  document.getElementById('elementId');
-  if (typeof(element) != 'undefined' && element != null)
-  {
-     // exists
+  if (document.querySelector('selector')) {
+    // exists
   }
   ```
 
@@ -1261,7 +1245,7 @@ A promise represents the eventual result of an asynchronous operation. jQuery ha
   $promise.done(doneCallback).fail(failCallback).always(alwaysCallback)
 
   // Native
-  promise.then(doneCallback, failCallback).then(alwaysCallback, alwaysCallback)
+  promise.then(doneCallback, failCallback).finally(alwaysCallback);
   ```
 
 - [7.2](#7.2) <a name='7.2'></a> when
@@ -1274,7 +1258,7 @@ A promise represents the eventual result of an asynchronous operation. jQuery ha
   });
 
   // Native
-  Promise.all([$promise1, $promise2]).then(([promise1Result, promise2Result]) => {});
+  Promise.all([promise1, promise2]).then(([promise1Result, promise2Result]) => {});
   ```
 
 - [7.3](#7.3) <a name='7.3'></a> Deferred
@@ -1325,16 +1309,16 @@ A promise represents the eventual result of an asynchronous operation. jQuery ha
   }
 
   function asyncFunc() {
-    const defer = defer();
+    const deferred = defer();
     setTimeout(() => {
-      if(true) {
-        defer.resolve('some_value_computed_asynchronously');
+      if (true) {
+        deferred.resolve('some_value_computed_asynchronously');
       } else {
-        defer.reject('failed');
+        deferred.reject('failed');
       }
     }, 1000);
 
-    return defer.promise();
+    return deferred.promise();
   }
   ```
 
@@ -1381,14 +1365,16 @@ A promise represents the eventual result of an asynchronous operation. jQuery ha
   // Native fadeOut
   function fadeOut(el, ms) {
     if (ms) {
-      el.style.transition = `opacity ${ms} ms`;
+      el.style.transition = `opacity ${ms}ms`;
       el.addEventListener(
         'transitionend',
-        function(event) {
+        () => {
           el.style.display = 'none';
         },
-        false
+        { once: true }
       );
+    } else {
+      el.style.display = 'none';
     }
     el.style.opacity = '0';
   }
@@ -1421,7 +1407,7 @@ A promise represents the eventual result of an asynchronous operation. jQuery ha
   // jQuery
   $el.fadeTo('slow',0.15);
   // Native
-  el.style.transition = 'opacity 3s'; // assume 'slow' equals 3 seconds
+  el.style.transition = 'opacity 600ms'; // 'slow' equals 600 milliseconds in jQuery
   el.style.opacity = '0.15';
   ```
 
@@ -1486,8 +1472,8 @@ A promise represents the eventual result of an asynchronous operation. jQuery ha
   // jQuery
   $el.animate({ params }, speed);
 
-  // Native
-  el.style.transition = 'all ' + speed;
+  // Native (speed in milliseconds)
+  el.style.transition = `all ${speed}ms`;
   Object.keys(params).forEach((key) => {
     el.style[key] = params[key];
   });
