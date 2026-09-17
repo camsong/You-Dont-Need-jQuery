@@ -11,28 +11,20 @@ describe('promises', () => {
     expect(calls).toEqual(['fail', 'always']);
   });
 
-  it('7.3 Deferred way', async () => {
-    function defer() {
-      const deferred = {};
-      const promise = new Promise((resolve, reject) => {
-        deferred.resolve = resolve;
-        deferred.reject = reject;
-      });
+  it('7.2 when', async () => {
+    const [promise1Result, promise2Result] = await Promise.all([Promise.resolve(1), Promise.resolve(2)]);
 
-      deferred.promise = () => {
-        return promise;
-      };
+    expect([promise1Result, promise2Result]).toEqual([1, 2]);
+  });
 
-      return deferred;
-    }
-
+  it('7.3 Deferred way with Promise.withResolvers', async () => {
     function asyncFunc() {
-      const deferred = defer();
+      const { promise, resolve } = Promise.withResolvers();
       setTimeout(() => {
-        deferred.resolve('some_value_computed_asynchronously');
+        resolve('some_value_computed_asynchronously');
       }, 10);
 
-      return deferred.promise();
+      return promise;
     }
 
     await expect(asyncFunc()).resolves.toBe('some_value_computed_asynchronously');

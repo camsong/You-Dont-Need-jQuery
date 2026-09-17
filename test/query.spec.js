@@ -129,4 +129,36 @@ describe('query selector', () => {
       expect(names(contains('li', 'c'))).toEqual(['c']);
     });
   });
+  describe('ancestors', () => {
+    it('1.7 Parents Until', () => {
+      document.body.innerHTML = `
+        <section class='stop'>
+          <div class='a'>
+            <div class='b'>
+              <div class='a'>
+                <span id='start'></span>
+              </div>
+            </div>
+          </div>
+        </section>
+      `;
+
+      function parentsUntil(el, selector, filter) {
+        const result = [];
+
+        el = el.parentElement;
+        while (el && !el.matches(selector)) {
+          if (!filter || el.matches(filter)) {
+            result.push(el);
+          }
+          el = el.parentElement;
+        }
+        return result;
+      }
+
+      const start = document.getElementById('start');
+      expect(parentsUntil(start, '.stop')).toEqual($(start).parentsUntil('.stop').toArray());
+      expect(parentsUntil(start, '.stop', '.a')).toEqual($(start).parentsUntil('.stop', '.a').toArray());
+    });
+  });
 });
