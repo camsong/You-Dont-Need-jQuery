@@ -1,6 +1,8 @@
 ## You (Might) Don't Need jQuery
 
-오늘날 프론트엔드 개발 환경은 급격히 진화하고 있고, 모던 브라우저들은 이미 충분히 많은 DOM/BOM API들을 구현했습니다. 우리는 jQuery를 DOM 처리나 이벤트를 위해 처음부터 배울 필요가 없습니다. React, Angular, Vue같은 프론트엔드 라이브러리들이 주도권을 차지하는 동안 DOM을 바로 처리하는 것은 안티패턴이 되었고, jQuery의 중요성은 줄어들었습니다. 이 프로젝트는 대부분의 jQuery 메소드의 대안을 IE 10 이상을 지원하는 네이티브 구현으로 소개합니다.
+오늘날 프론트엔드 개발 환경은 급격히 진화하고 있고, 모던 브라우저들은 이미 충분히 많은 DOM/BOM API들을 구현했습니다. 우리는 jQuery를 DOM 처리나 이벤트를 위해 처음부터 배울 필요가 없습니다. React, Angular, Vue같은 프론트엔드 라이브러리들이 주도권을 차지하는 동안 DOM을 바로 처리하는 것은 안티패턴이 되었고, jQuery의 중요성은 줄어들었습니다. 이 프로젝트는 대부분의 jQuery 메소드의 대안을 네이티브 JavaScript 구현으로 소개합니다.
+
+예제 코드는 현재의 에버그린 브라우저(Chrome, Edge, Firefox, Safari)를 대상으로 합니다. Internet Explorer는 더 이상 Microsoft의 지원을 받지 않으므로 IE 전용 대체 코드는 제거했습니다. 여전히 필요하다면 [IE를 지원하는 마지막 버전](https://github.com/camsong/You-Dont-Need-jQuery/tree/c4e00b3)을 참고하세요.
 
 노트: jQuery는 여전히 훌륭한 라이브러리이며 많은 유즈 케이스를 갖고 있습니다. 원하지 않으신다면 마이그레이트하지 않으셔도됩니다.
 
@@ -40,10 +42,10 @@
 
 평범한 class, id, attribute같은 selector는 `document.querySelector`나 `document.querySelectorAll`으로 대체할 수 있습니다.
 * `document.querySelector`는 처음 매칭된 엘리먼트를 반환합니다.
-* `document.querySelectorAll`는 모든 매칭된 엘리먼트를 NodeList로 반환합니다. `Array.prototype.slice.call(document.querySelectorAll(selector));`을 사용해서 Array로 변환할 수 있습니다.
-* 만약 매칭된 엘리멘트가 없으면 jQuery와 `document.querySelectorAll`는 `[]`를 반환하지만 `document.querySelector`는 `null`을 반환합니다.
+* `document.querySelectorAll`는 모든 매칭된 엘리먼트를 정적(static) NodeList로 반환합니다. `forEach`를 지원하며, `Array.from(document.querySelectorAll(selector))` 또는 [makeArray](#makeArray)에 소개된 방법으로 Array로 변환할 수 있습니다.
+* 만약 매칭된 엘리먼트가 없으면 jQuery는 빈 jQuery 객체를, `document.querySelectorAll`는 빈 NodeList를 반환하지만 `document.querySelector`는 `null`을 반환합니다.
 
-> 안내: `document.querySelector`와 `document.querySelectorAll`는 꽤 **느립니다**, `getElementById`나 `document.getElementsByClassName`, `document.getElementsByTagName`를 사용하면 퍼포먼스가 향상을 기대할 수 있습니다.
+> 안내: `document.getElementById`, `document.getElementsByClassName`, `document.getElementsByTagName`은 `querySelector*`보다 약간 빠르지만, `getElementsBy*`는 DOM이 바뀌면 함께 바뀌는 *live* HTMLCollection을 반환합니다. 직접 측정해서 병목을 확인한 경우가 아니라면 `querySelector*`를 사용하세요.
 
 - [1.0](#1.0) <a name='1.0'></a> selector로 찾기
 
@@ -79,9 +81,6 @@
 
   // 또는
   document.getElementById('id');
-
-  // 또는
-  window['id']
   ```
 
 - [1.3](#1.3) <a name='1.3'></a> 속성(attribute)으로 찾기
@@ -112,16 +111,8 @@
     // jQuery
     $el.siblings();
 
-    // Native - latest, Edge13+
+    // Native
     [...el.parentNode.children].filter((child) =>
-      child !== el
-    );
-    // Native (alternative) - latest, Edge13+
-    Array.from(el.parentNode.children).filter((child) =>
-      child !== el
-    );
-    // Native - IE10+
-    Array.prototype.filter.call(el.parentNode.children, (child) =>
       child !== el
     );
     ```
@@ -153,13 +144,13 @@
 
     // Native (선택적 필터 함수)
     function getPreviousSiblings(elem, filter) {
-      var sibs = [];
-      while (elem = elem.previousSibling) {
-        if (elem.nodeType === 3) continue; // 텍스트 노트 무시
+      const sibs = [];
+      while ((elem = elem.previousElementSibling)) {
         if (!filter || filter(elem)) sibs.push(elem);
       }
       return sibs;
     }
+    ```
 
   + 모든 다음 형제 엘리먼트
 
@@ -169,35 +160,28 @@
 
     // Native (선택적 필터 함수)
     function getNextSiblings(elem, filter) {
-      var sibs = [];
-      var nextElem = elem.parentNode.firstChild;
-      do {
-        if (nextElem.nodeType === 3) continue; // 텍스트 노드 무시
-        if (nextElem === elem) continue; // 대상 elem 무시
-        if (nextElem === elem.nextElementSibling) {
-          if (!filter || filter(elem)) {
-            sibs.push(nextElem);
-            elem = nextElem;
-          }
-        }
-      } while(nextElem = nextElem.nextSibling)
+      const sibs = [];
+      while ((elem = elem.nextElementSibling)) {
+        if (!filter || filter(elem)) sibs.push(elem);
+      }
       return sibs;
     }
+    ```
 
-필터 함수 예제:
+    필터 함수 예제:
 
-```js
-function exampleFilter(elem) {
-  switch (elem.nodeName.toUpperCase()) {
-    case 'DIV':
-      return true;
-    case 'SPAN':
-      return true;
-    default:
-      return false;
-  }
-}
-```
+    ```js
+    function exampleFilter(elem) {
+      switch (elem.nodeName.toUpperCase()) {
+        case 'DIV':
+          return true;
+        case 'SPAN':
+          return true;
+        default:
+          return false;
+      }
+    }
+    ```
 
 - [1.6](#1.6) <a name='1.6'></a> Closest
 
@@ -207,22 +191,8 @@ function exampleFilter(elem) {
   // jQuery
   $el.closest(selector);
 
-  // Native - 최신 브라우저만, IE는 미지원
-   el.closest(selector);
-
-  // Native - IE10 이상
-  function closest(el, selector) {
-    const matchesSelector = el.matches || el.webkitMatchesSelector || el.mozMatchesSelector || el.msMatchesSelector;
-
-    while (el) {
-      if (matchesSelector.call(el, selector)) {
-        return el;
-      } else {
-        el = el.parentElement;
-      }
-    }
-    return null;
-  }
+  // Native
+  el.closest(selector);
   ```
 
 - [1.7](#1.7) <a name='1.7'></a> Parents Until
@@ -236,17 +206,12 @@ function exampleFilter(elem) {
   // Native
   function parentsUntil(el, selector, filter) {
     const result = [];
-    const matchesSelector = el.matches || el.webkitMatchesSelector || el.mozMatchesSelector || el.msMatchesSelector;
 
     // match start from parent
     el = el.parentElement;
-    while (el && !matchesSelector.call(el, selector)) {
-      if (!filter) {
+    while (el && !el.matches(selector)) {
+      if (!filter || el.matches(filter)) {
         result.push(el);
-      } else {
-        if (matchesSelector.call(el, filter)) {
-          result.push(el);
-        }
       }
       el = el.parentElement;
     }
@@ -270,12 +235,10 @@ function exampleFilter(elem) {
 
     ```js
     // jQuery
-    $(e.currentTarget).index('.radio');
+    $('.radio').index(e.currentTarget);
 
     // Native
-    Array.from(document.querySelectorAll('.radio')).indexOf(e.currentTarget);
-    또는
-    Array.prototype.indexOf.call(document.querySelectorAll('.radio'), e.currentTarget);
+    [...document.querySelectorAll('.radio')].indexOf(e.currentTarget);
     ```
 
 - [1.9](#1.9) <a name='1.9'></a> Iframe Contents
@@ -326,7 +289,7 @@ function exampleFilter(elem) {
   + 속성 설정하기
 
     ```js
-    // jQuery, DOM 변형 없이 메모리에서 작동됩니다.
+    // jQuery
     $el.attr('foo', 'bar');
 
     // Native
@@ -339,11 +302,11 @@ function exampleFilter(elem) {
     // jQuery
     $el.data('foo');
 
-    // Native (`getAttribute` 사용)
-    el.getAttribute('data-foo');
+    // Native
+    el.dataset.foo;
 
-    // Native (IE 11 이상의 지원만 필요하다면 `dataset`을 사용)
-    el.dataset['foo'];
+    // 또는
+    el.getAttribute('data-foo');
     ```
 
 - [1.12](#1.12) <a name='1.12'></a> 문자열을 포함하는 셀렉터(대소문자 구분)
@@ -354,10 +317,10 @@ function exampleFilter(elem) {
 
     // Native
     function contains(selector, text) {
-      var elements = document.querySelectorAll(selector);
-      return Array.from(elements).filter(function(element) {
-        return RegExp(text).test(element.textContent);
-      });
+      const elements = document.querySelectorAll(selector);
+      return Array.from(elements).filter((element) =>
+        element.textContent.includes(text)
+      );
     }
     ```
 
@@ -371,14 +334,11 @@ function exampleFilter(elem) {
 
     ```js
     // jQuery
-    $el.css("color");
+    $el.css('color');
 
     // Native
-    // NOTE: 알려진 버그로, style값이 'auto'이면 'auto'를 반환합니다.
-    const win = el.ownerDocument.defaultView;
-
-    // null은 가상 스타일은 반환하지 않음을 의미합니다.
-    win.getComputedStyle(el, null).color;
+    // NOTE: '#f01'이 아니라 'rgb(255, 0, 17)'처럼 계산된 값(resolved value)을 반환합니다.
+    getComputedStyle(el).color;
     ```
 
   + style값 설정하기
@@ -391,10 +351,15 @@ function exampleFilter(elem) {
     el.style.color = '#f01';
     ```
 
-  + Style값들을 동시에 얻거나 설정하기
+  + 여러 style값을 한 번에 설정하기
 
-    만약 한번에 여러 style값을 바꾸고 싶다면 oui-dom-utils 패키지의 [setStyles](https://github.com/oneuijs/oui-dom-utils/blob/master/src/index.js#L194)를 사용해보세요.
+    ```js
+    // jQuery
+    $el.css({ color: '#f01', 'border-color': '#f02' });
 
+    // Native
+    Object.assign(el.style, { color: '#f01', borderColor: '#f02' });
+    ```
 
   + class 추가하기
 
@@ -443,7 +408,7 @@ function exampleFilter(elem) {
   + Window의 높이
 
     ```js
-    // window 높이
+    // jQuery
     $(window).height();
 
     // jQuery처럼 스크롤바를 제외하기
@@ -488,10 +453,10 @@ function exampleFilter(elem) {
       return height - borderBottomWidth - borderTopWidth - paddingTop - paddingBottom;
     }
 
-    // 정수로 정확하게（`border-box`일 때 이 값은 `height - border`이고, `content-box`일 때, 이 값은 `height + padding`）
+    // 정수로 정확하게 (`border-box`일 때 이 값은 `height - border`이고, `content-box`일 때, 이 값은 `height + padding`)
     el.clientHeight;
 
-    // 실수로 정확하게（`border-box`일 때 이 값은 `height`이고, `content-box`일 때, 이 값은 `height + padding + border`）
+    // 실수로 정확하게 (`border-box`일 때 이 값은 `height`이고, `content-box`일 때, 이 값은 `height + padding + border`)
     el.getBoundingClientRect().height;
     ```
 
@@ -506,7 +471,7 @@ function exampleFilter(elem) {
     $el.position();
 
     // Native
-    { left: el.offsetLeft, top: el.offsetTop }
+    const position = { left: el.offsetLeft, top: el.offsetTop };
     ```
 
   + Offset
@@ -522,8 +487,8 @@ function exampleFilter(elem) {
       const box = el.getBoundingClientRect();
 
       return {
-        top: box.top + window.pageYOffset - document.documentElement.clientTop,
-        left: box.left + window.pageXOffset - document.documentElement.clientLeft
+        top: box.top + window.scrollY,
+        left: box.left + window.scrollX
       };
     }
     ```
@@ -537,7 +502,7 @@ function exampleFilter(elem) {
   $(window).scrollTop();
 
   // Native
-  (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop;
+  window.scrollY;
   ```
 
 **[⬆ 목차로 돌아가기](#목차)**
@@ -553,7 +518,7 @@ function exampleFilter(elem) {
   $el.remove();
 
   // Native
-  el.parentNode.removeChild(el);
+  el.remove();
   ```
 
 - [3.2](#3.2) <a name='3.2'></a> Text
@@ -612,12 +577,11 @@ function exampleFilter(elem) {
   // jQuery: DOMString과 Node 객체를 위한 통합된 구문
   $parent.append(newEl | '<div id="container">Hello World</div>');
 
-  // Native: 다른 구문
-  parent.insertAdjacentHTML('beforeend', '<div id="container">Hello World</div>');
-  parent.appendChild(newEl);
+  // Native (엘리먼트 또는 텍스트): 문자열은 HTML로 파싱되지 않고 일반 텍스트로 삽입됩니다
+  parent.append(newEl | 'Hello World');
 
-  // Native (ES6 방식): 통합된 구문
-  parent.append(newEl | '<div id="container">Hello World</div>');
+  // Native (HTML 문자열)
+  parent.insertAdjacentHTML('beforeend', '<div id="container">Hello World</div>');
   ```
 
 - [3.5](#3.5) <a name='3.5'></a> 해당 엘리먼트의 자식들 앞에 넣기(Prepend)
@@ -626,12 +590,11 @@ function exampleFilter(elem) {
   // jQuery: DOMString과 Node 객체를 위한 통합된 구문
   $parent.prepend(newEl | '<div id="container">Hello World</div>');
 
-  // Native: 다른 구문
+  // Native (엘리먼트 또는 텍스트): 문자열은 HTML로 파싱되지 않고 일반 텍스트로 삽입됩니다
+  parent.prepend(newEl | 'Hello World');
+
+  // Native (HTML 문자열)
   parent.insertAdjacentHTML('afterbegin', '<div id="container">Hello World</div>');
-  parent.insertBefore(newEl, parent.firstChild);
-  
-  // Native (ES6 방식): 통합된 구문
-  parent.prepend(newEl | '<div id="container">Hello World</div>');
   ```
 
 - [3.6](#3.6) <a name='3.6'></a> 해당 엘리먼트 앞에 넣기(insertBefore)
@@ -642,14 +605,13 @@ function exampleFilter(elem) {
   // jQuery
   $newEl.insertBefore(selector);
 
-  // Native (HTML 문자열)
-  el.insertAdjacentHTML('beforebegin', '<div id="container">Hello World</div>');
+  const el = document.querySelector(selector);
 
   // Native (엘리먼트)
-  const el = document.querySelector(selector);
-  if (el.parentNode) {
-    el.parentNode.insertBefore(newEl, el);
-  }
+  el.before(newEl);
+
+  // Native (HTML 문자열)
+  el.insertAdjacentHTML('beforebegin', '<div id="container">Hello World</div>');
   ```
 
 - [3.7](#3.7) <a name='3.7'></a> 해당 엘리먼트 뒤에 넣기(insertAfter)
@@ -660,14 +622,13 @@ function exampleFilter(elem) {
   // jQuery
   $newEl.insertAfter(selector);
 
-  // Native (HTML 문자열)
-  el.insertAdjacentHTML('afterend', '<div id="container">Hello World</div>');
+  const el = document.querySelector(selector);
 
   // Native (엘리먼트)
-  onst el = document.querySelector(selector);
-  if (el.parentNode) {
-    el.parentNode.insertBefore(newEl, el.nextSibling);
-  }
+  el.after(newEl);
+
+  // Native (HTML 문자열)
+  el.insertAdjacentHTML('afterend', '<div id="container">Hello World</div>');
   ```
 
 - [3.8](#3.8) <a name='3.8'></a> is
@@ -686,12 +647,11 @@ function exampleFilter(elem) {
   엘리먼트의 깊은 복사본을 생성합니다. 일치한 엘리먼트를 포함해 그 자손 노드와 텍스트 노드를 모두 복사합니다.
 
   ```js
-  // jQuery. 이벤트 핸들러가 엘리먼트와 함께 복사되어야함을 알리려면 파라미터를 `true`로 설정하세요.
+  // jQuery. 이벤트 핸들러와 데이터까지 복사하려면 `true`를 전달하세요.
   $el.clone();
 
-  // Native
-  el.cloneNode();
-
+  // Native. 깊은 복사를 하려면 `true`를 전달하세요. 이벤트 리스너는 어떤 경우에도 복사되지 않습니다.
+  el.cloneNode(true);
   ```
 
 - [3.10](#3.10) <a name='3.10'></a> empty
@@ -703,7 +663,7 @@ function exampleFilter(elem) {
   $el.empty();
 
   // Native
-  el.innerHTML = null;
+  el.replaceChildren();
   ```
 
 - [3.11](#3.11) <a name='3.11'></a> wrap
@@ -715,11 +675,11 @@ function exampleFilter(elem) {
   $('.inner').wrap('<div class="wrapper"></div>');
 
   // Native
-  Array.from(document.querySelectorAll('.inner')).forEach((el) => {
+  document.querySelectorAll('.inner').forEach((el) => {
     const wrapper = document.createElement('div');
     wrapper.className = 'wrapper';
-    el.parentNode.insertBefore(wrapper, el);
-    wrapper.appendChild(el);
+    el.before(wrapper);
+    wrapper.append(el);
   });
   ```
 
@@ -732,14 +692,12 @@ function exampleFilter(elem) {
   $('.inner').unwrap();
 
   // Native
-  Array.from(document.querySelectorAll('.inner')).forEach((el) => {
-    let elParentNode = el.parentNode;
-
-    if (elParentNode !== document.body) {
-      elParentNode.parentNode.insertBefore(el, elParentNode);
-      elParentNode.parentNode.removeChild(elParentNode);
-    }
-  });
+  new Set([...document.querySelectorAll('.inner')].map((el) => el.parentElement))
+    .forEach((parent) => {
+      if (parent !== document.body) {
+        parent.replaceWith(...parent.childNodes);
+      }
+    });
   ```
 
 - [3.13](#3.13) <a name='3.13'></a> replaceWith
@@ -750,58 +708,105 @@ function exampleFilter(elem) {
   // jQuery
   $('.inner').replaceWith('<div class="outer"></div>');
 
-  // Native (대안) - 최신, Edge17+
-  Array.from(document.querySelectorAll('.inner')).forEach((el) => {
+  // Native
+  document.querySelectorAll('.inner').forEach((el) => {
     const outer = document.createElement('div');
     outer.className = 'outer';
     el.replaceWith(outer);
   });
-
-  // Native
-  Array.from(document.querySelectorAll('.inner')).forEach((el) => {
-    const outer = document.createElement('div');
-    outer.className = 'outer';
-    el.parentNode.replaceChild(outer, el);
-  });
   ```
 
-  - [3.14](#3.14) <a name='3.14'></a> 간단한 파싱
+- [3.14](#3.14) <a name='3.14'></a> 간단한 파싱
 
-    문자열을 HTML/SVG/XML 로 파싱합니다.
+  문자열을 HTML/SVG/XML 로 파싱합니다.
 
-    ```js
-    // jQuery
-    $(`<ol>
-      <li>a</li>
-      <li>b</li>
-    </ol>
-    <ol>
-      <li>c</li>
-      <li>d</li>
-    </ol>`);
+  ```js
+  // jQuery
+  $(`<ol>
+    <li>a</li>
+    <li>b</li>
+  </ol>
+  <ol>
+    <li>c</li>
+    <li>d</li>
+  </ol>`);
 
-    // Native
-    range = document.createRange();
-    parse = range.createContextualFragment.bind(range);
+  // Native
+  function parse(html) {
+    const template = document.createElement('template');
+    template.innerHTML = html;
+    return template.content;
+  }
 
-    parse(`<ol>
-      <li>a</li>
-      <li>b</li>
-    </ol>
-    <ol>
-      <li>c</li>
-      <li>d</li>
-    </ol>`);
-    ```
+  parse(`<ol>
+    <li>a</li>
+    <li>b</li>
+  </ol>
+  <ol>
+    <li>c</li>
+    <li>d</li>
+  </ol>`);
+  ```
 
 
 **[⬆ 목차로 돌아가기](#목차)**
 
 ## Ajax
 
-[Fetch API](https://fetch.spec.whatwg.org/) 는 XMLHttpRequest를 ajax로 대체하는 새로운 표준 입니다. Chrome과 Firefox에서 작동하며, polyfill을 이용해서 구형 브라우저에서 작동되도록 만들 수도 있습니다.
+[Fetch API](https://fetch.spec.whatwg.org/)는 XMLHttpRequest를 대체하는 표준이며, 모든 모던 브라우저에서 작동합니다. `$.ajax`와 달리 `fetch`는 404나 500 같은 HTTP 오류 상태에서도 reject되지 **않으므로**, `response.ok`를 직접 확인해야 합니다. JSONP 요청에는 [fetch-jsonp](https://github.com/camsong/fetch-jsonp)를 이용해보세요.
 
-IE9 이상에서 지원하는 [github/fetch](http://github.com/github/fetch) 혹은 IE8 이상에서 지원하는 [fetch-ie8](https://github.com/camsong/fetch-ie8/), JSONP 요청을 만드는 [fetch-jsonp](https://github.com/camsong/fetch-jsonp)를 이용해보세요.
+- [4.0](#4.0) <a name='4.0'></a> JSON 요청하기
+
+  ```js
+  // jQuery
+  $.getJSON(url).done(handleData).fail(handleError);
+
+  // Native
+  fetch(url)
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}`);
+      }
+      return response.json();
+    })
+    .then(handleData)
+    .catch(handleError);
+  ```
+
+- [4.0.1](#4.0.1) <a name='4.0.1'></a> JSON POST 요청하기
+
+  ```js
+  // jQuery
+  $.ajax({
+    url,
+    method: 'POST',
+    contentType: 'application/json',
+    data: JSON.stringify(data),
+  });
+
+  // Native
+  fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data),
+  });
+  ```
+
+- [4.0.2](#4.0.2) <a name='4.0.2'></a> 요청 중단 및 타임아웃
+
+  ```js
+  // jQuery
+  const jqXHR = $.ajax({ url, timeout: 5000 });
+  jqXHR.abort();
+
+  // Native
+  const controller = new AbortController();
+  fetch(url, { signal: controller.signal });
+  controller.abort();
+
+  // Native (타임아웃)
+  fetch(url, { signal: AbortSignal.timeout(5000) });
+  ```
 
 - [4.1](#4.1) <a name='4.1'></a> 서버로부터 HTML data를 불러와서 매칭된 엘리먼트에 배치.
 
@@ -810,16 +815,17 @@ IE9 이상에서 지원하는 [github/fetch](http://github.com/github/fetch) 혹
   $(selector).load(url, completeCallback)
 
   // Native
-  fetch(url).then(data => data.text()).then(data => {
-    document.querySelector(selector).innerHTML = data
-  }).then(completeCallback)
+  fetch(url)
+    .then((response) => response.text())
+    .then((html) => {
+      document.querySelector(selector).innerHTML = html;
+    })
+    .then(completeCallback);
   ```
 
 **[⬆ 목차로 돌아가기](#목차)**
 
 ## 이벤트
-
-namespace와 delegation을 포함해서 완전히 갈아 엎길 원하시면 https://github.com/oneuijs/oui-dom-events 를 고려해보세요.
 
 - [5.0](#5.0) <a name='5.0'></a> `DOMContentLoaded`가 되어 문서가 사용 가능한지
 
@@ -834,6 +840,9 @@ namespace와 delegation을 포함해서 완전히 갈아 엎길 원하시면 htt
   } else {
     document.addEventListener('DOMContentLoaded', eventHandler);
   }
+
+  // 또는 스크립트를 `<script defer>`나 `<script type="module">`로 불러오세요.
+  // 이렇게 불러온 스크립트는 문서 파싱이 끝난 뒤에 실행됩니다.
   ```
 
 - [5.1](#5.1) <a name='5.1'></a> 이벤트 Bind 걸기
@@ -846,6 +855,31 @@ namespace와 delegation을 포함해서 완전히 갈아 엎길 원하시면 htt
   el.addEventListener(eventName, eventHandler);
   ```
 
+- [5.1.1](#5.1.1) <a name='5.1.1'></a> 이벤트 한 번만 Bind 걸기(one)
+
+  ```js
+  // jQuery
+  $el.one(eventName, eventHandler);
+
+  // Native
+  el.addEventListener(eventName, eventHandler, { once: true });
+  ```
+
+- [5.1.2](#5.1.2) <a name='5.1.2'></a> 이벤트 위임(Delegation)
+
+  ```js
+  // jQuery
+  $el.on(eventName, selector, eventHandler);
+
+  // Native
+  el.addEventListener(eventName, (event) => {
+    const target = event.target.closest(selector);
+    if (target && el.contains(target)) {
+      eventHandler.call(target, event);
+    }
+  });
+  ```
+
 - [5.2](#5.2) <a name='5.2'></a> 이벤트 Bind 풀기
 
   ```js
@@ -854,6 +888,12 @@ namespace와 delegation을 포함해서 완전히 갈아 엎길 원하시면 htt
 
   // Native
   el.removeEventListener(eventName, eventHandler);
+
+  // Native: jQuery 네임스페이스처럼 여러 리스너를 한 번에 제거하기
+  const controller = new AbortController();
+  el.addEventListener('click', onClick, { signal: controller.signal });
+  el.addEventListener('keydown', onKeydown, { signal: controller.signal });
+  controller.abort();
   ```
 
 - [5.3](#5.3) <a name='5.3'></a> 이벤트 발생시키기(Trigger)
@@ -862,13 +902,13 @@ namespace와 delegation을 포함해서 완전히 갈아 엎길 원하시면 htt
   // jQuery
   $(el).trigger('custom-event', {key1: 'data'});
 
-  // Native
-  if (window.CustomEvent) {
-    const event = new CustomEvent('custom-event', {detail: {key1: 'data'}});
-  } else {
-    const event = document.createEvent('CustomEvent');
-    event.initCustomEvent('custom-event', true, true, {key1: 'data'});
-  }
+  // Native. jQuery 이벤트는 버블링되지만, 네이티브 이벤트는 `bubbles: true`를 지정해야 버블링됩니다.
+  // 핸들러에서는 `event.detail`로 데이터를 읽습니다.
+  const event = new CustomEvent('custom-event', {
+    bubbles: true,
+    cancelable: true,
+    detail: { key1: 'data' },
+  });
 
   el.dispatchEvent(event);
   ```
@@ -877,7 +917,7 @@ namespace와 delegation을 포함해서 완전히 갈아 엎길 원하시면 htt
 
 ## 유틸리티
 
-대부분의 jQuery 유틸은 네이티브 API에서도 찾을 수 있습니다. 다른 향상된 기능들은 지속성과 성능에 중점을 둔 더 나은 유틸 라이브러리로부터 선택할 수 있습니다. 권장하는 대안은 [Lodash](https://lodash.com)입니다.
+대부분의 jQuery 유틸은 네이티브 API에서도 찾을 수 있습니다. 다른 향상된 기능들은 지속성과 성능에 중점을 둔 더 나은 유틸 라이브러리로부터 선택할 수 있습니다. 권장하는 대안은 [Lodash](https://lodash.com)와 [es-toolkit](https://es-toolkit.dev)입니다.
 
 - [6.1](#6.1) <a name='6.1'></a> 기본 유틸리티
 
@@ -903,7 +943,7 @@ namespace와 delegation을 포함해서 완전히 갈아 엎길 원하시면 htt
 
   // Native
   function isWindow(obj) {
-    return obj !== null && obj !== undefined && obj === obj.window;
+    return obj != null && obj === obj.window;
   }
   ```
 
@@ -914,6 +954,16 @@ namespace와 delegation을 포함해서 완전히 갈아 엎길 원하시면 htt
   ```js
   // jQuery
   $.inArray(item, array);
+
+  // Native
+  array.indexOf(item);
+  ```
+
+  배열에 해당 값이 있는지 검사합니다.
+
+  ```js
+  // jQuery
+  $.inArray(item, array) > -1;
 
   // Native
   array.indexOf(item) > -1;
@@ -950,7 +1000,7 @@ namespace와 delegation을 포함해서 완전히 갈아 엎길 원하시면 htt
     if (typeof item === 'function') {
       return true;
     }
-    var type = Object.prototype.toString(item);
+    var type = Object.prototype.toString.call(item);
     return type === '[object Function]' || type === '[object GeneratorFunction]';
   }
   ```
@@ -979,30 +1029,39 @@ namespace와 delegation을 포함해서 완전히 갈아 엎길 원하시면 htt
 
   // Native
   function isPlainObject(obj) {
-    if (typeof (obj) !== 'object' || obj.nodeType || obj !== null && obj !== undefined && obj === obj.window) {
+    if (Object.prototype.toString.call(obj) !== '[object Object]') {
       return false;
     }
 
-    if (obj.constructor &&
-        !Object.prototype.hasOwnProperty.call(obj.constructor.prototype, 'isPrototypeOf')) {
-      return false;
-    }
-
-    return true;
+    const proto = Object.getPrototypeOf(obj);
+    return proto === null || proto === Object.prototype;
   }
   ```
 
   + extend
 
   두 개 이상의 객체를 첫 번째 객체로 합칩니다.
-  object.assign 은 ES6 API입니다. [polyfill](https://github.com/ljharb/object.assign) 을 사용할 수 있습니다.
+  `deep` 없이 호출한 `$.extend`와 마찬가지로, `Object.assign`과 spread는 얕은 복사만 합니다.
 
   ```js
   // jQuery
-  $.extend({}, defaultOpts, opts);
+  $.extend({}, object1, object2);
 
   // Native
-  Object.assign({}, defaultOpts, opts);
+  Object.assign({}, object1, object2);
+
+  // Native (spread 연산자)
+  ({ ...object1, ...object2 });
+  ```
+
+  객체 하나를 깊은 복사하기:
+
+  ```js
+  // jQuery
+  $.extend(true, {}, object);
+
+  // Native. 함수와 DOM 노드는 복제할 수 없습니다
+  structuredClone(object);
   ```
 
   + trim
@@ -1033,15 +1092,19 @@ namespace와 delegation을 포함해서 완전히 갈아 엎길 원하시면 htt
 
   + each
 
-  객체나 함수 모두에 매끄럽게 사용할 수 있는 포괄적인 용도의 반복 함수입니다.
+  객체나 배열 모두에 매끄럽게 사용할 수 있는 포괄적인 용도의 반복 함수입니다.
 
   ```js
-  // jQuery
+  // jQuery (`false`를 반환하면 반복을 중단합니다)
   $.each(array, (index, value) => {
   });
 
-  // Native
+  // Native (중간에 반복을 멈춰야 한다면 `for...of`나 `some`을 사용하세요)
   array.forEach((value, index) => {
+  });
+
+  // Native, 객체의 경우
+  Object.entries(obj).forEach(([key, value]) => {
   });
   ```
 
@@ -1071,8 +1134,8 @@ namespace와 delegation을 포함해서 완전히 갈아 엎길 원하시면 htt
   function type(item) {
     const reTypeOf = /(?:^\[object\s(.*?)\]$)/;
     return Object.prototype.toString.call(item)
-        .replace(reTypeOf, '$1')
-        .toLowerCase();
+      .replace(reTypeOf, '$1')
+      .toLowerCase();
   }
   ```
 
@@ -1081,20 +1144,20 @@ namespace와 delegation을 포함해서 완전히 갈아 엎길 원하시면 htt
   두 배열을 첫 번째 배열로 합칩니다.
 
   ```js
-  // jQuery, 중복된 항목을 제거하지 않습니다
+  // jQuery, array1을 변경하며 중복된 항목을 제거하지 않습니다
   $.merge(array1, array2);
 
-  // Native, 중복된 항목을 제거하지 않습니다
+  // Native, array1을 변경하며 중복된 항목을 제거하지 않습니다
+  array1.push(...array2);
+
+  // Native, 새 배열을 반환하며 중복된 항목을 제거하지 않습니다
   function merge(...args) {
-    return [].concat(...args)
+    return [].concat(...args);
   }
 
-  // ES6 방식, 중복된 항목을 제거하지 않습니다
-  array1 = [...array1, ...array2]
-
-  // Set 버전, 중복된 항목을 제거합니다
+  // Set 버전, 새 배열을 반환하며 중복된 항목을 제거합니다
   function merge(...args) {
-    return Array.from(new Set([].concat(...args)))
+    return Array.from(new Set([].concat(...args)));
   }
   ```
 
@@ -1131,9 +1194,6 @@ namespace와 delegation을 포함해서 완전히 갈아 엎길 원하시면 htt
   $.makeArray(arrayLike);
 
   // Native
-  Array.prototype.slice.call(arrayLike);
-
-  // ES6 방식: Array.from() 메소드
   Array.from(arrayLike);
 
   // ES6 방식: spread 연산자
@@ -1152,23 +1212,23 @@ namespace와 delegation을 포함해서 완전히 갈아 엎길 원하시면 htt
   el !== child && el.contains(child);
   ```
 
-- [6.3](#6.3) <a name='6.3'></a> Globaleval
+- [6.3](#6.3) <a name='6.3'></a> globalEval
 
   JavaScript 코드를 전역적으로 실행합니다.
 
   ```js
   // jQuery
-  $.globaleval(code);
+  $.globalEval(code);
 
   // Native
-  function Globaleval(code) {
+  function globalEval(code) {
     const script = document.createElement('script');
     script.text = code;
 
     document.head.appendChild(script).parentNode.removeChild(script);
   }
 
-  // eval 함수를 쓸 수도 있습니다. 하지만 $.Globaleval 의 context가 전역인 데 반해 eval 함수의 context 는 실행 영역입니다.
+  // eval 함수를 쓸 수도 있습니다. 하지만 $.globalEval 의 context가 전역인 데 반해 eval 함수의 context 는 실행 영역입니다.
   eval(code);
   ```
 
@@ -1192,16 +1252,14 @@ namespace와 delegation을 포함해서 완전히 갈아 엎길 원하시면 htt
     context.head.appendChild(base);
 
     context.body.innerHTML = string;
-    return context.body.children;
+    return Array.from(context.body.childNodes);
   }
   ```
 
-- [6.5](#6.4) <a name='6.5'></a> exists
-
-+ exists
+- [6.5](#6.5) <a name='6.5'></a> exists
 
   엘리먼트가 DOM에 존재하는지를 확인합니다
-  
+
   ```js
   // jQuery
   if ($('selector').length) {
@@ -1209,9 +1267,7 @@ namespace와 delegation을 포함해서 완전히 갈아 엎길 원하시면 htt
   }
 
   // Native
-  var element =  document.getElementById('elementId');
-  if (typeof(element) != 'undefined' && element != null) 
-  {
+  if (document.querySelector('selector')) {
     // 존재함
   }
   ```
@@ -1220,7 +1276,7 @@ namespace와 delegation을 포함해서 완전히 갈아 엎길 원하시면 htt
 
 ## Promises
 
-Promise는 비동기적인 작업의 결과를 표현합니다. jQuery는 자체적인 promise 처리를 가지고 있습니다. 네이티브 JavaScript엔 [Promises/A+](http://promises-aplus.github.io/promises-spec/) 명세에 맞는 얇고 작은 API를 구현되어 있습니다.
+Promise는 비동기적인 작업의 결과를 표현합니다. jQuery는 자체적인 promise 처리를 가지고 있습니다. 네이티브 JavaScript엔 [Promises/A+](https://promisesaplus.com/) 명세에 맞는 얇고 작은 API가 구현되어 있으며, `async`/`await`를 사용하면 동기 코드처럼 읽히는 코드를 작성할 수 있습니다.
 
 - [7.1](#7.1) <a name='7.1'></a> done, fail, always
 
@@ -1231,7 +1287,16 @@ Promise는 비동기적인 작업의 결과를 표현합니다. jQuery는 자체
   $promise.done(doneCallback).fail(failCallback).always(alwaysCallback)
 
   // Native
-  promise.then(doneCallback, failCallback).then(alwaysCallback, alwaysCallback)
+  promise.then(doneCallback, failCallback).finally(alwaysCallback);
+
+  // Native (async/await)
+  try {
+    doneCallback(await promise);
+  } catch (error) {
+    failCallback(error);
+  } finally {
+    alwaysCallback();
+  }
   ```
 
 - [7.2](#7.2) <a name='7.2'></a> when
@@ -1244,7 +1309,10 @@ Promise는 비동기적인 작업의 결과를 표현합니다. jQuery는 자체
   });
 
   // Native
-  Promise.all([$promise1, $promise2]).then([promise1Result, promise2Result] => {});
+  Promise.all([promise1, promise2]).then(([promise1Result, promise2Result]) => {});
+
+  // Native (async/await)
+  const [promise1Result, promise2Result] = await Promise.all([promise1, promise2]);
   ```
 
 - [7.3](#7.3) <a name='7.3'></a> Deferred
@@ -1280,37 +1348,25 @@ Promise는 비동기적인 작업의 결과를 표현합니다. jQuery는 자체
   }
 
   // Deferred way
-  function defer() {
-    const deferred = {};
-    const promise = new Promise((resolve, reject) => {
-      deferred.resolve = resolve;
-      deferred.reject = reject;
-    });
-
-    deferred.promise = () => {
-      return promise;
-    };
-
-    return deferred;
-  }
-
   function asyncFunc() {
-    const defer = defer();
+    const { promise, resolve, reject } = Promise.withResolvers();
     setTimeout(() => {
       if (true) {
-        defer.resolve('some_value_computed_asynchronously');
+        resolve('some_value_computed_asynchronously');
       } else {
-        defer.reject('failed');
+        reject('failed');
       }
     }, 1000);
 
-    return defer.promise();
+    return promise;
   }
   ```
 
 **[⬆ 목차로 돌아가기](#목차)**
 
 ## Animation
+
+[Web Animations API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Animations_API)(`el.animate()`)는 jQuery 이펙트에 가장 가까운 네이티브 기능입니다. 밀리초 단위의 지속 시간을 받고, 가능한 경우 메인 스레드 밖에서 실행되며, 애니메이션이 끝나면 resolve되는 `finished` promise를 가진 `Animation` 객체를 반환합니다.
 
 - [8.1](#8.1) <a name='8.1'></a> Show & Hide
 
@@ -1320,9 +1376,12 @@ Promise는 비동기적인 작업의 결과를 표현합니다. jQuery는 자체
   $el.hide();
 
   // Native
-  // show 메소드에 대한 더 자세한 정보를 보고 싶으면  https://github.com/oneuijs/oui-dom-utils/blob/master/src/index.js#L363 를 참고하세요
-  el.style.display = ''|'inline'|'inline-block'|'inline-table'|'block';
+  el.style.display = ''; // 스타일시트로 숨긴 경우에는 'block', 'inline' 등을 지정
   el.style.display = 'none';
+
+  // Native (다른 곳에서 `display` 스타일을 지정하지 않은 경우)
+  el.hidden = false;
+  el.hidden = true;
   ```
 
 - [8.2](#8.2) <a name='8.2'></a> Toggle
@@ -1334,8 +1393,8 @@ Promise는 비동기적인 작업의 결과를 표현합니다. jQuery는 자체
   $el.toggle();
 
   // Native
-  if (el.ownerDocument.defaultView.getComputedStyle(el, null).display === 'none') {
-    el.style.display = ''|'inline'|'inline-block'|'inline-table'|'block';
+  if (getComputedStyle(el).display === 'none') {
+    el.style.display = ''; // 또는 'block', 'inline', ...
   } else {
     el.style.display = 'none';
   }
@@ -1348,38 +1407,17 @@ Promise는 비동기적인 작업의 결과를 표현합니다. jQuery는 자체
   $el.fadeIn(3000);
   $el.fadeOut(3000);
 
-  // Native fadeOut
-  function fadeOut(el, ms) {
-    if (ms) {
-      el.style.transition = `opacity ${ms} ms`;
-      el.addEventListener(
-        'transitionend',
-        function(event) {
-          el.style.display = 'none';
-        },
-        false
-      );
-    }
-    el.style.opacity = '0';
+  // Native fadeIn
+  function fadeIn(el, ms = 400) {
+    el.style.display = '';
+    return el.animate([{ opacity: 0 }, { opacity: 1 }], ms).finished;
   }
 
-  // Native fadeIn
-  function fadeIn(elem, ms) {
-    elem.style.opacity = 0;
-
-    if (ms) {
-      let opacity = 0;
-      const timer = setInterval(function() {
-        opacity += 50 / ms;
-        if (opacity >= 1) {
-          clearInterval(timer);
-          opacity = 1;
-        }
-        elem.style.opacity = opacity;
-      }, 50);
-    } else {
-      elem.style.opacity = 1;
-    }
+  // Native fadeOut
+  function fadeOut(el, ms = 400) {
+    return el.animate([{ opacity: 1 }, { opacity: 0 }], ms).finished.then(() => {
+      el.style.display = 'none';
+    });
   }
   ```
 
@@ -1390,9 +1428,8 @@ Promise는 비동기적인 작업의 결과를 표현합니다. jQuery는 자체
   ```js
   // jQuery
   $el.fadeTo('slow',0.15);
-  // Native
-  el.style.transition = 'opacity 3s'; // 'slow'가 3초라고 가정합니다.
-  el.style.opacity = '0.15';
+  // Native (jQuery에서 'slow'는 600밀리초입니다)
+  el.animate([{ opacity: 0.15 }], { duration: 600, fill: 'forwards' });
   ```
 
 - [8.5](#8.5) <a name='8.5'></a> FadeToggle
@@ -1403,13 +1440,11 @@ Promise는 비동기적인 작업의 결과를 표현합니다. jQuery는 자체
   // jQuery
   $el.fadeToggle();
 
-  // Native
-  el.style.transition = 'opacity 3s';
-  const { opacity } = el.ownerDocument.defaultView.getComputedStyle(el, null);
-  if (opacity === '1') {
-    el.style.opacity = '0';
+  // Native, 8.3의 fadeIn과 fadeOut 사용
+  if (getComputedStyle(el).display === 'none') {
+    fadeIn(el);
   } else {
-    el.style.opacity = '1';
+    fadeOut(el);
   }
   ```
 
@@ -1420,13 +1455,23 @@ Promise는 비동기적인 작업의 결과를 표현합니다. jQuery는 자체
   $el.slideUp();
   $el.slideDown();
 
-  // Native
-  const originHeight = '100px';
-  el.style.transition = 'height 3s';
-  // slideUp
-  el.style.height = '0px';
-  // slideDown
-  el.style.height = originHeight;
+  // Native slideUp
+  function slideUp(el, ms = 400) {
+    el.style.overflow = 'hidden';
+    return el.animate([{ height: `${el.offsetHeight}px` }, { height: '0px' }], ms).finished.then(() => {
+      el.style.display = 'none';
+      el.style.overflow = '';
+    });
+  }
+
+  // Native slideDown
+  function slideDown(el, ms = 400) {
+    el.style.display = '';
+    el.style.overflow = 'hidden';
+    return el.animate([{ height: '0px' }, { height: `${el.scrollHeight}px` }], ms).finished.then(() => {
+      el.style.overflow = '';
+    });
+  }
   ```
 
 - [8.7](#8.7) <a name='8.7'></a> SlideToggle
@@ -1437,14 +1482,11 @@ Promise는 비동기적인 작업의 결과를 표현합니다. jQuery는 자체
   // jQuery
   $el.slideToggle();
 
-  // Native
-  const originHeight = '100px';
-  el.style.transition = 'height 3s';
-  const { height } = el.ownerDocument.defaultView.getComputedStyle(el, null);
-  if (parseInt(height, 10) === 0) {
-    el.style.height = originHeight;
+  // Native, 8.6의 slideUp과 slideDown 사용
+  if (getComputedStyle(el).display === 'none') {
+    slideDown(el);
   } else {
-    el.style.height = '0px';
+    slideUp(el);
   }
   ```
 
@@ -1456,23 +1498,23 @@ Promise는 비동기적인 작업의 결과를 표현합니다. jQuery는 자체
   // jQuery
   $el.animate({ params }, speed);
 
-  // Native
-  el.style.transition = 'all ' + speed;
-  Object.keys(params).forEach((key) => {
-    el.style[key] = params[key];
-  });
+  // Native (speed는 밀리초 단위)
+  el.animate([params], { duration: speed, fill: 'forwards' });
   ```
 
 ## 대안방법
 
-* [You Might Not Need jQuery](http://youmightnotneedjquery.com/) - 일반 자바스크립트로 공통이벤트, 엘리먼트, ajax 등을 다루는 방법 예제.
-* [npm-dom](http://github.com/npm-dom) 과 [webmodules](http://github.com/webmodules) - 개별 DOM모듈을 NPM에서 찾을 수 있습니다.
+* [You Might Not Need jQuery](https://youmightnotneedjquery.com/) - 일반 자바스크립트로 공통이벤트, 엘리먼트, ajax 등을 다루는 방법 예제.
+* [MDN Web Docs](https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model) - 여기서 사용한 모든 DOM API에 대한 레퍼런스.
+* [Baseline](https://web.dev/baseline) - 어떤 웹 플랫폼 기능을 여러 브라우저에서 안전하게 사용할 수 있는지 확인할 수 있습니다.
 
-## Browser Support
+## 브라우저 지원
 
-![Chrome][chrome-image] | ![Firefox][firefox-image] | ![IE][ie-image] | ![Opera][opera-image] | ![Safari][safari-image]
+![Chrome][chrome-image] | ![Edge][edge-image] | ![Firefox][firefox-image] | ![Safari][safari-image] | ![Opera][opera-image]
 --- | --- | --- | --- | --- |
-Latest ✔ | Latest ✔ | 10+ ✔ | Latest ✔ | 6.1+ ✔ |
+Latest ✔ | Latest ✔ | Latest ✔ | Latest ✔ | Latest ✔ |
+
+일부 예제는 비교적 최근에 추가된 API를 사용합니다: `Promise.withResolvers()`(2024), `el.replaceChildren()`(2020), `AbortSignal.timeout()`(2022). 구형 브라우저까지 지원해야 한다면 [Baseline](https://web.dev/baseline)을 확인하세요.
 
 # License
 
@@ -1480,6 +1522,6 @@ MIT
 
 [chrome-image]: https://raw.github.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png
 [firefox-image]: https://raw.github.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png
-[ie-image]: https://raw.github.com/alrra/browser-logos/master/src/archive/internet-explorer_9-11/internet-explorer_9-11_48x48.png
+[edge-image]: https://raw.github.com/alrra/browser-logos/master/src/edge/edge_48x48.png
 [opera-image]: https://raw.github.com/alrra/browser-logos/master/src/opera/opera_48x48.png
 [safari-image]: https://raw.github.com/alrra/browser-logos/master/src/safari/safari_48x48.png
