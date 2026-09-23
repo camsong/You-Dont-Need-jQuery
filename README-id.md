@@ -1,6 +1,8 @@
 ## Anda tidak memerlukan jQuery
 
-Perkembangan environment frontend sangatlah pesat, dimana banyak browser sudah mengimplementasikan DOM/BOM APIs dengan baik. Kita tidak perlu lagi belajar jQuery dari nol untuk keperluan memanipulasi DOM atau events. Secara bersamaan; dengan berterimakasih kepada library frontend terkini seperti React, Angular dan Vue; Memanipulasi DOM secara langsung telah menjadi anti-pattern atau sesuatu yang tidak perlu dilakukan lagi. Dengan kata lain, jQuery sekarang menjadi semakin tidak diperlukan. Projek ini memberikan informasi mengenai metode alternatif dari jQuery untuk implementasi Native dengan support untuk browser IE 10+.
+Perkembangan environment frontend sangatlah pesat, dimana banyak browser sudah mengimplementasikan DOM/BOM APIs dengan baik. Kita tidak perlu lagi belajar jQuery dari nol untuk keperluan memanipulasi DOM atau events. Secara bersamaan; dengan berterimakasih kepada library frontend terkini seperti React, Angular dan Vue; Memanipulasi DOM secara langsung telah menjadi anti-pattern atau sesuatu yang tidak perlu dilakukan lagi. Dengan kata lain, jQuery sekarang menjadi semakin tidak diperlukan. Projek ini memberikan informasi mengenai metode alternatif dari jQuery untuk implementasi Native.
+
+Cuplikan kode di sini ditujukan untuk browser evergreen terkini (Chrome, Edge, Firefox, Safari). Internet Explorer sudah tidak didukung lagi oleh Microsoft, sehingga fallback khusus untuk IE telah dihapus. Jika anda masih membutuhkannya, lihat [versi terakhir yang kompatibel dengan IE](https://github.com/camsong/You-Dont-Need-jQuery/tree/c4e00b3).
 
 
 ## Daftar Isi
@@ -36,10 +38,10 @@ Perkembangan environment frontend sangatlah pesat, dimana banyak browser sudah m
 
 Untuk selector-selector umum seperti class, id atau attribute, kita dapat menggunakan `document.querySelector` atau `document.querySelectorAll` sebagai pengganti. Perbedaan diantaranya adalah:
 * `document.querySelector` mengembalikan elemen pertama yang cocok
-* `document.querySelectorAll` mengembalikan semua elemen yang cocok sebagai NodeList. Hasilnya bisa dikonversikan menjadi Array `[].slice.call(document.querySelectorAll(selector) || []);`
-* Bila tidak ada hasil balik pada elemen yang cocok, jQuery akan mengembalikan `[]` sedangkan DOM API akan mengembalikan `null`. Mohon diperhatikan mengenai Null Pointer Exception. Anda juga bisa menggunakan operator `||` untuk set nilai awal jika hasil pencarian tidak ditemukan : `document.querySelectorAll(selector) || []`
+* `document.querySelectorAll` mengembalikan semua elemen yang cocok sebagai NodeList statis. NodeList ini mendukung `forEach`, dan bisa dikonversikan menjadi Array dengan `Array.from(document.querySelectorAll(selector))`
+* Bila tidak ada elemen yang cocok, jQuery akan mengembalikan objek jQuery kosong dan `document.querySelectorAll` akan mengembalikan NodeList kosong, sedangkan `document.querySelector` akan mengembalikan `null`. Mohon diperhatikan mengenai Null Pointer Exception.
 
-> Perhatian: `document.querySelector` dan `document.querySelectorAll` sedikit **LAMBAT**. Silahkan menggunakan `getElementById`, `document.getElementsByClassName` atau `document.getElementsByTagName` jika anda menginginkan tambahan performa.
+> Perhatian: `document.getElementById`, `document.getElementsByClassName` dan `document.getElementsByTagName` sedikit lebih cepat dibandingkan `querySelector*`, tetapi `getElementsBy*` mengembalikan HTMLCollection yang *live*, yang ikut berubah setiap kali DOM berubah. Utamakan `querySelector*`, kecuali anda sudah mengukurnya dan benar-benar menemukan bottleneck.
 
 - [1.0](#1.0) <a name='1.0'></a> Query by selector
 
@@ -116,7 +118,7 @@ Untuk selector-selector umum seperti class, id atau attribute, kita dapat menggu
     $el.attr('foo');
 
     // Native
-    e.getAttribute('foo');
+    el.getAttribute('foo');
     ```
 
   + Mencari data attribute
@@ -126,10 +128,10 @@ Untuk selector-selector umum seperti class, id atau attribute, kita dapat menggu
     $el.data('foo');
 
     // Native
-    // gunakan getAttribute
+    el.dataset.foo;
+
+    // or
     el.getAttribute('data-foo');
-    // anda juga bisa menggunakan `dataset` bila anda perlu support IE 11+
-    el.dataset['foo'];
     ```
 
 - [1.5](#1.5) <a name='1.5'></a> Elemen-elemen Sibling/Previous/Next
@@ -141,9 +143,9 @@ Untuk selector-selector umum seperti class, id atau attribute, kita dapat menggu
     $el.siblings();
 
     // Native
-    [].filter.call(el.parentNode.children, function(child) {
-      return child !== el;
-    });
+    [...el.parentNode.children].filter((child) =>
+      child !== el
+    );
     ```
 
   + Elemen Previous
@@ -160,8 +162,10 @@ Untuk selector-selector umum seperti class, id atau attribute, kita dapat menggu
   + Elemen Next
 
     ```js
-    // next
+    // jQuery
     $el.next();
+
+    // Native
     el.nextElementSibling;
     ```
 
@@ -171,21 +175,10 @@ Untuk selector-selector umum seperti class, id atau attribute, kita dapat menggu
 
   ```js
   // jQuery
-  $el.closest(queryString);
+  $el.closest(selector);
 
   // Native
-  function closest(el, selector) {
-    const matchesSelector = el.matches || el.webkitMatchesSelector || el.mozMatchesSelector || el.msMatchesSelector;
-
-    while (el) {
-      if (matchesSelector.call(el, selector)) {
-        return el;
-      } else {
-        el = el.parentElement;
-      }
-    }
-    return null;
-  }
+  el.closest(selector);
   ```
 
 - [1.7](#1.7) <a name='1.7'></a> Parents Until
@@ -199,17 +192,12 @@ Untuk selector-selector umum seperti class, id atau attribute, kita dapat menggu
   // Native
   function parentsUntil(el, selector, filter) {
     const result = [];
-    const matchesSelector = el.matches || el.webkitMatchesSelector || el.mozMatchesSelector || el.msMatchesSelector;
 
     // match start from parent
     el = el.parentElement;
-    while (el && !matchesSelector.call(el, selector)) {
-      if (!filter) {
+    while (el && !el.matches(selector)) {
+      if (!filter || el.matches(filter)) {
         result.push(el);
-      } else {
-        if (matchesSelector.call(el, filter)) {
-          result.push(el);
-        }
       }
       el = el.parentElement;
     }
@@ -233,10 +221,10 @@ Untuk selector-selector umum seperti class, id atau attribute, kita dapat menggu
 
     ```js
     // jQuery
-    $(e.currentTarget).index('.radio');
+    $('.radio').index(e.currentTarget);
 
     // Native
-    [].indexOf.call(document.querySelectAll('.radio'), e.currentTarget);
+    [...document.querySelectorAll('.radio')].indexOf(e.currentTarget);
     ```
 
 - [1.9](#1.9) <a name='1.9'></a> Iframe Contents
@@ -273,28 +261,32 @@ Untuk selector-selector umum seperti class, id atau attribute, kita dapat menggu
 
     ```js
     // jQuery
-    $el.css("color");
+    $el.css('color');
 
     // Native
-    // PERHATIAN: ada bug disini, dimana fungsi ini akan mengembalikan nilai 'auto' bila nilai dari atribut style adalah 'auto'
-    const win = el.ownerDocument.defaultView;
-    // null artinya tidak mengembalikan pseudo styles
-    win.getComputedStyle(el, null).color;
+    // PERHATIAN: yang dikembalikan adalah nilai yang sudah di-resolve, misalnya 'rgb(255, 0, 17)' dan bukan '#f01'
+    getComputedStyle(el).color;
     ```
 
   + Set style
 
     ```js
     // jQuery
-    $el.css({ color: "#ff0011" });
+    $el.css({ color: '#f01' });
 
     // Native
-    el.style.color = '#ff0011';
+    el.style.color = '#f01';
     ```
 
-  + Get/Set Styles
+  + Set multiple styles
 
-    Mohon dicatat jika anda ingin mengubah style secara bersamaan, anda dapat menemukan referensi di metode [setStyles](https://github.com/oneuijs/oui-dom-utils/blob/master/src/index.js#L194) pada package oui-dom-utils
+    ```js
+    // jQuery
+    $el.css({ color: '#f01', 'border-color': '#f02' });
+
+    // Native
+    Object.assign(el.style, { color: '#f01', borderColor: '#f02' });
+    ```
 
   + Add class
 
@@ -343,10 +335,12 @@ Untuk selector-selector umum seperti class, id atau attribute, kita dapat menggu
   + Window height
 
     ```js
-    // window height
+    // jQuery
     $(window).height();
+
     // without scrollbar, behaves like jQuery
     window.document.documentElement.clientHeight;
+
     // with scrollbar
     window.innerHeight;
     ```
@@ -358,7 +352,15 @@ Untuk selector-selector umum seperti class, id atau attribute, kita dapat menggu
     $(document).height();
 
     // Native
-    document.documentElement.scrollHeight;
+    const body = document.body;
+    const html = document.documentElement;
+    const height = Math.max(
+      body.offsetHeight,
+      body.scrollHeight,
+      html.clientHeight,
+      html.offsetHeight,
+      html.scrollHeight
+    );
     ```
 
   + Element height
@@ -369,7 +371,7 @@ Untuk selector-selector umum seperti class, id atau attribute, kita dapat menggu
 
     // Native
     function getHeight(el) {
-      const styles = this.getComputedStyles(el);
+      const styles = window.getComputedStyle(el);
       const height = el.offsetHeight;
       const borderTopWidth = parseFloat(styles.borderTopWidth);
       const borderBottomWidth = parseFloat(styles.borderBottomWidth);
@@ -377,9 +379,11 @@ Untuk selector-selector umum seperti class, id atau attribute, kita dapat menggu
       const paddingBottom = parseFloat(styles.paddingBottom);
       return height - borderBottomWidth - borderTopWidth - paddingTop - paddingBottom;
     }
-    // accurate to integer（when `border-box`, it's `height - border`; when `content-box`, it's `height + padding`）
+
+    // accurate to integer (when `border-box`, it's `height - border`; when `content-box`, it's `height + padding`)
     el.clientHeight;
-    // accurate to decimal（when `border-box`, it's `height`; when `content-box`, it's `height + padding + border`）
+
+    // accurate to decimal (when `border-box`, it's `height`; when `content-box`, it's `height + padding + border`)
     el.getBoundingClientRect().height;
     ```
 
@@ -392,7 +396,7 @@ Untuk selector-selector umum seperti class, id atau attribute, kita dapat menggu
     $el.position();
 
     // Native
-    { left: el.offsetLeft, top: el.offsetTop }
+    const position = { left: el.offsetLeft, top: el.offsetTop };
     ```
 
   + Offset
@@ -406,9 +410,9 @@ Untuk selector-selector umum seperti class, id atau attribute, kita dapat menggu
       const box = el.getBoundingClientRect();
 
       return {
-        top: box.top + window.pageYOffset - document.documentElement.clientTop,
-        left: box.left + window.pageXOffset - document.documentElement.clientLeft
-      }
+        top: box.top + window.scrollY,
+        left: box.left + window.scrollX
+      };
     }
     ```
 
@@ -419,7 +423,7 @@ Untuk selector-selector umum seperti class, id atau attribute, kita dapat menggu
   $(window).scrollTop();
 
   // Native
-  (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop;
+  window.scrollY;
   ```
 
 **[⬆ back to top](#daftar-isi)**
@@ -432,7 +436,7 @@ Untuk selector-selector umum seperti class, id atau attribute, kita dapat menggu
   $el.remove();
 
   // Native
-  el.parentNode.removeChild(el);
+  el.remove();
   ```
 
 - [3.2](#3.2) <a name='3.2'></a> Text
@@ -484,27 +488,27 @@ Untuk selector-selector umum seperti class, id atau attribute, kita dapat menggu
   Menambahkan elemen-anak setelah anak terakhir dari elemen-parent
 
   ```js
-  // jQuery
-  $el.append("<div id='container'>hello</div>");
+  // jQuery: sintaks yang seragam untuk DOMString dan objek Node
+  $parent.append(newEl | '<div id="container">Hello World</div>');
 
-  // Native
-  let newEl = document.createElement('div');
-  newEl.setAttribute('id', 'container');
-  newEl.innerHTML = 'hello';
-  el.appendChild(newEl);
+  // Native (Element atau teks): string disisipkan sebagai teks biasa, tidak di-parse sebagai HTML
+  parent.append(newEl | 'Hello World');
+
+  // Native (string HTML)
+  parent.insertAdjacentHTML('beforeend', '<div id="container">Hello World</div>');
   ```
 
 - [3.5](#3.5) <a name='3.5'></a> Prepend
 
   ```js
-  // jQuery
-  $el.prepend("<div id='container'>hello</div>");
+  // jQuery: sintaks yang seragam untuk DOMString dan objek Node
+  $parent.prepend(newEl | '<div id="container">Hello World</div>');
 
-  // Native
-  let newEl = document.createElement('div');
-  newEl.setAttribute('id', 'container');
-  newEl.innerHTML = 'hello';
-  el.insertBefore(newEl, el.firstChild);
+  // Native (Element atau teks): string disisipkan sebagai teks biasa, tidak di-parse sebagai HTML
+  parent.prepend(newEl | 'Hello World');
+
+  // Native (string HTML)
+  parent.insertAdjacentHTML('afterbegin', '<div id="container">Hello World</div>');
   ```
 
 - [3.6](#3.6) <a name='3.6'></a> insertBefore
@@ -513,11 +517,15 @@ Untuk selector-selector umum seperti class, id atau attribute, kita dapat menggu
 
   ```js
   // jQuery
-  $newEl.insertBefore(queryString);
+  $newEl.insertBefore(selector);
 
-  // Native
-  const target = document.querySelector(queryString);
-  target.parentNode.insertBefore(newEl, target);
+  const el = document.querySelector(selector);
+
+  // Native (Element)
+  el.before(newEl);
+
+  // Native (string HTML)
+  el.insertAdjacentHTML('beforebegin', '<div id="container">Hello World</div>');
   ```
 
 - [3.7](#3.7) <a name='3.7'></a> insertAfter
@@ -526,24 +534,94 @@ Untuk selector-selector umum seperti class, id atau attribute, kita dapat menggu
 
   ```js
   // jQuery
-  $newEl.insertAfter(queryString);
+  $newEl.insertAfter(selector);
 
-  // Native
-  const target = document.querySelector(queryString);
-  target.parentNode.insertBefore(newEl, target.nextSibling);
+  const el = document.querySelector(selector);
+
+  // Native (Element)
+  el.after(newEl);
+
+  // Native (string HTML)
+  el.insertAdjacentHTML('afterend', '<div id="container">Hello World</div>');
   ```
 
 **[⬆ back to top](#daftar-isi)**
 
 ## Ajax
 
-Gantikan dengan [fetch](https://github.com/camsong/fetch-ie8) dan [fetch-jsonp](https://github.com/camsong/fetch-jsonp)
+[Fetch API](https://fetch.spec.whatwg.org/) adalah pengganti standar untuk XMLHttpRequest dan sudah bisa digunakan di semua browser modern. Berbeda dengan `$.ajax`, `fetch` **tidak** melakukan reject ketika menerima status error HTTP seperti 404 atau 500; anda perlu memeriksa `response.ok` sendiri. Untuk JSONP, coba gunakan [fetch-jsonp](https://github.com/camsong/fetch-jsonp).
+
+- [4.0](#4.0) <a name='4.0'></a> Mengambil data JSON
+
+  ```js
+  // jQuery
+  $.getJSON(url).done(handleData).fail(handleError);
+
+  // Native
+  fetch(url)
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}`);
+      }
+      return response.json();
+    })
+    .then(handleData)
+    .catch(handleError);
+  ```
+
+- [4.0.1](#4.0.1) <a name='4.0.1'></a> Mengirim data JSON dengan POST
+
+  ```js
+  // jQuery
+  $.ajax({
+    url,
+    method: 'POST',
+    contentType: 'application/json',
+    data: JSON.stringify(data),
+  });
+
+  // Native
+  fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data),
+  });
+  ```
+
+- [4.0.2](#4.0.2) <a name='4.0.2'></a> Membatalkan request dan timeout
+
+  ```js
+  // jQuery
+  const jqXHR = $.ajax({ url, timeout: 5000 });
+  jqXHR.abort();
+
+  // Native
+  const controller = new AbortController();
+  fetch(url, { signal: controller.signal });
+  controller.abort();
+
+  // Native (timeout)
+  fetch(url, { signal: AbortSignal.timeout(5000) });
+  ```
+
+- [4.1](#4.1) <a name='4.1'></a> Memuat data dari server dan menempatkan HTML yang diterima ke dalam elemen yang cocok.
+
+  ```js
+  // jQuery
+  $(selector).load(url, completeCallback)
+
+  // Native
+  fetch(url)
+    .then((response) => response.text())
+    .then((html) => {
+      document.querySelector(selector).innerHTML = html;
+    })
+    .then(completeCallback);
+  ```
 
 **[⬆ back to top](#daftar-isi)**
 
 ## Events
-
-Untuk penggantian secara menyeluruh dengan namespace dan delegation, lihat ke https://github.com/oneuijs/oui-dom-events
 
 - [5.1](#5.1) <a name='5.1'></a> Bind event dengan menggunakan on
 
@@ -555,6 +633,31 @@ Untuk penggantian secara menyeluruh dengan namespace dan delegation, lihat ke ht
   el.addEventListener(eventName, eventHandler);
   ```
 
+- [5.1.1](#5.1.1) <a name='5.1.1'></a> Bind event sekali saja dengan menggunakan one
+
+  ```js
+  // jQuery
+  $el.one(eventName, eventHandler);
+
+  // Native
+  el.addEventListener(eventName, eventHandler, { once: true });
+  ```
+
+- [5.1.2](#5.1.2) <a name='5.1.2'></a> Delegasi event
+
+  ```js
+  // jQuery
+  $el.on(eventName, selector, eventHandler);
+
+  // Native
+  el.addEventListener(eventName, (event) => {
+    const target = event.target.closest(selector);
+    if (target && el.contains(target)) {
+      eventHandler.call(target, event);
+    }
+  });
+  ```
+
 - [5.2](#5.2) <a name='5.2'></a> Unbind event dengan menggunakan off
 
   ```js
@@ -563,6 +666,12 @@ Untuk penggantian secara menyeluruh dengan namespace dan delegation, lihat ke ht
 
   // Native
   el.removeEventListener(eventName, eventHandler);
+
+  // Native: hapus beberapa listener sekaligus, seperti namespace di jQuery
+  const controller = new AbortController();
+  el.addEventListener('click', onClick, { signal: controller.signal });
+  el.addEventListener('keydown', onKeydown, { signal: controller.signal });
+  controller.abort();
   ```
 
 - [5.3](#5.3) <a name='5.3'></a> Trigger
@@ -571,13 +680,13 @@ Untuk penggantian secara menyeluruh dengan namespace dan delegation, lihat ke ht
   // jQuery
   $(el).trigger('custom-event', {key1: 'data'});
 
-  // Native
-  if (window.CustomEvent) {
-    const event = new CustomEvent('custom-event', {detail: {key1: 'data'}});
-  } else {
-    const event = document.createEvent('CustomEvent');
-    event.initCustomEvent('custom-event', true, true, {key1: 'data'});
-  }
+  // Native. Event jQuery melakukan bubbling, sedangkan event native tidak, kecuali dengan `bubbles: true`.
+  // Baca datanya dari `event.detail` di dalam handler.
+  const event = new CustomEvent('custom-event', {
+    bubbles: true,
+    cancelable: true,
+    detail: { key1: 'data' },
+  });
 
   el.dispatchEvent(event);
   ```
@@ -590,10 +699,10 @@ Untuk penggantian secara menyeluruh dengan namespace dan delegation, lihat ke ht
 
   ```js
   // jQuery
-  $.isArray(range);
+  $.isArray(array);
 
   // Native
-  Array.isArray(range);
+  Array.isArray(array);
   ```
 
 - [6.2](#6.2) <a name='6.2'></a> Trim
@@ -608,14 +717,28 @@ Untuk penggantian secara menyeluruh dengan namespace dan delegation, lihat ke ht
 
 - [6.3](#6.3) <a name='6.3'></a> Object Assign
 
-  Extend, use object.assign polyfill https://github.com/ljharb/object.assign
+  Menggabungkan isi dari dua object atau lebih ke dalam sebuah object baru, tanpa mengubah argumen-argumennya.
+  Sama seperti `$.extend` tanpa `deep`, `Object.assign` dan spread hanya membuat salinan dangkal (shallow copy).
 
   ```js
   // jQuery
-  $.extend({}, defaultOpts, opts);
+  $.extend({}, object1, object2);
 
   // Native
-  Object.assign({}, defaultOpts, opts);
+  Object.assign({}, object1, object2);
+
+  // Native (spread)
+  ({ ...object1, ...object2 });
+  ```
+
+  Deep copy untuk satu object:
+
+  ```js
+  // jQuery
+  $.extend(true, {}, object);
+
+  // Native. Function dan node DOM tidak bisa di-clone
+  structuredClone(object);
   ```
 
 - [6.4](#6.4) <a name='6.4'></a> Contains
@@ -632,10 +755,18 @@ Untuk penggantian secara menyeluruh dengan namespace dan delegation, lihat ke ht
 
 ## Browser yang di Support
 
-![Chrome](https://raw.github.com/alrra/browser-logos/master/chrome/chrome_48x48.png) | ![Firefox](https://raw.github.com/alrra/browser-logos/master/firefox/firefox_48x48.png) | ![IE](https://raw.github.com/alrra/browser-logos/master/internet-explorer/internet-explorer_48x48.png) | ![Opera](https://raw.github.com/alrra/browser-logos/master/opera/opera_48x48.png) | ![Safari](https://raw.github.com/alrra/browser-logos/master/safari/safari_48x48.png)
+![Chrome][chrome-image] | ![Edge][edge-image] | ![Firefox][firefox-image] | ![Safari][safari-image] | ![Opera][opera-image]
 --- | --- | --- | --- | --- |
-Latest ✔ | Latest ✔ | 10+ ✔ | Latest ✔ | 6.1+ ✔ |
+Latest ✔ | Latest ✔ | Latest ✔ | Latest ✔ | Latest ✔ |
+
+Beberapa cuplikan kode menggunakan API yang lebih baru: `Promise.withResolvers()` (2024), `el.replaceChildren()` (2020) dan `AbortSignal.timeout()` (2022). Periksa [Baseline](https://web.dev/baseline) jika anda masih perlu mendukung browser yang lebih lama.
 
 # License
 
 MIT
+
+[chrome-image]: https://raw.github.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png
+[firefox-image]: https://raw.github.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png
+[edge-image]: https://raw.github.com/alrra/browser-logos/master/src/edge/edge_48x48.png
+[opera-image]: https://raw.github.com/alrra/browser-logos/master/src/opera/opera_48x48.png
+[safari-image]: https://raw.github.com/alrra/browser-logos/master/src/safari/safari_48x48.png
