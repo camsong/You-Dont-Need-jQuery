@@ -1,17 +1,19 @@
 ## Anda tidak memerlukan jQuery
 
-Mutakhir ini perkembangan dalam persekitaran frontend berlaku begitu pesat sekali. Justeru itu kebanyakan pelayar moden telahpun menyediakan API yang memadai untuk pengaksesan DOM/BOM. Kita tak payah lagi belajar jQuery dari asas untuk memanipulasi DOM dan acara-acara. Projek ini menawarkan perlaksanaan alternatif kepada kebanyakan kaedah-kaedah jQuery yang menyokong IE 10+.
+Mutakhir ini perkembangan dalam persekitaran frontend berlaku begitu pesat sekali. Justeru itu kebanyakan pelayar moden telahpun menyediakan API yang memadai untuk pengaksesan DOM/BOM. Kita tak payah lagi belajar jQuery dari asas untuk memanipulasi DOM dan acara-acara. Projek ini menawarkan perlaksanaan alternatif kepada kebanyakan kaedah-kaedah jQuery.
+
+Contoh kod dalam panduan ini menyasarkan pelayar *evergreen* terkini yang dikemas kini secara automatik (Chrome, Edge, Firefox, Safari). Internet Explorer tidak lagi disokong oleh Microsoft, justeru kod sandaran (fallback) khusus untuk IE telah dikeluarkan. Jika anda masih memerlukannya, rujuk [versi terakhir yang serasi dengan IE](https://github.com/camsong/You-Dont-Need-jQuery/tree/c4e00b3).
 
 ## Isi Kandungan
 
 1. [Terjemahan](#terjemahan)
 1. [Pemilihan elemen](#pemilihan-elemen)
-1. [CSS & Penggayaan](#css-penggayaan)
-1. [Manipulasi DOM](#manipulasi-dom)
+1. [CSS & Penggayaan](#css--style)
+1. [Manipulasi DOM](#dom-manipulation)
 1. [Ajax](#ajax)
 1. [Events](#events)
-1. [Utiliti](#utiliti)
-1. [Browser Support](#browser-support)
+1. [Utiliti](#utility)
+1. [Browser Support](#sokongan-pelayar)
 
 ## Terjemahan
 
@@ -35,19 +37,22 @@ Mutakhir ini perkembangan dalam persekitaran frontend berlaku begitu pesat sekal
 
 Pemilihan elemen yang umum seperti class, id atau atribut, biasanya kita boleh pakai `document.querySelector` atau `document.querySelectorAll` sebagai ganti. Bezanya terletak pada
 * `document.querySelector` akan mengembalikan elemen pertama sekali yang sepadan dijumpai
-* `document.querySelectorAll` akan mengembalikan kesemua elemen yang sepadan dijumpai kedalam sebuah NodeList. Ia boleh ditukar kedalam bentuk array menggunakan `[].slice.call`
-* Sekiranya tiada elemen yang sepadan dijumpai, jQuery akan mengembalikan `[]` dimana API DOM pula akan mengembalikan `null`. Sila ambil perhatian pada Null Pointer Exception
+* `document.querySelectorAll` akan mengembalikan kesemua elemen yang sepadan dijumpai sebagai sebuah NodeList statik. Ia menyokong `forEach`, dan boleh ditukar ke dalam bentuk array menggunakan `Array.from(document.querySelectorAll(selector))`
+* Sekiranya tiada elemen yang sepadan dijumpai, jQuery akan mengembalikan objek jQuery yang kosong dan `document.querySelectorAll` akan mengembalikan NodeList yang kosong, manakala `document.querySelector` pula akan mengembalikan `null`.
 
-> AWAS: `document.querySelector` dan `document.querySelectorAll` agak **LEMBAB** berbanding `getElementById`, `document.getElementsByClassName` atau `document.getElementsByTagName` jika anda menginginkan bonus dari segi prestasi.
+> PERHATIAN: `document.getElementById`, `document.getElementsByClassName` dan `document.getElementsByTagName` sedikit lebih pantas berbanding `querySelector*`, tetapi `getElementsBy*` mengembalikan HTMLCollection yang *live*, iaitu ia turut berubah apabila DOM berubah. Utamakan `querySelector*` melainkan anda telah membuat pengukuran dan mendapati ia benar-benar menjadi punca kelembapan (bottleneck).
 
 - [1.1](#1.1) <a name='1.1'></a> Pemilihan menggunakan class
 
   ```js
   // jQuery
-  $('.css');
+  $('.class');
 
   // Native
-  document.querySelectorAll('.css');
+  document.querySelectorAll('.class');
+
+  // atau
+  document.getElementsByClassName('class');
   ```
 
 - [1.2](#1.2) <a name='1.2'></a> Pemilihan menggunakan id
@@ -58,6 +63,9 @@ Pemilihan elemen yang umum seperti class, id atau atribut, biasanya kita boleh p
 
   // Native
   document.querySelector('#id');
+
+  // atau
+  document.getElementById('id');
   ```
 
 - [1.3](#1.3) <a name='1.3'></a> Pemilihan menggunakan atribut
@@ -99,7 +107,7 @@ Pemilihan elemen yang umum seperti class, id atau atribut, biasanya kita boleh p
     $el.attr('foo');
 
     // Native
-    e.getAttribute('foo');
+    el.getAttribute('foo');
     ```
 
   + Cari atribut data
@@ -109,10 +117,10 @@ Pemilihan elemen yang umum seperti class, id atau atribut, biasanya kita boleh p
     $el.data('foo');
 
     // Native
-    // menggunakan getAttribute
+    el.dataset.foo;
+
+    // atau
     el.getAttribute('data-foo');
-    // anda boleh juga gunakan `dataset` jika ingin pakai IE 11+
-    el.dataset['foo'];
     ```
 
 - [1.5](#1.5) <a name='1.5'></a> Sibling/Previous/Next Elements
@@ -124,9 +132,9 @@ Pemilihan elemen yang umum seperti class, id atau atribut, biasanya kita boleh p
     $el.siblings();
 
     // Native
-    [].filter.call(el.parentNode.children, function(child) {
-      return child !== el;
-    });
+    [...el.parentNode.children].filter((child) =>
+      child !== el
+    );
     ```
 
   + Previous elements
@@ -137,14 +145,15 @@ Pemilihan elemen yang umum seperti class, id atau atribut, biasanya kita boleh p
 
     // Native
     el.previousElementSibling;
-
     ```
 
   + Next elements
 
     ```js
-    // next
+    // jQuery
     $el.next();
+
+    // Native
     el.nextElementSibling;
     ```
 
@@ -154,21 +163,10 @@ Pemilihan elemen yang umum seperti class, id atau atribut, biasanya kita boleh p
 
   ```js
   // jQuery
-  $el.closest(queryString);
+  $el.closest(selector);
 
   // Native
-  function closest(el, selector) {
-    const matchesSelector = el.matches || el.webkitMatchesSelector || el.mozMatchesSelector || el.msMatchesSelector;
-
-    while (el) {
-      if (matchesSelector.call(el, selector)) {
-        return el;
-      } else {
-        el = el.parentElement;
-      }
-    }
-    return null;
-  }
+  el.closest(selector);
   ```
 
 - [1.7](#1.7) <a name='1.7'></a> Parents Until
@@ -182,17 +180,12 @@ Pemilihan elemen yang umum seperti class, id atau atribut, biasanya kita boleh p
   // Native
   function parentsUntil(el, selector, filter) {
     const result = [];
-    const matchesSelector = el.matches || el.webkitMatchesSelector || el.mozMatchesSelector || el.msMatchesSelector;
 
     // match start from parent
     el = el.parentElement;
-    while (el && !matchesSelector.call(el, selector)) {
-      if (!filter) {
+    while (el && !el.matches(selector)) {
+      if (!filter || el.matches(filter)) {
         result.push(el);
-      } else {
-        if (matchesSelector.call(el, filter)) {
-          result.push(el);
-        }
       }
       el = el.parentElement;
     }
@@ -216,10 +209,10 @@ Pemilihan elemen yang umum seperti class, id atau atribut, biasanya kita boleh p
 
     ```js
     // jQuery
-    $(e.currentTarget).index('.radio');
+    $('.radio').index(e.currentTarget);
 
     // Native
-    [].indexOf.call(document.querySelectAll('.radio'), e.currentTarget);
+    [...document.querySelectorAll('.radio')].indexOf(e.currentTarget);
     ```
 
 - [1.9](#1.9) <a name='1.9'></a> Iframe Contents
@@ -246,7 +239,7 @@ Pemilihan elemen yang umum seperti class, id atau atribut, biasanya kita boleh p
     iframe.contentDocument.querySelectorAll('.css');
     ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#isi-kandungan)**
 
 ## CSS & Style
 
@@ -256,29 +249,32 @@ Pemilihan elemen yang umum seperti class, id atau atribut, biasanya kita boleh p
 
     ```js
     // jQuery
-    $el.css("color");
+    $el.css('color');
 
     // Native
-    // NOTE: Known bug, will return 'auto' if style value is 'auto'
-    const win = el.ownerDocument.defaultView;
-    // null means not return presudo styles
-    win.getComputedStyle(el, null).color;
+    // NOTA: mengembalikan nilai yang telah diselesaikan (resolved value), cth. 'rgb(255, 0, 17)' dan bukannya '#f01'
+    getComputedStyle(el).color;
     ```
 
   + Set style
 
     ```js
     // jQuery
-    $el.css({ color: "#ff0011" });
+    $el.css({ color: '#f01' });
 
     // Native
-    el.style.color = '#ff0011';
+    el.style.color = '#f01';
     ```
 
-  + Get/Set Styles
+  + Set multiple styles
 
-    Note that if you want to set multiple styles once, you could refer to [setStyles](https://github.com/oneuijs/oui-dom-utils/blob/master/src/index.js#L194) method in oui-dom-utils package.
+    ```js
+    // jQuery
+    $el.css({ color: '#f01', 'border-color': '#f02' });
 
+    // Native
+    Object.assign(el.style, { color: '#f01', borderColor: '#f02' });
+    ```
 
   + Add class
 
@@ -327,10 +323,12 @@ Pemilihan elemen yang umum seperti class, id atau atribut, biasanya kita boleh p
   + Window height
 
     ```js
-    // window height
+    // jQuery
     $(window).height();
+
     // without scrollbar, behaves like jQuery
     window.document.documentElement.clientHeight;
+
     // with scrollbar
     window.innerHeight;
     ```
@@ -342,7 +340,15 @@ Pemilihan elemen yang umum seperti class, id atau atribut, biasanya kita boleh p
     $(document).height();
 
     // Native
-    document.documentElement.scrollHeight;
+    const body = document.body;
+    const html = document.documentElement;
+    const height = Math.max(
+      body.offsetHeight,
+      body.scrollHeight,
+      html.clientHeight,
+      html.offsetHeight,
+      html.scrollHeight
+    );
     ```
 
   + Element height
@@ -353,7 +359,7 @@ Pemilihan elemen yang umum seperti class, id atau atribut, biasanya kita boleh p
 
     // Native
     function getHeight(el) {
-      const styles = this.getComputedStyles(el);
+      const styles = window.getComputedStyle(el);
       const height = el.offsetHeight;
       const borderTopWidth = parseFloat(styles.borderTopWidth);
       const borderBottomWidth = parseFloat(styles.borderBottomWidth);
@@ -361,9 +367,11 @@ Pemilihan elemen yang umum seperti class, id atau atribut, biasanya kita boleh p
       const paddingBottom = parseFloat(styles.paddingBottom);
       return height - borderBottomWidth - borderTopWidth - paddingTop - paddingBottom;
     }
-    // accurate to integer（when `border-box`, it's `height - border`; when `content-box`, it's `height + padding`）
+
+    // accurate to integer (when `border-box`, it's `height - border`; when `content-box`, it's `height + padding`)
     el.clientHeight;
-    // accurate to decimal（when `border-box`, it's `height`; when `content-box`, it's `height + padding + border`）
+
+    // accurate to decimal (when `border-box`, it's `height`; when `content-box`, it's `height + padding + border`)
     el.getBoundingClientRect().height;
     ```
 
@@ -376,7 +384,7 @@ Pemilihan elemen yang umum seperti class, id atau atribut, biasanya kita boleh p
     $el.position();
 
     // Native
-    { left: el.offsetLeft, top: el.offsetTop }
+    const position = { left: el.offsetLeft, top: el.offsetTop };
     ```
 
   + Offset
@@ -390,9 +398,9 @@ Pemilihan elemen yang umum seperti class, id atau atribut, biasanya kita boleh p
       const box = el.getBoundingClientRect();
 
       return {
-        top: box.top + window.pageYOffset - document.documentElement.clientTop,
-        left: box.left + window.pageXOffset - document.documentElement.clientLeft
-      }
+        top: box.top + window.scrollY,
+        left: box.left + window.scrollX
+      };
     }
     ```
 
@@ -403,10 +411,10 @@ Pemilihan elemen yang umum seperti class, id atau atribut, biasanya kita boleh p
   $(window).scrollTop();
 
   // Native
-  (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop;
+  window.scrollY;
   ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#isi-kandungan)**
 
 ## DOM Manipulation
 
@@ -416,7 +424,7 @@ Pemilihan elemen yang umum seperti class, id atau atribut, biasanya kita boleh p
   $el.remove();
 
   // Native
-  el.parentNode.removeChild(el);
+  el.remove();
   ```
 
 - [3.2](#3.2) <a name='3.2'></a> Text
@@ -468,27 +476,27 @@ Pemilihan elemen yang umum seperti class, id atau atribut, biasanya kita boleh p
   append child element after the last child of parent element
 
   ```js
-  // jQuery
-  $el.append("<div id='container'>hello</div>");
+  // jQuery: sintaks yang sama untuk objek DOMString dan Node
+  $parent.append(newEl | '<div id="container">Hello World</div>');
 
-  // Native
-  let newEl = document.createElement('div');
-  newEl.setAttribute('id', 'container');
-  newEl.innerHTML = 'hello';
-  el.appendChild(newEl);
+  // Native (Element atau teks): rentetan dimasukkan sebagai teks biasa, bukan dihuraikan sebagai HTML
+  parent.append(newEl | 'Hello World');
+
+  // Native (rentetan HTML)
+  parent.insertAdjacentHTML('beforeend', '<div id="container">Hello World</div>');
   ```
 
 - [3.5](#3.5) <a name='3.5'></a> Prepend
 
   ```js
-  // jQuery
-  $el.prepend("<div id='container'>hello</div>");
+  // jQuery: sintaks yang sama untuk objek DOMString dan Node
+  $parent.prepend(newEl | '<div id="container">Hello World</div>');
 
-  // Native
-  let newEl = document.createElement('div');
-  newEl.setAttribute('id', 'container');
-  newEl.innerHTML = 'hello';
-  el.insertBefore(newEl, el.firstChild);
+  // Native (Element atau teks): rentetan dimasukkan sebagai teks biasa, bukan dihuraikan sebagai HTML
+  parent.prepend(newEl | 'Hello World');
+
+  // Native (rentetan HTML)
+  parent.insertAdjacentHTML('afterbegin', '<div id="container">Hello World</div>');
   ```
 
 - [3.6](#3.6) <a name='3.6'></a> insertBefore
@@ -497,11 +505,15 @@ Pemilihan elemen yang umum seperti class, id atau atribut, biasanya kita boleh p
 
   ```js
   // jQuery
-  $newEl.insertBefore(queryString);
+  $newEl.insertBefore(selector);
 
-  // Native
-  const target = document.querySelector(queryString);
-  target.parentNode.insertBefore(newEl, target);
+  const el = document.querySelector(selector);
+
+  // Native (Element)
+  el.before(newEl);
+
+  // Native (rentetan HTML)
+  el.insertAdjacentHTML('beforebegin', '<div id="container">Hello World</div>');
   ```
 
 - [3.7](#3.7) <a name='3.7'></a> insertAfter
@@ -510,24 +522,94 @@ Pemilihan elemen yang umum seperti class, id atau atribut, biasanya kita boleh p
 
   ```js
   // jQuery
-  $newEl.insertAfter(queryString);
+  $newEl.insertAfter(selector);
 
-  // Native
-  const target = document.querySelector(queryString);
-  target.parentNode.insertBefore(newEl, target.nextSibling);
+  const el = document.querySelector(selector);
+
+  // Native (Element)
+  el.after(newEl);
+
+  // Native (rentetan HTML)
+  el.insertAdjacentHTML('afterend', '<div id="container">Hello World</div>');
   ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#isi-kandungan)**
 
 ## Ajax
 
-Replace with [fetch](https://github.com/camsong/fetch-ie8) and [fetch-jsonp](https://github.com/camsong/fetch-jsonp)
+[Fetch API](https://fetch.spec.whatwg.org/) ialah pengganti standard bagi XMLHttpRequest dan berfungsi dalam semua pelayar moden. Tidak seperti `$.ajax`, `fetch` **tidak** menolak (reject) promise apabila menerima status ralat HTTP seperti 404 atau 500; anda perlu menyemak `response.ok` sendiri. Untuk JSONP, cuba [fetch-jsonp](https://github.com/camsong/fetch-jsonp).
 
-**[⬆ back to top](#table-of-contents)**
+- [4.0](#4.0) <a name='4.0'></a> Mendapatkan data JSON
+
+  ```js
+  // jQuery
+  $.getJSON(url).done(handleData).fail(handleError);
+
+  // Native
+  fetch(url)
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}`);
+      }
+      return response.json();
+    })
+    .then(handleData)
+    .catch(handleError);
+  ```
+
+- [4.0.1](#4.0.1) <a name='4.0.1'></a> Menghantar data JSON dengan POST
+
+  ```js
+  // jQuery
+  $.ajax({
+    url,
+    method: 'POST',
+    contentType: 'application/json',
+    data: JSON.stringify(data),
+  });
+
+  // Native
+  fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data),
+  });
+  ```
+
+- [4.0.2](#4.0.2) <a name='4.0.2'></a> Membatalkan permintaan dan had masa
+
+  ```js
+  // jQuery
+  const jqXHR = $.ajax({ url, timeout: 5000 });
+  jqXHR.abort();
+
+  // Native
+  const controller = new AbortController();
+  fetch(url, { signal: controller.signal });
+  controller.abort();
+
+  // Native (had masa)
+  fetch(url, { signal: AbortSignal.timeout(5000) });
+  ```
+
+- [4.1](#4.1) <a name='4.1'></a> Muatkan data daripada pelayan dan letakkan HTML yang dikembalikan ke dalam elemen yang sepadan.
+
+  ```js
+  // jQuery
+  $(selector).load(url, completeCallback)
+
+  // Native
+  fetch(url)
+    .then((response) => response.text())
+    .then((html) => {
+      document.querySelector(selector).innerHTML = html;
+    })
+    .then(completeCallback);
+  ```
+
+**[⬆ back to top](#isi-kandungan)**
 
 ## Events
-
-For a complete replacement with namespace and delegation, refer to https://github.com/oneuijs/oui-dom-events
 
 - [5.1](#5.1) <a name='5.1'></a> Bind an event with on
 
@@ -539,6 +621,31 @@ For a complete replacement with namespace and delegation, refer to https://githu
   el.addEventListener(eventName, eventHandler);
   ```
 
+- [5.1.1](#5.1.1) <a name='5.1.1'></a> Mengikat acara sekali sahaja dengan one
+
+  ```js
+  // jQuery
+  $el.one(eventName, eventHandler);
+
+  // Native
+  el.addEventListener(eventName, eventHandler, { once: true });
+  ```
+
+- [5.1.2](#5.1.2) <a name='5.1.2'></a> Delegasi acara
+
+  ```js
+  // jQuery
+  $el.on(eventName, selector, eventHandler);
+
+  // Native
+  el.addEventListener(eventName, (event) => {
+    const target = event.target.closest(selector);
+    if (target && el.contains(target)) {
+      eventHandler.call(target, event);
+    }
+  });
+  ```
+
 - [5.2](#5.2) <a name='5.2'></a> Unbind an event with off
 
   ```js
@@ -547,6 +654,12 @@ For a complete replacement with namespace and delegation, refer to https://githu
 
   // Native
   el.removeEventListener(eventName, eventHandler);
+
+  // Native: alih keluar beberapa pendengar acara sekali gus, seperti ruang nama (namespace) dalam jQuery
+  const controller = new AbortController();
+  el.addEventListener('click', onClick, { signal: controller.signal });
+  el.addEventListener('keydown', onKeydown, { signal: controller.signal });
+  controller.abort();
   ```
 
 - [5.3](#5.3) <a name='5.3'></a> Trigger
@@ -555,18 +668,18 @@ For a complete replacement with namespace and delegation, refer to https://githu
   // jQuery
   $(el).trigger('custom-event', {key1: 'data'});
 
-  // Native
-  if (window.CustomEvent) {
-    const event = new CustomEvent('custom-event', {detail: {key1: 'data'}});
-  } else {
-    const event = document.createEvent('CustomEvent');
-    event.initCustomEvent('custom-event', true, true, {key1: 'data'});
-  }
+  // Native. Acara jQuery merambat naik (bubble), tetapi acara native tidak melainkan `bubbles: true` ditetapkan.
+  // Baca data daripada `event.detail` di dalam pengendali acara.
+  const event = new CustomEvent('custom-event', {
+    bubbles: true,
+    cancelable: true,
+    detail: { key1: 'data' },
+  });
 
   el.dispatchEvent(event);
   ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#isi-kandungan)**
 
 ## Utility
 
@@ -574,10 +687,10 @@ For a complete replacement with namespace and delegation, refer to https://githu
 
   ```js
   // jQuery
-  $.isArray(range);
+  $.isArray(array);
 
   // Native
-  Array.isArray(range);
+  Array.isArray(array);
   ```
 
 - [6.2](#6.2) <a name='6.2'></a> Trim
@@ -587,19 +700,33 @@ For a complete replacement with namespace and delegation, refer to https://githu
   $.trim(string);
 
   // Native
-  String.trim(string);
+  string.trim();
   ```
 
 - [6.3](#6.3) <a name='6.3'></a> Object Assign
 
-  Extend, use object.assign polyfill https://github.com/ljharb/object.assign
+  Gabungkan kandungan dua atau lebih objek ke dalam satu objek baharu tanpa mengubah mana-mana argumen.
+  Sama seperti `$.extend` tanpa `deep`, `Object.assign` dan sintaks spread hanya membuat salinan cetek (shallow copy).
 
   ```js
   // jQuery
-  $.extend({}, defaultOpts, opts);
+  $.extend({}, object1, object2);
 
   // Native
-  Object.assign({}, defaultOpts, opts);
+  Object.assign({}, object1, object2);
+
+  // Native (spread)
+  ({ ...object1, ...object2 });
+  ```
+
+  Membuat salinan dalam (deep copy) bagi satu objek:
+
+  ```js
+  // jQuery
+  $.extend(true, {}, object);
+
+  // Native. Fungsi dan nod DOM tidak boleh diklon
+  structuredClone(object);
   ```
 
 - [6.4](#6.4) <a name='6.4'></a> Contains
@@ -612,14 +739,22 @@ For a complete replacement with namespace and delegation, refer to https://githu
   el !== child && el.contains(child);
   ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#isi-kandungan)**
 
 ## Sokongan Pelayar
 
-![Chrome](https://raw.github.com/alrra/browser-logos/master/chrome/chrome_48x48.png) | ![Firefox](https://raw.github.com/alrra/browser-logos/master/firefox/firefox_48x48.png) | ![IE](https://raw.github.com/alrra/browser-logos/master/internet-explorer/internet-explorer_48x48.png) | ![Opera](https://raw.github.com/alrra/browser-logos/master/opera/opera_48x48.png) | ![Safari](https://raw.github.com/alrra/browser-logos/master/safari/safari_48x48.png)
+![Chrome][chrome-image] | ![Edge][edge-image] | ![Firefox][firefox-image] | ![Safari][safari-image] | ![Opera][opera-image]
 --- | --- | --- | --- | --- |
-Latest ✔ | Latest ✔ | 10+ ✔ | Latest ✔ | 6.1+ ✔ |
+Latest ✔ | Latest ✔ | Latest ✔ | Latest ✔ | Latest ✔ |
+
+Beberapa contoh kod menggunakan API yang lebih baharu: `Promise.withResolvers()` (2024), `el.replaceChildren()` (2020) dan `AbortSignal.timeout()` (2022). Semak [Baseline](https://web.dev/baseline) jika anda perlu menyokong pelayar yang lebih lama.
 
 # Lesen
 
 MIT
+
+[chrome-image]: https://raw.github.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png
+[firefox-image]: https://raw.github.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png
+[edge-image]: https://raw.github.com/alrra/browser-logos/master/src/edge/edge_48x48.png
+[opera-image]: https://raw.github.com/alrra/browser-logos/master/src/opera/opera_48x48.png
+[safari-image]: https://raw.github.com/alrra/browser-logos/master/src/safari/safari_48x48.png
