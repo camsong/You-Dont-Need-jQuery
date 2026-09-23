@@ -1,7 +1,9 @@
 ## jQueryは必要ない（You Don't Need jQuery）
 
 
-フロントエンドの開発環境はめまぐるしく進化していて、最近のブラウザでは十分な質、量のDOM/BOM APIが実装されています。もうDOM操作やイベント処理のためにjQueryを覚える必要はありません。また、ReactやAngularそしてVueなどのフロントエンドライブラリの流行により、DOMを直接操作することはアンチパターンとなりました。jQueryはそれほど重要ではなくなったのです。このプロジェクトは、jQueryでの書き方の代わりとなるネイティブでの書き方(IE10以上)をまとめます。
+フロントエンドの開発環境はめまぐるしく進化していて、最近のブラウザでは十分な質、量のDOM/BOM APIが実装されています。もうDOM操作やイベント処理のためにjQueryを覚える必要はありません。また、ReactやAngularそしてVueなどのフロントエンドライブラリの流行により、DOMを直接操作することはアンチパターンとなりました。jQueryはそれほど重要ではなくなったのです。このプロジェクトは、jQueryでの書き方の代わりとなるネイティブでの書き方をまとめます。
+
+スニペットは現行のエバーグリーンブラウザ（Chrome、Edge、Firefox、Safari）を対象としています。Internet ExplorerはMicrosoftのサポートが終了しているため、IE向けのフォールバックは削除しました。IE対応がまだ必要な場合は、[IEに対応していた最後のバージョン](https://github.com/camsong/You-Dont-Need-jQuery/tree/c4e00b3)を参照してください。
 
 ## 目次
 
@@ -42,10 +44,10 @@ classセレクタ、idセレクタ、属性セレクタのような主要セレ�
 jQueryのセレクタと比べて以下の違いがあります。
 
 * `document.querySelector`はセレクタにマッチする最初のエレメントを返す
-* `document.querySelectorAll`はセレクタにマッチする全てのエレメントのNodeListを返す。`Array.prototype.slice.call(document.querySelectorAll(selector) || []);`で配列に変換できる。
-* セレクタにマッチする要素がなかった場合、jQueryは`[]`を返すが、DOM APIは`null`を返す。したがってNull Pointer Exceptionに注意する必要がある。もしくは`document.querySelectorAll(selector) || []`のように`||`を使ってデフォルト値を指定しておく。
+* `document.querySelectorAll`はセレクタにマッチする全てのエレメントを静的なNodeListとして返す。NodeListは`forEach`に対応しており、`Array.from(document.querySelectorAll(selector))`や[makeArray](#makeArray)で紹介している方法で配列に変換できる。
+* セレクタにマッチする要素がなかった場合、jQueryは空のjQueryオブジェクトを、`document.querySelectorAll`は空のNodeListを返すが、`document.querySelector`は`null`を返す。
 
-> 注意：`document.querySelector`と`document.querySelectorAll`はかなり**遅い**です。もし、パフォーマンスが必要なら`document.getElementById`や`document.getElementsByClassName`、`document.getElementsByTagName`を使ってください。
+> 注意：`document.getElementById`、`document.getElementsByClassName`、`document.getElementsByTagName`は`querySelector*`よりわずかに高速ですが、`getElementsBy*`が返すのはDOMの変更に合わせて中身が変わる*ライブ*なHTMLCollectionです。計測してボトルネックだと確認できた場合を除き、`querySelector*`を使うことをおすすめします。
 
 
 - [1.0](#1.0) <a name='1.0'></a> セレクタによる選択
@@ -113,9 +115,9 @@ jQueryのセレクタと比べて以下の違いがあります。
     $el.siblings();
 
     // Native
-    Array.prototype.filter.call(el.parentNode.children, function(child) {
-      return child !== el;
-    });
+    [...el.parentNode.children].filter((child) =>
+      child !== el
+    );
     ```
 
   + 直前の兄弟要素
@@ -146,22 +148,8 @@ jQueryのセレクタと比べて以下の違いがあります。
   // jQuery
   $el.closest(selector);
 
-  // Native - 最近のブラウザのみ。IEでは動かない。
+  // Native
   el.closest(selector);
-
-  // Native - IE10+
-  function closest(el, selector) {
-    const matchesSelector = el.matches || el.webkitMatchesSelector || el.mozMatchesSelector || el.msMatchesSelector;
-
-    while (el) {
-      if (matchesSelector.call(el, selector)) {
-        return el;
-      } else {
-        el = el.parentElement;
-      }
-    }
-    return null;
-  }
   ```
 
 - [1.7](#1.7) <a name='1.7'></a> Parents Until
@@ -175,17 +163,12 @@ jQueryのセレクタと比べて以下の違いがあります。
   // Native
   function parentsUntil(el, selector, filter) {
     const result = [];
-    const matchesSelector = el.matches || el.webkitMatchesSelector || el.mozMatchesSelector || el.msMatchesSelector;
 
     // parentから走査を開始する
     el = el.parentElement;
-    while (el && !matchesSelector.call(el, selector)) {
-      if (!filter) {
+    while (el && !el.matches(selector)) {
+      if (!filter || el.matches(filter)) {
         result.push(el);
-      } else {
-        if (matchesSelector.call(el, filter)) {
-          result.push(el);
-        }
       }
       el = el.parentElement;
     }
@@ -209,10 +192,10 @@ jQueryのセレクタと比べて以下の違いがあります。
 
     ```js
     // jQuery
-    $(e.currentTarget).index('.radio');
+    $('.radio').index(e.currentTarget);
 
     // Native
-    Array.prototype.indexOf.call(document.querySelectorAll('.radio'), e.currentTarget);
+    [...document.querySelectorAll('.radio')].indexOf(e.currentTarget);
     ```
 
 - [1.9](#1.9) <a name='1.9'></a> iframeのコンテンツ
@@ -263,7 +246,7 @@ jQueryのセレクタと比べて以下の違いがあります。
   + 属性値を設定する
 
     ```js
-    // jQuery, DOMを変化させずメモリ上で動作することに注意
+    // jQuery
     $el.attr('foo', 'bar');
 
     // Native
@@ -276,10 +259,11 @@ jQueryのセレクタと比べて以下の違いがあります。
     // jQuery
     $el.data('foo');
 
-    // Native (`getAttribute`を使う)
+    // Native
+    el.dataset.foo;
+
+    // or
     el.getAttribute('data-foo');
-    // Native (IE11以上のサポートなら`dataset`を使ってもよい)
-    el.dataset['foo'];
     ```
 
 **[⬆ back to top](#目次)**
@@ -292,28 +276,32 @@ jQueryのセレクタと比べて以下の違いがあります。
 
     ```js
     // jQuery
-    $el.css("color");
+    $el.css('color');
 
     // Native
-    // NOTE: 既知のバグ デフォルト値が'auto'の場合、値が指定されていなくても'auto'が返る
-    const win = el.ownerDocument.defaultView;
-    // nullは疑似要素でないことを示している
-    win.getComputedStyle(el, null).color;
+    // NOTE: '#f01'ではなく'rgb(255, 0, 17)'のような解決済みの値（resolved value）が返る
+    getComputedStyle(el).color;
     ```
 
   + スタイルを設定する
 
     ```js
     // jQuery
-    $el.css({ color: "#ff0011" });
+    $el.css({ color: '#f01' });
 
     // Native
-    el.style.color = '#ff0011';
+    el.style.color = '#f01';
     ```
 
-  + スタイルを一括取得、一括設定する
+  + 複数のスタイルを一括設定する
 
-	複数のスタイルを一括で設定したいなら、oui-dom-utilsの[setStyles](https://github.com/oneuijs/oui-dom-utils/blob/master/src/index.js#L194)関数を参考にすると良いでしょう。
+    ```js
+    // jQuery
+    $el.css({ color: '#f01', 'border-color': '#f02' });
+
+    // Native
+    Object.assign(el.style, { color: '#f01', borderColor: '#f02' });
+    ```
 
   + クラスを追加する
     ```js
@@ -361,10 +349,12 @@ jQueryのセレクタと比べて以下の違いがあります。
   + ウィンドウの高さ
 
     ```js
-    // window height
+    // jQuery
     $(window).height();
+
     // jQueryのようにスクロールバーを除いた高さ
     window.document.documentElement.clientHeight;
+
     // スクロールバーを含めるなら
     window.innerHeight;
     ```
@@ -376,7 +366,15 @@ jQueryのセレクタと比べて以下の違いがあります。
     $(document).height();
 
     // Native
-    document.documentElement.scrollHeight;
+    const body = document.body;
+    const html = document.documentElement;
+    const height = Math.max(
+      body.offsetHeight,
+      body.scrollHeight,
+      html.clientHeight,
+      html.offsetHeight,
+      html.scrollHeight
+    );
     ```
 
   + エレメントの高さ
@@ -395,8 +393,10 @@ jQueryのセレクタと比べて以下の違いがあります。
       const paddingBottom = parseFloat(styles.paddingBottom);
       return height - borderBottomWidth - borderTopWidth - paddingTop - paddingBottom;
     }
+
     // integerで取得（`border-box`の時は`height - border`が、`content-box`の時は`height + padding`が返る）
     el.clientHeight;
+
     // decimalで取得（`border-box`の時は`height`が、`content-box`の時は`height + padding + border`が返る）
     el.getBoundingClientRect().height;
     ```
@@ -412,7 +412,7 @@ jQueryのセレクタと比べて以下の違いがあります。
     $el.position();
 
     // Native
-    { left: el.offsetLeft, top: el.offsetTop }
+    const position = { left: el.offsetLeft, top: el.offsetTop };
     ```
 
   + Offset
@@ -428,9 +428,9 @@ jQueryのセレクタと比べて以下の違いがあります。
       const box = el.getBoundingClientRect();
 
       return {
-        top: box.top + window.pageYOffset - document.documentElement.clientTop,
-        left: box.left + window.pageXOffset - document.documentElement.clientLeft
-      }
+        top: box.top + window.scrollY,
+        left: box.left + window.scrollX
+      };
     }
     ```
 
@@ -443,7 +443,7 @@ jQueryのセレクタと比べて以下の違いがあります。
   $(window).scrollTop();
 
   // Native
-  (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop;
+  window.scrollY;
   ```
 
 **[⬆ back to top](#目次)**
@@ -459,7 +459,7 @@ jQueryのセレクタと比べて以下の違いがあります。
   $el.remove();
 
   // Native
-  el.parentNode.removeChild(el);
+  el.remove();
   ```
 
 - [3.2](#3.2) <a name='3.2'></a> Text
@@ -515,11 +515,14 @@ jQueryのセレクタと比べて以下の違いがあります。
   最後の子要素としてエレメントを追加する。
 
   ```js
-  // jQuery
-  $el.append("<div id='container'>hello</div>");
+  // jQuery: DOMStringとNodeオブジェクトを同じ構文で扱える
+  $parent.append(newEl | '<div id="container">Hello World</div>');
 
-  // Native
-  el.insertAdjacentHTML("beforeend","<div id='container'>hello</div>");
+  // Native (Elementまたはテキスト): 文字列はHTMLとして解析されず、プレーンテキストとして挿入される
+  parent.append(newEl | 'Hello World');
+
+  // Native (HTML文字列)
+  parent.insertAdjacentHTML('beforeend', '<div id="container">Hello World</div>');
   ```
 
 - [3.5](#3.5) <a name='3.5'></a> Prepend
@@ -527,37 +530,48 @@ jQueryのセレクタと比べて以下の違いがあります。
   最初の子要素としてエレメントを追加する。
 
   ```js
-  // jQuery
-  $el.prepend("<div id='container'>hello</div>");
+  // jQuery: DOMStringとNodeオブジェクトを同じ構文で扱える
+  $parent.prepend(newEl | '<div id="container">Hello World</div>');
 
-  // Native
-  el.insertAdjacentHTML("afterbegin","<div id='container'>hello</div>");
+  // Native (Elementまたはテキスト): 文字列はHTMLとして解析されず、プレーンテキストとして挿入される
+  parent.prepend(newEl | 'Hello World');
+
+  // Native (HTML文字列)
+  parent.insertAdjacentHTML('afterbegin', '<div id="container">Hello World</div>');
   ```
 
 - [3.6](#3.6) <a name='3.6'></a> insertBefore
-
-  指定要素の後ろに新しいノードを追加する。
-
-  ```js
-  // jQuery
-  $newEl.insertBefore(queryString);
-
-  // Native
-  const target = document.querySelector(queryString);
-  target.parentNode.insertBefore(newEl, target);
-  ```
-
-- [3.7](#3.7) <a name='3.7'></a> insertAfter
 
   指定要素の前に新しいノードを追加する。
 
   ```js
   // jQuery
-  $newEl.insertAfter(queryString);
+  $newEl.insertBefore(selector);
 
-  // Native
-  const target = document.querySelector(queryString);
-  target.parentNode.insertBefore(newEl, target.nextSibling);
+  const el = document.querySelector(selector);
+
+  // Native (Element)
+  el.before(newEl);
+
+  // Native (HTML文字列)
+  el.insertAdjacentHTML('beforebegin', '<div id="container">Hello World</div>');
+  ```
+
+- [3.7](#3.7) <a name='3.7'></a> insertAfter
+
+  指定要素の後ろに新しいノードを追加する。
+
+  ```js
+  // jQuery
+  $newEl.insertAfter(selector);
+
+  const el = document.querySelector(selector);
+
+  // Native (Element)
+  el.after(newEl);
+
+  // Native (HTML文字列)
+  el.insertAdjacentHTML('afterend', '<div id="container">Hello World</div>');
   ```
 
 - [3.8](#3.8) <a name='3.8'></a> is
@@ -565,7 +579,7 @@ jQueryのセレクタと比べて以下の違いがあります。
   セレクタにマッチするなら`true`を返す。
 
   ```js
-  // is関数は複数エレメントや関数にも対応するが、matches関数は単一エレメントのみに使える
+  // jQuery - `is`は関数や既存のjQueryオブジェクト、DOM要素も引数に取れるが、ここでは扱わない
   $el.is(selector);
 
   // Native
@@ -576,14 +590,11 @@ jQueryのセレクタと比べて以下の違いがあります。
   エレメントのディープコピーを生成する。
 
   ```js
-  // jQuery
+  // jQuery: `true`を渡すと、イベントハンドラとデータもコピーされる
   $el.clone();
 
-  // Native
-  el.cloneNode();
-
-  //  パラメータには`true`が渡され、深い複製を生成します。
-  // 浅い複製を生成するには、`false`を渡します。
+  // Native: `true`を渡すとディープコピーになる。イベントリスナーは一切コピーされない
+  el.cloneNode(true);
   ```
 
 - [3.10](#3.10) <a name='3.10'></a> empty
@@ -595,7 +606,7 @@ jQueryのセレクタと比べて以下の違いがあります。
   $el.empty();
 
   // Native
-  el.innerHTML = '';
+  el.replaceChildren();
   ```
 
 - [3.11](#3.11) <a name='3.11'></a> wrap
@@ -607,12 +618,11 @@ jQueryのセレクタと比べて以下の違いがあります。
   $('.inner').wrap('<div class="wrapper"></div>');
 
   // Native
-  Array.prototype.slice.call(document.querySelectorAll('.inner')).forEach(function(el){
-    var wrapper = document.createElement('div');
+  document.querySelectorAll('.inner').forEach((el) => {
+    const wrapper = document.createElement('div');
     wrapper.className = 'wrapper';
-    el.parentNode.insertBefore(wrapper, el);
-    el.parentNode.removeChild(el);
-    wrapper.appendChild(el);
+    el.before(wrapper);
+    wrapper.append(el);
   });
   ```
 
@@ -625,12 +635,12 @@ jQueryのセレクタと比べて以下の違いがあります。
   $('.inner').unwrap();
 
   // Native
-  Array.prototype.slice.call(document.querySelectorAll('.inner')).forEach(function(el){
-    Array.prototype.slice.call(el.childNodes).forEach(function(child){
-      el.parentNode.insertBefore(child, el);
+  new Set([...document.querySelectorAll('.inner')].map((el) => el.parentElement))
+    .forEach((parent) => {
+      if (parent !== document.body) {
+        parent.replaceWith(...parent.childNodes);
+      }
     });
-    el.parentNode.removeChild(el);
-  });
   ```
 
 - [3.13](#3.13) <a name='3.13'></a> replaceWith
@@ -642,11 +652,10 @@ jQueryのセレクタと比べて以下の違いがあります。
   $('.inner').replaceWith('<div class="outer"></div>');
 
   // Native
-  Array.prototype.slice.call(document.querySelectorAll('.inner')).forEach(function(el){
-    var outer = document.createElement('div');
+  document.querySelectorAll('.inner').forEach((el) => {
+    const outer = document.createElement('div');
     outer.className = 'outer';
-    el.parentNode.insertBefore(outer, el);
-    el.parentNode.removeChild(el);
+    el.replaceWith(outer);
   });
   ```
 
@@ -655,9 +664,60 @@ jQueryのセレクタと比べて以下の違いがあります。
 
 ## Ajax
 
-[Fetch API](https://fetch.spec.whatwg.org/)はXMLHttpRequestを置き換える新たな規格です。ChromeとFirefoxで動きます。レガシーなブラウザでもpolyfillを使えます。
+[Fetch API](https://fetch.spec.whatwg.org/)はXMLHttpRequestを置き換える標準規格で、すべてのモダンブラウザで動きます。`$.ajax`とは異なり、`fetch`は404や500などのHTTPエラーステータスが返ってきても**rejectしません**。`response.ok`を自分で確認してください。jsonpを利用したいなら[fetch-jsonp](https://github.com/camsong/fetch-jsonp)を試してみてください。
 
-IE9以上なら[github/fetch](http://github.com/github/fetch)、IE8以上なら[fetch-ie8](https://github.com/camsong/fetch-ie8/)、jsonpを利用したいなら[fetch-jsonp](https://github.com/camsong/fetch-jsonp)を試してみてください。
+- [4.0](#4.0) <a name='4.0'></a> JSONを取得する
+
+  ```js
+  // jQuery
+  $.getJSON(url).done(handleData).fail(handleError);
+
+  // Native
+  fetch(url)
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}`);
+      }
+      return response.json();
+    })
+    .then(handleData)
+    .catch(handleError);
+  ```
+
+- [4.0.1](#4.0.1) <a name='4.0.1'></a> JSONをPOSTする
+
+  ```js
+  // jQuery
+  $.ajax({
+    url,
+    method: 'POST',
+    contentType: 'application/json',
+    data: JSON.stringify(data),
+  });
+
+  // Native
+  fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data),
+  });
+  ```
+
+- [4.0.2](#4.0.2) <a name='4.0.2'></a> リクエストの中断とタイムアウト
+
+  ```js
+  // jQuery
+  const jqXHR = $.ajax({ url, timeout: 5000 });
+  jqXHR.abort();
+
+  // Native
+  const controller = new AbortController();
+  fetch(url, { signal: controller.signal });
+  controller.abort();
+
+  // Native (タイムアウト)
+  fetch(url, { signal: AbortSignal.timeout(5000) });
+  ```
 
 - [4.1](#4.1) <a name='4.1'></a> マッチしたエレメントをサーバから取得したHTMLに置き換える。
 
@@ -666,16 +726,17 @@ IE9以上なら[github/fetch](http://github.com/github/fetch)、IE8以上なら[
   $(selector).load(url, completeCallback)
 
   // Native
-  fetch(url).then(data => data.text()).then(data => {
-    document.querySelector(selector).innerHTML = data
-  }).then(completeCallback)
+  fetch(url)
+    .then((response) => response.text())
+    .then((html) => {
+      document.querySelector(selector).innerHTML = html;
+    })
+    .then(completeCallback);
   ```
 
 **[⬆ back to top](#目次)**
 
 ## イベント
-
-名前空間(namespace)と委譲（delegation）を利用した完全な代替手段が必要なら、 https://github.com/oneuijs/oui-dom-events を参照してください。
 
 - [5.0](#5.0) <a name='5.0'></a> ドキュメントが読み込まれたときの動作(`DOMContentLoaded`)
 
@@ -690,6 +751,9 @@ IE9以上なら[github/fetch](http://github.com/github/fetch)、IE8以上なら[
   } else {
     document.addEventListener('DOMContentLoaded', eventHandler);
   }
+
+  // または、スクリプトを`<script defer>`や`<script type="module">`で読み込む。
+  // これらはドキュメントの解析が終わってから実行される。
   ```
 
 - [5.1](#5.1) <a name='5.1'></a> イベントをバインドする(`on`)
@@ -702,6 +766,31 @@ IE9以上なら[github/fetch](http://github.com/github/fetch)、IE8以上なら[
   el.addEventListener(eventName, eventHandler);
   ```
 
+- [5.1.1](#5.1.1) <a name='5.1.1'></a> イベントを一度だけバインドする(`one`)
+
+  ```js
+  // jQuery
+  $el.one(eventName, eventHandler);
+
+  // Native
+  el.addEventListener(eventName, eventHandler, { once: true });
+  ```
+
+- [5.1.2](#5.1.2) <a name='5.1.2'></a> イベントの委譲
+
+  ```js
+  // jQuery
+  $el.on(eventName, selector, eventHandler);
+
+  // Native
+  el.addEventListener(eventName, (event) => {
+    const target = event.target.closest(selector);
+    if (target && el.contains(target)) {
+      eventHandler.call(target, event);
+    }
+  });
+  ```
+
 - [5.2](#5.2) <a name='5.2'></a> イベントをアンバインドする(`off`)
 
   ```js
@@ -710,6 +799,12 @@ IE9以上なら[github/fetch](http://github.com/github/fetch)、IE8以上なら[
 
   // Native
   el.removeEventListener(eventName, eventHandler);
+
+  // Native: jQueryの名前空間のように、複数のリスナーをまとめて解除する
+  const controller = new AbortController();
+  el.addEventListener('click', onClick, { signal: controller.signal });
+  el.addEventListener('keydown', onKeydown, { signal: controller.signal });
+  controller.abort();
   ```
 
 - [5.3](#5.3) <a name='5.3'></a> イベントを発火させる(`trigger`)
@@ -718,13 +813,13 @@ IE9以上なら[github/fetch](http://github.com/github/fetch)、IE8以上なら[
   // jQuery
   $(el).trigger('custom-event', {key1: 'data'});
 
-  // Native
-  if (window.CustomEvent) {
-    const event = new CustomEvent('custom-event', {detail: {key1: 'data'}});
-  } else {
-    const event = document.createEvent('CustomEvent');
-    event.initCustomEvent('custom-event', true, true, {key1: 'data'});
-  }
+  // Native: jQueryのイベントはバブリングするが、ネイティブのイベントは`bubbles: true`を指定しない限りバブリングしない。
+  // データはハンドラ内で`event.detail`から読み取る。
+  const event = new CustomEvent('custom-event', {
+    bubbles: true,
+    cancelable: true,
+    detail: { key1: 'data' },
+  });
 
   el.dispatchEvent(event);
   ```
@@ -733,7 +828,7 @@ IE9以上なら[github/fetch](http://github.com/github/fetch)、IE8以上なら[
 
 ## ユーティリティ関数
 
-殆どのユーティリティ関数はネイティブのAPIで置き換えることができます。表記の一貫性やパフォーマンスを重視した他のライブラリを使う選択肢もあります。[lodash](https://lodash.com)がおすすめです。
+殆どのユーティリティ関数はネイティブのAPIで置き換えることができます。表記の一貫性やパフォーマンスを重視した他のライブラリを使う選択肢もあります。[Lodash](https://lodash.com)や[es-toolkit](https://es-toolkit.dev)がおすすめです。
 
 
 - [6.1](#6.1) <a name='6.1'></a> 基本的なユーティリティ関数
@@ -773,21 +868,34 @@ IE9以上なら[github/fetch](http://github.com/github/fetch)、IE8以上なら[
   $.inArray(item, array);
 
   // Native
-  Array.indexOf(item);
+  array.indexOf(item);
+  ```
+
+  配列に指定された値が含まれているか判定する。
+
+  ```js
+  // jQuery
+  $.inArray(item, array) > -1;
+
+  // Native
+  array.indexOf(item) > -1;
+
+  // ES6なら
+  array.includes(item);
   ```
 
   + isNumeric
 
   数値かどうか判定する。
-  `typeof`を使ってください。ライブラリを使う場合、`typeof`は正確でない場合があります。
+  型の判定には`typeof`を使うか、より正確に判定したい場合は後述の`type`の例を参考にしてください。
 
   ```js
   // jQuery
   $.isNumeric(item);
 
   // Native
-  function isNumeric(item) {
-    return typeof item === 'number';
+  function isNumeric(n) {
+    return !isNaN(parseFloat(n)) && isFinite(n);
   }
   ```
 
@@ -801,7 +909,11 @@ IE9以上なら[github/fetch](http://github.com/github/fetch)、IE8以上なら[
 
   // Native
   function isFunction(item) {
-    return typeof item === 'function';
+    if (typeof item === 'function') {
+      return true;
+    }
+    var type = Object.prototype.toString.call(item);
+    return type === '[object Function]' || type === '[object GeneratorFunction]';
   }
   ```
 
@@ -815,10 +927,7 @@ IE9以上なら[github/fetch](http://github.com/github/fetch)、IE8以上なら[
 
   // Native
   function isEmptyObject(obj) {
-    for (let key in obj) {
-      return false;
-    }
-    return true;
+    return Object.keys(obj).length === 0;
   }
   ```
 
@@ -832,30 +941,39 @@ IE9以上なら[github/fetch](http://github.com/github/fetch)、IE8以上なら[
 
   // Native
   function isPlainObject(obj) {
-    if (typeof (obj) !== 'object' || obj.nodeType || obj != null && obj === obj.window) {
+    if (Object.prototype.toString.call(obj) !== '[object Object]') {
       return false;
     }
 
-    if (obj.constructor &&
-        !{}.hasOwnProperty.call(obj.constructor.prototype, 'isPrototypeOf')) {
-      return false;
-    }
-
-    return true;
+    const proto = Object.getPrototypeOf(obj);
+    return proto === null || proto === Object.prototype;
   }
   ```
 
   + extend
 
   二つ以上のオブジェクトをマージする。
-  `object.assign`はECMAScript6のAPIですが、[polyfill](https://github.com/ljharb/object.assign)も利用できます。
+  `deep`を指定しない`$.extend`と同じく、`Object.assign`やスプレッド構文はシャローコピー（浅いコピー）しか行いません。
 
   ```js
   // jQuery
-  $.extend({}, defaultOpts, opts);
+  $.extend({}, object1, object2);
 
   // Native
-  Object.assign({}, defaultOpts, opts);
+  Object.assign({}, object1, object2);
+
+  // Native (スプレッド構文)
+  ({ ...object1, ...object2 });
+  ```
+
+  オブジェクトを1つだけディープコピーする場合：
+
+  ```js
+  // jQuery
+  $.extend(true, {}, object);
+
+  // Native: 関数やDOMノードは複製できない
+  structuredClone(object);
   ```
 
   + trim
@@ -876,11 +994,11 @@ IE9以上なら[github/fetch](http://github.com/github/fetch)、IE8以上なら[
 
   ```js
   // jQuery
-  $.map(array, function(value, index) {
+  $.map(array, (value, index) => {
   });
 
   // Native
-  array.map(function(value, index) {
+  array.map((value, index) => {
   });
   ```
 
@@ -889,12 +1007,16 @@ IE9以上なら[github/fetch](http://github.com/github/fetch)、IE8以上なら[
   配列やオブジェクトに対して繰り返し処理を行う。
 
   ```js
-  // jQuery
-  $.each(array, function(value, index) {
+  // jQuery (`false`を返すとループを抜ける)
+  $.each(array, (index, value) => {
   });
 
-  // Native
-  array.forEach(function(value, index) {
+  // Native (途中でループを抜けたい場合は`for...of`か`some`を使う)
+  array.forEach((value, index) => {
+  });
+
+  // Native (オブジェクトの場合)
+  Object.entries(obj).forEach(([key, value]) => {
   });
   ```
 
@@ -904,11 +1026,11 @@ IE9以上なら[github/fetch](http://github.com/github/fetch)、IE8以上なら[
 
   ```js
   // jQuery
-  $.grep(array, function(value, index) {
+  $.grep(array, (value, index) => {
   });
 
   // Native
-  array.filter(function(value, index) {
+  array.filter((value, index) => {
   });
   ```
 
@@ -921,7 +1043,12 @@ IE9以上なら[github/fetch](http://github.com/github/fetch)、IE8以上なら[
   $.type(obj);
 
   // Native
-  Object.prototype.toString.call(obj).replace(/^\[object (.+)\]$/, '$1').toLowerCase();
+  function type(item) {
+    const reTypeOf = /(?:^\[object\s(.*?)\]$)/;
+    return Object.prototype.toString.call(item)
+      .replace(reTypeOf, '$1')
+      .toLowerCase();
+  }
   ```
 
   + merge
@@ -929,13 +1056,20 @@ IE9以上なら[github/fetch](http://github.com/github/fetch)、IE8以上なら[
   二つの配列をマージする。
 
   ```js
-  // jQuery
+  // jQuery (array1を変更する。重複した要素は削除されない)
   $.merge(array1, array2);
 
-  // Native
-  // 重複した要素は削除されない
-  function merge() {
-    return Array.prototype.concat.apply([], arguments)
+  // Native (array1を変更する。重複した要素は削除されない)
+  array1.push(...array2);
+
+  // Native (新しい配列を返す。重複した要素は削除されない)
+  function merge(...args) {
+    return [].concat(...args);
+  }
+
+  // Setを使う方法 (新しい配列を返す。重複した要素は削除される)
+  function merge(...args) {
+    return Array.from(new Set([].concat(...args)));
   }
   ```
 
@@ -963,7 +1097,7 @@ IE9以上なら[github/fetch](http://github.com/github/fetch)、IE8以上なら[
   fn.bind(context);
   ```
 
-  + makeArray
+  <a name="makeArray"></a>+ makeArray
 
   配列形式のオブジェクトを配列に変換する。
 
@@ -972,10 +1106,10 @@ IE9以上なら[github/fetch](http://github.com/github/fetch)、IE8以上なら[
   $.makeArray(arrayLike);
 
   // Native
-  Array.prototype.slice.call(arrayLike);
-
-  // ES6なら
   Array.from(arrayLike);
+
+  // ES6なら: スプレッド構文
+  [...arrayLike];
   ```
 
 - [6.2](#6.2) <a name='6.2'></a> contains
@@ -990,23 +1124,23 @@ IE9以上なら[github/fetch](http://github.com/github/fetch)、IE8以上なら[
   el !== child && el.contains(child);
   ```
 
-- [6.3](#6.3) <a name='6.3'></a> globaleval
+- [6.3](#6.3) <a name='6.3'></a> globalEval
 
   JavaScriptコードをグローバル空間で実行する。
 
   ```js
   // jQuery
-  $.globaleval(code);
+  $.globalEval(code);
 
   // Native
-  function Globaleval(code) {
-    let script = document.createElement('script');
+  function globalEval(code) {
+    const script = document.createElement('script');
     script.text = code;
 
     document.head.appendChild(script).parentNode.removeChild(script);
   }
 
-  // evalはcurrentコンテキストで実行される。$.globalevalのコンテキストはグローバルである。
+  // evalはcurrentコンテキストで実行される。$.globalEvalのコンテキストはグローバルである。
   eval(code);
   ```
 
@@ -1022,52 +1156,60 @@ IE9以上なら[github/fetch](http://github.com/github/fetch)、IE8以上なら[
 
   // Native
   function parseHTML(string) {
-    const tmp = document.implementation.createHTMLDocument();
-    tmp.body.innerHTML = string;
-    return tmp.body.children;
+    const context = document.implementation.createHTMLDocument();
+
+    // 生成したドキュメントにbase hrefを設定し、パースした要素に含まれるURLが
+    // 現在のドキュメントのURLを基準に解決されるようにする
+    const base = context.createElement('base');
+    base.href = document.location.href;
+    context.head.appendChild(base);
+
+    context.body.innerHTML = string;
+    return Array.from(context.body.childNodes);
   }
-  ```
-
-  + parseJSON
-
-  JSON文字列をJavaScriptに変換します。
-
-  ```js
-  // jQuery
-  $.parseJSON(str);
-
-  // Native
-  JSON.parse(str);
   ```
 
 **[⬆ back to top](#目次)**
 
 ## Promise
 
-promiseは非同期処理の最終的な処理結果を表します。jQueryにはpromiseを扱うための独自の方法があります。ネイティブのJavaScriptでは[Promises/A+](http://promises-aplus.github.io/promises-spec/)規格に則り、薄く、最小限のAPIを実装しています。
+promiseは非同期処理の最終的な処理結果を表します。jQueryにはpromiseを扱うための独自の方法があります。ネイティブのJavaScriptでは[Promises/A+](https://promisesaplus.com/)規格に則り、薄く、最小限のAPIを実装しています。さらに`async`/`await`を使えば、同期処理のように読みやすく書けます。
 
 - [7.1](#7.1) <a name='7.1'></a> done, fail, always
 
-  `done`はpromiseが成功(resolved)したとき、`fall`は失敗(rejected)したとき、`always`はどちらの場合も呼び出されます。
+  `done`はpromiseが成功(resolved)したとき、`fail`は失敗(rejected)したとき、`always`はどちらの場合も呼び出されます。
 
   ```js
   // jQuery
   $promise.done(doneCallback).fail(failCallback).always(alwaysCallback)
 
   // Native
-  promise.then(doneCallback, failCallback).then(alwaysCallback, alwaysCallback)
+  promise.then(doneCallback, failCallback).finally(alwaysCallback);
+
+  // Native (async/await)
+  try {
+    doneCallback(await promise);
+  } catch (error) {
+    failCallback(error);
+  } finally {
+    alwaysCallback();
+  }
   ```
 
 - [7.2](#7.2) <a name='7.2'></a> when
 
-  `when`は複数のpromiseを扱うときに使います。すべてのpromiseの結果が返ったときに成功となります（失敗が含まれてても成功となります）。
+  `when`は複数のpromiseを扱うときに使います。すべてのpromiseが成功したときに成功となり、いずれか1つでも失敗すると失敗となります。
 
   ```js
   // jQuery
-  $.when($promise1, $promise2).done((promise1Result, promise2Result) => {})
+  $.when($promise1, $promise2).done((promise1Result, promise2Result) => {
+  });
 
   // Native
-  Promise.all([$promise1, $promise2]).then([promise1Result, promise2Result] => {});
+  Promise.all([promise1, promise2]).then(([promise1Result, promise2Result]) => {});
+
+  // Native (async/await)
+  const [promise1Result, promise2Result] = await Promise.all([promise1, promise2]);
   ```
 
 - [7.3](#7.3) <a name='7.3'></a> Deferred
@@ -1077,23 +1219,24 @@ promiseは非同期処理の最終的な処理結果を表します。jQueryに�
   ```js
   // jQuery
   function asyncFunc() {
-    var d = new $.Deferred();
-    setTimeout(function() {
+    const defer = new $.Deferred();
+    setTimeout(() => {
       if(true) {
-        d.resolve('some_value_compute_asynchronously');
+        defer.resolve('some_value_computed_asynchronously');
       } else {
-        d.reject('failed');
+        defer.reject('failed');
       }
     }, 1000);
-    return d.promise();
+
+    return defer.promise();
   }
 
   // Native
   function asyncFunc() {
     return new Promise((resolve, reject) => {
-      setTimeout(function() {
+      setTimeout(() => {
         if (true) {
-          resolve('some_value_compute_asynchronously');
+          resolve('some_value_computed_asynchronously');
         } else {
           reject('failed');
         }
@@ -1102,30 +1245,25 @@ promiseは非同期処理の最終的な処理結果を表します。jQueryに�
   }
 
   // Deferred way
-  function defer() {
-    let resolve, reject;
-    let promise = new Promise(function() {
-      resolve = arguments[0];
-      reject = arguments[1];
-    });
-    return { resolve, reject, promise };
-  }
   function asyncFunc() {
-    var d = defer();
-    setTimeout(function() {
-      if(true) {
-        d.resolve('some_value_compute_asynchronously');
+    const { promise, resolve, reject } = Promise.withResolvers();
+    setTimeout(() => {
+      if (true) {
+        resolve('some_value_computed_asynchronously');
       } else {
-        d.reject('failed');
+        reject('failed');
       }
     }, 1000);
-    return d.promise;
+
+    return promise;
   }
   ```
 
 **[⬆ back to top](#目次)**
 
 ## アニメーション
+
+[Web Animations API](https://developer.mozilla.org/ja/docs/Web/API/Web_Animations_API)（`el.animate()`）は、jQueryのエフェクトに最も近いネイティブの機能です。所要時間をミリ秒で指定でき、可能な場合はメインスレッドの外で実行されます。戻り値の`Animation`が持つ`finished` promiseは、アニメーションの終了時にresolveされます。
 
 - [8.1](#8.1) <a name='8.1'></a> show、hide
 
@@ -1135,10 +1273,12 @@ promiseは非同期処理の最終的な処理結果を表します。jQueryに�
   $el.hide();
 
   // Native
-  // show関数の詳細を見たければ次のURLを参照してください
-  // https://github.com/oneuijs/oui-dom-utils/blob/master/src/index.js#L363
-  el.style.display = ''|'inline'|'inline-block'|'inline-table'|'block';
+  el.style.display = ''; // スタイルシートで非表示にされている場合は'block'や'inline'などを指定する
   el.style.display = 'none';
+
+  // Native (他の場所で`display`のスタイルが指定されていない場合)
+  el.hidden = false;
+  el.hidden = true;
   ```
 
 - [8.2](#8.2) <a name='8.2'></a> toggle
@@ -1150,10 +1290,9 @@ promiseは非同期処理の最終的な処理結果を表します。jQueryに�
   $el.toggle();
 
   // Native
-  if (el.ownerDocument.defaultView.getComputedStyle(el, null).display === 'none') {
-    el.style.display = ''|'inline'|'inline-block'|'inline-table'|'block';
-  }
-  else {
+  if (getComputedStyle(el).display === 'none') {
+    el.style.display = ''; // または'block'や'inline'など
+  } else {
     el.style.display = 'none';
   }
   ```
@@ -1165,12 +1304,18 @@ promiseは非同期処理の最終的な処理結果を表します。jQueryに�
   $el.fadeIn(3000);
   $el.fadeOut(3000);
 
-  // Native
-  el.style.transition = 'opacity 3s';
-  // fadeIn
-  el.style.opacity = '1';
-  // fadeOut
-  el.style.opacity = '0';
+  // Native fadeIn
+  function fadeIn(el, ms = 400) {
+    el.style.display = '';
+    return el.animate([{ opacity: 0 }, { opacity: 1 }], ms).finished;
+  }
+
+  // Native fadeOut
+  function fadeOut(el, ms = 400) {
+    return el.animate([{ opacity: 1 }, { opacity: 0 }], ms).finished.then(() => {
+      el.style.display = 'none';
+    });
+  }
   ```
 
 - [8.4](#8.4) <a name='8.4'></a> fadeTo
@@ -1180,9 +1325,8 @@ promiseは非同期処理の最終的な処理結果を表します。jQueryに�
   ```js
   // jQuery
   $el.fadeTo('slow',0.15);
-  // Native
-  el.style.transition = 'opacity 3s'; // 'slow'は3秒だということにしている
-  el.style.opacity = '0.15';
+  // Native (jQueryでは'slow'は600ミリ秒に相当する)
+  el.animate([{ opacity: 0.15 }], { duration: 600, fill: 'forwards' });
   ```
 
 - [8.5](#8.5) <a name='8.5'></a> fadeToggle
@@ -1193,14 +1337,11 @@ promiseは非同期処理の最終的な処理結果を表します。jQueryに�
   // jQuery
   $el.fadeToggle();
 
-  // Native
-  el.style.transition = 'opacity 3s';
-  let { opacity } = el.ownerDocument.defaultView.getComputedStyle(el, null);
-  if (opacity === '1') {
-    el.style.opacity = '0';
-  }
-  else {
-    el.style.opacity = '1';
+  // Native (8.3のfadeInとfadeOutを使う)
+  if (getComputedStyle(el).display === 'none') {
+    fadeIn(el);
+  } else {
+    fadeOut(el);
   }
   ```
 
@@ -1211,13 +1352,23 @@ promiseは非同期処理の最終的な処理結果を表します。jQueryに�
   $el.slideUp();
   $el.slideDown();
 
-  // Native
-  let originHeight = '100px';
-  el.style.transition = 'height 3s';
-  // slideUp
-  el.style.height = '0px';
-  // slideDown
-  el.style.height = originHeight;
+  // Native slideUp
+  function slideUp(el, ms = 400) {
+    el.style.overflow = 'hidden';
+    return el.animate([{ height: `${el.offsetHeight}px` }, { height: '0px' }], ms).finished.then(() => {
+      el.style.display = 'none';
+      el.style.overflow = '';
+    });
+  }
+
+  // Native slideDown
+  function slideDown(el, ms = 400) {
+    el.style.display = '';
+    el.style.overflow = 'hidden';
+    return el.animate([{ height: '0px' }, { height: `${el.scrollHeight}px` }], ms).finished.then(() => {
+      el.style.overflow = '';
+    });
+  }
   ```
 
 - [8.7](#8.7) <a name='8.7'></a> slideToggle
@@ -1228,15 +1379,11 @@ promiseは非同期処理の最終的な処理結果を表します。jQueryに�
   // jQuery
   $el.slideToggle();
 
-  // Native
-  let originHeight = '100px';
-  el.style.transition = 'height 3s';
-  let { height } = el.ownerDocument.defaultView.getComputedStyle(el, null);
-  if (parseInt(height, 10) === 0) {
-    el.style.height = originHeight;
-  }
-  else {
-   el.style.height = '0px';
+  // Native (8.6のslideUpとslideDownを使う)
+  if (getComputedStyle(el).display === 'none') {
+    slideDown(el);
+  } else {
+    slideUp(el);
   }
   ```
 
@@ -1246,25 +1393,25 @@ promiseは非同期処理の最終的な処理結果を表します。jQueryに�
 
   ```js
   // jQuery
-  $el.animate({params}, speed);
+  $el.animate({ params }, speed);
 
-  // Native
-  el.style.transition = 'all' + speed;
-  Object.keys(params).forEach(function(key) {
-    el.style[key] = params[key];
-  })
+  // Native (speedはミリ秒で指定する)
+  el.animate([params], { duration: speed, fill: 'forwards' });
   ```
 
 ## 選択肢
 
-* [You Might Not Need jQuery](http://youmightnotneedjquery.com/) - ネイティブのJavaScriptでイベント、エレメント、Ajaxを扱うサンプル集(英語)
-* [npm-dom](http://github.com/npm-dom) and [webmodules](http://github.com/webmodules) - npmで利用できるDOMモジュールを集めたOrganizationです
+* [You Might Not Need jQuery](https://youmightnotneedjquery.com/) - ネイティブのJavaScriptでイベント、エレメント、Ajaxを扱うサンプル集(英語)
+* [MDN Web Docs](https://developer.mozilla.org/ja/docs/Web/API/Document_Object_Model) - このガイドで使っているすべてのDOM APIのリファレンスです
+* [Baseline](https://web.dev/baseline) - Webプラットフォームの機能が各ブラウザで安全に使えるかを確認できます
 
 ## 対応ブラウザ
 
-![Chrome][chrome-image] | ![Firefox][firefox-image] | ![IE][ie-image] | ![Opera][opera-image] | ![Safari][safari-image]
---- | --- | --- | --- | ---
-Latest ✔ | Latest ✔ | 10+ ✔ | Latest ✔ | 6.1+ ✔
+![Chrome][chrome-image] | ![Edge][edge-image] | ![Firefox][firefox-image] | ![Safari][safari-image] | ![Opera][opera-image]
+--- | --- | --- | --- | --- |
+Latest ✔ | Latest ✔ | Latest ✔ | Latest ✔ | Latest ✔ |
+
+一部のスニペットでは比較的新しいAPIを使っています：`Promise.withResolvers()`（2024年）、`el.replaceChildren()`（2020年）、`AbortSignal.timeout()`（2022年）。古いブラウザもサポートする場合は、[Baseline](https://web.dev/baseline)で対応状況を確認してください。
 
 # ライセンス
 
@@ -1272,6 +1419,6 @@ MIT
 
 [chrome-image]: https://raw.github.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png
 [firefox-image]: https://raw.github.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png
-[ie-image]: https://raw.github.com/alrra/browser-logos/master/src/archive/internet-explorer_9-11/internet-explorer_9-11_48x48.png
+[edge-image]: https://raw.github.com/alrra/browser-logos/master/src/edge/edge_48x48.png
 [opera-image]: https://raw.github.com/alrra/browser-logos/master/src/opera/opera_48x48.png
 [safari-image]: https://raw.github.com/alrra/browser-logos/master/src/safari/safari_48x48.png
