@@ -123,17 +123,63 @@
 
     // Native
     el.previousElementSibling;
-
     ```
 
   + 下一个元素
 
     ```js
-    // next
+    // jQuery
     $el.next();
 
     // Native
     el.nextElementSibling;
+    ```
+
+  + 之前所有的兄弟元素
+
+    ```js
+    // jQuery（可选的过滤选择器）
+    $el.prevAll($filter);
+
+    // Native（可选的过滤函数）
+    function getPreviousSiblings(elem, filter) {
+      const sibs = [];
+      while ((elem = elem.previousElementSibling)) {
+        if (!filter || filter(elem)) sibs.push(elem);
+      }
+      return sibs;
+    }
+    ```
+
+  + 之后所有的兄弟元素
+
+    ```js
+    // jQuery（可选的过滤选择器）
+    $el.nextAll($filter);
+
+    // Native（可选的过滤函数）
+    function getNextSiblings(elem, filter) {
+      const sibs = [];
+      while ((elem = elem.nextElementSibling)) {
+        if (!filter || filter(elem)) sibs.push(elem);
+      }
+      return sibs;
+    }
+    ```
+
+    过滤函数示例：
+
+    ```js
+    function exampleFilter(elem) {
+      switch (elem.nodeName.toUpperCase()) {
+        case 'DIV':
+          return true;
+        case 'SPAN':
+          return true;
+        default:
+          return false;
+      }
+    }
     ```
 
 - [1.6](#1.6) <a name='1.6'></a> Closest
@@ -239,10 +285,11 @@
     // Native
     el.getAttribute('foo');
     ```
+
   + 设置属性
 
     ```js
-    // jQuery, note that this works in memory without change the DOM
+    // jQuery
     $el.attr('foo', 'bar');
 
     // Native
@@ -261,6 +308,21 @@
     // or
     el.getAttribute('data-foo');
     ```
+
+- [1.12](#1.12) <a name='1.12'></a> 包含字符串的选择器（区分大小写）
+
+  ```js
+  // jQuery
+  $("selector:contains('text')");
+
+  // Native
+  function contains(selector, text) {
+    const elements = document.querySelectorAll(selector);
+    return Array.from(elements).filter((element) =>
+      element.textContent.includes(text)
+    );
+  }
+  ```
 
 **[⬆ 回到顶部](#目录)**
 
@@ -283,15 +345,21 @@
 
     ```js
     // jQuery
-    $el.css({ color: "#ff0011" });
+    $el.css({ color: '#f01' });
 
     // Native
-    el.style.color = '#ff0011';
+    el.style.color = '#f01';
     ```
 
-  + Get/Set Styles
+  + 一次设置多个 style
 
-    注意，如果想一次设置多个 style，可以参考 oui-dom-utils 中 [setStyles](https://github.com/oneuijs/oui-dom-utils/blob/master/src/index.js#L194) 方法
+    ```js
+    // jQuery
+    $el.css({ color: '#f01', 'border-color': '#f02' });
+
+    // Native
+    Object.assign(el.style, { color: '#f01', borderColor: '#f02' });
+    ```
 
   + Add class
 
@@ -340,7 +408,7 @@
   + Window height
 
     ```js
-    // window height
+    // jQuery
     $(window).height();
 
     // 不含 scrollbar，与 jQuery 行为一致
@@ -403,7 +471,7 @@
     $el.position();
 
     // Native
-    { left: el.offsetLeft, top: el.offsetTop }
+    const position = { left: el.offsetLeft, top: el.offsetTop };
     ```
 
   + Offset
@@ -860,10 +928,10 @@
 
   ```js
   // jQuery
-  $.isArray(range);
+  $.isArray(array);
 
   // Native
-  Array.isArray(range);
+  Array.isArray(array);
   ```
 
   + isWindow
@@ -908,15 +976,15 @@
   + isNumeric
 
   检测传入的参数是不是数字。
-  Use `typeof` to decide the type or the `type` example for better accuracy.
+  判断类型可以用 `typeof`，想更精确可以参考下面的 `type` 示例。
 
   ```js
   // jQuery
   $.isNumeric(item);
 
   // Native
-  function isNumeric(value) {
-    return !isNaN(parseFloat(value)) && isFinite(value);
+  function isNumeric(n) {
+    return !isNaN(parseFloat(n)) && isFinite(n);
   }
   ```
 
@@ -933,7 +1001,7 @@
     if (typeof item === 'function') {
       return true;
     }
-    var type = Object.prototype.toString(item);
+    var type = Object.prototype.toString.call(item);
     return type === '[object Function]' || type === '[object GeneratorFunction]';
   }
   ```
@@ -1028,12 +1096,16 @@
   轮询函数，可用于平滑的轮询对象和数组。
 
   ```js
-  // jQuery
+  // jQuery（返回 `false` 可中断循环）
   $.each(array, (index, value) => {
   });
 
-  // Native
+  // Native（需要提前中断时，改用 `for...of` 或 `some`）
   array.forEach((value, index) => {
+  });
+
+  // Native，遍历对象
+  Object.entries(obj).forEach(([key, value]) => {
   });
   ```
 
@@ -1186,16 +1258,20 @@
   }
   ```
 
-  + parseJSON
+- [6.5](#6.5) <a name='6.5'></a> exists
 
-  传入格式正确的 JSON 字符串并返回 JavaScript 值。
+  检查元素是否存在于 DOM 中。
 
   ```js
   // jQuery
-  $.parseJSON(str);
+  if ($('selector').length) {
+    // exists
+  }
 
   // Native
-  JSON.parse(str);
+  if (document.querySelector('selector')) {
+    // exists
+  }
   ```
 
 **[⬆ 回到顶部](#目录)**
