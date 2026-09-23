@@ -1,6 +1,8 @@
 ## jQuery'e İhtiyacınız Yok
 
-Önyüz ortamları bugünlerde çok hızlı gelişiyor, öyle ki modern tarayıcılar DOM/DOM APİ'lere ait önemli gereklilikleri çoktan yerine getirdiler. DOM işleme ve olaylar için, en baştan jQuery ögrenmemize gerek kalmadı. Bu arada, üstünlükleri ile jQuery'i önemsizleştiren ve doğrudan DOM değişikliklerinin bir Anti-pattern olduğunu gösteren, React, Angular ve Vue gibi gelişmiş önyüz kütüphanelerine ayrıca teşekkür ederiz. Bu proje, IE10+ desteği ile coğunluğu jQuery yöntemlerine alternatif olan yerleşik uygulamaları içerir.
+Önyüz ortamları bugünlerde çok hızlı gelişiyor, öyle ki modern tarayıcılar DOM/DOM APİ'lere ait önemli gereklilikleri çoktan yerine getirdiler. DOM işleme ve olaylar için, en baştan jQuery ögrenmemize gerek kalmadı. Bu arada, üstünlükleri ile jQuery'i önemsizleştiren ve doğrudan DOM değişikliklerinin bir Anti-pattern olduğunu gösteren, React, Angular ve Vue gibi gelişmiş önyüz kütüphanelerine ayrıca teşekkür ederiz. Bu proje, çoğunluğu jQuery yöntemlerine alternatif olan yerleşik uygulamaları içerir.
+
+Kod örnekleri, sürekli güncellenen (evergreen) tarayıcıların güncel sürümlerini hedefler (Chrome, Edge, Firefox, Safari). Internet Explorer artık Microsoft tarafından desteklenmediği için IE'ye özgü yedek (fallback) kodlar kaldırıldı. Bunlara hâlâ ihtiyacınız varsa, [IE uyumlu son sürüme](https://github.com/camsong/You-Dont-Need-jQuery/tree/c4e00b3) göz atabilirsiniz.
 
 ## İçerik Tablosu
 
@@ -36,10 +38,10 @@
 
 Yaygın olan class, id ve özellik seçiciler yerine, `document.querySelector` yada `document.querySelectorAll` kullanabiliriz. Ayrıldıkları nokta:
 * `document.querySelector` ilk seçilen öğeyi döndürür
-* `document.querySelectorAll` Seçilen tüm öğeleri NodeList olarak geri döndürür. `[].slice.call(document.querySelectorAll(selector) || []);` kullanarak bir diziye dönüştürebilirsiniz.
-* Herhangi bir öğenin seçilememesi durumda ise, jQuery `[]` döndürürken, DOM API `null` döndürecektir. Null Pointer istisnası almamak için `||` ile varsayılan değere atama yapabilirsiniz, örnek: `document.querySelectorAll(selector) || []`
+* `document.querySelectorAll` Seçilen tüm öğeleri statik bir NodeList olarak geri döndürür. NodeList `forEach` metodunu destekler ve `Array.from(document.querySelectorAll(selector))` kullanarak bir diziye dönüştürülebilir.
+* Herhangi bir öğe seçilemezse, jQuery boş bir jQuery nesnesi ve `document.querySelectorAll` boş bir NodeList döndürürken, `document.querySelector` `null` döndürür.
 
-> Uyarı: `document.querySelector` ve `document.querySelectorAll` biraz **YAVAŞ** olabilir, Daha hızlısını isterseniz, `getElementById`, `document.getElementsByClassName` yada `document.getElementsByTagName` kullanabilirsiniz.
+> Uyarı: `document.getElementById`, `document.getElementsByClassName` ve `document.getElementsByTagName`, `querySelector*` metodlarından biraz daha hızlıdır; ancak `getElementsBy*` metodları, DOM değiştikçe kendiliğinden güncellenen *canlı* (live) bir HTMLCollection döndürür. Ölçerek tespit ettiğiniz bir darboğaz yoksa `querySelector*` metodlarını tercih ediniz.
 
 - [1.0](#1.0) <a name='1.0'></a> Seçici ile sorgu
 
@@ -126,10 +128,10 @@ Yaygın olan class, id ve özellik seçiciler yerine, `document.querySelector` y
     $el.data('foo');
 
     // Yerleşik
-    // getAttribute kullanarak
+    el.dataset.foo;
+
+    // yada
     el.getAttribute('data-foo');
-    // Eğer  IE 11+ kullanıyor iseniz, `dataset` ile de erişebilirsiniz
-    el.dataset['foo'];
     ```
 
 - [1.5](#1.5) <a name='1.5'></a> Kardeş/Önceki/Sonraki öğeler
@@ -141,9 +143,9 @@ Yaygın olan class, id ve özellik seçiciler yerine, `document.querySelector` y
     $el.siblings();
 
     // Yerleşik
-    [].filter.call(el.parentNode.children, function(child) {
-      return child !== el;
-    });
+    [...el.parentNode.children].filter((child) =>
+      child !== el
+    );
     ```
 
   + Önceki öğeler
@@ -174,22 +176,8 @@ Yaygın olan class, id ve özellik seçiciler yerine, `document.querySelector` y
   // jQuery
   $el.closest(selector);
 
-  // Yerleşik - Sadece en güncellerde, IE desteklemiyor
+  // Yerleşik
   el.closest(selector);
-
-  // Yerleşik - IE10+
-  function closest(el, selector) {
-    const matchesSelector = el.matches || el.webkitMatchesSelector || el.mozMatchesSelector || el.msMatchesSelector;
-
-    while (el) {
-      if (matchesSelector.call(el, selector)) {
-        return el;
-      } else {
-        el = el.parentElement;
-      }
-    }
-    return null;
-  }
   ```
 
 - [1.7](#1.7) <a name='1.7'></a> Önceki atalar
@@ -203,17 +191,12 @@ Yaygın olan class, id ve özellik seçiciler yerine, `document.querySelector` y
   // Yerleşik
   function parentsUntil(el, selector, filter) {
     const result = [];
-    const matchesSelector = el.matches || el.webkitMatchesSelector || el.mozMatchesSelector || el.msMatchesSelector;
 
     // eşleştirme, atadan başlar
     el = el.parentElement;
-    while (el && !matchesSelector.call(el, selector)) {
-      if (!filter) {
+    while (el && !el.matches(selector)) {
+      if (!filter || el.matches(filter)) {
         result.push(el);
-      } else {
-        if (matchesSelector.call(el, filter)) {
-          result.push(el);
-        }
       }
       el = el.parentElement;
     }
@@ -237,10 +220,10 @@ Yaygın olan class, id ve özellik seçiciler yerine, `document.querySelector` y
 
     ```js
     // jQuery
-    $(e.currentTarget).index('.radio');
+    $('.radio').index(e.currentTarget);
 
     // Yerleşik
-    [].indexOf.call(document.querySelectAll('.radio'), e.currentTarget);
+    [...document.querySelectorAll('.radio')].indexOf(e.currentTarget);
     ```
 
 - [1.9](#1.9) <a name='1.9'></a> Iframe İçeriği
@@ -277,29 +260,32 @@ Yaygın olan class, id ve özellik seçiciler yerine, `document.querySelector` y
 
     ```js
     // jQuery
-    $el.css("color");
+    $el.css('color');
 
     // Yerleşik
-    // NOT: Bilinen bir hata, eğer stil değeri 'auto' ise 'auto' döndürür
-    const win = el.ownerDocument.defaultView;
-    // null sahte tipleri döndürmemesi için
-    win.getComputedStyle(el, null).color;
+    // NOT: Çözümlenmiş değeri döndürür, örneğin '#f01' yerine 'rgb(255, 0, 17)'
+    getComputedStyle(el).color;
     ```
 
   + Stil değiştir
 
     ```js
     // jQuery
-    $el.css({ color: "#ff0011" });
+    $el.css({ color: '#f01' });
 
     // Yerleşik
-    el.style.color = '#ff0011';
+    el.style.color = '#f01';
     ```
 
-  + Stil değeri al/değiştir
+  + Birden fazla stili değiştir
 
-    Eğer aynı anda birden fazla stili değiştirmek istiyor iseniz, oui-dom-utils paketi içindeki [setStyles](https://github.com/oneuijs/oui-dom-utils/blob/master/src/index.js#L194) metoduna göz atınız.
+    ```js
+    // jQuery
+    $el.css({ color: '#f01', 'border-color': '#f02' });
 
+    // Yerleşik
+    Object.assign(el.style, { color: '#f01', borderColor: '#f02' });
+    ```
 
   + Sınıf ekle
 
@@ -348,10 +334,12 @@ Yaygın olan class, id ve özellik seçiciler yerine, `document.querySelector` y
   + Window Yüksekliği
 
     ```js
-    // window yüksekliği
+    // jQuery
     $(window).height();
+
     // kaydırma çubuğu olmaksızın, jQuery ile aynı
     window.document.documentElement.clientHeight;
+
     // kaydırma çubuğu ile birlikte
     window.innerHeight;
     ```
@@ -363,7 +351,15 @@ Yaygın olan class, id ve özellik seçiciler yerine, `document.querySelector` y
     $(document).height();
 
     // Yerleşik
-    document.documentElement.scrollHeight;
+    const body = document.body;
+    const html = document.documentElement;
+    const height = Math.max(
+      body.offsetHeight,
+      body.scrollHeight,
+      html.clientHeight,
+      html.offsetHeight,
+      html.scrollHeight
+    );
     ```
 
   + Öğe yüksekliği
@@ -374,7 +370,7 @@ Yaygın olan class, id ve özellik seçiciler yerine, `document.querySelector` y
 
     // Yerleşik
     function getHeight(el) {
-      const styles = this.getComputedStyles(el);
+      const styles = window.getComputedStyle(el);
       const height = el.offsetHeight;
       const borderTopWidth = parseFloat(styles.borderTopWidth);
       const borderBottomWidth = parseFloat(styles.borderBottomWidth);
@@ -382,9 +378,11 @@ Yaygın olan class, id ve özellik seçiciler yerine, `document.querySelector` y
       const paddingBottom = parseFloat(styles.paddingBottom);
       return height - borderBottomWidth - borderTopWidth - paddingTop - paddingBottom;
     }
-    // Tamsayı olarak daha doğru olanı（`border-box` iken, `height - border` esas; `content-box` ise, `height + padding` esas alınır）
+
+    // Tamsayı olarak daha doğru olanı (`border-box` iken, `height - border` esas; `content-box` ise, `height + padding` esas alınır)
     el.clientHeight;
-    // Ondalık olarak daha doğru olanı（`border-box` iken, `height` esas; `content-box` ise, `height + padding + border` esas alınır）
+
+    // Ondalık olarak daha doğru olanı (`border-box` iken, `height` esas; `content-box` ise, `height + padding + border` esas alınır)
     el.getBoundingClientRect().height;
     ```
 
@@ -397,7 +395,7 @@ Yaygın olan class, id ve özellik seçiciler yerine, `document.querySelector` y
     $el.position();
 
     // Yerleşik
-    { left: el.offsetLeft, top: el.offsetTop }
+    const position = { left: el.offsetLeft, top: el.offsetTop };
     ```
 
   + Ara-Açıklığı
@@ -411,9 +409,9 @@ Yaygın olan class, id ve özellik seçiciler yerine, `document.querySelector` y
       const box = el.getBoundingClientRect();
 
       return {
-        top: box.top + window.pageYOffset - document.documentElement.clientTop,
-        left: box.left + window.pageXOffset - document.documentElement.clientLeft
-      }
+        top: box.top + window.scrollY,
+        left: box.left + window.scrollX
+      };
     }
     ```
 
@@ -424,7 +422,7 @@ Yaygın olan class, id ve özellik seçiciler yerine, `document.querySelector` y
   $(window).scrollTop();
 
   // Yerleşik
-  (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop;
+  window.scrollY;
   ```
 
 **[⬆ üste dön](#İçerik-tablosu)**
@@ -437,7 +435,7 @@ Yaygın olan class, id ve özellik seçiciler yerine, `document.querySelector` y
   $el.remove();
 
   // Yerleşik
-  el.parentNode.removeChild(el);
+  el.remove();
   ```
 
 - [3.2](#3.2) <a name='3.2'></a> Metin
@@ -489,21 +487,27 @@ Yaygın olan class, id ve özellik seçiciler yerine, `document.querySelector` y
   Ata öğenin son çocuğundan sonra öğe ekleme
 
   ```js
-  // jQuery
-  $el.append("<div id='container'>hello</div>");
+  // jQuery: DOMString ve Node nesneleri için ortak söz dizimi
+  $parent.append(newEl | '<div id="container">Hello World</div>');
 
-  // Yerleşik
-  el.insertAdjacentHTML("beforeend","<div id='container'>hello</div>");
+  // Yerleşik (Element veya metin): dizeler HTML olarak ayrıştırılmaz, düz metin olarak eklenir
+  parent.append(newEl | 'Hello World');
+
+  // Yerleşik (HTML dizesi)
+  parent.insertAdjacentHTML('beforeend', '<div id="container">Hello World</div>');
   ```
 
 - [3.5](#3.5) <a name='3.5'></a> Öne ekleme
 
   ```js
-  // jQuery
-  $el.prepend("<div id='container'>hello</div>");
+  // jQuery: DOMString ve Node nesneleri için ortak söz dizimi
+  $parent.prepend(newEl | '<div id="container">Hello World</div>');
 
-  // Yerleşik
-  el.insertAdjacentHTML("afterbegin","<div id='container'>hello</div>");
+  // Yerleşik (Element veya metin): dizeler HTML olarak ayrıştırılmaz, düz metin olarak eklenir
+  parent.prepend(newEl | 'Hello World');
+
+  // Yerleşik (HTML dizesi)
+  parent.insertAdjacentHTML('afterbegin', '<div id="container">Hello World</div>');
   ```
 
 - [3.6](#3.6) <a name='3.6'></a> Öncesine Ekleme
@@ -512,11 +516,15 @@ Yaygın olan class, id ve özellik seçiciler yerine, `document.querySelector` y
 
   ```js
   // jQuery
-  $newEl.insertBefore(queryString);
+  $newEl.insertBefore(selector);
 
-  // Yerleşik
-  const target = document.querySelector(queryString);
-  target.parentNode.insertBefore(newEl, target);
+  const el = document.querySelector(selector);
+
+  // Yerleşik (Element)
+  el.before(newEl);
+
+  // Yerleşik (HTML dizesi)
+  el.insertAdjacentHTML('beforebegin', '<div id="container">Hello World</div>');
   ```
 
 - [3.7](#3.7) <a name='3.7'></a> Sonrasına ekleme
@@ -525,11 +533,15 @@ Yaygın olan class, id ve özellik seçiciler yerine, `document.querySelector` y
 
   ```js
   // jQuery
-  $newEl.insertAfter(queryString);
+  $newEl.insertAfter(selector);
 
-  // Yerleşik
-  const target = document.querySelector(queryString);
-  target.parentNode.insertBefore(newEl, target.nextSibling);
+  const el = document.querySelector(selector);
+
+  // Yerleşik (Element)
+  el.after(newEl);
+
+  // Yerleşik (HTML dizesi)
+  el.insertAdjacentHTML('afterend', '<div id="container">Hello World</div>');
   ```
 
 - [3.8](#3.8) <a name='3.8'></a> eşit mi?
@@ -548,27 +560,90 @@ Yaygın olan class, id ve özellik seçiciler yerine, `document.querySelector` y
   Mevcut öğenin bir derin kopyasını oluşturur
 
   ```js
-  // jQuery
+  // jQuery. Olay işleyicilerini ve verileri de kopyalamak için `true` parametresi veriniz.
   $el.clone();
 
-  // Yerleşik
-  el.cloneNode();
-
-  // Derin kopya için, `true` parametresi kullanınız  
+  // Yerleşik. Derin kopya için `true` parametresi veriniz; olay dinleyicileri hiçbir zaman kopyalanmaz.
+  el.cloneNode(true);
   ```
+
 **[⬆ üste dön](#İçerik-tablosu)**
 
 ## Ajax
 
-[Fetch API](https://fetch.spec.whatwg.org/) ajax için XMLHttpRequest yerine kullanan yeni standarttır. Chrome ve Firefox destekler,  eski tarayıcılar için polyfill kullanabilirsiniz.
+[Fetch API](https://fetch.spec.whatwg.org/), ajax için XMLHttpRequest yerine kullanılan standarttır ve tüm modern tarayıcılarda çalışır. `$.ajax`'ın aksine `fetch`, 404 veya 500 gibi HTTP hata durumlarında promise'i **reddetmez**; `response.ok` değerini kendiniz kontrol etmelisiniz. JSONP istekleri için [fetch-jsonp](https://github.com/camsong/fetch-jsonp) deneyiniz.
 
-IE9+ ve üstü için [github/fetch](http://github.com/github/fetch) yada IE8+ ve üstü için [fetch-ie8](https://github.com/camsong/fetch-ie8/), JSONP istekler için [fetch-jsonp](https://github.com/camsong/fetch-jsonp) deneyiniz.
+- [4.0](#4.0) <a name='4.0'></a> JSON verisi alma
+
+  ```js
+  // jQuery
+  $.getJSON(url).done(handleData).fail(handleError);
+
+  // Yerleşik
+  fetch(url)
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}`);
+      }
+      return response.json();
+    })
+    .then(handleData)
+    .catch(handleError);
+  ```
+
+- [4.0.1](#4.0.1) <a name='4.0.1'></a> JSON verisi gönderme (POST)
+
+  ```js
+  // jQuery
+  $.ajax({
+    url,
+    method: 'POST',
+    contentType: 'application/json',
+    data: JSON.stringify(data),
+  });
+
+  // Yerleşik
+  fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data),
+  });
+  ```
+
+- [4.0.2](#4.0.2) <a name='4.0.2'></a> İsteği iptal etme ve zaman aşımı
+
+  ```js
+  // jQuery
+  const jqXHR = $.ajax({ url, timeout: 5000 });
+  jqXHR.abort();
+
+  // Yerleşik
+  const controller = new AbortController();
+  fetch(url, { signal: controller.signal });
+  controller.abort();
+
+  // Yerleşik (zaman aşımı)
+  fetch(url, { signal: AbortSignal.timeout(5000) });
+  ```
+
+- [4.1](#4.1) <a name='4.1'></a> Sunucudan veri yükleme ve dönen HTML'i eşleşen öğenin içine yerleştirme
+
+  ```js
+  // jQuery
+  $(selector).load(url, completeCallback)
+
+  // Yerleşik
+  fetch(url)
+    .then((response) => response.text())
+    .then((html) => {
+      document.querySelector(selector).innerHTML = html;
+    })
+    .then(completeCallback);
+  ```
 
 **[⬆ üste dön](#İçerik-tablosu)**
 
 ## Olaylar
-
-Namespace ve Delegasyon ile tam olarak değiştirmek için, https://github.com/oneuijs/oui-dom-events sayfasına bakınız  
 
 - [5.1](#5.1) <a name='5.1'></a> on ile bir öğeye bağlama
 
@@ -580,6 +655,31 @@ Namespace ve Delegasyon ile tam olarak değiştirmek için, https://github.com/o
   el.addEventListener(eventName, eventHandler);
   ```
 
+- [5.1.1](#5.1.1) <a name='5.1.1'></a> one ile bir öğeye yalnızca bir kez bağlama
+
+  ```js
+  // jQuery
+  $el.one(eventName, eventHandler);
+
+  // Yerleşik
+  el.addEventListener(eventName, eventHandler, { once: true });
+  ```
+
+- [5.1.2](#5.1.2) <a name='5.1.2'></a> Olay delegasyonu
+
+  ```js
+  // jQuery
+  $el.on(eventName, selector, eventHandler);
+
+  // Yerleşik
+  el.addEventListener(eventName, (event) => {
+    const target = event.target.closest(selector);
+    if (target && el.contains(target)) {
+      eventHandler.call(target, event);
+    }
+  });
+  ```
+
 - [5.2](#5.2) <a name='5.2'></a> off ile bir bağlamayı sonlandırma
 
   ```js
@@ -588,6 +688,12 @@ Namespace ve Delegasyon ile tam olarak değiştirmek için, https://github.com/o
 
   // Yerleşik
   el.removeEventListener(eventName, eventHandler);
+
+  // Yerleşik: jQuery namespace'lerinde olduğu gibi birden fazla dinleyiciyi tek seferde kaldırma
+  const controller = new AbortController();
+  el.addEventListener('click', onClick, { signal: controller.signal });
+  el.addEventListener('keydown', onKeydown, { signal: controller.signal });
+  controller.abort();
   ```
 
 - [5.3](#5.3) <a name='5.3'></a> Tetikleyici
@@ -596,13 +702,13 @@ Namespace ve Delegasyon ile tam olarak değiştirmek için, https://github.com/o
   // jQuery
   $(el).trigger('custom-event', {key1: 'data'});
 
-  // Yerleşik
-  if (window.CustomEvent) {
-    const event = new CustomEvent('custom-event', {detail: {key1: 'data'}});
-  } else {
-    const event = document.createEvent('CustomEvent');
-    event.initCustomEvent('custom-event', true, true, {key1: 'data'});
-  }
+  // Yerleşik. jQuery olayları üst öğelere doğru yayılır (bubble); yerleşik olaylar ise `bubbles: true` verilmedikçe yayılmaz.
+  // Verileri, olay işleyicisi içinde `event.detail` üzerinden okuyunuz.
+  const event = new CustomEvent('custom-event', {
+    bubbles: true,
+    cancelable: true,
+    detail: { key1: 'data' },
+  });
 
   el.dispatchEvent(event);
   ```
@@ -615,10 +721,10 @@ Namespace ve Delegasyon ile tam olarak değiştirmek için, https://github.com/o
 
   ```js
   // jQuery
-  $.isArray(range);
+  $.isArray(array);
 
   // Yerleşik
-  Array.isArray(range);
+  Array.isArray(array);
   ```
 
 - [6.2](#6.2) <a name='6.2'></a> Trim
@@ -633,14 +739,27 @@ Namespace ve Delegasyon ile tam olarak değiştirmek için, https://github.com/o
 
 - [6.3](#6.3) <a name='6.3'></a> Nesne atama
 
-  Türetmek için, object.assign polyfill'ini deneyiniz https://github.com/ljharb/object.assign
+  `deep` parametresi olmadan çağrılan `$.extend` gibi, `Object.assign` ve spread söz dizimi de yalnızca yüzeysel (shallow) bir kopya oluşturur.
 
   ```js
   // jQuery
-  $.extend({}, defaultOpts, opts);
+  $.extend({}, object1, object2);
 
   // Yerleşik
-  Object.assign({}, defaultOpts, opts);
+  Object.assign({}, object1, object2);
+
+  // Yerleşik (spread)
+  ({ ...object1, ...object2 });
+  ```
+
+  Tek bir nesnenin derin kopyasını oluşturma:
+
+  ```js
+  // jQuery
+  $.extend(true, {}, object);
+
+  // Yerleşik. Fonksiyonlar ve DOM düğümleri kopyalanamaz
+  structuredClone(object);
   ```
 
 - [6.4](#6.4) <a name='6.4'></a> İçerme
@@ -657,15 +776,24 @@ Namespace ve Delegasyon ile tam olarak değiştirmek için, https://github.com/o
 
 ## Alternatifler
 
-* [jQuery'e İhtiyacınız Yok](http://youmightnotneedjquery.com/) - Yaygın olan olay, öğe ve ajax işlemlerinin yalın Javascript'teki karşılıklarına ait örnekler
-* [npm-dom](http://github.com/npm-dom) ve [webmodules](http://github.com/webmodules) - NPM için ayrı DOM modül organizasyonları
+* [jQuery'e İhtiyacınız Yok](https://youmightnotneedjquery.com/) - Yaygın olan olay, öğe ve ajax işlemlerinin yalın Javascript'teki karşılıklarına ait örnekler
+* [MDN Web Docs](https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model) - Burada kullanılan tüm DOM API'leri için başvuru kaynağı
+* [Baseline](https://web.dev/baseline) - Hangi web platformu özelliklerinin tarayıcılar arasında güvenle kullanılabileceğini gösterir
 
 ## Tarayıcı Desteği
 
-![Chrome](https://raw.github.com/alrra/browser-logos/master/chrome/chrome_48x48.png) | ![Firefox](https://raw.github.com/alrra/browser-logos/master/firefox/firefox_48x48.png) | ![IE](https://raw.github.com/alrra/browser-logos/master/internet-explorer/internet-explorer_48x48.png) | ![Opera](https://raw.github.com/alrra/browser-logos/master/opera/opera_48x48.png) | ![Safari](https://raw.github.com/alrra/browser-logos/master/safari/safari_48x48.png)
+![Chrome][chrome-image] | ![Edge][edge-image] | ![Firefox][firefox-image] | ![Safari][safari-image] | ![Opera][opera-image]
 --- | --- | --- | --- | --- |
-Latest ✔ | Latest ✔ | 10+ ✔ | Latest ✔ | 6.1+ ✔ |
+Latest ✔ | Latest ✔ | Latest ✔ | Latest ✔ | Latest ✔ |
+
+Bazı örnekler daha yeni API'ler kullanır: `Promise.withResolvers()` (2024), `el.replaceChildren()` (2020) ve `AbortSignal.timeout()` (2022). Daha eski tarayıcıları da destekliyorsanız [Baseline](https://web.dev/baseline) üzerinden kontrol ediniz.
 
 # Lisans
 
 MIT
+
+[chrome-image]: https://raw.github.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png
+[firefox-image]: https://raw.github.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png
+[edge-image]: https://raw.github.com/alrra/browser-logos/master/src/edge/edge_48x48.png
+[opera-image]: https://raw.github.com/alrra/browser-logos/master/src/opera/opera_48x48.png
+[safari-image]: https://raw.github.com/alrra/browser-logos/master/src/safari/safari_48x48.png
