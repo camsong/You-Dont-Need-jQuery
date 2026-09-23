@@ -1,7 +1,10 @@
 ## jQuery'ге муктаждыгынар жок
 
 
-Биздин убакта фронт-энд чөйрөсү абдан ылдам өнүгүп жатат, ошонун менен бирге заманбап браузерлер көптөгөн DOM/BOM API жагын ишке ашырды. Бул абдан жакшы көрүнүш. Анткени, силер DOM'ду манипуляциялоо же  окуялардын объектерин иштешиш үчүн jQuery'ни башынан үйрөнүнөрдүн кажети калбайт.Ошонун менен бирге,  алдыда келе жаткан React, Angular жана  Vue фронт-энд библиотекалардын жардамы менен, DOM'ду түздөн-түз манипуляциялоо өзүнчө бир антипаттернге айланды.Бул проект көптөгөн jQuery методдорун нативдуу аткаруусу  жана IE 10+ колдоосу менен кошулган көптөгөн альтернативаларды өзүнө камтыйт.
+Биздин убакта фронт-энд чөйрөсү абдан ылдам өнүгүп жатат, ошонун менен бирге заманбап браузерлер көптөгөн DOM/BOM API жагын ишке ашырды. Бул абдан жакшы көрүнүш. Анткени, силер DOM'ду манипуляциялоо же  окуялардын объектерин иштешиш үчүн jQuery'ни башынан үйрөнүнөрдүн кажети калбайт.Ошонун менен бирге,  алдыда келе жаткан React, Angular жана  Vue фронт-энд библиотекалардын жардамы менен, DOM'ду түздөн-түз манипуляциялоо өзүнчө бир антипаттернге айланды.Бул проект jQuery методдорунун ордуна колдонсо боло турган нативдүү JavaScript альтернативаларынын көбүн өзүнө камтыйт.
+
+Мисалдар азыркы, дайыма жаңыланып турган браузерлерге (Chrome, Edge, Firefox, Safari) арналган. Microsoft Internet Explorer'ди мындан ары колдобойт, ошондуктан IE үчүн жазылган кошумча чечимдер алынып салынды. Эгерде алар дагы эле керек болсо, [IE менен иштеген акыркы версияны](https://github.com/camsong/You-Dont-Need-jQuery/tree/c4e00b3) карагыла.
+
 ## Мазмуну
 
 1. [Котормолор](#Котормолор)
@@ -36,10 +39,10 @@
 
  Көп колдонулган class, id же болбосо attribute сыяктуу селекторлор үчүн биз  `document.querySelector` же  `document.querySelectorAll` колдонсок болот. Айырмасы төмөнкүдөй:
 * `document.querySelector` биринчи дал келген элементти кайтарат.
-* `document.querySelectorAll` баардык дал келген элементтерди  түйүндөр коллекциялары(NodeList) сыяктуу кайтарат. Аны  `[].slice.call(document.querySelectorAll(selector) || []);` аркылуу  массивге конвертация кылууга болот.
-* Эгерде эч элементтер дал келбесе, анда  DOM API  `null` кайтарганда  jQuery  `[]` кайтарат. Null (Null Pointer Exception) чыгаруунун көрсөткүчүнө  көнүл бургула.  Эгерде дал келүүлөр  кездешбесе, анда силер жарыяланбаган маани үчүн `||` колдонсонор болот `document.querySelectorAll(selector) || []`
+* `document.querySelectorAll` баардык дал келген элементтерди статикалык түйүндөр коллекциясы (NodeList) катары кайтарат. Ал `forEach` методун колдойт, аны `Array.from(document.querySelectorAll(selector))` аркылуу массивге конвертация кылууга болот.
+* Эгерде эч элементтер дал келбесе, jQuery бош jQuery объектин, `document.querySelectorAll` бош NodeList'ти кайтарат, ал эми `document.querySelector` `null` кайтарат.
 
-> Белгилөө: `document.querySelector` жана `document.querySelectorAll` чыныгы **ЖАЙ**,  колдон келишинче кирешелүүлүктү жакшыртуу максатында `getElementById`, `document.getElementsByClassName` же `document.getElementsByTagName`  колдонго аракет кылгыла.
+> Белгилөө: `document.getElementById`, `document.getElementsByClassName` жана `document.getElementsByTagName` методдору `querySelector*` методдоруна караганда бир аз ылдамыраак, бирок `getElementsBy*` *жандуу* (live) HTMLCollection кайтарат, ал DOM өзгөргөн сайын өзү да өзгөрөт. Ылдамдыкты өлчөп, чыныгы көйгөй таппасаңар, `querySelector*` колдонгула.
 
 - [1.0](#1.0) <a name='1.0'></a> Селектор аркылуу издөө
 
@@ -106,9 +109,9 @@
     $el.siblings();
 
     // Нативдүү түрү
-    [].filter.call(el.parentNode.children, function(child) {
-      return child !== el;
-    });
+    [...el.parentNode.children].filter((child) =>
+      child !== el
+    );
     ```
 
   + Мурунку элементтер
@@ -139,22 +142,8 @@
   // jQuery
   $el.closest(selector);
 
-  // Нативдүү түрү - Only latest, NO IE
+  // Нативдүү түрү
   el.closest(selector);
-
-  // Нативдүү түрү - IE10+
-  function closest(el, selector) {
-    const matchesSelector = el.matches || el.webkitMatchesSelector || el.mozMatchesSelector || el.msMatchesSelector;
-
-    while (el) {
-      if (matchesSelector.call(el, selector)) {
-        return el;
-      } else {
-        el = el.parentElement;
-      }
-    }
-    return null;
-  }
   ```
 
 - [1.7](#1.7) <a name='1.7'></a> Ата-энеге чейин
@@ -167,17 +156,12 @@
   // Нативдүү түрү
   function parentsUntil(el, selector, filter) {
     const result = [];
-    const matchesSelector = el.matches || el.webkitMatchesSelector || el.mozMatchesSelector || el.msMatchesSelector;
 
     // Ата-энеден баштап дал келүү
     el = el.parentElement;
-    while (el && !matchesSelector.call(el, selector)) {
-      if (!filter) {
+    while (el && !el.matches(selector)) {
+      if (!filter || el.matches(filter)) {
         result.push(el);
-      } else {
-        if (matchesSelector.call(el, filter)) {
-          result.push(el);
-        }
       }
       el = el.parentElement;
     }
@@ -201,10 +185,10 @@
 
     ```js
     // jQuery
-    $(e.currentTarget).index('.radio');
+    $('.radio').index(e.currentTarget);
 
     // Нативдүү түрү
-    [].indexOf.call(document.querySelectorAll('.radio'), e.currentTarget);
+    [...document.querySelectorAll('.radio')].indexOf(e.currentTarget);
     ```
 
 - [1.9](#1.9) <a name='1.9'></a>  Iframe Контенти
@@ -255,7 +239,7 @@
   + Атрибутту кошуу
 
     ```js
-    // jQuery, DOM'ду өзгөртпөстөн эсте иштей берет
+    // jQuery
     $el.attr('foo', 'bar');
 
     // Нативдүү түрү
@@ -268,10 +252,11 @@
     // jQuery
     $el.data('foo');
 
-    // Нативдүү түрү (`getAttribute`'ду колдонуп)
+    // Нативдүү түрү
+    el.dataset.foo;
+
+    // же
     el.getAttribute('data-foo');
-    // Нативдүү түрү  ( `dataset`'ти колдонуу, эгерде  IE 11 төмөн колдоо жок болсо)
-    el.dataset['foo'];
     ```
 
     **[⬆ Башына](#Мазмуну)**
@@ -284,29 +269,32 @@
 
         ```js
         // jQuery
-        $el.css("color");
+        $el.css('color');
 
         // Нативдүү түрү
-        // Белгилөө:  Белгилүү ката, эгерде стильдин мааниси 'auto' болсо, анда 'auto' кайтарат
-        const win = el.ownerDocument.defaultView;
-        // null псевдостильдерди кайтарбоону белгилейт
-        win.getComputedStyle(el, null).color;
+        // Белгилөө: браузер эсептеген акыркы маанини кайтарат, мисалы, '#f01' ордуна 'rgb(255, 0, 17)'
+        getComputedStyle(el).color;
         ```
 
       +  style менчиктоо
 
         ```js
         // jQuery
-        $el.css({ color: "#ff0011" });
+        $el.css({ color: '#f01' });
 
         // Нативдүү түрү
-        el.style.color = '#ff0011';
+        el.style.color = '#f01';
         ```
 
-      +  Стильдерди Алуу/Менчиктоо
+      +  Бир нече стилди орнотуу
 
-        Заметьте что если вы хотите присвоить несколько стилей за раз, вы можете сослаться на [setStyles](https://github.com/oneuijs/oui-dom-utils/blob/master/src/index.js#L194) метод в oui-dom-utils package.
+        ```js
+        // jQuery
+        $el.css({ color: '#f01', 'border-color': '#f02' });
 
+        // Нативдүү түрү
+        Object.assign(el.style, { color: '#f01', borderColor: '#f02' });
+        ```
 
       + Классты кошуу
 
@@ -355,10 +343,12 @@
       + Терезенин узундугу
 
         ```js
-        // Терезенин узундугу
+        // jQuery
         $(window).height();
+
         // Скролбарсыз jQuery'дей эле сыяктуу болот
         window.document.documentElement.clientHeight;
+
         // скролбар менен
         window.innerHeight;
         ```
@@ -370,7 +360,15 @@
         $(document).height();
 
         // Нативдүү түрү
-        document.documentElement.scrollHeight;
+        const body = document.body;
+        const html = document.documentElement;
+        const height = Math.max(
+          body.offsetHeight,
+          body.scrollHeight,
+          html.clientHeight,
+          html.offsetHeight,
+          html.scrollHeight
+        );
         ```
 
       + Элементтин узундугу
@@ -389,9 +387,11 @@
           const paddingBottom = parseFloat(styles.paddingBottom);
           return height - borderBottomWidth - borderTopWidth - paddingTop - paddingBottom;
         }
-        // Так сандарга чейин（ `border-box` болгондо, анда `height - border`;  `content-box` болгондо, анда  `height + padding`）
+
+        // Так сандарга чейин (`border-box` болгондо, анда `height - border`; `content-box` болгондо, анда `height + padding`)
         el.clientHeight;
-        // Ондон бирине чейин（ `border-box` болгондо, анда `height`;  `content-box` болгондо, анда `height + padding + border`）
+
+        // Ондон бирине чейин (`border-box` болгондо, анда `height`; `content-box` болгондо, анда `height + padding + border`)
         el.getBoundingClientRect().height;
         ```
 
@@ -406,7 +406,7 @@
         $el.position();
 
         // Нативдүү түрү
-        { left: el.offsetLeft, top: el.offsetTop }
+        const position = { left: el.offsetLeft, top: el.offsetTop };
         ```
 
       + Ылдый өтүү
@@ -422,9 +422,9 @@
           const box = el.getBoundingClientRect();
 
           return {
-            top: box.top + window.pageYOffset - document.documentElement.clientTop,
-            left: box.left + window.pageXOffset - document.documentElement.clientLeft
-          }
+            top: box.top + window.scrollY,
+            left: box.left + window.scrollX
+          };
         }
         ```
 
@@ -435,7 +435,7 @@
       $(window).scrollTop();
 
       // Нативдүү түрү
-      (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop;
+      window.scrollY;
       ```
 
     **[⬆ Башына](#Мазмуну)**
@@ -451,7 +451,7 @@
       $el.remove();
 
       // Нативдүү түрү
-      el.parentNode.removeChild(el);
+      el.remove();
       ```
 
     - [3.2](#3.2) <a name='3.2'></a> Текст
@@ -505,21 +505,27 @@
       Акыркы ата-эненин баласындан кийин жаны элементти кошуу
 
       ```js
-      // jQuery
-      $el.append("<div id='container'>hello</div>");
+      // jQuery: DOMString жана Node объекттери үчүн бирдей синтаксис
+      $parent.append(newEl | '<div id="container">Hello World</div>');
 
-      // Нативдүү түрү
-      el.insertAdjacentHTML("beforeend","<div id='container'>hello</div>");
+      // Нативдүү түрү (Element же текст): саптар HTML катары талдалбайт, жөнөкөй текст катары кошулат
+      parent.append(newEl | 'Hello World');
+
+      // Нативдүү түрү (HTML сабы)
+      parent.insertAdjacentHTML('beforeend', '<div id="container">Hello World</div>');
       ```
 
     - [3.5](#3.5) <a name='3.5'></a> Prepend
 
       ```js
-      // jQuery
-      $el.prepend("<div id='container'>hello</div>");
+      // jQuery: DOMString жана Node объекттери үчүн бирдей синтаксис
+      $parent.prepend(newEl | '<div id="container">Hello World</div>');
 
-      // Нативдүү түрү
-      el.insertAdjacentHTML("afterbegin","<div id='container'>hello</div>");
+      // Нативдүү түрү (Element же текст): саптар HTML катары талдалбайт, жөнөкөй текст катары кошулат
+      parent.prepend(newEl | 'Hello World');
+
+      // Нативдүү түрү (HTML сабы)
+      parent.insertAdjacentHTML('afterbegin', '<div id="container">Hello World</div>');
       ```
 
     - [3.6](#3.6) <a name='3.6'></a> insertBefore
@@ -529,11 +535,15 @@
 
       ```js
       // jQuery
-      $newEl.insertBefore(queryString);
+      $newEl.insertBefore(selector);
 
-      // Нативдүү түрү
-      const target = document.querySelector(queryString);
-      target.parentNode.insertBefore(newEl, target);
+      const el = document.querySelector(selector);
+
+      // Нативдүү түрү (Element)
+      el.before(newEl);
+
+      // Нативдүү түрү (HTML сабы)
+      el.insertAdjacentHTML('beforebegin', '<div id="container">Hello World</div>');
       ```
 
     - [3.7](#3.7) <a name='3.7'></a> insertAfter
@@ -542,11 +552,15 @@
 
       ```js
       // jQuery
-      $newEl.insertAfter(queryString);
+      $newEl.insertAfter(selector);
 
-      // Нативдүү түрү
-      const target = document.querySelector(queryString);
-      target.parentNode.insertBefore(newEl, target.nextSibling);
+      const el = document.querySelector(selector);
+
+      // Нативдүү түрү (Element)
+      el.after(newEl);
+
+      // Нативдүү түрү (HTML сабы)
+      el.insertAdjacentHTML('afterend', '<div id="container">Hello World</div>');
       ```
 
     - [3.8](#3.8) <a name='3.8'></a> is
@@ -565,15 +579,79 @@
 
     ## Ajax
 
-    [Fetch API](https://fetch.spec.whatwg.org/) -  XMLHttpRequest ajax үчүн орун алган жаны стандарт. Chrome жана Firefox үчүн иштейт, бирок силер эски браузерлердин колдоосу үчүн полифилдерди колдонсонор болот.
+    [Fetch API](https://fetch.spec.whatwg.org/) - XMLHttpRequest'тин ордун баскан стандарт, ал бардык заманбап браузерлерде иштейт. `$.ajax`'тан айырмаланып, `fetch` 404 же 500 сыяктуу HTTP ката статусу келгенде **ката бербейт** (reject кылбайт), ошондуктан `response.ok` маанисин өзүңөр текшергиле. JSONP-кайрылуулар үчүн [fetch-jsonp](https://github.com/camsong/fetch-jsonp) колдонуп көргүлө.
 
-      IE9+ [github/fetch](http://github.com/github/fetch)үчүн  же  [fetch-ie8](https://github.com/camsong/fetch-ie8/)  IE8+ үчүн, [fetch-jsonp](https://github.com/camsong/fetch-jsonp)  JSONP-кайрылуулар үчүн колдонуп көргулө .
+    - [4.0](#4.0) <a name='4.0'></a> JSON алуу
+
+      ```js
+      // jQuery
+      $.getJSON(url).done(handleData).fail(handleError);
+
+      // Нативдүү түрү
+      fetch(url)
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`);
+          }
+          return response.json();
+        })
+        .then(handleData)
+        .catch(handleError);
+      ```
+
+    - [4.0.1](#4.0.1) <a name='4.0.1'></a> JSON жөнөтүү
+
+      ```js
+      // jQuery
+      $.ajax({
+        url,
+        method: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(data),
+      });
+
+      // Нативдүү түрү
+      fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+      ```
+
+    - [4.0.2](#4.0.2) <a name='4.0.2'></a> Токтотуу жана убакыт чеги
+
+      ```js
+      // jQuery
+      const jqXHR = $.ajax({ url, timeout: 5000 });
+      jqXHR.abort();
+
+      // Нативдүү түрү
+      const controller = new AbortController();
+      fetch(url, { signal: controller.signal });
+      controller.abort();
+
+      // Нативдүү түрү (убакыт чеги)
+      fetch(url, { signal: AbortSignal.timeout(5000) });
+      ```
+
+    - [4.1](#4.1) <a name='4.1'></a> Серверден маалымат жүктөп, кайтарылган HTML кодун дал келген элементке коюу.
+
+      ```js
+      // jQuery
+      $(selector).load(url, completeCallback)
+
+      // Нативдүү түрү
+      fetch(url)
+        .then((response) => response.text())
+        .then((html) => {
+          document.querySelector(selector).innerHTML = html;
+        })
+        .then(completeCallback);
+      ```
 
     **[⬆ Башына](#Мазмуну)**
 
     ## Окуялар
-
-    Аттардын мейкиндигни толук алмаштыруу жана делегирование кылыш үчүн  [oui-dom-events](https://github.com/oneuijs/oui-dom-events) кайрылуу керек
 
     - [5.1](#5.1) <a name='5.1'></a> Окуяларды onn аркылуу  байланыштыруу
 
@@ -585,6 +663,31 @@
       el.addEventListener(eventName, eventHandler);
       ```
 
+    - [5.1.1](#5.1.1) <a name='5.1.1'></a> Окуяны one аркылуу бир жолу гана байланыштыруу
+
+      ```js
+      // jQuery
+      $el.one(eventName, eventHandler);
+
+      // Нативдүү түрү
+      el.addEventListener(eventName, eventHandler, { once: true });
+      ```
+
+    - [5.1.2](#5.1.2) <a name='5.1.2'></a> Окуяларды делегациялоо
+
+      ```js
+      // jQuery
+      $el.on(eventName, selector, eventHandler);
+
+      // Нативдүү түрү
+      el.addEventListener(eventName, (event) => {
+        const target = event.target.closest(selector);
+        if (target && el.contains(target)) {
+          eventHandler.call(target, event);
+        }
+      });
+      ```
+
     - [5.2](#5.2) <a name='5.2'></a> Окуяларды off аркылуу  жоюу
 
       ```js
@@ -593,6 +696,12 @@
 
       // Нативдүү түрү
       el.removeEventListener(eventName, eventHandler);
+
+      // Нативдүү түрү: jQuery'деги аттар мейкиндиги (namespace) сыяктуу, бир нече угуучуну (listener) бир эле учурда алып салуу
+      const controller = new AbortController();
+      el.addEventListener('click', onClick, { signal: controller.signal });
+      el.addEventListener('keydown', onKeydown, { signal: controller.signal });
+      controller.abort();
       ```
 
     - [5.3](#5.3) <a name='5.3'></a> Trigger
@@ -601,13 +710,13 @@
       // jQuery
       $(el).trigger('custom-event', {key1: 'data'});
 
-      // Нативдүү түрү
-      if (window.CustomEvent) {
-        const event = new CustomEvent('custom-event', {detail: {key1: 'data'}});
-      } else {
-        const event = document.createEvent('CustomEvent');
-        event.initCustomEvent('custom-event', true, true, {key1: 'data'});
-      }
+      // Нативдүү түрү. jQuery окуялары ата-эне элементтерге чейин көтөрүлөт (bubble), ал эми нативдүү окуялар `bubbles: true` болбосо көтөрүлбөйт.
+      // Маалыматты окуяны иштеткен функциянын ичинде `event.detail` аркылуу алгыла.
+      const event = new CustomEvent('custom-event', {
+        bubbles: true,
+        cancelable: true,
+        detail: { key1: 'data' },
+      });
 
       el.dispatchEvent(event);
       ```
@@ -620,10 +729,10 @@
 
       ```js
       // jQuery
-      $.isArray(range);
+      $.isArray(array);
 
       // Нативдүү түрү
-      Array.isArray(range);
+      Array.isArray(array);
       ```
 
     - [6.2](#6.2) <a name='6.2'></a> Trim
@@ -638,14 +747,27 @@
 
     - [6.3](#6.3) <a name='6.3'></a> Объектин дайындоосу
 
-      Кошумча  object.assign https://github.com/ljharb/object.assign полифилин колдонгула
+      `deep` параметри жок `$.extend` сыяктуу эле, `Object.assign` жана spread да объекттин жогорку деңгээлин гана көчүрөт (shallow copy).
 
       ```js
       // jQuery
-      $.extend({}, defaultOpts, opts);
+      $.extend({}, object1, object2);
 
       // Нативдүү түрү
-      Object.assign({}, defaultOpts, opts);
+      Object.assign({}, object1, object2);
+
+      // Нативдүү түрү (spread)
+      ({ ...object1, ...object2 });
+      ```
+
+      Бир объектти терең көчүрүү (deep copy):
+
+      ```js
+      // jQuery
+      $.extend(true, {}, object);
+
+      // Нативдүү түрү. Функцияларды жана DOM түйүндөрүн көчүрүүгө болбойт
+      structuredClone(object);
       ```
 
     - [6.4](#6.4) <a name='6.4'></a> Contains
@@ -662,15 +784,24 @@
 
     ## Альтернативалар
 
-    * [You Might Not Need jQuery](http://youmightnotneedjquery.com/) - Бат-бат окуялар, элементтер, ajax ж.б.у.с мисалдардын ванильдуу javascript менен көрсөтүү.
-    * [npm-dom](http://github.com/npm-dom) и [webmodules](http://github.com/webmodules) - Башка DOM бөлүктөрүy NPM'де тапса болот
+    * [You Might Not Need jQuery](https://youmightnotneedjquery.com/) - Бат-бат окуялар, элементтер, ajax ж.б.у.с мисалдардын ванильдуу javascript менен көрсөтүү.
+    * [MDN Web Docs](https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model) - Бул жерде колдонулган ар бир DOM API боюнча маалымдама.
+    * [Baseline](https://web.dev/baseline) - Веб-платформанын кайсы мүмкүнчүлүктөрүн бардык браузерлерде коопсуз колдонууга болорун текшерүү.
 
     ## Браузерлердин колдоосу
 
-    ![Chrome](https://raw.github.com/alrra/browser-logos/master/chrome/chrome_48x48.png) | ![Firefox](https://raw.github.com/alrra/browser-logos/master/firefox/firefox_48x48.png) | ![IE](https://raw.github.com/alrra/browser-logos/master/internet-explorer/internet-explorer_48x48.png) | ![Opera](https://raw.github.com/alrra/browser-logos/master/opera/opera_48x48.png) | ![Safari](https://raw.github.com/alrra/browser-logos/master/safari/safari_48x48.png)
+    ![Chrome][chrome-image] | ![Edge][edge-image] | ![Firefox][firefox-image] | ![Safari][safari-image] | ![Opera][opera-image]
     --- | --- | --- | --- | --- |
-    Latest ✔ | Latest ✔ | 10+ ✔ | Latest ✔ | 6.1+ ✔ |
+    Latest ✔ | Latest ✔ | Latest ✔ | Latest ✔ | Latest ✔ |
+
+    Кээ бир мисалдар жаңыраак API'лерди колдонот: `Promise.withResolvers()` (2024), `el.replaceChildren()` (2020) жана `AbortSignal.timeout()` (2022). Эгерде эски браузерлерди колдоо керек болсо, [Baseline](https://web.dev/baseline) аркылуу текшергиле.
 
     # License
 
     MIT
+
+[chrome-image]: https://raw.github.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png
+[firefox-image]: https://raw.github.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png
+[edge-image]: https://raw.github.com/alrra/browser-logos/master/src/edge/edge_48x48.png
+[opera-image]: https://raw.github.com/alrra/browser-logos/master/src/opera/opera_48x48.png
+[safari-image]: https://raw.github.com/alrra/browser-logos/master/src/safari/safari_48x48.png
