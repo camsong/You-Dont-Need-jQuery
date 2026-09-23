@@ -3,7 +3,9 @@
 Você não precisa de jQuery
 ---
 
-Ambientes Frontend evoluem rapidamente nos dias de hoje, navegadores modernos já implementaram uma grande parte das APIs DOM/BOM que são boas o suficiente. Nós não temos que aprender jQuery a partir do zero para manipulação do DOM ou eventos. Nesse meio tempo, graças a bibliotecas frontend como React, Angular e Vue, a manipulação direta do DOM torna-se um anti-padrão, jQuery é menos importante do que nunca. Este projeto resume a maioria das alternativas dos métodos jQuery em implementação nativa, com suporte ao IE 10+.
+Ambientes Frontend evoluem rapidamente nos dias de hoje, navegadores modernos já implementaram uma grande parte das APIs DOM/BOM que são boas o suficiente. Nós não temos que aprender jQuery a partir do zero para manipulação do DOM ou eventos. Nesse meio tempo, graças a bibliotecas frontend como React, Angular e Vue, a manipulação direta do DOM torna-se um anti-padrão, jQuery é menos importante do que nunca. Este projeto resume a maioria das alternativas dos métodos jQuery em implementação nativa.
+
+Os exemplos têm como alvo os navegadores evergreen atuais (Chrome, Edge, Firefox, Safari). O Internet Explorer não é mais suportado pela Microsoft, por isso os fallbacks específicos para IE foram removidos. Se você ainda precisar deles, consulte a [última versão compatível com o IE](https://github.com/camsong/You-Dont-Need-jQuery/tree/c4e00b3).
 
 ## Tabela de conteúdos
 
@@ -38,10 +40,10 @@ Ambientes Frontend evoluem rapidamente nos dias de hoje, navegadores modernos j�
 
 No lugar de seletores comuns como classe, id ou atributo podemos usar `document.querySelector` ou `document.querySelectorAll` para substituição. As diferenças são:
 * `document.querySelector` retorna o primeiro elemento correspondente
-* `document.querySelectorAll` retorna todos os elementos correspondentes como NodeList. Pode ser convertido para Array usando `[].slice.call(document.querySelectorAll(selector) || []);`
-* Se não tiver elementos correspondentes, jQuery retornaria `[]` considerando que a DOM API irá retornar `null`. Preste atenção ao Null Pointer Exception. Você também pode usar `||` para definir um valor padrão caso nenhum elemento seja encontrado, como `document.querySelectorAll(selector) || []`
+* `document.querySelectorAll` retorna todos os elementos correspondentes como uma NodeList estática. Ela suporta `forEach` e pode ser convertida para Array usando `Array.from(document.querySelectorAll(selector))`
+* Se não tiver elementos correspondentes, o jQuery retorna um objeto jQuery vazio e `document.querySelectorAll` retorna uma NodeList vazia, enquanto `document.querySelector` retorna `null`.
 
-> Aviso: `document.querySelector` e `document.querySelectorAll` são bastante **LENTOS**, tente usar `getElementById`, `document.getElementsByClassName` ou `document.getElementsByTagName` se você quer ter uma maior performance.
+> Aviso: `document.getElementById`, `document.getElementsByClassName` e `document.getElementsByTagName` são um pouco mais rápidos que `querySelector*`, mas os métodos `getElementsBy*` retornam uma HTMLCollection *viva* (live), que muda conforme o DOM muda. Prefira `querySelector*`, a menos que você tenha medido e encontrado um gargalo de performance.
 
 - [1.0](#1.0) <a name='1.0'></a> Query por seletor
 
@@ -118,7 +120,7 @@ No lugar de seletores comuns como classe, id ou atributo podemos usar `document.
     $el.attr('foo');
 
     // Nativo
-    e.getAttribute('foo');
+    el.getAttribute('foo');
     ```
 
   + Buscar atributos `data-`
@@ -128,10 +130,10 @@ No lugar de seletores comuns como classe, id ou atributo podemos usar `document.
     $el.data('foo');
 
     // Nativo
-    // usando getAttribute
+    el.dataset.foo;
+
+    // ou
     el.getAttribute('data-foo');
-    // você também pode usar `dataset` se você precisar suportar apenas IE 11+
-    el.dataset['foo'];
     ```
 
 - [1.5](#1.5) <a name='1.5'></a> Sibling/Previous/Next Elements
@@ -143,9 +145,9 @@ No lugar de seletores comuns como classe, id ou atributo podemos usar `document.
     $el.siblings();
 
     // Nativo
-    [].filter.call(el.parentNode.children, function(child) {
-      return child !== el;
-    });
+    [...el.parentNode.children].filter((child) =>
+      child !== el
+    );
     ```
 
   + Previous elements
@@ -156,7 +158,6 @@ No lugar de seletores comuns como classe, id ou atributo podemos usar `document.
 
     // Nativo
     el.previousElementSibling;
-
     ```
 
   + Next elements
@@ -175,21 +176,10 @@ No lugar de seletores comuns como classe, id ou atributo podemos usar `document.
 
   ```js
   // jQuery
-  $el.closest(queryString);
+  $el.closest(selector);
 
   // Nativo
-  function closest(el, selector) {
-    const matchesSelector = el.matches || el.webkitMatchesSelector || el.mozMatchesSelector || el.msMatchesSelector;
-
-    while (el) {
-      if (matchesSelector.call(el, selector)) {
-        return el;
-      } else {
-        el = el.parentElement;
-      }
-    }
-    return null;
-  }
+  el.closest(selector);
   ```
 
 - [1.7](#1.7) <a name='1.7'></a> Parents Until
@@ -203,17 +193,12 @@ No lugar de seletores comuns como classe, id ou atributo podemos usar `document.
   // Nativo
   function parentsUntil(el, selector, filter) {
     const result = [];
-    const matchesSelector = el.matches || el.webkitMatchesSelector || el.mozMatchesSelector || el.msMatchesSelector;
 
     // match start from parent
     el = el.parentElement;
-    while (el && !matchesSelector.call(el, selector)) {
-      if (!filter) {
+    while (el && !el.matches(selector)) {
+      if (!filter || el.matches(filter)) {
         result.push(el);
-      } else {
-        if (matchesSelector.call(el, filter)) {
-          result.push(el);
-        }
       }
       el = el.parentElement;
     }
@@ -237,10 +222,10 @@ No lugar de seletores comuns como classe, id ou atributo podemos usar `document.
 
     ```js
     // jQuery
-    $(e.currentTarget).index('.radio');
+    $('.radio').index(e.currentTarget);
 
     // Nativo
-    [].indexOf.call(document.querySelectAll('.radio'), e.currentTarget);
+    [...document.querySelectorAll('.radio')].indexOf(e.currentTarget);
     ```
 
 - [1.9](#1.9) <a name='1.9'></a> Iframe Contents
@@ -278,29 +263,32 @@ No lugar de seletores comuns como classe, id ou atributo podemos usar `document.
 
     ```js
     // jQuery
-    $el.css("color");
+    $el.css('color');
 
     // Nativo
-    // AVISO: Bug conhecido, irá retornar 'auto' se o valor do estilo for 'auto'
-    const win = el.ownerDocument.defaultView;
-    // null significa não retornar estilos
-    win.getComputedStyle(el, null).color;
+    // NOTA: retorna o valor resolvido, por exemplo 'rgb(255, 0, 17)' em vez de '#f01'
+    getComputedStyle(el).color;
     ```
 
   + Definir Estilo
 
     ```js
     // jQuery
-    $el.css({ color: "#ff0011" });
+    $el.css({ color: '#f01' });
 
     // Nativo
-    el.style.color = '#ff0011';
+    el.style.color = '#f01';
     ```
 
-  + Get/Set Styles
+  + Definir vários estilos
 
-    Observe que se você deseja setar vários estilos de uma vez, você pode optar por [setStyles](https://github.com/oneuijs/oui-dom-utils/blob/master/src/index.js#L194) método no pacote oui-dom-utils.
+    ```js
+    // jQuery
+    $el.css({ color: '#f01', 'border-color': '#f02' });
 
+    // Nativo
+    Object.assign(el.style, { color: '#f01', borderColor: '#f02' });
+    ```
 
   + Adicionar classe
 
@@ -349,10 +337,12 @@ No lugar de seletores comuns como classe, id ou atributo podemos usar `document.
   + Altura da janela
 
     ```js
-    // window height
+    // jQuery
     $(window).height();
+
     // sem scrollbar, se comporta como jQuery
     window.document.documentElement.clientHeight;
+
     // com scrollbar
     window.innerHeight;
     ```
@@ -364,7 +354,15 @@ No lugar de seletores comuns como classe, id ou atributo podemos usar `document.
     $(document).height();
 
     // Nativo
-    document.documentElement.scrollHeight;
+    const body = document.body;
+    const html = document.documentElement;
+    const height = Math.max(
+      body.offsetHeight,
+      body.scrollHeight,
+      html.clientHeight,
+      html.offsetHeight,
+      html.scrollHeight
+    );
     ```
 
   + Altura do Elemento
@@ -375,7 +373,7 @@ No lugar de seletores comuns como classe, id ou atributo podemos usar `document.
 
     // Nativo
     function getHeight(el) {
-      const styles = this.getComputedStyles(el);
+      const styles = window.getComputedStyle(el);
       const height = el.offsetHeight;
       const borderTopWidth = parseFloat(styles.borderTopWidth);
       const borderBottomWidth = parseFloat(styles.borderBottomWidth);
@@ -383,9 +381,11 @@ No lugar de seletores comuns como classe, id ou atributo podemos usar `document.
       const paddingBottom = parseFloat(styles.paddingBottom);
       return height - borderBottomWidth - borderTopWidth - paddingTop - paddingBottom;
     }
-    // preciso para inteiro（quando `border-box`, é `height - border`; quando `content-box`, é `height + padding`）
+
+    // preciso para inteiro (quando `border-box`, é `height - border`; quando `content-box`, é `height + padding`)
     el.clientHeight;
-    // preciso para decimal（quando `border-box`, é `height`; quando `content-box`, é `height + padding + border`）
+
+    // preciso para decimal (quando `border-box`, é `height`; quando `content-box`, é `height + padding + border`)
     el.getBoundingClientRect().height;
     ```
 
@@ -398,7 +398,7 @@ No lugar de seletores comuns como classe, id ou atributo podemos usar `document.
     $el.position();
 
     // Nativo
-    { left: el.offsetLeft, top: el.offsetTop }
+    const position = { left: el.offsetLeft, top: el.offsetTop };
     ```
 
   + Offset
@@ -412,9 +412,9 @@ No lugar de seletores comuns como classe, id ou atributo podemos usar `document.
       const box = el.getBoundingClientRect();
 
       return {
-        top: box.top + window.pageYOffset - document.documentElement.clientTop,
-        left: box.left + window.pageXOffset - document.documentElement.clientLeft
-      }
+        top: box.top + window.scrollY,
+        left: box.left + window.scrollX
+      };
     }
     ```
 
@@ -425,7 +425,7 @@ No lugar de seletores comuns como classe, id ou atributo podemos usar `document.
   $(window).scrollTop();
 
   // Nativo
-  (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop;
+  window.scrollY;
   ```
 
 **[⬆ ir para o topo](#tabela-de-conteúdos)**
@@ -438,7 +438,7 @@ No lugar de seletores comuns como classe, id ou atributo podemos usar `document.
   $el.remove();
 
   // Nativo
-  el.parentNode.removeChild(el);
+  el.remove();
   ```
 
 - [3.2](#3.2) <a name='3.2'></a> Texto
@@ -490,27 +490,27 @@ No lugar de seletores comuns como classe, id ou atributo podemos usar `document.
   Incluir elemento filho após o último filho do elemento pai.
 
   ```js
-  // jQuery
-  $el.append("<div id='container'>hello</div>");
+  // jQuery: sintaxe unificada para DOMString e objetos Node
+  $parent.append(newEl | '<div id="container">Hello World</div>');
 
-  // Nativo
-  let newEl = document.createElement('div');
-  newEl.setAttribute('id', 'container');
-  newEl.innerHTML = 'hello';
-  el.appendChild(newEl);
+  // Nativo (Element ou texto): strings são inseridas como texto simples, não interpretadas como HTML
+  parent.append(newEl | 'Hello World');
+
+  // Nativo (string HTML)
+  parent.insertAdjacentHTML('beforeend', '<div id="container">Hello World</div>');
   ```
 
 - [3.5](#3.5) <a name='3.5'></a> Prepend
 
   ```js
-  // jQuery
-  $el.prepend("<div id='container'>hello</div>");
+  // jQuery: sintaxe unificada para DOMString e objetos Node
+  $parent.prepend(newEl | '<div id="container">Hello World</div>');
 
-  // Nativo
-  let newEl = document.createElement('div');
-  newEl.setAttribute('id', 'container');
-  newEl.innerHTML = 'hello';
-  el.insertBefore(newEl, el.firstChild);
+  // Nativo (Element ou texto): strings são inseridas como texto simples, não interpretadas como HTML
+  parent.prepend(newEl | 'Hello World');
+
+  // Nativo (string HTML)
+  parent.insertAdjacentHTML('afterbegin', '<div id="container">Hello World</div>');
   ```
 
 - [3.6](#3.6) <a name='3.6'></a> insertBefore
@@ -519,11 +519,15 @@ No lugar de seletores comuns como classe, id ou atributo podemos usar `document.
 
   ```js
   // jQuery
-  $newEl.insertBefore(queryString);
+  $newEl.insertBefore(selector);
 
-  // Nativo
-  const target = document.querySelector(queryString);
-  target.parentNode.insertBefore(newEl, target);
+  const el = document.querySelector(selector);
+
+  // Nativo (Element)
+  el.before(newEl);
+
+  // Nativo (string HTML)
+  el.insertAdjacentHTML('beforebegin', '<div id="container">Hello World</div>');
   ```
 
 - [3.7](#3.7) <a name='3.7'></a> insertAfter
@@ -532,24 +536,94 @@ No lugar de seletores comuns como classe, id ou atributo podemos usar `document.
 
   ```js
   // jQuery
-  $newEl.insertAfter(queryString);
+  $newEl.insertAfter(selector);
 
-  // Nativo
-  const target = document.querySelector(queryString);
-  target.parentNode.insertBefore(newEl, target.nextSibling);
+  const el = document.querySelector(selector);
+
+  // Nativo (Element)
+  el.after(newEl);
+
+  // Nativo (string HTML)
+  el.insertAdjacentHTML('afterend', '<div id="container">Hello World</div>');
   ```
 
 **[⬆ ir para o topo](#tabela-de-conteúdos)**
 
 ## Ajax
 
-Substitua por [fetch](https://github.com/camsong/fetch-ie8) e [fetch-jsonp](https://github.com/camsong/fetch-jsonp)
+A [Fetch API](https://fetch.spec.whatwg.org/) é a substituta padrão do XMLHttpRequest e funciona em todos os navegadores modernos. Diferente de `$.ajax`, o `fetch` **não** rejeita a Promise em caso de status de erro HTTP, como 404 ou 500; você mesmo precisa verificar `response.ok`. Para JSONP, experimente o [fetch-jsonp](https://github.com/camsong/fetch-jsonp).
+
+- [4.0](#4.0) <a name='4.0'></a> Requisitar JSON
+
+  ```js
+  // jQuery
+  $.getJSON(url).done(handleData).fail(handleError);
+
+  // Nativo
+  fetch(url)
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}`);
+      }
+      return response.json();
+    })
+    .then(handleData)
+    .catch(handleError);
+  ```
+
+- [4.0.1](#4.0.1) <a name='4.0.1'></a> Enviar JSON com POST
+
+  ```js
+  // jQuery
+  $.ajax({
+    url,
+    method: 'POST',
+    contentType: 'application/json',
+    data: JSON.stringify(data),
+  });
+
+  // Nativo
+  fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data),
+  });
+  ```
+
+- [4.0.2](#4.0.2) <a name='4.0.2'></a> Cancelamento e timeout
+
+  ```js
+  // jQuery
+  const jqXHR = $.ajax({ url, timeout: 5000 });
+  jqXHR.abort();
+
+  // Nativo
+  const controller = new AbortController();
+  fetch(url, { signal: controller.signal });
+  controller.abort();
+
+  // Nativo (timeout)
+  fetch(url, { signal: AbortSignal.timeout(5000) });
+  ```
+
+- [4.1](#4.1) <a name='4.1'></a> Carregar dados do servidor e inserir o HTML retornado no elemento correspondente.
+
+  ```js
+  // jQuery
+  $(selector).load(url, completeCallback)
+
+  // Nativo
+  fetch(url)
+    .then((response) => response.text())
+    .then((html) => {
+      document.querySelector(selector).innerHTML = html;
+    })
+    .then(completeCallback);
+  ```
 
 **[⬆ ir para o topo](#tabela-de-conteúdos)**
 
 ## Eventos
-
-Para uma substituição completa com namespace e delegation, consulte https://github.com/oneuijs/oui-dom-events
 
 - [5.1](#5.1) <a name='5.1'></a> `Bind` num evento com `on`
 
@@ -561,6 +635,31 @@ Para uma substituição completa com namespace e delegation, consulte https://gi
   el.addEventListener(eventName, eventHandler);
   ```
 
+- [5.1.1](#5.1.1) <a name='5.1.1'></a> `Bind` num evento uma única vez com `one`
+
+  ```js
+  // jQuery
+  $el.one(eventName, eventHandler);
+
+  // Nativo
+  el.addEventListener(eventName, eventHandler, { once: true });
+  ```
+
+- [5.1.2](#5.1.2) <a name='5.1.2'></a> Delegação de eventos
+
+  ```js
+  // jQuery
+  $el.on(eventName, selector, eventHandler);
+
+  // Nativo
+  el.addEventListener(eventName, (event) => {
+    const target = event.target.closest(selector);
+    if (target && el.contains(target)) {
+      eventHandler.call(target, event);
+    }
+  });
+  ```
+
 - [5.2](#5.2) <a name='5.2'></a> `Unbind` num evento com `off`
 
   ```js
@@ -569,6 +668,12 @@ Para uma substituição completa com namespace e delegation, consulte https://gi
 
   // Nativo
   el.removeEventListener(eventName, eventHandler);
+
+  // Nativo: remove vários listeners de uma vez, como os namespaces do jQuery
+  const controller = new AbortController();
+  el.addEventListener('click', onClick, { signal: controller.signal });
+  el.addEventListener('keydown', onKeydown, { signal: controller.signal });
+  controller.abort();
   ```
 
 - [5.3](#5.3) <a name='5.3'></a> Trigger
@@ -577,13 +682,13 @@ Para uma substituição completa com namespace e delegation, consulte https://gi
   // jQuery
   $(el).trigger('custom-event', {key1: 'data'});
 
-  // Nativo
-  if (window.CustomEvent) {
-    const event = new CustomEvent('custom-event', {detail: {key1: 'data'}});
-  } else {
-    const event = document.createEvent('CustomEvent');
-    event.initCustomEvent('custom-event', true, true, {key1: 'data'});
-  }
+  // Nativo. Eventos do jQuery propagam (bubbling); os nativos só propagam com `bubbles: true`.
+  // Leia os dados em `event.detail` no handler.
+  const event = new CustomEvent('custom-event', {
+    bubbles: true,
+    cancelable: true,
+    detail: { key1: 'data' },
+  });
 
   el.dispatchEvent(event);
   ```
@@ -596,10 +701,10 @@ Para uma substituição completa com namespace e delegation, consulte https://gi
 
   ```js
   // jQuery
-  $.isArray(range);
+  $.isArray(array);
 
   // Nativo
-  Array.isArray(range);
+  Array.isArray(array);
   ```
 
 - [6.2](#6.2) <a name='6.2'></a> Trim
@@ -614,14 +719,28 @@ Para uma substituição completa com namespace e delegation, consulte https://gi
 
 - [6.3](#6.3) <a name='6.3'></a> Object Assign
 
-  Use o polyfill `object.assign` para eetender um Object: https://github.com/ljharb/object.assign
+  Mescla o conteúdo de dois ou mais objetos em um novo objeto, sem modificar nenhum dos argumentos.
+  Assim como `$.extend` sem `deep`, `Object.assign` e o spread fazem apenas uma cópia rasa (shallow copy).
 
   ```js
   // jQuery
-  $.extend({}, defaultOpts, opts);
+  $.extend({}, object1, object2);
 
   // Nativo
-  Object.assign({}, defaultOpts, opts);
+  Object.assign({}, object1, object2);
+
+  // Nativo (spread)
+  ({ ...object1, ...object2 });
+  ```
+
+  Cópia profunda de um único objeto:
+
+  ```js
+  // jQuery
+  $.extend(true, {}, object);
+
+  // Nativo. Funções e nós do DOM não podem ser clonados
+  structuredClone(object);
   ```
 
 - [6.4](#6.4) <a name='6.4'></a> Contains
@@ -638,10 +757,18 @@ Para uma substituição completa com namespace e delegation, consulte https://gi
 
 ## Suporte dos Navegadores
 
-![Chrome](https://raw.github.com/alrra/browser-logos/master/chrome/chrome_48x48.png) | ![Firefox](https://raw.github.com/alrra/browser-logos/master/firefox/firefox_48x48.png) | ![IE](https://raw.github.com/alrra/browser-logos/master/internet-explorer/internet-explorer_48x48.png) | ![Opera](https://raw.github.com/alrra/browser-logos/master/opera/opera_48x48.png) | ![Safari](https://raw.github.com/alrra/browser-logos/master/safari/safari_48x48.png)
+![Chrome][chrome-image] | ![Edge][edge-image] | ![Firefox][firefox-image] | ![Safari][safari-image] | ![Opera][opera-image]
 --- | --- | --- | --- | --- |
-Latest ✔ | Latest ✔ | 10+ ✔ | Latest ✔ | 6.1+ ✔ |
+Latest ✔ | Latest ✔ | Latest ✔ | Latest ✔ | Latest ✔ |
+
+Alguns exemplos usam APIs mais recentes: `Promise.withResolvers()` (2024), `el.replaceChildren()` (2020) e `AbortSignal.timeout()` (2022). Consulte o [Baseline](https://web.dev/baseline) se você precisa dar suporte a navegadores mais antigos.
 
 # Licença
 
 MIT
+
+[chrome-image]: https://raw.github.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png
+[firefox-image]: https://raw.github.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png
+[edge-image]: https://raw.github.com/alrra/browser-logos/master/src/edge/edge_48x48.png
+[opera-image]: https://raw.github.com/alrra/browser-logos/master/src/opera/opera_48x48.png
+[safari-image]: https://raw.github.com/alrra/browser-logos/master/src/safari/safari_48x48.png
