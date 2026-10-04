@@ -462,6 +462,27 @@ In place of common selectors like class, id or attribute we can use `document.qu
     el.getBoundingClientRect().height;
     ```
 
+  + Element outer height
+
+    Height including padding and border, optionally margin.
+
+    ```js
+    // jQuery
+    $el.outerHeight();
+
+    // Native (rounded to integer, ignores CSS transforms)
+    el.offsetHeight;
+
+    // jQuery
+    $el.outerHeight(true);
+
+    // Native
+    function getOuterHeight(el) {
+      const styles = window.getComputedStyle(el);
+      return el.offsetHeight + parseFloat(styles.marginTop) + parseFloat(styles.marginBottom);
+    }
+    ```
+
 - [2.3](#2.3) <a name='2.3'></a> Position & Offset
 
   + Position
