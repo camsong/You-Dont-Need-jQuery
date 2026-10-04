@@ -395,6 +395,27 @@
         el.getBoundingClientRect().height;
         ```
 
+      + Элементтин тышкы узундугу
+
+        padding жана border менен кошо узундук, кааласаңыз margin да кошулат.
+
+        ```js
+        // jQuery
+        $el.outerHeight();
+
+        // Нативдүү түрү (бүтүн санга тегеректелет, CSS transform эсепке алынбайт)
+        el.offsetHeight;
+
+        // jQuery
+        $el.outerHeight(true);
+
+        // Нативдүү түрү
+        function getOuterHeight(el) {
+          const styles = window.getComputedStyle(el);
+          return el.offsetHeight + parseFloat(styles.marginTop) + parseFloat(styles.marginBottom);
+        }
+        ```
+
     - [2.3](#2.3) <a name='2.3'></a> Позиция  жана  өтүү
 
       + Позициясы

@@ -401,6 +401,27 @@ jQueryのセレクタと比べて以下の違いがあります。
     el.getBoundingClientRect().height;
     ```
 
+  + エレメントの外側の高さ
+
+    paddingとborderを含む高さ（オプションでmarginも含む）
+
+    ```js
+    // jQuery
+    $el.outerHeight();
+
+    // Native（integerに丸められ、CSS transformの影響を受けない）
+    el.offsetHeight;
+
+    // jQuery
+    $el.outerHeight(true);
+
+    // Native
+    function getOuterHeight(el) {
+      const styles = window.getComputedStyle(el);
+      return el.offsetHeight + parseFloat(styles.marginTop) + parseFloat(styles.marginBottom);
+    }
+    ```
+
 - [2.3](#2.3) <a name='2.3'></a> PositionとOffset
 
   + Position

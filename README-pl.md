@@ -397,6 +397,27 @@ Zamiast korzystania z powszechnych selektorów takich jak klasa, id czy też atr
     el.getBoundingClientRect().height;
     ```
 
+  + Zewnętrzna wysokość elementu
+
+    Wysokość wraz z paddingiem i obramowaniem, opcjonalnie z marginesem.
+
+    ```js
+    // jQuery
+    $el.outerHeight();
+
+    // Natywnie (zaokrąglone do liczby całkowitej, ignoruje transformacje CSS)
+    el.offsetHeight;
+
+    // jQuery
+    $el.outerHeight(true);
+
+    // Natywnie
+    function getOuterHeight(el) {
+      const styles = window.getComputedStyle(el);
+      return el.offsetHeight + parseFloat(styles.marginTop) + parseFloat(styles.marginBottom);
+    }
+    ```
+
 - [2.3](#2.3) <a name='2.3'></a> Pozycja i przesunięcie
 
   + Pozycja

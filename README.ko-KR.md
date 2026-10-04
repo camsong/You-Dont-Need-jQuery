@@ -460,6 +460,27 @@
     el.getBoundingClientRect().height;
     ```
 
+  + Element 바깥 높이
+
+    padding과 border를 포함한 높이이며, 선택적으로 margin도 포함합니다.
+
+    ```js
+    // jQuery
+    $el.outerHeight();
+
+    // Native (정수로 반올림되며, CSS transform은 무시)
+    el.offsetHeight;
+
+    // jQuery
+    $el.outerHeight(true);
+
+    // Native
+    function getOuterHeight(el) {
+      const styles = window.getComputedStyle(el);
+      return el.offsetHeight + parseFloat(styles.marginTop) + parseFloat(styles.marginBottom);
+    }
+    ```
+
 - [2.3](#2.3) <a name='2.3'></a> Position & Offset
 
   + Position

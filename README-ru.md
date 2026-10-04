@@ -395,6 +395,27 @@
     el.getBoundingClientRect().height;
     ```
 
+  + Внешняя высота элемента
+
+    Высота с учётом padding и border, опционально и margin.
+
+    ```js
+    // jQuery
+    $el.outerHeight();
+
+    // Нативно (округляется до целого, не учитывает CSS-трансформации)
+    el.offsetHeight;
+
+    // jQuery
+    $el.outerHeight(true);
+
+    // Нативно
+    function getOuterHeight(el) {
+      const styles = window.getComputedStyle(el);
+      return el.offsetHeight + parseFloat(styles.marginTop) + parseFloat(styles.marginBottom);
+    }
+    ```
+
 - [2.3](#2.3) <a name='2.3'></a> Позиция и смещение
 
   + Position
