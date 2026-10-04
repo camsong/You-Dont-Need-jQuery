@@ -389,6 +389,27 @@ No lugar de seletores comuns como classe, id ou atributo podemos usar `document.
     el.getBoundingClientRect().height;
     ```
 
+  + Altura externa do Elemento
+
+    Altura incluindo padding e border, opcionalmente margin.
+
+    ```js
+    // jQuery
+    $el.outerHeight();
+
+    // Nativo (arredondado para inteiro, ignora transformações CSS)
+    el.offsetHeight;
+
+    // jQuery
+    $el.outerHeight(true);
+
+    // Nativo
+    function getOuterHeight(el) {
+      const styles = window.getComputedStyle(el);
+      return el.offsetHeight + parseFloat(styles.marginTop) + parseFloat(styles.marginBottom);
+    }
+    ```
+
 - [2.3](#2.3) <a name='2.3'></a> Position & Offset
 
   + Position

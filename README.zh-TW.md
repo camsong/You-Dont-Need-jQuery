@@ -463,6 +463,27 @@
     el.getBoundingClientRect().height;
     ```
 
+  + Element outer height
+
+    包含 padding 和 border，可選包含 margin。
+
+    ```js
+    // jQuery
+    $el.outerHeight();
+
+    // Native（取整，不受 CSS transform 影響）
+    el.offsetHeight;
+
+    // jQuery
+    $el.outerHeight(true);
+
+    // Native
+    function getOuterHeight(el) {
+      const styles = window.getComputedStyle(el);
+      return el.offsetHeight + parseFloat(styles.marginTop) + parseFloat(styles.marginBottom);
+    }
+    ```
+
 - [2.3](#2.3) <a name='2.3'></a> Position & Offset 定位和位移 
 
   + Position 定位 

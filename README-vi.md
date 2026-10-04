@@ -388,6 +388,27 @@ Các đoạn code trong bài viết hướng tới các trình duyệt evergreen
     el.getBoundingClientRect().height;
     ```
 
+  + Chiều cao ngoài của element
+
+    Chiều cao bao gồm padding và border, có thể bao gồm cả margin.
+
+    ```js
+    // jQuery
+    $el.outerHeight();
+
+    // Native (làm tròn tới số nguyên, bỏ qua CSS transform)
+    el.offsetHeight;
+
+    // jQuery
+    $el.outerHeight(true);
+
+    // Native
+    function getOuterHeight(el) {
+      const styles = window.getComputedStyle(el);
+      return el.offsetHeight + parseFloat(styles.marginTop) + parseFloat(styles.marginBottom);
+    }
+    ```
+
 - [2.3](#2.3) <a name='2.3'></a> Position & Offset
 
   + Position

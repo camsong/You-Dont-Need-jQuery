@@ -386,6 +386,27 @@ Yaygın olan class, id ve özellik seçiciler yerine, `document.querySelector` y
     el.getBoundingClientRect().height;
     ```
 
+  + Öğe dış yüksekliği
+
+    Padding ve border dahil yükseklik, isteğe bağlı olarak margin de dahil.
+
+    ```js
+    // jQuery
+    $el.outerHeight();
+
+    // Yerleşik (tamsayıya yuvarlanır, CSS transform dikkate alınmaz)
+    el.offsetHeight;
+
+    // jQuery
+    $el.outerHeight(true);
+
+    // Yerleşik
+    function getOuterHeight(el) {
+      const styles = window.getComputedStyle(el);
+      return el.offsetHeight + parseFloat(styles.marginTop) + parseFloat(styles.marginBottom);
+    }
+    ```
+
 - [2.3](#2.3) <a name='2.3'></a> Pozisyon ve Ara-Açıklığı
 
   + Pozisyon

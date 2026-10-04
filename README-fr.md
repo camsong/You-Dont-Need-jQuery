@@ -353,6 +353,27 @@ Les exemples ciblent les versions actuelles des navigateurs à mise à jour auto
     el.getBoundingClientRect().height;
     ```
 
+  + Hauteur extérieure de l'élement
+
+    Hauteur incluant le padding et la bordure, et optionnellement la marge.
+
+    ```js
+    // jQuery
+    $el.outerHeight();
+
+    // Natif (arrondi à l'entier, ignore les transformations CSS)
+    el.offsetHeight;
+
+    // jQuery
+    $el.outerHeight(true);
+
+    // Natif
+    function getOuterHeight(el) {
+      const styles = window.getComputedStyle(el);
+      return el.offsetHeight + parseFloat(styles.marginTop) + parseFloat(styles.marginBottom);
+    }
+    ```
+
 - [2.3](#2.3) <a name='2.3'></a> Position et offset
 
   + Position
